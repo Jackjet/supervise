@@ -1,0 +1,235 @@
+package gov.df.supervise.service.common;
+
+import gov.df.fap.api.rule.IDataRight;
+import gov.df.fap.api.workflow.IWorkFlowNew;
+import gov.df.fap.bean.util.FPaginationDTO;
+import gov.df.fap.service.gl.core.DaoSupport;
+import gov.df.fap.util.web.CurrentUser;
+import gov.df.fap.util.web.WfUserContext;
+import gov.df.fap.util.where.WhereObject;
+import gov.df.fap.util.xml.XMLData;
+import gov.df.supervise.api.common.Query;
+import gov.df.supervise.bean.common.PageListBean;
+import gov.df.supervise.bean.common.QueryParameter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.gov.df.supervice.util.ClientQueryException;
+import org.gov.df.supervice.util.CsofConstant;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ * <p>
+ * Title:支付\计划明细查询类
+ * </p>
+ * <p>
+ * Description:支付明细查询类
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2006
+ * </p>
+ * <p>
+ * Company: 北京用友政务软件有限公司
+ * </p>
+ * <p>
+ * CreateDate 2010-10-29
+ * </p>
+ * 
+ * @author hlf
+ * @author ydz 04/24 修改
+ * @version 3.0.01.06
+ */
+@Service("detailTableQuery")
+public class DetailTableQueryBO implements Query {
+
+  /**
+   * 支付客户端查询参数前缀
+   */
+  protected static final String PAY_VOUCHER_CUSTOMFIELD_KEY = "clientquery.customfield.";
+
+  protected static final String VIRTUAL_PREFIX = "@";
+
+  /**
+   * 工作流服务，用于取查询SQL语句 
+   */
+  @Autowired
+  private IWorkFlowNew workFlow;
+
+  /**
+   * 数据库查询服务，执行查询SQL
+   */
+  @Autowired
+  private DaoSupport daoSupport;
+
+  /**
+   * 权限组件，取权限过滤语句
+   */
+  @Autowired
+  private IDataRight dataRight;
+
+  //  @Autowired
+  //  private IPayConfigure configure;
+  //
+  //  @Autowired
+  //  private IBaseBusiness baseBusiness;
+  //
+  private static String[] getAddColumnByTable(String tableName) {
+    if ("CSOF_ACC_SUP".equalsIgnoreCase(tableName)) {
+      return CsofConstant.CSOF_ACC_SUP;
+    } else if ("CSOF_ACC_WORK".equalsIgnoreCase(tableName)) {
+      return CsofConstant.CSOF_ACC_WORK;
+    } else if ("CSOF_SUP_BILL_MOFDEP".equalsIgnoreCase(tableName)) {
+      return CsofConstant.CSOF_SUP_BILL_MOFDEP;
+    } else if ("CSOF_SUP_BILL_OFFICE".equalsIgnoreCase(tableName)) {
+      return CsofConstant.CSOF_SUP_BILL_OFFICE;
+    } else if ("CSOF_ACC_BOOK_SET".equalsIgnoreCase(tableName)) {
+      return CsofConstant.CSOF_ACC_BOOK_SET;
+    } else if ("CSOF_SUP_BILL".equalsIgnoreCase(tableName)) {
+      return CsofConstant.CSOF_SUP_BILL;
+    } else if ("CSOF_TASK_USER".equalsIgnoreCase(tableName)) {
+      return CsofConstant.CSOF_TASK_USER;
+    } else if ("CSOF_TASK_DEP".equalsIgnoreCase(tableName)) {
+      return CsofConstant.CSOF_TASK_DEP;
+    } else if ("CSOF_TASK_SUP".equalsIgnoreCase(tableName)) {
+      return CsofConstant.CSOF_TASK_SUP;
+    } else {
+      return new String[] {};
+    }
+  }
+
+  @Override
+  public Object clone() {
+    try {
+      return super.clone();
+    } catch (CloneNotSupportedException e) {
+      return null;
+    }
+  }
+
+  /**
+   * 查询方法，根据界面视图字段查询，例：select column1, column2 from table
+   * @param param 查询参数
+   * @param viewIdList 界面视图id集合
+   * @return PageListBean
+   */
+  public PageListBean queryByView(QueryParameter param, List<String> viewIdList) {
+    param.setColumns(getColumnsByView(viewIdList, param.getQueryTable()));
+    return query(param);
+  }
+
+  /**
+   * 根据视图id，查询视图所有字段
+   * @param viewIdList 视图id
+   * @param tableName 
+   * @return List 视图中所有字段
+   * */
+  private String[] getColumnsByView(List viewIdList, String tableName) {
+    @SuppressWarnings("unchecked")
+    List<Map<String, String>> columnList = daoSupport.genericQuery(
+      "select field_name, is_virtual_column, virtual_column_sql from sys_uidetail where lower(visible)='true' and "
+        + WhereObject.inSql("ui_id", viewIdList), XMLData.class);
+    Set<String> columnSet = new HashSet<String>();
+    for (Map<String, String> columnMap : columnList) {
+      String field_name = columnMap.get("field_name").toLowerCase();
+      if ("true".equalsIgnoreCase(columnMap.get("is_virtual_column"))) {
+        columnSet.add(field_name + VIRTUAL_PREFIX + columnMap.get("virtual_column_sql"));
+      } else if ("status" != field_name) {
+        columnSet.add(field_name);
+      }
+    }
+    columnSet.addAll(Arrays.asList(getAddColumnByTable(tableName)));
+    return columnSet.toArray(new String[0]);
+  }
+
+  /**
+   * 返回语句
+   * @param customField
+   * @param tableAlias
+   * @param ccidAlias
+   * @return
+   */
+  private String getCustomField(String customField, String tableAlias, String ccidAlias) {
+    return customField.replaceAll("#table#", tableAlias).replaceAll("#ccid#", ccidAlias);
+  }
+
+  public PageListBean queryByRequest(HttpServletRequest request, HttpServletResponse response) {
+    List<String> viewIdList = new ArrayList<String>();
+    viewIdList.add(request.getParameter("tableViewId"));
+    viewIdList.add(request.getParameter("queryViewId"));
+
+    WhereObject condition = new WhereObject();
+    condition.setSpecialSql(request.getParameter("condition") == null ? "" : request.getParameter("condition"));
+
+    String pageInfo = request.getParameter("pageInfo");
+    FPaginationDTO pageSet = new FPaginationDTO();
+    try {
+      String[] pageArray = pageInfo.split(",");
+      pageSet.setPagecount(Integer.parseInt(pageArray[0]));
+      pageSet.setCurrpage(Integer.parseInt(pageArray[1]) + 1);
+    } catch (NumberFormatException e) {
+    }
+
+    CurrentUser user = WfUserContext.getCurrentUser();
+
+    // 组织查询参数对象
+    QueryParameter param = new QueryParameter();
+    param.setDetailQuery(new Boolean(true).toString().equalsIgnoreCase(request.getParameter("isDetailQuery")));
+    param.setSetValue(new Boolean(true).toString().equalsIgnoreCase(request.getParameter("isSetValue")));
+    param.setCondition(condition);
+    param.setPage(pageSet);
+    param.setUser(user);
+    param.setWorkFlowRelated(new Boolean(true).toString().equalsIgnoreCase(request.getParameter("isWorkFlowRelated")));
+    param.setQueryTable(request.getParameter("queryTable"));
+    param.setDetailTable(request.getParameter("detailTable"));
+    param.setRelationBillId(request.getParameter("relationBillId"));
+    param.setStatus001Include004(new Boolean(true).toString().equalsIgnoreCase(
+      request.getParameter("isStatus001Include004")));
+
+    try {
+      return queryByView(param, viewIdList);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new ClientQueryException(e);
+    }
+  }
+
+  public XMLData doDetailQuery(HttpServletRequest request, HttpServletResponse response) {
+    //    String relationBillId = request.getParameter("relationBillId");
+    //    String detailTable = request.getParameter("detailTable");
+    //    String pageinfo = request.getParameter("pageInfo");
+    //    String[] pageArray = pageinfo.split(",");
+    //    int pageIndex = Integer.parseInt(pageArray[1]) + 1;
+    //    int pageRows = Integer.parseInt(pageArray[0]);
+    //    String data = request.getParameter("id");
+    //    String condition = request.getParameter("condition") == null ? "" : request.getParameter("condition");
+    //    StringBuffer sql = new StringBuffer();
+    //    sql.append("select * from ").append(detailTable).append(" where ");
+    //    sql.append(relationBillId);
+    //    sql.append(" = ").append(data).append(condition);
+    //    String pageSql = "select b.* from (select p.*,rownum as num from (" + sql + ") p where rownum<=" + pageIndex
+    //      * pageRows + ")" + " b where b.num>" + (pageIndex - 1) * pageRows;
+    //    String countSql = "select count(1) from (" + sql + ")";
+    //    try {
+    //      return baseBusiness.findBySqlWithCount(pageSql, countSql);
+    //    } catch (Exception e) {
+    //      // TODO Auto-generated catch block
+    //      e.printStackTrace();
+    //    }
+    return null;
+  }
+
+  public PageListBean query(QueryParameter param) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+}

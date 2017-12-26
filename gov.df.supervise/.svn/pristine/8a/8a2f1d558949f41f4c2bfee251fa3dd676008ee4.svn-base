@@ -1,0 +1,64 @@
+package gov.df.supervise.controller.examine;
+
+import gov.df.supervise.api.examine.ExamineService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+@RequestMapping(value = "/df/cs")
+public class ExamineController {
+  @Autowired
+  private ExamineService csService;
+
+  @RequestMapping(value = "/update.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> select(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String id = request.getParameter("id");
+    String is_valid = "0";
+    try {
+      csService.update(id, is_valid);
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("message", e.getMessage());
+    }
+    return result;
+
+  }
+
+  @RequestMapping(value = "/selectAll.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> selectAll(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String chr_code = request.getParameter("chr_code");
+    String chr_id = request.getParameter("chr_id");
+    String type = request.getParameter("type");
+    String oid = request.getParameter("oid");
+    String status = request.getParameter("status");
+    String s = request.getParameter("s");
+    List data = csService.selectAll(chr_code, chr_id, type, oid, status, s);
+
+    if (data != null) {
+      result.put("errorCode", 0);
+      result.put("flag", true);
+      result.put("totalElements", data.size());
+      result.put("dataDetail", data);
+    } else {
+      result.put("errorCode", 1);
+    }
+    return result;
+
+  }
+
+}

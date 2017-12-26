@@ -1,0 +1,8 @@
+package gov.df.supervise.api.Tree;
+
+import java.util.List;
+
+public interface elementTreeService {
+  public List initTree(String ele_code);
+
+}

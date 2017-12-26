@@ -1,0 +1,146 @@
+package gov.df.supervise.controller.document;
+
+import gov.df.supervise.api.attachment.AttachmentService;
+import gov.df.supervise.api.document.csofDocumentService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+/**
+ * 政策法规库
+ * @author Administrator
+ *
+ */
+@Controller
+@RequestMapping(value = "/df/csofdocument")
+public class csofDocumentController {
+  @Autowired
+  private csofDocumentService csofDocumentService;
+
+  @Autowired
+  private AttachmentService attachmentService; //附件共用Service
+
+  //查询法规类型
+  @RequestMapping(value = "/getdocumentTree.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getTreeByOid(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String ele_code = request.getParameter("ele_code");
+    try {
+      List data = csofDocumentService.getTreeByOid(ele_code);
+      result.put("data", data);
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("errorMsg", "查询数据失败");
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  //新增政策法规
+  @RequestMapping(value = "/savedocument.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> saveDocument(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String doctype_id = request.getParameter("doctype_id");
+    String id = request.getParameter("id");
+    String title = request.getParameter("title");
+    String summary = request.getParameter("summary");
+
+    try {
+      csofDocumentService.saveDocument(id, doctype_id, title, summary);
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("errorMsg", "新增数据失败");
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  //通过法规类型查询政策法规
+  @RequestMapping(value = "/getdocumentById.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getDocumentById(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String id = request.getParameter("id");
+    try {
+      List data = csofDocumentService.getDocumentById(id);
+      result.put("errorCode", 0);
+      result.put("data", data);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("errorMsg", "查询数据失败");
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  //查询政策法规
+  @RequestMapping(value = "/getdocument.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getDocument(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    try {
+      List data = csofDocumentService.getDocument();
+      result.put("errorCode", 0);
+      result.put("data", data);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("errorMsg", "查询数据失败");
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  //编辑政策法规
+  @RequestMapping(value = "/updatedocument.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> updateDocument(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String id = request.getParameter("id");
+    String doctype_id = request.getParameter("doctype_id");
+   // String file_id = request.getParameter("file_id");
+    String title = request.getParameter("title");
+    String summary = request.getParameter("summary");
+    try {
+      csofDocumentService.updateDocument(id, doctype_id, title, summary);
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("errorMsg", "保存数据失败");
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  //删除政策法规
+  @RequestMapping(value = "/deleteDocument.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> deleteDocument(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String id = request.getParameter("id");
+    String file_id = request.getParameter("file_id");
+    try {
+      csofDocumentService.deleteDocument(id);
+      int num = attachmentService.deleteAttachments(file_id);
+      result.put("data", "成功删除【" + num + "】条记录");
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("errorMsg", "删除数据失败");
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+}

@@ -1,0 +1,167 @@
+/**
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2017 北京用友政务软件有限公司
+ * </p>
+ * <p>
+ * Company: 北京用友政务软件有限公司
+ * </p>
+ * <p>
+ * CreateData: 2017-9-5上午11:28:58
+ * </p>
+ * 
+ * @author songlr3
+ * @version 1.0
+ */
+package gov.df.supervise.service.itemsupervision;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.fap.util.Tools;
+import gov.df.supervise.api.itemsupervision.ItemSupervisionService;
+import gov.df.supervise.bean.task.CsofSupReport;
+import gov.df.supervise.bean.task.CsofTaskDep;
+import gov.df.supervise.bean.task.CsofTaskDepAgency;
+import gov.df.supervise.bean.task.CsofTaskSup;
+import gov.df.supervise.service.common.SessionUtilEx;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ufgov.ip.apiUtils.UUIDTools;
+
+@Service
+public class ItemSupervisionServiceImpl implements ItemSupervisionService{
+	
+	@Autowired
+	private CsofTaskSupDao csofTaskSupDao;
+	@Autowired
+	private CsofTaskDepDao csofTaskDepDao;
+//	@Autowired
+//	private CsofTaskUserDao csofTaskUserDao;
+	@Autowired
+	private CsofTaskDepAgencyDao csofTaskDepAgencyDao;
+	@Autowired
+	private CsofSupReportDao csofSupReportDao;
+	
+	public String getYear() {
+	    return SessionUtilEx.getLoginYear();
+	}
+
+	public String getRgCode() {
+	    return SessionUtilEx.getRgCode();
+	}
+	
+	public String getDate() {
+		return Tools.getCurrDate();
+	}
+	
+	/**
+	 * 通过专员办查询所有处室和相对应单位数据
+	 * 
+	 * @param param
+	 * @return
+	 * @see gov.df.supervise.api.itemsupervision.ItemSupervisionService#selectObjectByDep(java.util.Map)
+	 * @author songlr3 at 2017-9-7上午10:10:21
+	 */
+	public List<?> selectObjectByDep(Map<String, Object> param) {
+		String oid = SessionUtil.getUserInfoContext().getOrgCode();
+		param.put("oid", oid);
+		return csofTaskSupDao.selectObjectByDep(param);
+	}
+
+	public List<?> selectEReport() {
+		return csofTaskSupDao.selectEReport();
+	}
+	
+	/**
+	 * 通过专员办查询相对应处室
+	 * 
+	 * @return
+	 * @see gov.df.supervise.api.itemsupervision.ItemSupervisionService#selectEDep()
+	 * @author songlr3 at 2017-9-7上午10:11:14
+	 */
+	public List<?> selectEDep() {
+		String oid = SessionUtil.getUserInfoContext().getOrgCode();
+		return csofTaskSupDao.selectEDep(oid);
+	}
+
+	public void deleteBySid(String sid) {
+		csofTaskSupDao.deleteDepBySid(sid);
+		csofTaskSupDao.deleteAgencyBySid(sid);
+		csofTaskSupDao.deleteSupBySid(sid);
+		csofTaskSupDao.deleteUserBySid(sid);
+		csofTaskSupDao.deleteReportBySid(sid);
+	}
+
+	public void saveNewItem(String supNo, String supTypeId,
+			String supTypeCode, String supTypeName, String supName,
+			String workType, String mofdepId, String mofdepCode,
+			String mofdepName, String objTypeId, String objTypeCode,
+			String objTypeName, String depId, String depCode, String depName,
+			String supCycle, String supMode, String startDate, String endDate,
+			Short isUnion, String unionOrgs, String supContent, String remark,
+			@SuppressWarnings("rawtypes") List<Map> objectlist, @SuppressWarnings("rawtypes") List<Map> eReportlist) {
+		String sid = UUIDTools.uuidRandom();// 自动生成id
+		CsofTaskSup csofTaskSup = new CsofTaskSup(); 
+		CsofTaskDep csofTaskDep = new CsofTaskDep();
+		CsofTaskDepAgency csofTaskDepAgency = new CsofTaskDepAgency();
+		CsofSupReport csofSupReport = new CsofSupReport();
+		csofTaskSup.setSid(sid);csofTaskSup.setSupNo(supNo);csofTaskSup.setSupName(supName);
+		csofTaskSup.setWorkType(workType);csofTaskSup.setMofdepId(mofdepId);csofTaskSup.setMofdepCode(mofdepCode);
+		csofTaskSup.setMofdepName(mofdepName);csofTaskSup.setObjTypeId(objTypeId);csofTaskSup.setObjTypeCode(objTypeCode);
+		csofTaskSup.setObjTypeName(objTypeName);csofTaskSup.setDepId(depId);csofTaskSup.setDepCode(depCode);
+		csofTaskSup.setDepName(depName);csofTaskSup.setSupCycle(supCycle);csofTaskSup.setSupMode(supMode);
+		csofTaskSup.setStartDate(startDate);csofTaskSup.setEndDate(endDate);csofTaskSup.setIsUnion(isUnion);
+		csofTaskSup.setUnionOrgs(unionOrgs);csofTaskSup.setSupContent(supContent);csofTaskSup.setRemark(remark);
+		csofTaskSup.setCreateUser(SessionUtil.getUserInfoContext().getUserID());csofTaskSup.setCreateDate(getDate());
+		csofTaskSup.setSetYear(getYear());csofTaskSup.setRgCode(getRgCode());
+		csofTaskSup.setOid(SessionUtil.getUserInfoContext().getOrgCode());
+		csofTaskSupDao.insertSelective(csofTaskSup);
+		for(int i=0;i<objectlist.size();i++){
+			csofTaskDepAgency.setSid(sid);csofTaskDepAgency.setDaid(UUIDTools.uuidRandom());
+			csofTaskDepAgency.setChrId((String)objectlist.get(i).get("CHR_ID"));csofTaskDepAgency.setChrName((String)objectlist.get(i).get("CHR_NAME"));
+			csofTaskDepAgency.setDepId((String)objectlist.get(i).get("DEP_ID"));csofTaskDepAgency.setOid((String)objectlist.get(i).get("OID"));
+			csofTaskDepAgency.setParentId((String)objectlist.get(i).get("PARENT_ID"));csofTaskDepAgency.setType((String)objectlist.get(i).get("TYPE"));
+			csofTaskDepAgencyDao.insertSelective(csofTaskDepAgency);
+		}
+		for(int i=0;i<eReportlist.size();i++){
+			csofSupReport.setSid(sid);
+//			csofSupReport.setBilltypeCode((String)eReportlist.get(i).get("CHR_ID"));
+//			csofSupReport.setDisplayIcon((String)eReportlist.get(i).get("CHR_ID"));
+//			csofSupReport.setDisplayOrder((Short)eReportlist.get(i).get("CHR_ID"));
+			csofSupReport.setDisplayTitle((String)eReportlist.get(i).get("CHR_NAME"));csofSupReport.setReportId((String)eReportlist.get(i).get("CHR_ID"));
+			csofSupReportDao.insertSelective(csofSupReport);
+		}
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("sid", sid);
+		param.put("type", "DEP");
+		@SuppressWarnings("rawtypes")
+		List<Map> DepAgencyData = csofTaskDepAgencyDao.selectBySidType(param);
+		for(int i=0;i<DepAgencyData.size();i++){
+			csofTaskDep.setsid(sid);csofTaskDep.setId(UUIDTools.uuidRandom());
+			csofTaskDep.setSupNo(supNo);csofTaskDep.setSupName(supName);
+			csofTaskDep.setDepId((String)DepAgencyData.get(i).get("DEP_ID"));
+			csofTaskDep.setDepCode((String)DepAgencyData.get(i).get("DEP_CODE"));//待添加！！！未添加至实体与表中
+			csofTaskDep.setDepName((String)DepAgencyData.get(i).get("CHR_NAME"));
+			csofTaskDep.setOid(SessionUtil.getUserInfoContext().getOrgCode());
+			//csofTaskDep.setSupNum(supNum);//待添加
+			//csofTaskDep.setSupMoney(supMoney);
+			//csofTaskDep.setPlanCost(planCost);
+			//csofTaskDep.setSupCost(supCost);
+			csofTaskDep.setPlanBeginDate(startDate);csofTaskDep.setPlanEndDate(endDate);
+			csofTaskDep.setCreateUser(SessionUtil.getUserInfoContext().getUserID());csofTaskDep.setCreateDate(getDate());
+			csofTaskDep.setSetYear(getYear());csofTaskDep.setRgCode(getRgCode());
+			csofTaskDepDao.insertSelective(csofTaskDep);
+		}		
+	}
+
+}

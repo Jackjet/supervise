@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="target/classes" path="src/main/java"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="lib" path="F:/yonyou/df2.0/maven3.2.5/local/repo/commons-net/commons-net/3.1/commons-net-3.1.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="commons-net"/>
+			<attribute name="maven.artifactId" value="commons-net"/>
+			<attribute name="maven.version" value="3.1"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="F:/yonyou/df2.0/maven3.2.5/local/repo/commons-fileupload/commons-fileupload/1.2.2/commons-fileupload-1.2.2.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="commons-fileupload"/>
+			<attribute name="maven.artifactId" value="commons-fileupload"/>
+			<attribute name="maven.version" value="1.2.2"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="F:/yonyou/df2.0/maven3.2.5/local/repo/org/springframework/spring-web/3.2.6.RELEASE/spring-web-3.2.6.RELEASE.jar" sourcepath="F:/yonyou/df2.0/maven3.2.5/local/repo/org/springframework/spring-web/3.2.6.RELEASE/spring-web-3.2.6.RELEASE-sources.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="org.springframework"/>
+			<attribute name="maven.artifactId" value="spring-web"/>
+			<attribute name="maven.version" value="3.2.6.RELEASE"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="F:/yonyou/df2.0/maven3.2.5/local/repo/commons-beanutils/commons-beanutils/1.7.0/commons-beanutils-1.7.0.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="commons-beanutils"/>
+			<attribute name="maven.artifactId" value="commons-beanutils"/>
+			<attribute name="maven.version" value="1.7.0"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="/gov.df.fap.util"/>
+	<classpathentry kind="lib" path="F:/yonyou/df2.0/maven3.2.5/local/repo/com/alibaba/dubbo/2.4.9/dubbo-2.4.9.jar" sourcepath="F:/yonyou/df2.0/maven3.2.5/local/repo/com/alibaba/dubbo/2.4.9/dubbo-2.4.9-sources.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="com.alibaba"/>
+			<attribute name="maven.artifactId" value="dubbo"/>
+			<attribute name="maven.version" value="2.4.9"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="F:/yonyou/df2.0/maven3.2.5/local/repo/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar" sourcepath="F:/yonyou/df2.0/maven3.2.5/local/repo/javax/servlet/servlet-api/2.5/servlet-api-2.5-sources.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="javax.servlet"/>
+			<attribute name="maven.artifactId" value="servlet-api"/>
+			<attribute name="maven.version" value="2.5"/>
+			<attribute name="maven.scope" value="provided"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="F:/yonyou/df2.0/maven3.2.5/local/repo/com/alibaba/fastjson/1.2.4/fastjson-1.2.4.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="com.alibaba"/>
+			<attribute name="maven.artifactId" value="fastjson"/>
+			<attribute name="maven.version" value="1.2.4"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

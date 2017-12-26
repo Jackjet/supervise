@@ -1,0 +1,102 @@
+package gov.df.supervise.service.attachment;
+
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.util.Tools;
+import gov.df.fap.util.xml.XMLData;
+import gov.df.supervise.api.attachment.AttachmentService;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AttachmentBO implements AttachmentService {
+
+  @Autowired
+  @Qualifier("generalDAO")
+  GeneralDAO dao;
+
+  public List getAttachList(String condition) throws Exception {
+    String sql = "select * from vw_attachment where 1=1 " + condition;
+    return dao.findBySql(sql);
+  }
+
+  public String getYear() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public String getRgCode() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public void update(String id, String is_valid) {
+    // TODO Auto-generated method stub
+
+  }
+
+  public List getAllAttachments() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public int deleteAttachments(String ids) {
+    String sql = "delete from csof_attachment where id in (" + ids + ")";
+    return dao.executeBySql(sql);
+  }
+
+  public void saveAttachment(Map<String, String> attachMap) {
+    int i = dao.executeBySql(getInsertSql(attachMap, "csof_attachment"));
+  }
+
+  public String getInsertSql(Map<String, String> map, String tableName) {
+    String keyStr = "";
+    String valueStr = "";
+    for (String key : map.keySet()) {
+      keyStr += key + ",";
+      valueStr += "'" + map.get(key) + "',";
+    }
+    if (!("".equals(keyStr))) {
+      keyStr = keyStr.substring(0, keyStr.length() - 1);
+    }
+    if (!("".equals(valueStr))) {
+      valueStr = valueStr.substring(0, valueStr.length() - 1);
+    }
+    return "insert into " + tableName + "(" + keyStr + ") values (" + valueStr + ")";
+  }
+
+  public String getUploadRootPath() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_ROOT_PATH' ");
+    List list = null;
+    try {
+      list = dao.findBySql(strSQL.toString());
+      strSQL = null;
+    } catch (Exception e) {
+
+    }
+    XMLData data = (XMLData) list.get(0);
+    String uploadRootPath = (String) data.get("chr_value");
+    return uploadRootPath;
+  }
+
+  public String getUploadMode() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_MODE' ");
+    List list = null;
+    try {
+      list = dao.findBySql(strSQL.toString());
+      strSQL = null;
+    } catch (Exception e) {
+
+    }
+    XMLData data = (XMLData) list.get(0);
+    String uploadMode = (String) data.get("chr_value");
+    return uploadMode;
+  }
+
+}

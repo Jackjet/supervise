@@ -1,0 +1,140 @@
+package gov.df.supervise.controller.examine;
+
+import gov.df.supervise.api.examine.ExamineService;
+import gov.df.supervise.api.workflow.WorkFlow;
+import gov.df.supervise.bean.examine.CsofSupBillEntity;
+import gov.df.supervise.bean.examine.CsofSupBillMofdepEntity;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSONObject;
+
+@Controller
+@RequestMapping(value = "/df/cs")
+public class ExamineController {
+  @Autowired
+  private ExamineService csService;
+
+  @Autowired
+  private WorkFlow workflow;
+
+  @RequestMapping(value = "/update.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> update(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String id = request.getParameter("id");
+    String is_valid = "0";
+    try {
+      csService.update(id, is_valid);
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("message", e.getMessage());
+    }
+    return result;
+
+  }
+
+  @RequestMapping(value = "/selectAll.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> selectAll(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String chr_code = request.getParameter("chr_code");
+    String chr_id = request.getParameter("chr_id");
+    String type = request.getParameter("type");
+    String oid = request.getParameter("oid");
+    String status = request.getParameter("status");
+    String s = request.getParameter("s");
+    String billtype_code = request.getParameter("billtypecode");
+    List data = csService.selectAll(chr_code, chr_id, type, oid, status, s, billtype_code);
+    if (data != null) {
+      result.put("errorCode", 0);
+      result.put("flag", true);
+      result.put("totalElements", data.size());
+      result.put("dataDetail", data);
+    } else {
+      result.put("errorCode", 1);
+    }
+    return result;
+  }
+
+  //汇总操作
+  @RequestMapping(value = "/doCollect.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> doCollect(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String data = request.getParameter("data");
+    String type = request.getParameter("type");
+    int total = Integer.parseInt(request.getParameter("total"));
+    String billtype_code = request.getParameter("sumBilltype_code");
+    String menu_id = request.getParameter("menu_id");
+    String billtype_code1 = request.getParameter("billtype_code");
+    String op_type = request.getParameter("op_type");
+    String op_name = request.getParameter("op_name");
+    try {
+      if (type != null && type.equals("MOFDEP")) {
+        CsofSupBillEntity Data = JSONObject.parseObject(data, CsofSupBillEntity.class);
+        System.out.println(Data.getId());
+        csService.doCollect(billtype_code, data, total);
+        boolean res = workflow.doWorkFlow(menu_id, Data.getId(), billtype_code1, op_type, op_name);
+        result.put("res", res);
+        result.put("errorCode", 0);
+      } else if (type != null && type.equals("OFFICE")) {
+        CsofSupBillMofdepEntity Data = JSONObject.parseObject(data, CsofSupBillMofdepEntity.class);
+        csService.doOfficeCollect(billtype_code, data, total);
+        boolean res = workflow.doWorkFlow(menu_id, Data.getId(), billtype_code1, op_type, op_name);
+        result.put("res", res);
+        result.put("errorCode", 0);
+      }
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  //撤销汇总
+  @RequestMapping(value = "/undoSummary.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> undoSummary(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String chr_code = request.getParameter("chr_code");
+    String chr_id = request.getParameter("chr_id");
+    String id = request.getParameter("id");
+    String type = request.getParameter("type");
+    int total = Integer.parseInt(request.getParameter("total"));
+    String menu_id = request.getParameter("menu_id");
+    String billtype_code = request.getParameter("sumBilltype_code");
+    String billtype_code1 = request.getParameter("billtype_code");
+    String op_type = request.getParameter("op_type");
+    String op_name = request.getParameter("op_name");
+    try {
+      if (type != null && type.equals("MOFDEP")) {
+        csService.undoSummary(chr_code, id, total);
+        boolean data = workflow.doWorkFlow(menu_id, id, billtype_code1, op_type, op_name);
+        result.put("data", data);
+        result.put("errorCode", 0);
+      } else if (type != null && type.equals("OFFICE")) {
+        csService.undoOfficeSummary(chr_id, id, total);
+        boolean data = workflow.doWorkFlow(menu_id, id, billtype_code1, op_type, op_name);
+        result.put("data", data);
+        result.put("errorCode", 0);
+      }
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+}

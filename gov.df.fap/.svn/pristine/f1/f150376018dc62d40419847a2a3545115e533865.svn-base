@@ -1,0 +1,110 @@
+<!--信息档案页面-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>信息档案</title>
+		<link rel="stylesheet" href="/df/portal/login/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="info.css" />
+		<link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css"/>
+	    <link rel="stylesheet" href="/df/trd/uui/css/tree.css" />
+	    <link rel="stylesheet" href="/df/trd/ip/changeTree/changeTree.css" />
+	    <link rel="stylesheet" href="/df/trd/uui/css/grid.css" />
+	    <link rel="stylesheet" href="/df/trd/ip/css/ip.css" />
+	    <link rel="stylesheet" href="/df/trd/uui/css/u.css" />
+		
+	</head>
+	<body>
+		<!-- 信息档案 -->
+		<div id="info-file-page" style="margin-left:10px;">
+			<div style="width:25%;float:left;height:600px;margin-top:10px;background: #FFFFFF;border: 1px solid #E5E5E5;">
+				<!-- 库列表 -->
+				<select id="library" style="margin-top:10px;width:98%;margin-left:1%;margin-right:1%;height:30px;border: 1px solid #ccc;" data-bind="event{change:$root.method()}">
+					
+				</select>
+				<!-- 查询 -->
+				<div class="" style="margin:5px;">
+                      <div class="input-group">
+					      <input type="text" class="form-control" placeholder="请输入关键词" data-bind="value: treeKeyword">
+					      <span class="input-group-btn">
+					        <button class="btn btn-default" type="button"  data-bind="click: findTree">
+					        	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					        </button>
+					      </span>
+					    </div>
+                </div>
+				<!--根据ele_code获取树-->
+				<div id="budgetUnitTree" class="" style="margin-top:10px;height:486px;overflow:auto;border:1px solid #ccc;">
+					<!-- 预算单位树 -->
+					<div id="treeTest1" class="ztree" 
+							u-meta='{
+								"id":"infotree1",
+                                "data":"infoTree1DataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"CHR_NAME",
+                                "setting":"infoTree1Setting"
+							}'>
+					</div>
+				</div>
+			</div>
+			<!--具体的年月日显示报表-->
+			<div id="info-showDetail" style="margin-left:1%;float:right;width:74%;height:600px;margin-top:10px;background: #FFFFFF;border: 1px solid #E5E5E5;">
+				<div id="if-nav" style="margin:5px 0 0 20px;">
+					<span>数据期间:</span>
+					<!--获取数据期间-->
+					<select id="dataPeriod" style="width:150px;height:30px;border-radius: 4px;" onchange="periodChange()">
+                             	<!--  <option value="2017" selected="selected">2017</option>-->
+                    </select>
+	                  <ul id="month-ul" class="list-inline" style="float:right;">
+		                   		<li id="a01" value="01" onclick="changeMonth(this.id)" class="month"> <a href="javascript:void(0)">1月</a></li><span style="margin:0 3px;">|</span>
+		                   		<li id="a02" value="02" onclick="changeMonth(this.id)" class="month"> <a href="javascript:void(0)" >2月</a></li><span style="margin:0 3px;">|</span>
+		                   		<li id="a03" value="03" onclick="changeMonth(this.id)" class="month"> <a href="javascript:void(0)" >3月</a></li><span style="margin:0 3px;">|</span>
+		                   		<li id="a04" value="04" onclick="changeMonth(this.id)" class="month"> <a href="javascript:void(0)" >4月</a></li><span style="margin:0 3px;">|</span>
+		                   		<li id="a05" value="05" onclick="changeMonth(this.id)" class="month"> <a href="javascript:void(0)" >5月</a></li><span style="margin:0 3px;">|</span>
+		                   		<li id="a06" value="06" onclick="changeMonth(this.id)" class="month"> <a href="javascript:void(0)" >6月</a></li><span style="margin:0 3px;">|</span>
+		                   		<li id="a07" value="07" onclick="changeMonth(this.id)" class="month"> <a href="javascript:void(0)" >7月</a></li><span style="margin:0 3px;">|</span>
+		                   		<li id="a08" value="08" onclick="changeMonth(this.id)" class="month"> <a href="javascript:void(0)" >8月</a></li><span style="margin:0 3px;">|</span>
+		                   		<li id="a09" value="09" onclick="changeMonth(this.id)" class="month"> <a href="javascript:void(0)" >9月</a></li><span style="margin:0 3px;">|</span>
+		                   		<li id="a10" value="10" onclick="changeMonth(this.id)" class="month"> <a href="javascript:void(0)" >10月</a></li><span style="margin:0 3px;">|</span>
+		                   		<li id="a11" value="11" onclick="changeMonth(this.id)" class="month"> <a href="javascript:void(0)" >11月</a></li><span style="margin:0 3px;">|</span>
+		                   		<li id="a12" value="12" onclick="changeMonth(this.id)" class="month"> <a href="javascript:void(0)" >12月</a></li>
+	                </ul>
+	                <ul id="que-ul" class="list-inline" style="float:right;display:none">
+		                   		<li id="q01" value="01" onclick="changeMonth(this.id)" class="que"> <a href="javascript:void(0)">第一季度</a></li><span style="margin:0 3px;">|</span>
+		                   		<li id="q02" value="02" onclick="changeMonth(this.id)" class="que"> <a href="javascript:void(0)" >第二季度</a></li><span style="margin:0 3px;">|</span>
+		                   		<li id="q03" value="03" onclick="changeMonth(this.id)" class="que"> <a href="javascript:void(0)" >第三季度</a></li><span style="margin:0 3px;">|</span>
+		                   		<li id="q04" value="04" onclick="changeMonth(this.id)" class="que"> <a href="javascript:void(0)" >第四季度</a></li><span style="margin:0 3px;">|</span>
+	                </ul>
+	                <ul id="hyear-ul" class="list-inline" style="float:right;display:none">
+		                   		<li id="h01" value="01" onclick="changeMonth(this.id)" class="hyear"> <a href="javascript:void(0)">上半年</a></li><span style="margin:0 3px;">|</span>
+		                   		<li id="h02" value="02" onclick="changeMonth(this.id)" class="hyear"> <a href="javascript:void(0)" >下半年</a></li><span style="margin:0 3px;">|</span>		              		
+	                </ul>
+				</div>
+				 <hr style="margin-top:5px;border-bottom: 1px solid #E5E5E5;"/>
+				 <!--具体显示报表-->
+				 <div id="infoShowReport" style="margin:10px;height:400px;">
+							<ul id="myTab" class="nav nav-tabs">
+								
+							</ul>  
+							
+					
+						<!--显示报表-->
+						<div id="myTabContent" class="tab-content" style="width:98%;magrin:10px 1%;height:500px;border:1px solid #ccc;overflow-y:auto;">
+								
+						</div>
+					
+				</div>
+				
+			</div>
+		</div>
+		
+		<!-- 引入js-->
+		<script src="../../trd/requirejs/require.debug.js"></script>
+		<script src="../../require.config.js"></script>
+		<script src="/df/trd/jquery/jquery-1.12.3.min.js"></script>
+		<script src="info.js" type="text/javascript"></script>
+	</body>
+</html>

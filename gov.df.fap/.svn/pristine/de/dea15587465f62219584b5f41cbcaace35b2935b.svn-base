@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow: hidden;">
+<head >
+    <meta charset="UTF-8">
+    <title>审核意见汇总（处-经办岗）</title>
+    <link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/tree.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/ip/changeTree/changeTree.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/u.css" />
+	<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/grid.css" />
+	<link rel="stylesheet" type="text/css" href="/df/trd/ip/css/ip.css" />
+	<link rel="stylesheet" type="text/css" href="../../trd/ip/css/bizSys.css" />
+	<link rel="stylesheet" href="css/csofSup.css">
+	<link rel="stylesheet" href="/df/trd/splitter/jqx.base.css">
+	<link rel="stylesheet" href="../common/common.css">
+</head>
+<body class="csof-font" style="overflow:hidden;">
+	<!--按钮组-->
+	<div class="col-md-12 csof-btns-content" id="btn-line">
+		<div class="pull-left" id="btns-group"></div>
+		<div class="pull-right right-search">
+			<form class="form-search form-inline">
+				<div class="input-group">
+					<input type="text" id="gridSearchInput" class="form-control">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button"
+							data-bind="click:gridSearch">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button> </span>
+				</div>
+				<button type="button" class="btn" onclick="hignSearch">高级</button>
+			</form>
+		</div>
+	</div>
+	<!--main-->
+	<div class="col-md-12" id="main-content">
+		<!-- 左树 -->
+		<div class="pull-left" id="left-main-content">
+			<div class="input-group tree-search-div">
+				<input type="text" id="SearchdepTree" class="form-control"
+					data-bind="value: SearchdepTreeKEY" placeholder="模糊查询...">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button"
+						data-bind="click:searchDepTree">
+						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					</button> </span>
+			</div>
+			<!--当前监管对象树-->
+			<div id="depTree" class="ztree treeDiv"
+				u-meta='{
+                                "id":"depTree",
+                                "data":"depTreeDataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"CHR_NAME",
+                                "setting":"depTreeSetting"
+                            }'>
+			</div>
+		</div>
+		<!--右表-->
+		<div class="pull-left" id="right-main-content">
+			<div class="tab-pane">
+				  <div class="grid-title">
+							<span class="rightTable-title">监管内容列表：</span>
+							<span class="rightTable-title-status"></span>
+							<span class="rightTable-recodeNum">共<span id="gridSumNum" class="gridSumNum"> </span>笔</span>
+						</div>
+						<!--表格区域-->
+						<div id="testGrid" class="rightTableGrid-nonav"></div>
+				</div>
+		</div>
+	</div>
+	<!--引入js-->
+	<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+	<script src="../../trd/requirejs/require.js"></script>
+	<script src="../../require.config.js"></script>
+	<script type="text/javascript" src="/df/trd/splitter/jqxcore.js"></script>
+	<script type="text/javascript" src="/df/trd/splitter/jqxsplitter.js"></script>
+	<script src="data.js"></script>
+	<script src="summary.js"></script>
+
+</body>
+</html>

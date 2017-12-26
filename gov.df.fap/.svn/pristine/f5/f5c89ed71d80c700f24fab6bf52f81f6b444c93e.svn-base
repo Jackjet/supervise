@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="gov.df.fap.controller.portal.dao">  
+
+    <resultMap type ="gov.df.fap.bean.portal.ArticleEntity" id="ArticleResultMap">  
+        <id column="id" property="id"/> 
+		<result property="title" column="TITLE" />
+		<result property="author" column="AUTHOR" />
+		<result property="creator" column="CREATOR" />
+		<result property="expireDate" column="EXPIRE_DATE" />
+		<result property="validDate" column="VALID_DATE" />
+		<result property="wroteTime" column="WROTE_TIME" />
+		<result property="review" column="REVIEW" />
+		<result property="articleType" column="TYPE" />
+		<result property="imgUrl" column="IMG_URL" />
+		<result property="sno" column="SNO" />
+		<result property="mendor" column="MENDOR" />
+		<result property="mendTime" column="MEND_TIME" />
+		<result property="pubTime" column="PUB_TIME" />
+		<result property="href" column="HREF" />
+        <result property="content" column="CONTENT" jdbcType="CLOB" 
+            javaType = "java.lang.String"/>
+    </resultMap>
+    
+    <select id="selectUserINfo" parameterType="java.util.Map" resultType="java.util.Map">  
+        select * from fasp_t_causer 
+        <where>
+        	<if test ="guid!=null and guid!='' ">
+        		GUID = #{guid}
+        	</if>
+        </where>
+    </select>
+    <select id="getdwzxlData" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT * FROM ZX_BQ_DWZXL   ORDER BY BYZX DESC
+	</select>
+	<select id="getdwzxlDataRate" resultType="java.util.Map" parameterType="java.util.Map">
+        SELECT  ROUND(AVG(SYZX),2)|| '%' AS  PPRERATE,ROUND(AVG(BYZX),2)|| '%' AS PRERATE  FROM ZX_BQ_DWZXL
+	</select>
+    <select id="getArticleByParams" resultMap="ArticleResultMap" parameterType="java.util.Map">
+        select * from ap_article aa left join ap_article_portlet aap  
+             on aa.id = aap.article_id where aap.pg_plet_id ='16' 
+        	<if test ="id !=null or id !='' ">
+				and aa.ID = #{id}
+  	   	    </if>
+	</select>
+		<select id="getArticleData" resultType="java.util.Map" parameterType="java.util.Map">
+		select v.*,
+				<if test ="userId =null or userId='' ">
+					'N' IS_READ
+				</if>
+				<if  test ="userId!=null and userId!='' ">
+					decode((
+				        select  count(*) from ap_visit_capacity visit
+				        where v.ARTICLE_ID=visit.article_id
+				        and visit.user_id = #{userId}
+			       ),0,'N','Y') IS_READ
+				</if>	
+		from v_ap_article_pub v where (CHECK_STATUS = '0' or CHECK_STATUS = '2')
+		 <!-- and to_char(sysdate, 'dd-mm-yyyy hh24:mi:ss') >= to_char(VALID_DATE, 'dd-mm-yyyy hh24:mi:ss')  -->
+		 and (EXPIRE_DATE IS NULL OR to_char(EXPIRE_DATE, 'dd-mm-yyyy hh24:mi:ss') >= to_char(sysdate, 'dd-mm-yyyy hh24:mi:ss')) 
+			<if test ="pgPletId !=null and pgPletId!='' ">
+				AND PG_PLET_ID = #{pgPletId}
+			</if>
+			<if test ="articleId !=null and articleId !='' ">
+				AND ARTICLE_ID = #{articleId}
+			</if>
+			<if test ="title !=null and title !='' ">
+    		AND ARTICLE_TITLE like '%' || #{title} || '%' 
+    	</if >
+    	<if test ="startTime !=null and startTime !='' ">
+    		AND <![CDATA[PUB_TIME >= to_date(#{startTime}, 'yyyy-mm-dd HH24:mi:ss')]]>
+    	</if >
+    	<if test ="endTime !=null and endTime !='' ">
+    		AND <![CDATA[PUB_TIME <= to_date(#{endTime}, 'yyyy-mm-dd HH24:mi:ss')]]>
+    	</if >
+    	<if test ="searchKey !=null and searchKey !='' ">
+    		AND (dbms_lob.instr(content, #{searchKey}, 1, 1) > 0 or ARTICLE_TITLE like '%' || #{searchKey} || '%' )
+    	</if >
+    	<if test ="pageId !=null and pageId !='' ">
+    		AND PAGE_ID = #{pageId}
+    	</if >
+		order by VALID_DATE desc
+	</select>
+	  <select id="getArticleAttachByParams" resultType="java.util.Map"  parameterType="java.util.Map">
+           select * from AP_ARTICLE_ATTACH
+        <where>
+        	<if test ="articleId !=null and articleId !='' ">
+        		ARTICLE_ID = #{articleId}
+        	</if>
+        </where>
+	</select>
+   <select id="getMendorName" resultType="java.util.Map"  parameterType="java.util.Map">
+  	      select au.user_name from as_user au where au.user_id = #userId#
+  </select>
+</mapper> 

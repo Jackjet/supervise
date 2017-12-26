@@ -1,0 +1,202 @@
+/*
+ * @(#)Log.java	1.0 22/03/06
+ *
+ * Copyright 2006 by Founder Sprint 1st, Inc. All rights reserved.
+ */
+package gov.df.fap.service.util.log;
+
+import gov.df.fap.api.log.ILog;
+import gov.df.fap.bean.log.LogDTO;
+import gov.df.fap.bean.user.UserDTO;
+import gov.df.fap.service.util.UUIDRandom;
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.fap.util.Tools;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Map;
+import java.util.Properties;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import org.springframework.stereotype.Service;
+
+import sun.reflect.Reflection;
+
+/**
+ * 采用log4j形成日志类,包括系统日志和操作日志
+ * @version 1.0
+ * @author victor
+ * @see http://logging.apache.org/log4j
+ * @since java 1.4.1
+*/
+@Service
+public class Log implements ILog {
+  private static Logger log = null;
+
+  private static boolean isJRocket = false;
+  static {
+    try {
+      String propName = "log4j.properties";
+      Properties pros = new Properties();
+      URL url = null;
+      url = Thread.currentThread().getContextClassLoader().getResource(propName);
+      if (url != null) {
+        try {
+          pros.load(url.openStream());
+        } catch (IOException e) {
+          System.err.println("log4j.properties无法正常加载");
+        }
+      }
+      //需要加载log4j.properties 使用Log4j
+      PropertyConfigurator.configure(pros);
+    } catch (Exception e) {
+
+    }
+
+  }
+
+  /**
+   * 采用log4j方式输出调试信息(对外服务接口)
+   * @param className 调用日志类(caller)
+   * @param debugMessage 调试信息
+   */
+  public void debug(String className, String debugMessage) {
+    getLogger(className).debug(debugMessage);
+  }
+
+  /**
+   * 采用log4j方式输出调试信息
+   * @param className 调用日志类(caller)
+   * @param infoMessage 调试信息
+   */
+  public void info(String className, String infoMessage) {
+    getLogger(className).error(infoMessage);
+  }
+
+  /**
+   * 采用log4j方式输出警告信息(对外服务接口)
+   * @param className 调用日志类(caller) 
+   * @param warnMessage 警告信息
+   */
+  public void warn(String className, String warnMessage) {
+    getLogger(className).warn(warnMessage);
+  }
+
+  /**
+   * 采用log4j方式输出错误信息(对外服务接口)
+   * @param className 调用日志类(caller)
+   * @param errorMessage 错误信息
+   */
+  public void error(String className, String errorMessage) {
+    getLogger(className).error(errorMessage);
+  }
+
+  /**
+   * 采用log4j方式输出调试信息,系统内部将自动活动接口调用者并加载
+   * @param debugMessage 调试信息
+   */
+  public static void debug(String debugMessage) {
+    getLogger(getCallerClass()).debug(debugMessage);
+  }
+
+  /**
+   * 采用log4j方式输出警告信息,系统内部将自动活动接口调用者并加载
+   * @param warnMessage 警告信息
+   */
+  public static void warn(String warnMessage) {
+    getLogger(getCallerClass()).warn(warnMessage);
+  }
+
+  /**
+   * 采用log4j方式输出错误信息,系统内部将自动活动接口调用者并加载
+   * @param errorMessage 错误信息
+   */
+  public static void error(String errorMessage) {
+    getLogger(getCallerClass()).error(errorMessage);
+
+  }
+
+  private static String getCallerClass() {
+    String callerClass = "";
+
+    if (isJRocket) {
+      callerClass = Log.class.getName();
+    } else {
+      try {
+        callerClass = Reflection.getCallerClass(2).getName();
+      } catch (Exception e) {
+        isJRocket = true;
+        callerClass = Log.class.getName();
+      }
+    }
+
+    return callerClass;
+  }
+
+  /**
+   * 自定义方式输出业务操作日志信息,目前使用表记录方式
+   * @param operType 操作类型
+   * @param logMessage 业务操作日志信息
+   */
+  public static void operationLog(String operType, String logMessage) {
+    Logger.getLogger(Reflection.getCallerClass(2).getName()).debug("now operationLog has not implement!");
+  }
+
+  /**
+   * 获得Logger对象,尽可能少地减少建立Logger对象次数,提高效率
+   * @param className 调用对象名caller
+   * @return Logger对象
+   */
+  public static Logger getLogger(String className) {
+    if (className.equalsIgnoreCase(className)) {
+      if (log == null) {
+        return Logger.getLogger(className);
+      } else {
+        return log;
+      }
+    } else {
+      log = Logger.getLogger(className);
+      //			className = className;
+      return log;
+    }
+  }
+
+  public void writeMapLog(Map data) throws Exception {
+    GeneralDAO dao = (GeneralDAO) SessionUtil.getServerBean("generalDAO");
+    dao.deleteDataBySql("SYS_LOGINFO", data, new String[] { "log_id" });
+    String set_year = SessionUtil.getLoginYear();
+    String rg_code = SessionUtil.getRgCode();
+    data.put("set_year", set_year);
+    data.put("rg_code", rg_code);
+    dao.saveDataBySql("SYS_LOGINFO", data);
+  }
+
+  public void writeLog(LogDTO data) throws Exception {
+    if (data != null) {
+      try {
+        data.setLog_id(UUIDRandom.generate());
+        UserDTO user = SessionUtil.getOnlineUser();
+        //保护一下，在部里应用时经常出现为空情况
+        if (user != null && user.getUser_id() != null && !user.getUser_id().equals("")) {
+          data.setUser_id(user.getUser_id());
+          data.setUser_ip(user.getUser_ip());
+          data.setUser_name(user.getUser_name());
+          data.setOper_time(Tools.getCurrDate());
+          data.setSys_id(SessionUtil.getUserInfoContext().getSysID());
+          GeneralDAO dao = (GeneralDAO) SessionUtil.getServerBean("generalDAO");
+          dao.deleteDataBySql("SYS_LOGINFO", data, new String[] { "log_id" });
+          //add by wl 20110327删除和保存时加入年度和区划信息
+          String set_year = SessionUtil.getLoginYear();
+          String rg_code = SessionUtil.getRgCode() == null ? (String) data.getRg_code() : SessionUtil.getRgCode();
+          data.setSet_year(set_year);
+          data.setRg_code(rg_code);
+          dao.saveDataBySql("SYS_LOGINFO", data);
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
+}

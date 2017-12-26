@@ -1,0 +1,100 @@
+.nav-listDown{
+    display: inline-block;
+    padding-left: 0;
+    font-size: 14px;
+}
+.bnt-list{
+    margin-top: 10px;
+}
+.bnt-list button{
+    margin-right: 10px;
+}
+.content{
+    width:100%;
+    margin-top: 10px;
+
+}
+.content .tree{
+    width: 25%;
+    float: left;
+    margin-top: 32px;
+}
+.tree-list{
+    margin-bottom: -1px;
+    height: 260px;
+    overflow: auto;
+}
+.right-content{
+    width: 73%;
+    margin-left: 25%;
+
+}
+.list-bar{
+    margin: 0;
+    text-align: left;
+}
+.nav-show{
+    height: 32px;
+}
+
+/* tab */
+.tab-pad{
+    padding: 10px 20px;
+}
+.tab-header{
+    height:27px;
+    margin-bottom: 10px;
+}
+.tab-input{
+    height: 27px;
+    padding-left: 8px;
+}
+.tab-input-group{
+    padding-left: 0;
+}
+.upSearch{
+    margin-top:-4px;
+}
+
+
+/* 右边列表页 */
+.seach-icon{
+    margin-left: -20px;
+}
+.top-list{
+    height: 300px;
+    /*overflow: auto;*/
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* modal */
+.add-Modal{
+    height: 400px;
+}
+
+/* step步骤 */
+.step-box{
+    border-bottom: 1px solid #eee;
+}
+.show-step{
+    padding-left: 26px;
+}
+.step-name:before{
+    content: '   ';
+    width: 10px;
+}
+.step-doing{
+    color: #1871C1;
+    font-size: 27px;
+}
+.step-num{
+
+}
+.newWid{
+    width: 20%;
+}
+
+
+
+

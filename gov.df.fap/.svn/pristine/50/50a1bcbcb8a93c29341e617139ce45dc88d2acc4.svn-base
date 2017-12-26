@@ -1,0 +1,374 @@
+﻿package gov.df.fap.service.login;
+
+import gov.df.fap.api.fapcommon.IRoleDfCommonService;
+import gov.df.fap.api.framework.IPreLogin;
+import gov.df.fap.api.log.ILog;
+import gov.df.fap.api.login.ICacheService;
+import gov.df.fap.api.login.IUsersLogin;
+import gov.df.fap.bean.log.LogDTO;
+import gov.df.fap.bean.portal.UserInfoDFCommon;
+import gov.df.fap.service.menu.MenuOrder;
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.gl.core.CommonUtil;
+import gov.df.fap.util.StringUtil;
+import gov.df.fap.util.factory.ServiceFactory;
+import gov.df.fap.util.portal.EncryptUtil;
+import gov.mof.fasp2.ca.role.dto.RoleDTO;
+import gov.mof.fasp2.ca.user.dto.UserDTO;
+import gov.mof.fasp2.ca.user.service.IUserService;
+import gov.mof.fasp2.sec.syncuserinfo.UserInfo;
+import gov.mof.fasp2.sec.syncuserinfo.manager.IUserSyncManager;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.context.support.AbstractRefreshableWebApplicationContext;
+
+public class UsersLogin extends AbstractComponentService implements IUsersLogin {
+
+  private IUserService userservice;
+
+  private IUserSyncManager iUserSyncManager;
+  
+  @Autowired
+  private IPreLogin loginService; 
+  @Autowired
+  private ILog logService; 
+  @Autowired
+  private AbstractRefreshableWebApplicationContext abstractRefreshableWebApplicationContext;
+
+  @Autowired
+  @Qualifier("CacheService")
+  private ICacheService cacheService;
+
+  @Autowired
+  @Qualifier("RoleService")
+  private IRoleDfCommonService iRoleService;
+
+  @Autowired
+  @Qualifier("generalDAO")
+  private GeneralDAO generalDAO;
+
+  //private SessionUtil sessionUtil;
+
+  //业务系统标志
+  private static String starttype = "df";
+
+  //获取登录类型
+  public String getStarttype() {
+    return abstractRefreshableWebApplicationContext.getServletContext().getInitParameter("startup");
+  }
+  
+  public  static Map <String,String> errorLogin = new HashMap <String,String>();
+  
+  public  static Map <String,Integer> errorLoginNum = new HashMap <String,Integer>();
+
+  public Map<String, Object> loginsend(HttpServletRequest req, HttpServletResponse resp) {
+	    Map<String, Object> map = new HashMap<String, Object>();
+
+    String userCode = req.getParameter("userName");
+    String password = req.getParameter("passWord");
+    String setYear = req.getParameter("setYear");
+    String rgCode = req.getParameter("rgCode");
+    String oid = req.getParameter("oid"); //监管系统专员办机构id
+    String param=userCode+rgCode+setYear+oid;
+    String checkResult=checkFilter(param);
+    if(null==checkResult||!checkResult.equals(param)){
+        map.put("flag", "0");
+        return map;
+    }
+    // 状态标志：1 成功，0 失败
+    String flag = null;
+    String tokenid = null;
+    // fasp2.0
+    UserDTO userdto = null;
+    // df
+    gov.df.fap.bean.user.UserDTO userdtoDF = null;
+
+    try {
+      starttype = getStarttype();
+      String guid = "";
+      String token = "";
+      if ("fasp2.0".equals(starttype)) {
+        userservice = (IUserService) ServiceFactory.getBean("fasp2.ca.user.service");
+        iUserSyncManager = (IUserSyncManager) ServiceFactory.getBean("fasp.ca.UserSyncManager");
+        // TODO ?? fasp2.0 年度区划如何实现
+        userdto = userservice.login(userCode, password, 0, null);
+        //userdto = userservice.login(userCode, password, Integer.valueOf(setYear), rgCode);
+        guid = userdto.getGuid();
+        tokenid = iUserSyncManager.doLogin(userdto, userdto.getYear(), userdto.getProvince());
+        map.put("tokenid", tokenid);
+      } else if ("df".equals(starttype)) {
+        // TODO ?? df 年度区划如何实现
+        userdtoDF = this.login(userCode, password, 0, null, oid);
+       
+        Map  checkMap = loginService.checkUserAccount(userdtoDF.getUser_id(), setYear, rgCode);
+        if (!checkMap.isEmpty()){
+        	return checkMap;
+        }
+        if(errorLoginNum.get(userdtoDF.getUser_code())!=null){
+        	 Integer num = Integer.parseInt(errorLoginNum.get(userdtoDF.getUser_code()).toString());
+        	 if(num >=3){
+    			 loginService.lockedUserAccount(userdtoDF.getUser_id(), setYear, rgCode, num, userdtoDF.getUser_name().toString());
+
+        	 }
+
+        }
+        if(null==userdtoDF.getPassword()||userdtoDF.getPassword().equals("")){
+        	  map.put("flag", "0");
+        	return map;
+        }
+        tokenid = this.doLogin(userdtoDF, setYear, rgCode, oid, req, resp);
+        guid = userdtoDF.getUser_id();
+      }
+      map.put("tokenid", tokenid);
+      if (null == userdtoDF) {
+        UserInfoDFCommon.setUser(tokenid, "fasp2.0");
+      } else {
+        UserInfoDFCommon.setUser(tokenid, userdtoDF);
+      }
+      UserInfoDFCommon.resetTokenidTTL(tokenid);
+      token = tokenid.substring(guid.length(), tokenid.length());
+      map.put("token", token);
+      flag = "1";
+      LogDTO logDto = new LogDTO();
+	  logDto.setUser_id(userdtoDF.getUser_id());
+	  logDto.setUser_ip(getIP(req));
+	  logDto.setUser_name(userdtoDF.getUser_name());
+	  logDto.setAction_name("登录系统");
+	  logService.saveLog(logDto);
+    } catch (Exception e) {
+      e.printStackTrace();
+      flag = "0";
+    }
+    map.put("flag", flag);
+    return map;
+  }
+
+  /**
+   * 登陆前密码验证
+   */
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  public gov.df.fap.bean.user.UserDTO login(String usercode, String password, Integer year, String province, String oid) {
+    gov.df.fap.bean.user.UserDTO userdtoDF = null;
+    StringBuilder sql = new StringBuilder();
+    List<Object> list = new ArrayList<Object>();
+    sql.append("select * from sys_usermanage where user_code='" + usercode + "' ");
+    sql.append(province != null ? " and rg_code='" + province + "' " : " ");
+    sql.append(oid != null ? " and org_code='" + oid + "' " : " ");
+    sql.append(year != 0 ? " and set_year='" + year + "' " : " ");
+
+    list = generalDAO.findBySql(sql.toString());
+    if (list.size() > 0) {
+      // TODO ?? 相同信息多用户如何处理（默认不会出现）
+      Map map = (Map) list.get(0);
+      userdtoDF = new gov.df.fap.bean.user.UserDTO(map);
+    } else {
+      userdtoDF = new gov.df.fap.bean.user.UserDTO();
+    }
+    if(null==userdtoDF.getPassword()||null==userdtoDF.getUser_code()){
+    	return userdtoDF;
+    }
+
+    // 密码匹配
+    if (!StringUtil.isNull(userdtoDF.getPassword()) && (userdtoDF.getPassword().length() == 32) && (password != null)
+      && (password.length() != 32)) {
+      password = EncryptUtil.hash(password);
+    }
+    if ((!(userdtoDF.getPassword().equals(password)))
+      && (!(EncryptUtil.hash(userdtoDF.getPassword()).equals(password)))) {
+      try {
+    	  String nowDate = CommonUtil.getDate("yyyy-MM-dd");
+    	  if(errorLogin.get(usercode)==null||errorLogin.get(usercode).equals("")){
+    		  errorLogin.put(usercode, nowDate);
+    		  errorLoginNum.put(usercode, 1);
+    	  }else {
+    		 int res = errorLogin.get(usercode).toString().compareTo(CommonUtil.getDate("yyyy-MM-dd"));
+    		 if( res == 0){
+    			 errorLoginNum.put(usercode, errorLoginNum.get(usercode)+1);
+    		 }else if( res < 0){
+    			 errorLogin.put(usercode, nowDate);
+    			 errorLoginNum.put(usercode, 1);
+    		 }
+    	  }
+    	  
+    	  userdtoDF.setPassword("");
+        throw new Exception("11010003 密码错误!");
+      } catch (Exception e) {
+      }
+    }
+
+    return userdtoDF;
+  }
+
+  public String doLogin(gov.df.fap.bean.user.UserDTO userdtoDF, String yearDF, String province, String oid,
+    HttpServletRequest req, HttpServletResponse resp) {
+    // 生成tokenid
+    String userid = userdtoDF.getUser_id();
+    String token = StringUtil.createUUID8();
+    String tokenid = userid + token;
+    while (tokenid.length() < 40) {//原js中有根据40位长度取tokenid的代码，兼容一下
+      tokenid += "0";
+    }
+
+    // 创建cookie
+    Cookie cookie = new Cookie(userid, tokenid);
+    cookie.setSecure(true);
+    cookie.setPath("/");
+    cookie.setMaxAge(-1);
+    ((HttpServletResponse) resp).addCookie(cookie);
+
+    //TODO 后台session是否存储用户登录信息
+    //SessionUtil.setLoginCookies(userid, cookie.toString());
+    UserInfoDFCommon.setUser(tokenid, userdtoDF);
+    return tokenid;
+  }
+
+  public Map<String, Object> loginMessage(HttpServletRequest request, HttpServletResponse response) {
+    String tokenId = request.getParameter("tokenid");
+    UserDTO userdto = null;
+    Object[] roleArray = null;
+    Map mapMenu = null;
+    RoleDTO roleDto = null;
+    try {
+      iUserSyncManager = (IUserSyncManager) ServiceFactory.getBean("fasp.ca.UserSyncManager");
+      UserInfo uinfo = iUserSyncManager.getUser(tokenId);
+      userdto = uinfo.getUser();
+      String guid = userdto.getGuid();
+      String sql = " exists (select 1 from fasp_t_causerrole t where t.userguid = '" + guid
+        + "' and t.roleguid = fasp_t_carole.guid  ) and fasp_t_carole.status = '1' order by fasp_t_carole.code asc";
+      List roleList = iRoleService.queryRolesBySql(sql);
+      roleArray = new Object[roleList.size()];
+      for (int i = 0; i < roleList.size(); i++) {
+        roleArray[i] = roleList.get(i);
+      }
+      if (roleList.size() > 0) {
+        roleDto = (RoleDTO) roleList.get(0);
+        String roleGuid = roleDto.getGuid();
+
+        // 用户角色查询菜单
+        List menulist = iRoleService.getMenus(roleGuid);
+
+        MenuOrder menuOrder = new MenuOrder();
+        mapMenu = menuOrder.pubMenuListSort(menulist);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    // JSONArray userDtoJSONArray = new JSONArray();
+    // userDtoJSONArray = JSONArray.fromObject(userdto);
+    // System.out.println("-- userDto JSON - " + userDtoJSONArray);
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("userDto", userdto);
+    map.put("allRole", roleArray);
+    map.put("mapMenu", mapMenu);
+    System.out.println("-- " + mapMenu);
+    map.put("curtRole", roleDto);
+    return map;
+  }
+
+  public Map<String, Object> loginout(HttpServletRequest request, HttpServletResponse response) {
+    String tokenId = request.getParameter("tokenid");
+    String flag = null;
+   
+    try {
+      starttype = getStarttype();
+      if ("fasp2.0".equals(starttype)) {
+        iUserSyncManager = (IUserSyncManager) ServiceFactory.getBean("fasp.ca.UserSyncManager");
+        iUserSyncManager.doLogout(tokenId);
+      } else if ("df".equals(starttype)) {
+    	  LogDTO logDto = new LogDTO();
+    	  logDto.setUser_id(CommonUtil.getUserId());
+    	  logDto.setUser_ip(getIP(request));
+    	  logDto.setUser_name(CommonUtil.getUserName());
+    	  logDto.setAction_name("退出系统");
+    	  logService.saveLog(logDto);
+          UserInfoDFCommon.removeUser(tokenId);
+      }
+
+      flag = "1";
+    } catch (Exception e) {
+      e.printStackTrace();
+      flag = "0";
+    }
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("flag", flag);
+    return map;
+  }
+  
+  /**
+	 * 危险字符校验
+	 * @param value
+	 * @return
+	 */
+	public static String checkFilter(String value) {
+      if (value == null) {
+          return null;
+      }        
+      StringBuffer result = new StringBuffer(value.length());
+      for (int i=0; i<value.length(); ++i) {
+          switch (value.charAt(i)) {
+          case '<':
+              result.append("&lt;");
+              break;
+          case '>': 
+              result.append("&gt;");
+              break;
+          case '"': 
+              result.append("&quot;");
+              break;
+          case '\'': 
+              result.append("&#39;");
+              break;
+          case '%': 
+              result.append("&#37;");
+              break;
+          case ';': 
+              result.append("&#59;");
+              break;
+          case '(': 
+              result.append("&#40;");
+              break;
+          case ')': 
+              result.append("&#41;");
+              break;
+          case '&': 
+              result.append("&amp;");
+              break;
+          case '+':
+              result.append("&#43;");
+              break;
+          default:
+              result.append(value.charAt(i));
+              break;
+          }
+      }
+      return result.toString();
+  }
+	
+	public String getIP(HttpServletRequest request){  
+        String ip=request.getHeader("x-forwarded-for");  
+        if(ip==null || ip.length()==0 || "unknown".equalsIgnoreCase(ip)){  
+            ip=request.getHeader("Proxy-Client-IP");  
+        }  
+        if(ip==null || ip.length()==0 || "unknown".equalsIgnoreCase(ip)){  
+            ip=request.getHeader("WL-Proxy-Client-IP");  
+        }  
+        if(ip==null || ip.length()==0 || "unknown".equalsIgnoreCase(ip)){  
+            ip=request.getHeader("X-Real-IP");  
+        }  
+        if(ip==null || ip.length()==0 || "unknown".equalsIgnoreCase(ip)){  
+            ip=request.getRemoteAddr();  
+        }  
+        return ip;  
+    }  
+      
+}

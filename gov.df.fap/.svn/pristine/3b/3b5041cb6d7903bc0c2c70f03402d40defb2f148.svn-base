@@ -1,0 +1,734 @@
+package gov.df.fap.service.attach;
+
+import gov.df.fap.api.attach.IAttachManage;
+import gov.df.fap.api.portal.IPaginationService;
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.fap.util.StringUtil;
+import gov.df.fap.util.Tools;
+import gov.df.fap.util.xml.XMLData;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.stereotype.Service;
+
+@Service("fileSystemAttachManageBO")
+public class FileSystemAttachManageBO implements IAttachManage {
+
+  @Autowired
+  @Qualifier("generalDAO")
+  GeneralDAO dao;
+
+  @Autowired
+  private IPaginationService ips;
+
+  /** SYS_ATTACH_FILE表全部字段 */
+  public static final String[] FIELDS_ALL_ATTACH = new String[] { "attach_id", "attach_code", "attach_name",
+    "attach_type", "attach_path", "status", "appid", "year", "rg_code", "remark", "create_by", "create_time",
+    "update_by", "update_time", "ext1", "ext2", "ext3" };
+
+  @Override
+  public List<Map<String, Object>> uploadattach(List<Map<String, Object>> fileList, String app_id, String orgcode,
+    String extpath, String categoryId) throws Exception {
+    List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+    Map<String, Object> map = new HashMap<String, Object>();
+    String uploadRootPath = getUploadRootPath();
+    Long limitSize = 1024 * 1024 * 1024 * 10L;//默认上传路径文件总大小上限10240M
+
+    if (uploadRootPath == null || "".equals(uploadRootPath) || uploadRootPath.trim().isEmpty()) {
+      map.put("errorCode", "-1");
+      map.put("errorMsg", "上传根目录不存在！");
+      resultList.add(map);
+      return resultList;
+    }
+    String filePath = uploadRootPath;
+    if (app_id == null || "".equals(app_id) || orgcode == null || "".equals(orgcode)) {
+      if (extpath == null || "".equals(extpath) || extpath.trim().isEmpty()) {
+        filePath = filePath + "/pub" + "/";
+      } else {
+        filePath = filePath + "/pub" + "/" + extpath + "/";
+      }
+    } else {
+      if (extpath == null || "".equals(extpath) || extpath.trim().isEmpty()) {
+        filePath = filePath + "/" + app_id + "/" + orgcode + "/";
+      } else {
+        filePath = filePath + "/" + app_id + "/" + orgcode + "/" + extpath + "/";
+      }
+    }
+
+    String set_year = SessionUtil.getLoginYear();
+    String create_by = (String) SessionUtil.getUserInfoContext().getAttribute("user_name");
+
+    if (fileList != null) {
+      for (int i = 0; i < fileList.size(); i++) {
+
+        Map<String, Object> mapData = (Map<String, Object>) fileList.get(i);
+        Map<String, Object> temp = new HashMap<String, Object>();
+        Long attachSize = (Long) mapData.get("attach_size");
+        map = checkDiskSize(uploadRootPath, attachSize, limitSize);//检查磁盘空间大小是否符合附件上传需求
+        if ("-1".equals((String) map.get("errorCode"))) {
+          resultList.add(map);
+          return resultList;
+        }
+        String attachName = (String) mapData.get("attach_name");
+        String attachCode = (String) mapData.get("attach_code");
+        if (fileList.size() > 1 && i > 0) {
+          attachCode += i;
+        }
+        mapData.put("attach_code", attachCode);
+        String attachType = (String) mapData.get("attach_type");
+        byte[] attachFileBytes = (byte[]) mapData.get("bytes");
+        File dir = new File(filePath);
+        if (!dir.exists() && dir.isDirectory()) {//判断文件目录是否存在  
+          if (!dir.mkdirs()) {
+            map.put("errorCode", "-1");
+            map.put("errorMsg", "无法创建：[" + dir + "]");
+            resultList.add(map);
+            return resultList;
+          }
+        }
+
+        String timeStamp = String.valueOf(System.currentTimeMillis());
+        String fileName = attachName + "=" + timeStamp + "." + attachType;
+        StringBuffer sb = new StringBuffer();
+        sb.append(filePath).append("/").append(fileName);
+
+        File newfile = new File(sb.toString());
+        if (newfile.exists()) {
+          map.put("errorCode", "-1");
+          map.put("errorMsg", "存在同名文件");
+          resultList.add(map);
+          return resultList;
+        } else {
+          makeFile(attachFileBytes, filePath, fileName);//生成文件
+        }
+        String create_time = getServerTime();
+        String attach_id = getAttachID();// 取得附件ID
+        mapData.put("attach_path", sb);
+        mapData.put("attach_id", attach_id);
+        mapData.put("appid", app_id);
+        mapData.put("status", "0");
+        mapData.put("year", set_year);
+        mapData.put("rg_code", orgcode);
+        mapData.put("create_by", create_by);
+        mapData.put("create_time", create_time);
+        mapData.put("update_by", "");
+        mapData.put("update_time", "");
+        mapData.put("ext1", "");
+        mapData.put("ext2", "");
+        mapData.put("ext3", "");
+        List attach_list = new ArrayList();
+        attach_list.add(mapData);
+        temp.put("attachID", attach_id);
+        temp.put("attacName", attachName + "." + attachType);
+        resultList.add(temp);
+        sb = null;
+        try {
+          if (attach_list.size() > 0) {
+            dao.batchSaveDataBySql("sys_attach_file", FIELDS_ALL_ATTACH, attach_list);
+          }
+          Map<String, Object> attach_categoryMap = new HashMap<String, Object>();
+          String id = UUID.randomUUID().toString().toUpperCase();
+          String attachId = attach_id;
+          attach_categoryMap.put("attach_id", attachId);
+          attach_categoryMap.put("id", id);
+          attach_categoryMap.put("category_id", categoryId);
+          dao.saveDataBySql("SYS_ATTACH_CATEGORY", attach_categoryMap);
+
+        } catch (Exception e) {
+          e.printStackTrace();
+          throw new Exception("附件上传失败，请联系管理员！");
+        }
+
+      }
+    }
+
+    return resultList;
+  }
+
+  @Override
+  public Map getAttach(String attachId) throws Exception {
+    String sql = "select a.* ,b.* from SYS_ATTACH_FILE a, SYS_CATEGORY b, SYS_ATTACH_CATEGORY c where a.attach_id = c.attach_id and c.category_id= b.category_id and a.status= '0' and a.attach_id=?";
+    Map map = (Map) dao.findBySql(sql, new Object[] { attachId }).get(0);
+    return map;
+  }
+
+  @Override
+  public List getAttachList(List attachIds) throws Exception {
+    List attachList = new ArrayList();
+    for (int i = 0; i < attachIds.size(); i++) {
+      String sql = "select a.* ,b.* from SYS_ATTACH_FILE a, SYS_CATEGORY b, SYS_ATTACH_CATEGORY c where a.attach_id = c.attach_id and c.category_id= b.category_id and a.status= '0' and a.attach_id=?";
+      String attach_id = (String) attachIds.get(i);
+      List tempList = dao.findBySql(sql, new Object[] { attach_id });
+      attachList.add(tempList);
+    }
+    return attachList;
+  }
+
+  @Override
+  public boolean deleteAttach(List attachIds) throws Exception {
+    boolean executeResult = false;
+    String sql = "select ATTACH_ID,STATUS,ATTACH_PATH from SYS_ATTACH_FILE where ATTACH_ID = ?";
+    for (int i = 0; i < attachIds.size(); i++) {
+      String attachId = (String) attachIds.get(i);
+      List fileList = dao.findBySql(sql, new Object[] { attachId });
+      int size = fileList.size();
+      for (int j = 0; j < size; j++) {
+        XMLData data = (XMLData) fileList.get(j);
+        String status = (String) data.get("status");
+        String attach_id = (String) data.get("attach_id");
+        String attachPath = (String) data.get("attach_path");
+        if (status.equals("0")) {
+          try {
+            dao.executeBySql("update SYS_ATTACH_FILE set STATUS='1' where attach_id=? ", new Object[] { attach_id });
+            deleteFile(attachPath);
+            executeResult = true;
+          } catch (Exception e) {
+            executeResult = false;
+          }
+        }
+      }
+    }
+    return executeResult;
+  }
+
+  @Override
+  public boolean updateRemark(List<Map> list) throws Exception {
+    boolean executeResult = false;
+    for (int i = 0; i < list.size(); i++) {
+      Map tempMap = list.get(i);
+      String attachId = (String) tempMap.get("attachId");
+      String remark = (String) tempMap.get("remark");
+      String updateBy = SessionUtil.getUserInfoContext().getAuthorizedUserName();
+      String updateTime = getServerTime();
+      try {
+        dao.executeBySql("update SYS_ATTACH_FILE set REMARK=? ,update_by=? , update_time=? where attach_id=?",
+          new Object[] { remark, updateBy, updateTime, attachId });
+        executeResult = true;
+      } catch (Exception e) {
+        executeResult = false;
+      }
+    }
+    return executeResult;
+  }
+
+  @Override
+  public boolean updateAttachName(List<Map> list) throws Exception {
+    boolean executeResult = false;
+    for (int i = 0; i < list.size(); i++) {
+      Map tempMap = list.get(i);
+      String attachId = (String) tempMap.get("attachId");
+      String attachName = (String) tempMap.get("attachName");
+      String updateBy = SessionUtil.getUserInfoContext().getAuthorizedUserName();
+      String updateTime = getServerTime();
+      try {
+        dao.executeBySql("update SYS_ATTACH_FILE set ATTACH_NAME=? ,update_by=? , update_time=? where attach_id=?",
+          new Object[] { attachName, updateBy, updateTime, attachId });
+        executeResult = true;
+      } catch (Exception e) {
+        executeResult = false;
+      }
+    }
+    return executeResult;
+  }
+
+  public String getServerTime() {
+    Calendar calender = Calendar.getInstance();
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    return f.format(calender.getTime());
+  }
+
+  public String getAttachID() {
+    UUID uuid = UUID.randomUUID();
+    String id = uuid.toString();
+    return id.toUpperCase();
+  }
+
+  @Override
+  public PageRequest buildPageRequest(int pageNumber, int pageSize) {
+    Sort sort = null;
+    List<String> orders = new ArrayList<String>();
+    orders.add("create_time");
+    sort = new Sort(Direction.DESC, orders);
+    return new PageRequest(pageNumber - 1, pageSize, sort);
+  }
+
+  @Override
+  public List<Map<String, String>> changePageFormat(List<Map<String, Object>> map_list) {
+    List<Map<String, String>> AttachList = new ArrayList<Map<String, String>>();
+    try {
+      for (Map<String, Object> temp : map_list) {
+        Map<String, String> attachMap = new HashMap<String, String>();
+        attachMap.put("attach_id", temp.get("ATTACH_ID").toString());
+        if (StringUtil.isNull(temp.get("ATTACH_CODE"))) {
+          attachMap.put("attach_code", "");
+        } else {
+          attachMap.put("attach_code", temp.get("ATTACH_CODE").toString());
+        }
+        if (StringUtil.isNull(temp.get("ATTACH_NAME"))) {
+          attachMap.put("attach_name", "");
+        } else {
+          attachMap.put("attach_name", temp.get("ATTACH_NAME").toString());
+        }
+        if (StringUtil.isNull(temp.get("ATTACH_TYPE"))) {
+
+          attachMap.put("attach_type", "");
+        } else {
+          attachMap.put("attach_type", temp.get("ATTACH_TYPE").toString());
+        }
+        if (StringUtil.isNull(temp.get("ATTACH_PATH"))) {
+          attachMap.put("attach_path", "");
+        } else {
+          attachMap.put("attach_path", temp.get("ATTACH_PATH").toString());
+        }
+        if (StringUtil.isNull(temp.get("STATUS"))) {
+          attachMap.put("status", "");
+        } else {
+          attachMap.put("status", temp.get("STATUS").toString());
+        }
+        if (StringUtil.isNull(temp.get("APPID"))) {
+          attachMap.put("appid", "");
+        } else {
+          attachMap.put("appid", temp.get("APPID").toString());
+        }
+        if (StringUtil.isNull(temp.get("YEAR"))) {
+          attachMap.put("year", "");
+        } else {
+          attachMap.put("year", temp.get("YEAR").toString());
+        }
+        if (StringUtil.isNull(temp.get("RG_CODE"))) {
+          attachMap.put("rg_code", "");
+        } else {
+          attachMap.put("rg_code", temp.get("RG_CODE").toString());
+        }
+        if (StringUtil.isNull(temp.get("REMARK"))) {
+          attachMap.put("remark", "");
+        } else {
+          attachMap.put("remark", temp.get("REMARK").toString());
+        }
+        if (StringUtil.isNull(temp.get("CREATE_BY"))) {
+          attachMap.put("create_by", "");
+        } else {
+          attachMap.put("create_by", temp.get("CREATE_BY").toString());
+        }
+        if (StringUtil.isNull(temp.get("CREATE_TIME"))) {
+          attachMap.put("createTime", "");
+        } else {
+          attachMap.put("createTime", temp.get("CREATE_TIME").toString());
+        }
+        if (StringUtil.isNull(temp.get("UPDATE_BY"))) {
+          attachMap.put("update_by", "");
+        } else {
+          attachMap.put("update_by", temp.get("UPDATE_BY").toString());
+        }
+        if (StringUtil.isNull(temp.get("UPDATE_TIME"))) {
+          attachMap.put("update_time", "");
+        } else {
+          attachMap.put("updte_time", temp.get("UPDATE_TIME").toString());
+        }
+        if (StringUtil.isNull(temp.get("EXT1"))) {
+          attachMap.put("ext1", "");
+        } else {
+          attachMap.put("ext1", temp.get("EXT1").toString());
+        }
+        if (StringUtil.isNull(temp.get("EXT2"))) {
+          attachMap.put("ext2", "");
+        } else {
+          attachMap.put("ext2", temp.get("EXT2").toString());
+        }
+        if (StringUtil.isNull(temp.get("EXT3"))) {
+          attachMap.put("ext3", "");
+        } else {
+          attachMap.put("ext3", temp.get("EXT3").toString());
+        }
+        AttachList.add(attachMap);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return AttachList;
+  }
+
+  @Override
+  public PageImpl getPageData(String sql, int pageNumber2, int pageSize) {
+    PageImpl pageimpl = null;
+    PageRequest pageRequest = buildPageRequest(pageNumber2, pageSize);
+    try {
+      List<Map<String, Object>> map_list = ips.getPaginationBeans(sql, pageRequest);
+      int dataCount = ips.getDataCount(sql);
+      List<Map<String, Object>> List = ips.getPaginationData(sql, pageRequest);
+      java.util.List<Map<String, String>> PageList = changePageFormat(List);
+      // 建立page对象
+      pageimpl = new PageImpl(PageList, pageRequest, dataCount);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return pageimpl;
+  }
+
+  @Override
+  public Integer getDataCount(String tableName) throws Exception {
+    return ips.getDataCount(tableName);
+  }
+
+  @Override
+  public String getPropertiesValueByKey(String filePath, String key) {
+    Properties pps = new Properties();
+    try {
+      InputStream in = new BufferedInputStream(new FileInputStream(filePath));
+      pps.load(in);
+      String value = pps.getProperty(key);
+      return value;
+    } catch (IOException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
+  public Map<String, Object> getAllProperties(String filePath) throws IOException {
+    Map<String, Object> map = new HashMap<String, Object>();
+    Properties pps = new Properties();
+    InputStream in = new BufferedInputStream(new FileInputStream(filePath));
+    pps.load(in);
+    Enumeration en = pps.propertyNames(); // 得到配置文件的名字
+    while (en.hasMoreElements()) {
+      String strKey = (String) en.nextElement();
+      String strValue = pps.getProperty(strKey);
+      map.put(strKey, strValue);
+    }
+    return map;
+  }
+
+  public boolean deleteInvalidAttach() {
+    String sql = "select attach_id,attach_name,attach_code,attach_type,attach_path  from SYS_ATTACH_FILE where status ='3'";
+    List list = dao.findBySql(sql);
+    boolean exectuteResult = false;
+    try {
+      for (int i = 0; i < list.size(); i++) {
+        String attach_id = (String) ((Map) list.get(i)).get("attach_id");
+        String attach_path = (String) ((Map) list.get(i)).get("attach_path");
+        File file = new File(attach_path);
+        if (file.exists() && file.isFile()) {
+          file.delete();
+        }
+        dao.executeBySql("delete from  SYS_ATTACH_FILE where attach_id=? ", new Object[] { attach_id });
+
+        exectuteResult = true;
+      }
+    } catch (Exception e) {
+      exectuteResult = false;
+    }
+    return exectuteResult;
+  }
+
+  public boolean updateAttachInfo(XMLData attachInfo) {
+    boolean result = false;
+    String set_year = SessionUtil.getLoginYear();
+    String rg_code = SessionUtil.getRgCode();
+    String update_by = (String) SessionUtil.getUserInfoContext().getAttribute("user_name");
+    String update_time = getServerTime();
+    String hasAttachId = (String) attachInfo.get("attach_id");
+    String sql = null;
+    List list = new ArrayList();
+    if ("".equals(hasAttachId) || hasAttachId.isEmpty() || hasAttachId == null) {
+      return false;
+    } else {
+      sql = "select * from SYS_ATTACH_FILE where attach_id = ?";
+      list = dao.findBySql(sql, new String[] { hasAttachId });
+    }
+    try {
+      for (int i = 0; i < list.size(); i++) {
+        Map map = (Map) list.get(i);
+        String attach_id = (String) map.get("attach_id");
+        String attach_path = (String) map.get("attach_path");
+        String create_time = (String) map.get("create_time");
+        String create_by = (String) map.get("create_by");
+        String attachNewName = (String) attachInfo.get("attach_name");
+        String attach_name = (String) map.get("attach_name");
+        String attach_type = (String) map.get("attach_type");
+
+        String prefix = attach_path.substring(attach_path.lastIndexOf("."));
+
+        String[] newPath = attach_path.split(attach_name);
+        String realName = attach_name + newPath[1];
+        String timeStamp = String.valueOf(System.currentTimeMillis());
+        renameFile(newPath[0], realName, attachNewName + "=" + timeStamp + prefix);//重命名文件
+        attachInfo.put("attach_name", attachNewName);
+        attachInfo.put("attach_type", attach_type);
+        attachInfo.put("create_time", create_time);
+        attachInfo.put("create_by", create_by);
+        attachInfo.put("attach_id", attach_id);
+        attachInfo.put("attach_path", newPath[0] + attachNewName + "=" + timeStamp + prefix);
+        attachInfo.put("update_by", update_by);
+        attachInfo.put("update_time", update_time);
+        attachInfo.put("rg_code", rg_code);
+        attachInfo.put("year", set_year);
+        attachInfo.put("status", "0");
+        dao.deleteDataBySql("SYS_ATTACH_FILE", attachInfo, new String[] { "attach_id" });
+        dao.saveDataBySql("SYS_ATTACH_FILE", attachInfo);
+        return true;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      result = false;
+    }
+    return result;
+  }
+
+  @Override
+  public List getSysApp() {
+    StringBuffer strSQL = new StringBuffer("select sys_id,'['||sys_id||']'||sys_name as sys_name from sys_app"
+      + Tools.addDbLink() + " where sys_id<>'000' order by sys_id ");
+    List list = null;
+    try {
+      list = dao.findBySql(strSQL.toString());
+      strSQL = null;
+    } catch (Exception e) {
+      gov.df.fap.service.util.log.Log.error(e.getMessage()
+        + org.apache.commons.lang.exception.ExceptionUtils.getStackTrace(e));
+    }
+    return list;
+  }
+
+  @Override
+  public String getUploadMode() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_MODE' ");
+    List list = null;
+    try {
+      list = dao.findBySql(strSQL.toString());
+      strSQL = null;
+    } catch (Exception e) {
+      gov.df.fap.service.util.log.Log.error(e.getMessage()
+        + org.apache.commons.lang.exception.ExceptionUtils.getStackTrace(e));
+    }
+    XMLData data = (XMLData) list.get(0);
+    String uploadMode = (String) data.get("chr_value");
+    return uploadMode;
+  }
+
+  /**
+   * 删除单个文件
+   * @param   sPath    被删除文件的文件名
+   * @return 单个文件删除成功返回true，否则返回false
+   */
+  public boolean deleteFile(String sPath) {
+    boolean flag = false;
+    File file = new File(sPath);
+    // 路径为文件且不为空则进行删除
+    if (file.isFile() && file.exists()) {
+      file.delete();
+      flag = true;
+    }
+    return flag;
+  }
+
+  /**文件重命名 
+  * @param path 文件目录 
+  * @param oldname  原来的文件名 
+  * @param newname 新文件名 
+  */
+  public void renameFile(String path, String oldName, String newName) {
+    if (!oldName.equals(newName)) {//新的文件名和以前文件名不同时,才有必要进行重命名 
+      File oldfile = new File(path + "/" + oldName);
+      File newfile = new File(path + "/" + newName);
+      if (!oldfile.exists()) {
+        return;
+      }
+      if (newfile.exists())//若在该目录下已经有一个文件和新文件名相同，则不允许重命名 
+        System.out.println(newName + "已经存在！");
+      else {
+        oldfile.renameTo(newfile);
+      }
+    } else {
+      System.out.println("新文件名和旧文件名相同...");
+    }
+  }
+
+  @Override
+  public String getRgCode() {
+    String rg_code = SessionUtil.getRgCode();
+    return rg_code;
+  }
+
+  @Override
+  public String getUploadRootPath() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_ROOT_PATH' ");
+    List list = null;
+    try {
+      list = dao.findBySql(strSQL.toString());
+      strSQL = null;
+    } catch (Exception e) {
+      gov.df.fap.service.util.log.Log.error(e.getMessage()
+        + org.apache.commons.lang.exception.ExceptionUtils.getStackTrace(e));
+    }
+    XMLData data = (XMLData) list.get(0);
+    String uploadRootPath = (String) data.get("chr_value");
+    return uploadRootPath;
+  }
+
+  /** 
+   * 根据byte数组，生成文件 
+   */
+  public static void makeFile(byte[] bfile, String filePath, String fileName) {
+    BufferedOutputStream bos = null;
+    FileOutputStream fos = null;
+    File file = null;
+    try {
+      File dir = new File(filePath);
+      if (!dir.exists()) {//判断文件目录是否存在  
+        if (!dir.mkdirs()) {
+          throw new Exception("无法创建路径：[" + dir + "]");
+        }
+      }
+      file = new File(filePath + "\\" + fileName);
+      fos = new FileOutputStream(file);
+      bos = new BufferedOutputStream(fos);
+      bos.write(bfile);
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      if (bos != null) {
+        try {
+          bos.close();
+        } catch (IOException e1) {
+          e1.printStackTrace();
+        }
+      }
+      if (fos != null) {
+        try {
+          fos.close();
+        } catch (IOException e1) {
+          e1.printStackTrace();
+        }
+      }
+    }
+  }
+
+  public long getTotalSizeOfFilesInDir(final File file) {
+    if (file.isFile())
+      return file.length();
+    final File[] children = file.listFiles();
+    long total = 0;
+    if (children != null)
+      for (final File child : children)
+        total += getTotalSizeOfFilesInDir(child);
+    return total;
+  }
+
+  /**
+   * 检查磁盘空间大小是否符合附件上传需求
+   * @param uploadPath 附件上传目录
+   * @param attachSize 附件大小
+   * @param limitSize 文件夹下总的文件大小上限
+   * @return
+   */
+  public Map<String, Object> checkDiskSize(String uploadPath, long attachSize, long limitSize) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String partition = null;
+    String os = System.getProperty("os.name");
+    if (os != null) {
+      os = os.toLowerCase();
+    } else {
+      map.put("errorCode", "-1");
+      map.put("errorMsg", "无法获知操作系统的类型！");
+      return map;
+    }
+    if (os != null && os.indexOf("windows") != -1) {
+      String partitionLable = uploadPath.split(":")[0];
+      if (partitionLable == null || "".equals(partitionLable) || partitionLable.trim().isEmpty()) {
+        map.put("errorCode", "-1");
+        map.put("errorMsg", "磁盘分区未知");
+        return map;
+      }
+      partition = uploadPath.split(":")[0] + ":";
+    }
+    if (os != null && os.indexOf("linux") != -1) {
+      partition = uploadPath;
+    }
+
+    if (partition == null || "".equals(partition) || partition.trim().isEmpty()) {
+      map.put("errorCode", "-1");
+      map.put("errorMsg", "磁盘分区未知");
+      return map;
+    }
+
+    File diskPartition = new File(partition);
+    if (!diskPartition.exists()) {//判断文件目录是否存在  
+      if (!diskPartition.mkdirs()) {
+        map.put("errorCode", "-1");
+        map.put("errorMsg", "无法创建目录：[" + partition + "]");
+        return map;
+      }
+    }
+    if (!diskPartition.isDirectory()) {
+      map.put("errorCode", "-1");
+      map.put("errorMsg", "非合法的文件目录：[" + partition + "]");
+      return map;
+    }
+
+    //long totalCapacity = diskPartition.getTotalSpace();
+    // long usablePatitionSpace = diskPartition.getUsableSpace();
+    long freePartitionSpace = diskPartition.getFreeSpace();
+
+    if (freePartitionSpace < attachSize) {
+      map.put("errorCode", "-1");
+      map.put("errorMsg", "该分区磁盘容量不足！");
+      return map;
+    }
+
+    File file = new File(uploadPath);
+    if (!file.exists()) {//判断文件目录是否存在  
+      if (!file.mkdirs()) {
+        map.put("errorCode", "-1");
+        map.put("errorMsg", "无法创建目录：[" + file + "]");
+        return map;
+      }
+    }
+    if (!file.isDirectory()) {
+      map.put("errorCode", "-1");
+      map.put("errorMsg", "非合法的文件目录：[" + file + "]");
+      return map;
+    }
+    long totalSizeOfFilesInDir = getTotalSizeOfFilesInDir(file);
+    if (totalSizeOfFilesInDir > limitSize) {
+      map.put("errorCode", "-1");
+      map.put("errorMsg", "该目录[" + uploadPath + "]下所有文件的总大小(" + totalSizeOfFilesInDir / (1024.0 * 1024) + "M)超出预期("
+        + limitSize / (1024.0 * 1024) + "M)限制大小！");
+      return map;
+    }
+
+    if (attachSize > limitSize - totalSizeOfFilesInDir) {
+      map.put("errorCode", "-1");
+      map.put("errorMsg", "该附件大小超过上传目录可利用的剩余空间[" + (limitSize - totalSizeOfFilesInDir) / (1024.0 * 1024) + "M]！");
+      return map;
+    }
+
+    return map;
+
+  }
+
+}

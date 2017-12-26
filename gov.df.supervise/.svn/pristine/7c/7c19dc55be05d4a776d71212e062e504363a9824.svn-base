@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gov.df.supervise.service.csofacc.csofAccDao">
+<!-- 查询监管类型树 -->
+<select id="getSupType" parameterType="java.lang.String" resultType="java.util.Map">
+select * from ${ele_source} a where 
+exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and r.user_id= #{user_id}
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and (d.ele_code='CSOF_SUPTYPE' and (d.ele_value='#' or d.ele_value=a.CHR_CODE))
+) order by a.level_num,a.chr_code
+</select>
+<!-- 监管事项 -->
+<insert id="saveAccSup" parameterType="java.util.Map">
+insert into CSOF_ACC_SUP(ID,SID,SUP_NO,SUP_NAME,STATUS,IS_VALID,IS_END,MOFDEP_ID,MOFDEP_CODE,MOFDEP_NAME,OID,DEP_ID,DEP_CODE,DEP_NAME,SUP_TYPE_ID,SUP_TYPE_CODE,SUP_TYPE_NAME,OBJ_TYPE_ID,OBJ_TYPE_CODE,OBJ_TYPE_NAME,IS_ALLOBJ,SUP_NUM,WORK_TYPE,SUP_MODE,SUP_CYCLE,START_DATE,END_DATE,SUP_CONTENT,REMARK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE,SET_YEAR,RG_CODE,BOOK_ID,SET_ID,SET_MONTH,YEAR,WORKLOAD,FUND_SCALE,ACC_ID)
+ values (#{id},#{sid},#{sup_no},#{sup_name},#{status},#{is_valid},#{is_end},#{mofdep_id},#{mofdep_code},#{mofdep_name},#{oid},#{dep_id},#{dep_code},#{dep_name},#{sup_type_id},#{sup_type_code},#{sup_type_name},#{obj_type_id},#{obj_type_code},#{obj_type_name},#{is_allobj},#{sup_num},#{work_type},#{sup_mode},#{sup_cycle},#{start_date},#{end_date},#{sup_content},#{remark},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date},#{set_year},#{rg_code},#{book_id},#{set_id},#{set_month},#{year},#{workload},#{fund_scale},#{acc_id})
+</insert>
+<select id="getAccSup" parameterType="java.lang.String" resultType="java.util.Map">
+select * from CSOF_ACC_SUP where ID = #{id} 
+</select>
+<update id="updateAccSup" parameterType="java.util.Map">
+ update CSOF_ACC_SUP set SUP_NO = #{sup_no},SUP_NAME = #{sup_name},STATUS = #{status},IS_VALID = #{is_valid},
+      IS_END = #{is_end},
+      <if test="mofdep_id != null and mofdep_id !=''">
+      MOFDEP_ID = #{mofdep_id},
+     </if>
+     <if test="mofdep_name != null and mofdep_name !=''">
+      MOFDEP_NAME = #{mofdep_name},
+     </if>
+     <if test="mofdep_code != null and mofdep_code !=''">
+    MOFDEP_CODE =  #{mofdep_code},
+     </if>
+      OID = #{oid},
+        <if test="dep_id != null and dep_id !=''">
+   DEP_ID = #{dep_id},
+     </if>
+           <if test="dep_code != null and dep_code !=''">
+   DEP_CODE = #{dep_code},
+     </if>
+           <if test="dep_name != null and dep_name !=''">
+  DEP_NAME = #{dep_name},
+     </if>
+              <if test="sup_type_id != null and sup_type_id !=''">
+ SUP_TYPE_ID = #{sup_type_id},
+     </if>
+               <if test="sup_type_code != null and sup_type_code !=''">
+  SUP_TYPE_CODE = #{sup_type_code},
+     </if>
+               <if test="sup_type_name != null and sup_type_name !=''">
+  SUP_TYPE_NAME = #{sup_type_name},
+     </if> 
+                  <if test="obj_type_id != null and obj_type_id !=''">
+ OBJ_TYPE_ID = #{obj_type_id},
+     </if> 
+                  <if test="obj_type_code != null and obj_type_code !=''">
+ OBJ_TYPE_CODE = #{obj_type_code},
+     </if> 
+                  <if test="obj_type_name != null and obj_type_name !=''">
+  OBJ_TYPE_NAME = #{obj_type_name},
+     </if> 
+       IS_ALLOBJ = #{is_allobj},SUP_NUM = #{sup_num},WORK_TYPE = #{work_type},SUP_MODE = #{sup_mode},SUP_CYCLE = #{sup_cycle},
+      START_DATE = #{start_date},END_DATE = #{end_date},SUP_CONTENT = #{sup_content}, REMARK = #{remark},CREATE_USER = #{create_user},CREATE_DATE = #{create_date},LATEST_OP_USER = #{latest_op_user},LATEST_OP_DATE = #{latest_op_date},SET_YEAR = #{set_year},RG_CODE = #{rg_code}
+    where SID = #{sid}
+</update>
+<delete id="deleteAccSup" parameterType="java.lang.String">
+delete from CSOF_ACC_SUP where SID = #{sid}
+</delete>
+
+<!-- 工作记录 -->
+<insert id="saveAccWork" parameterType="java.util.Map">
+insert into CSOF_ACC_WORK(ID,WORK_NO,SID,SUP_NO,SUP_NAME,IS_VALID,IS_END,MOFDEP_ID,MOFDEP_CODE,MOFDEP_NAME,OID,OBJ_TYPE_ID,OBJ_TYPE_CODE,OBJ_TYPE_NAME,WORK_TYPE,WORK_PROGRESS,WORKLOAD,FUND_SCALE,REGISTRATION_TIME,REMARK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE,EXECUTOR,SET_YEAR,RG_CODE,SET_MONTH,BOOK_ID,YEAR,SET_ID)
+ values (#{id},#{work_no},#{sid},#{sup_no},#{sup_name},#{is_valid},#{is_end},#{mofdep_id},#{mofdep_code},#{mofdep_name},#{oid},#{obj_type_id},#{obj_type_code},#{obj_type_name},#{work_type},#{work_progress},#{workload},#{fund_scale},#{registration_time},#{remark},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date},#{executor},#{set_year},#{rg_code},#{set_month},#{book_id},#{year},#{set_id})
+</insert>
+<select id="getAccWork" parameterType="java.lang.String" resultType="java.util.Map">
+select * from CSOF_ACC_WORK where SID = #{sid}
+</select>
+<delete id="deleteAllAccWork" parameterType="java.lang.String">
+delete from CSOF_ACC_WORK where SID = #{sid}
+</delete>
+<delete id="deleteAccWork" parameterType="java.util.Map">
+delete from CSOF_ACC_WORK where SID = #{sid} and ID = #{id}
+</delete>
+<!-- 通过新增工作记录时sid查询事项表的工作量和资金规模 -->
+<select id="findAccSupBySid"  parameterType="java.lang.String"  resultType="gov.df.supervise.bean.csofacc.csofAccSupEntity">
+select * from csof_acc_sup where sid = #{sid}
+</select>
+<!-- 回写资金规模和工作量到事项表里 -->
+<update id="updateAccSupByWorkload" parameterType="java.util.Map">
+update csof_acc_sup set WORKLOAD = #{workload},FUND_SCALE = #{fund_scale} where SID = #{sid}
+</update>
+<!-- 问题记录 -->
+<insert id="saveAccProblem" parameterType="java.util.Map">
+insert into CSOF_ACC_PROBLEM (ID,SID,SUP_NO,SUP_NAME,IS_VALID,IS_END,OID,OBJ_TYPE_ID,OBJ_TYPE_CODE,OBJ_TYPE_NAME,DISCOVER_PROBLEMS,AUDIT_BASIS,AUDIT_OPINION,HANDLE,GROUPING_NAME,RECORDING_USER,RECORDING_TIME,REMARK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE,SET_YEAR,RG_CODE)
+ values (#{id},#{sid},#{sup_no},#{sup_name},#{is_valid},#{is_end},#{oid},#{obj_type_id},#{obj_type_code},#{obj_type_name},#{discover_problems},#{audit_basis},#{audit_opinion},#{handle},#{grouping_name},#{recording_user},#{recording_time},#{remark},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date},#{set_year},#{rg_code})
+</insert>
+<select id="getAccProblem" parameterType="java.lang.String" resultType="java.util.Map">
+select * from CSOF_ACC_PROBLEM where SID = #{sid}
+</select>
+<update id="updateAccProblem" parameterType="java.util.Map">
+ update CSOF_ACC_PROBLEM set SUP_NO = #{sup_no},SUP_NAME = #{sup_name},IS_VALID = #{is_valid},
+      IS_END = #{is_end},OID = #{oid}, OBJ_TYPE_ID = #{obj_type_id},
+      OBJ_TYPE_CODE = #{obj_type_code},OBJ_TYPE_NAME = #{obj_type_name}, DISCOVER_PROBLEMS = #{discover_problems},AUDIT_BASIS = #{audit_basis},AUDIT_OPINION = #{audit_opinion},
+      HANDLE = #{handle},GROUPING_NAME = #{grouping_name},RECORDING_USER = #{recording_user},RECORDING_TIME = #{recording_time},REMARK = #{remark},CREATE_USER = #{create_user},CREATE_DATE = #{create_date},LATEST_OP_USER = #{latest_op_user},LATEST_OP_DATE = #{latest_op_date},SET_YEAR = #{set_year},RG_CODE = #{rg_code}
+    where SID = #{sid} and ID = #{id}
+</update>
+<delete id="deleteAllAccProblem" parameterType="java.lang.String">
+delete from CSOF_ACC_PROBLEM where SID = #{sid}
+</delete>
+<delete id="deleteAccProblem" parameterType="java.util.Map">
+delete from CSOF_ACC_PROBLEM where SID = #{sid} and ID = #{id}
+</delete>
+<!-- 登记界面的树 -->
+<select id="getSupData"  parameterType="java.util.Map" resultType="java.util.Map">
+select t.chr_id,
+       t.chr_code,
+       t.chr_name,
+       '' as parent_id,
+       '1' as level_num,
+       '0' as is_leaf,
+       'TYPE' as type_code
+  from ${ele_source} t
+ where t.enabled = 1
+  and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and r.user_id= #{user_id}
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and (d.ele_code='CSOF_SUPTYPE' and (d.ele_value='#' or d.ele_value=t.CHR_CODE))
+)
+union all
+select s.sid as chr_id,
+       s.sup_no as chr_code,
+       s.sup_name as chr_name,
+       s.sup_type_id as parent_id,
+       '2' as level_num,
+       '1' as is_leaf,
+       'SUP' as type_code
+  from csof_acc_sup s
+ where s.is_valid = 1 
+ and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and r.user_id= #{user_id}
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and (d.ele_code='CSOF_SUPTYPE' and (d.ele_value='#' or d.ele_value=s.SUP_TYPE_CODE))
+     and exists (
+  select 1 from csof_acc_book_user bu 
+    where bu.book_id = s.book_id 
+      and (bu.acc_id= #{acc_id} or bu.acc_id='#')
+      and bu.oid=s.oid 
+      and bu.user_id= #{user_id}
+)
+)
+</select>
+<!-- 点击监管类型过滤树 -->
+<select id="getSupDataById"  parameterType="java.util.Map" resultType="java.util.Map">
+select t.chr_id,
+       t.chr_code,
+       t.chr_name,
+       '' as parent_id,
+       '1' as level_num,
+       '0' as is_leaf,
+       'TYPE' as type_code
+  from ${ele_source} t
+ where t.enabled = 1 and t.chr_id = #{chr_id}
+   and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and r.user_id= #{user_id}
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and (d.ele_code='CSOF_SUPTYPE' and (d.ele_value='#' or d.ele_value=t.CHR_CODE))
+)
+union all
+select s.sid as chr_id,
+       s.sup_no as chr_code,
+       s.sup_name as chr_name,
+       s.sup_type_id as parent_id,
+       '2' as level_num,
+       '1' as is_leaf,
+       'SUP' as type_code
+  from csof_acc_sup s
+ where s.is_valid = 1 and s.sup_type_id = #{chr_id}
+  and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and r.user_id= #{user_id}
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and (d.ele_code='CSOF_SUPTYPE' and (d.ele_value='#' or d.ele_value=s.SUP_TYPE_CODE))
+     and exists (
+  select 1 from csof_acc_book_user bu 
+    where bu.book_id = s.book_id 
+      and (bu.acc_id= #{acc_id} or bu.acc_id='#')
+      and bu.oid=s.oid 
+      and bu.user_id= #{user_id}
+)
+)
+</select>
+<update id="updateSupStatus" parameterType="java.util.Map">
+update  csof_acc_sup set STATUS = #{status} where SID = #{sid}
+</update>
+<!-- 得到月结树 -->
+<select id="getBookSetById" parameterType="java.util.Map" resultType="java.util.Map">
+select * from(
+<!-- 1.1 流程中，当前菜单待办理 --> 
+select decode(a.is_do, '1', '0', '11') as status_code2,
+       (select '待'||n.node_name
+          from csof_wf_nodes n
+         where n.node_id = mn.cur_node_id) as status_name,
+       a.*
+  from vw_csof_acc_book_set a left join csof_wf_menu_node mn on mn.billtype_code=a.billtype_code and mn.menu_id=#{menu_id}
+ where 1=1
+   and a.IS_CLOSE = 1
+   and a.IS_END = 0
+   and a.TYPE_CODE = 'SET_ID'
+   and a.book_id = #{book_id}
+   and a.node_id||'.'||a.status_code in
+       (mn.from_node_id||'.'||1, mn.cur_node_id||'.'||0)
+   and oid = #{oid}
+<!-- 1.2 流程中，当前菜单已办理 -->
+union all
+select '1' as status_code2,
+       (select '已'||n.node_name
+          from csof_wf_nodes n
+         where n.node_id = mn.cur_node_id) as status_name,
+       a.*
+  from vw_csof_acc_book_set a left join csof_wf_menu_node mn on mn.billtype_code=a.billtype_code and mn.menu_id=#{menu_id}
+ where 1=1
+   and a.IS_CLOSE = 1
+   and a.IS_END = 0
+   and a.TYPE_CODE = 'SET_ID'
+   and a.book_id = #{book_id}
+   and a.node_id||'.'||a.status_code in (mn.cur_node_id||'.'||1)
+   and oid = #{oid}
+
+<!-- 1.3 流程中，非当前菜单办理 --> 
+union all
+select '9' as status_code2,
+       (select decode(a.status_code, '0', '待', '1', '已')||n.node_name
+          from csof_wf_nodes n
+         where n.node_id = a.node_id) as status_name,
+       a.*
+  from vw_csof_acc_book_set a left join csof_wf_menu_node mn on mn.billtype_code=a.billtype_code and mn.menu_id=#{menu_id}
+ where 1=1
+   and a.IS_CLOSE = 1
+   and a.IS_END = 0
+   and a.TYPE_CODE = 'SET_ID'
+   and a.book_id = #{book_id}
+   and a.node_id||'.'||a.status_code not in
+       (mn.cur_node_id||'.'||1,
+        mn.from_node_id||'.'||1,
+        mn.cur_node_id||'.'||0)
+   and oid = #{oid}
+  
+<!-- 2 未进流程，待月结/待汇总数据(判断 只认月结和汇总界面的查询方法,才调用此句sql) --> 
+union all
+select '10' as status_code2, a.status as status_name, a.*
+  from vw_csof_acc_book_set a
+ where 1=1
+   and a.IS_CLOSE = 0
+   and a.IS_END = 0
+   and a.TYPE_CODE = 'SET_ID'
+   and a.book_id = #{book_id}
+   and oid = #{oid}
+  
+<!-- 3 已流程结束 --> 
+union all
+select '9' as status_code2,a.status as status_name, a.*
+  from vw_csof_acc_book_set a
+ where 1=1
+   and a.IS_END = 1
+   and a.TYPE_CODE = 'SET_ID'
+   and a.book_id = #{book_id}
+   and oid = #{oid}
+<!-- 4 非set_id节点数据，与流程无关系 -->
+union all
+select a.status_code as status_code2, a.status as status_name, a.*
+  from vw_csof_acc_book_set a
+ where 1=1
+   and a.TYPE_CODE != 'SET_ID'
+   and a.book_id = #{book_id}
+   and oid = #{oid})order by chr_id
+</select>
+<select id="getAccSupByBookId" parameterType="java.lang.String" resultType="java.util.Map">
+select * from csof_acc_book_set where book_id = #{book_id} and is_open = 1 and is_close = 0
+</select>
+<select id="getAccWorkByMonth" parameterType="java.util.Map" resultType="java.util.Map">
+select * from csof_acc_sup where book_id = #{book_id} and year =#{set_year} and set_month = #{set_month} order by sup_no
+</select>
+<select id="getAccWorkEndByMonth" parameterType="java.util.Map" resultType="java.util.Map">
+select * from csof_acc_sup_end where book_id = #{book_id} and year =#{set_year} and set_month = #{set_month} order by sup_no
+</select>
+
+<!-- 月结 -->
+<select id="getYear" parameterType="java.lang.String" resultType="java.lang.String">
+select chr_code from vw_csof_acc_book_set where chr_id = #{parent_id}
+</select>
+<select id="getSetId" parameterType="java.util.Map" resultType="java.lang.String">
+select ID from csof_acc_book_set where set_month = #{set_month} and set_year = #{set_year} and ID like concat(#{book_id},'%')
+</select>
+<update id="updateAccBookBySetid"  parameterType="java.util.Map">
+update csof_acc_book_set set is_close = #{is_close} where ID = #{set_id}
+</update>
+<update id="updateAccBookSet"  parameterType="java.util.Map">
+update csof_acc_book_set set is_open = #{is_open} where ID = #{setId}
+</update>
+<update id="updateAccSupBySid" parameterType="java.util.Map">
+update CSOF_ACC_SUP set set_id = #{setId},set_month = #{set_month},year = #{set_year} where id = #{id} and status =(select status from CSOF_ACC_SUP where id = #{id} and status != '100%')
+</update>
+<insert id="saveAccSupEnd" parameterType="java.util.Map">
+insert into CSOF_ACC_SUP_END (ID,SID,SUP_NO,SUP_NAME,STATUS,IS_VALID,IS_END,MOFDEP_ID,MOFDEP_CODE,MOFDEP_NAME,OID,DEP_ID,DEP_CODE,DEP_NAME,SUP_TYPE_ID,SUP_TYPE_CODE,SUP_TYPE_NAME,OBJ_TYPE_ID,OBJ_TYPE_CODE,OBJ_TYPE_NAME,IS_ALLOBJ,SUP_NUM,WORK_TYPE,SUP_MODE,SUP_CYCLE,START_DATE,END_DATE,SUP_CONTENT,REMARK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE,SET_YEAR,RG_CODE,BOOK_ID,SET_ID,SET_MONTH,YEAR,WORKLOAD,FUND_SCALE,ACC_ID,DEP_TASK_ID,TASK_NO,TASK_NAME)
+ values (#{id},#{sid},#{sup_no},#{sup_name},#{status},#{is_valid},#{is_end},#{mofdep_id},#{mofdep_code},#{mofdep_name},#{oid},#{dep_id},#{dep_code},#{dep_name},#{sup_type_id},#{sup_type_code},#{sup_type_name},#{obj_type_id},#{obj_type_code},#{obj_type_name},#{is_allobj},#{sup_num},#{work_type},#{sup_mode},#{sup_cycle},#{start_date},#{end_date},#{sup_content},#{remark},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date},#{set_year},#{rg_code},#{book_id},#{set_id},#{set_month},#{year},#{workload},#{fund_scale},#{acc_id},#{dep_task_id},#{task_no},#{task_name})
+</insert>
+<select id="getCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+select count(*) from CSOF_ACC_SUP_END where ID = #{id} and status = '100%'
+</select>
+
+<!-- 反月结 -->
+<delete id="deleteAccSupEnd" parameterType="java.lang.String">
+delete from CSOF_ACC_SUP_END where id = #{id} and set_id = #{set_id}
+</delete>
+<select id="getCountEnd" parameterType="java.util.Map" resultType="java.lang.Integer">
+select count(*) from CSOF_ACC_SUP_END where ID = #{id} and set_id = #{set_id}
+</select>
+<update id="modityAccSupBysid" parameterType="java.util.Map">
+update CSOF_ACC_SUP set set_id = #{set_id},set_month = #{set_month},year = #{set_year} where id = #{id} and status =(select status from CSOF_ACC_SUP where id = #{id} and status != '100%')
+</update>
+
+<!-- 得到台账菜单 -->
+<select id="getAccmenu" parameterType="java.util.Map" resultType="java.util.Map">
+select distinct
+    b.book_type_id,
+    b.book_type_code,
+    b.book_type_name,
+    b.book_id,
+    b.book_code,
+    b.book_name,
+    b.set_year,b.set_month,b.dep_id,b.dep_name,b.dep_code,b.oid,b.sum_flag,
+    u.acc_id,
+    decode(u.acc_id,'#','',(select a.chr_code from csof_e_acc a where a.chr_id=u.acc_id)) as acc_code,
+    decode(u.acc_id,'#','',(select a.chr_name from csof_e_acc a where a.chr_id=u.acc_id)) as acc_name,
+    m.menu_id,
+    m.menu_code,
+    m.menu_name,
+    m.disp_order,
+    m.step_shortcut as short_name,
+    m.tips,
+    m.icon,
+    m.url,
+    m.menu_parameter,
+    m.enabled
+  from  csof_acc_book b,csof_acc_book_user u, sys_menu m
+ where 1=1 
+   and m.enabled=1
+   and b.is_valid=1
+   and b.book_id=u.book_id
+   and b.oid = u.oid
+   and b.oid = #{oid}
+   and u.oid=#{oid} 
+   and u.user_id=#{user_id}
+   and (u.acc_id='#' or exists (select 1 from csof_e_acc a where a.chr_id=u.acc_id and a.enabled=1))
+   and exists (select 1 from sys_menu bm where bm.screentype=b.sum_flag and bm.menu_id=m.menu_id)
+   and exists (select 1 from CSOF_S_BOOKTYPE_FLOW s,csof_wf_menu_node n where s.Book_Type_Id=B.BOOK_TYPE_ID and s.wf_id=n.wf_id and n.menu_id=m.menu_id and s.oid=#{oid})
+   and exists (select 1 from sys_role_menu rm,sys_user_role_rule ur where rm.role_id=ur.role_id and rm.menu_id=m.menu_id and ur.user_id=#{user_id})
+ order by  book_type_code,sum_flag desc,book_code,acc_code,disp_order, menu_code
+</select>
+<!-- 台账处汇总 -->
+<!-- 得到处汇总左侧树 -->
+<select id="getBookDepById"  parameterType="java.util.Map" resultType="java.util.Map">
+select * from(
+<!-- 1.1 流程中，当前菜单待办理 --> 
+select decode(a.is_do, '1', '0', '11') as status_code2,
+       (select '待'||n.node_name
+          from csof_wf_nodes n
+         where n.node_id = mn.cur_node_id) as status_name,
+       a.*
+  from vw_csof_acc_book_dep a left join csof_wf_menu_node mn on mn.billtype_code=a.billtype_code and mn.menu_id=#{menu_id}
+ where 1=1
+   and a.IS_CLOSE = 1
+   and a.IS_END = 0
+   and a.TYPE_CODE = 'SET_ID'
+   and a.book_id = #{book_id}
+   and a.node_id||'.'||a.status_code in
+       (mn.from_node_id||'.'||1, mn.cur_node_id||'.'||0)
+   and oid = #{oid} 
+<!-- 1.2 流程中，当前菜单已办理 -->
+union all
+select '1' as status_code2,
+       (select '已'||n.node_name
+          from csof_wf_nodes n
+         where n.node_id = mn.cur_node_id) as status_name,
+       a.*
+  from vw_csof_acc_book_dep a left join csof_wf_menu_node mn on mn.billtype_code=a.billtype_code and mn.menu_id=#{menu_id}
+ where 1=1
+   and a.IS_CLOSE = 1
+   and a.IS_END = 0
+   and a.TYPE_CODE = 'SET_ID'
+   and a.book_id = #{book_id}
+   and a.node_id||'.'||a.status_code in (mn.cur_node_id||'.'||1)
+   and oid = #{oid}
+<!-- 1.3 流程中，非当前菜单办理 --> 
+union all
+select '9' as status_code2,
+       (select decode(a.status_code, '0', '待', '1', '已')||n.node_name
+          from csof_wf_nodes n
+         where n.node_id = a.node_id) as status_name,
+       a.*
+  from vw_csof_acc_book_dep a left join csof_wf_menu_node mn on mn.billtype_code=a.billtype_code and mn.menu_id=#{menu_id}
+ where 1=1
+   and a.IS_CLOSE = 1
+   and a.IS_END = 0
+   and a.TYPE_CODE = 'SET_ID'
+   and a.book_id = #{book_id}
+   and a.node_id||'.'||a.status_code not in
+       (mn.cur_node_id||'.'||1,
+        mn.from_node_id||'.'||1,
+        mn.cur_node_id||'.'||0)
+   and oid = #{oid}
+<!-- 2 未进流程，待月结/待汇总数据(判断 只认月结和汇总界面的查询方法,才调用此句sql) --> 
+union all
+select '10' as status_code2, a.status as status_name, a.*
+  from vw_csof_acc_book_dep a
+ where 1=1
+   and a.IS_CLOSE = 0
+   and a.IS_END = 0
+   and a.TYPE_CODE = 'SET_ID'
+   and a.book_id = #{book_id}
+   and oid = #{oid}
+<!-- 3 已流程结束 --> 
+union all
+select '9' as status_code2,a.status as status_name, a.*
+  from vw_csof_acc_book_dep a
+ where 1=1
+   and a.IS_END = 1
+   and a.TYPE_CODE = 'SET_ID'
+   and a.book_id = #{book_id}
+   and oid = #{oid}
+<!-- 4 非set_id节点数据，与流程无关系 -->
+union all
+select a.status_code as status_code2, a.status as status_name, a.*
+  from vw_csof_acc_book_dep a
+ where 1=1
+   and a.TYPE_CODE != 'SET_ID'
+   and a.book_id = #{book_id}
+   and oid = #{oid})  order by chr_id
+</select>
+<!-- 点击树显示详细信息 -->
+<select id="getAccSupEndByBook" parameterType="java.util.Map" resultType="java.util.Map">
+select * from csof_acc_sup_end where SET_MONTH = #{set_month} and YEAR = #{year} and BOOK_ID like concat(#{dep_code},'%')
+</select>
+<!-- 点击树显示处汇总表数据 -->
+<select id="getAccSupDepBySetid" parameterType="java.util.Map" resultType="java.util.Map">
+select * from csof_acc_sup_dep where SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id} and BOOK_ID = #{book_id} order by sup_type_id
+</select>
+<!-- 点击树显示明细台账月结数据 -->
+<select id="getAccSupEndBysetid" parameterType="java.util.Map" resultType="java.util.Map">
+select * from csof_acc_sup_end where  SET_ID =#{chr_code}  order by sup_no
+</select>
+<!-- 通过 sid,set_id查询事项 -->
+<select id="FindAccSup" parameterType="java.util.Map" resultType="gov.df.supervise.bean.csofacc.csofAccSupEndEntity">
+select * from csof_acc_sup_end where ID = #{end_id} and SET_ID = #{set_id}
+</select>
+<!-- 通过sup_name,sup_type_id查询事项名字和监管类型相同的事项数量 -->
+<select id="getAccCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+select count(*) from CSOF_ACC_SUP_DEP where SUP_NAME = #{sup_name} and SUP_TYPE_ID = #{sup_type_id} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</select>
+
+<!-- 通过dep_task_id,sid查询过账的事项数量 -->
+<select id="getTaskAccCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+select count(*) from CSOF_ACC_SUP_DEP where dep_task_id = #{dep_task_id} and SID = #{sid} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</select>
+<!-- 通过sup_name,sup_type_id查询事项名字和监管类型相同的汇总表信息 -->
+<select id="getAccSupDep" parameterType="java.util.Map" resultType="java.util.Map">
+select * from CSOF_ACC_SUP_DEP where  SUP_NAME = #{sup_name} and SUP_TYPE_ID = #{sup_type_id} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</select>
+<!-- 通过dep_task_id,sid查询汇总表信息 -->
+<select id="getTaskAccSupDep" parameterType="java.util.Map" resultType="java.util.Map">
+select * from CSOF_ACC_SUP_DEP where  dep_task_id = #{dep_task_id} and SID = #{sid} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</select>
+
+<!--  通过sup_name,sup_type_id修改汇总表里的值 -->
+<update id="updateAccSupDep" parameterType="java.util.Map">
+update CSOF_ACC_SUP_DEP set OBJ_TYPE_NAME = #{obj_type_name},SUP_CONTENT = #{sup_content},FUND_SCALE = #{fund_scale},
+TIME_REQUIREMENT = #{time_requirement},WORKLOAD = #{workload},REMARK = #{remark} where SUP_NAME = #{sup_name} and SUP_TYPE_ID = #{sup_type_id} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</update>
+
+<!--  通过dep_task_id,sid修改汇总表里的值 -->
+<update id="updateTaskAccSupDep" parameterType="java.util.Map">
+update CSOF_ACC_SUP_DEP set OBJ_TYPE_NAME = #{obj_type_name},SUP_CONTENT = #{sup_content},FUND_SCALE = #{fund_scale},
+TIME_REQUIREMENT = #{time_requirement},WORKLOAD = #{workload},REMARK = #{remark} where dep_task_id = #{dep_task_id} and SID = #{sid} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</update>
+<!-- 插入数据到处汇总表中 -->
+<insert id="saveAccSupDep" parameterType="java.util.Map">
+insert into CSOF_ACC_SUP_DEP (ID,SUP_NAME,IS_VALID,IS_END,OID,DEP_ID,DEP_CODE,DEP_NAME,SUP_TYPE_ID,SUP_TYPE_CODE,SUP_TYPE_NAME,REGULATORY_AREA,STATUS,WORK_TYPE,REGULATORY_RESULTS,FEEDBACK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE,SET_YEAR,RG_CODE,OBJ_TYPE_NAME,SUP_CONTENT,FUND_SCALE,TIME_REQUIREMENT,WORKLOAD,REMARK,SET_MONTH,YEAR,BOOK_ID,SET_ID,ACC_ID,DEP_TASK_ID,TASK_NO,TASK_NAME,SID,SUP_NO)
+ values (#{id},#{sup_name},#{is_valid},#{is_end},#{oid},#{dep_id},#{dep_code},#{dep_name},#{sup_type_id},#{sup_type_code},#{sup_type_name},#{regulatory_area},#{status},#{work_type},#{regulatory_results},#{feedback},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date},#{set_year},#{rg_code},#{obj_type_name},#{sup_content},#{fund_scale},#{time_requirement},#{workload},#{remark},#{set_month},#{year},#{book_id},#{set_id},#{acc_id},#{dep_task_id},#{task_no},#{task_name},#{sid},#{sup_no})
+</insert>
+<!-- 汇总成功后回写汇总表id到月结表里 -->
+<update id="updateAccSupEnd" parameterType="java.util.Map">
+update CSOF_ACC_SUP_END set ACC_SUP_DEP_ID = #{id} where ID = #{end_id} and set_id = #{set_id}
+</update>
+<!-- 通过父级id查询父级的chr_code -->
+<select id="getChrCode" parameterType="java.lang.String"  resultType="java.lang.String">
+select chr_code from vw_csof_acc_book_dep where chr_id = #{parent_id}
+</select>
+
+<!-- 处撤销汇总 -->
+<!-- 撤销汇总，通过sup_name,sup_type_id,set_month,year等条件删除数据 -->
+<delete id="deleteAccSupDep" parameterType="java.util.Map">
+delete from csof_acc_sup_dep where sup_name = #{sup_name} and sup_type_id = #{sup_type_id} and set_month = #{set_month} and year = #{year} and SET_ID = #{set_id}
+</delete>
+<!-- 处撤销汇总，通过dep_task_id,sid,set_month,year等条件删除数据 -->
+<delete id="deleteTaskAccSupDep" parameterType="java.util.Map">
+delete from csof_acc_sup_dep where dep_task_id = #{dep_task_id} and SID = #{sid} and set_month = #{set_month} and year = #{year} and SET_ID = #{set_id}
+</delete>
+<!-- 台账办汇总 -->
+<!-- 台账办汇总树 -->
+<!-- 通过父级id查询父级的chr_code -->
+<select id="getOfficeChrCode" parameterType="java.lang.String"  resultType="java.lang.String">
+select chr_code from vw_csof_acc_book_office where chr_id = #{parent_id}
+</select>
+<select id="getAccSupOfficeById" parameterType="java.util.Map"  resultType="java.util.Map">
+select * from(
+<!-- 1.1 流程中，当前菜单待办理 --> 
+select decode(a.is_do, '1', '0', '11') as status_code2,
+       (select '待'||n.node_name
+          from csof_wf_nodes n
+         where n.node_id = mn.cur_node_id) as status_name,
+       a.*
+  from vw_csof_acc_book_office a left join csof_wf_menu_node mn on mn.billtype_code=a.billtype_code and mn.menu_id=#{menu_id}
+ where 1=1
+   and a.IS_CLOSE = 1
+   and a.IS_END = 0
+   and a.TYPE_CODE = 'SET_ID'
+   and a.book_id = #{book_id}
+   and a.node_id||'.'||a.status_code in
+       (mn.from_node_id||'.'||1, mn.cur_node_id||'.'||0)
+   and oid = #{oid}
+<!-- 1.2 流程中，当前菜单已办理 -->
+union all
+select '1' as status_code2,
+       (select '已'||n.node_name
+          from csof_wf_nodes n
+         where n.node_id = mn.cur_node_id) as status_name,
+       a.*
+  from vw_csof_acc_book_office a left join csof_wf_menu_node mn on mn.billtype_code=a.billtype_code and mn.menu_id=#{menu_id}
+ where 1=1
+   and a.IS_CLOSE = 1
+   and a.IS_END = 0
+   and a.TYPE_CODE = 'SET_ID'
+   and a.book_id = #{book_id}
+   and a.node_id||'.'||a.status_code in (mn.cur_node_id||'.'||1)
+   and oid = #{oid}  
+<!-- 1.3 流程中，非当前菜单办理 --> 
+union all
+select '9' as status_code2,
+       (select decode(a.status_code, '0', '待', '1', '已')||n.node_name
+          from csof_wf_nodes n
+         where n.node_id = a.node_id) as status_name,
+       a.*
+  from vw_csof_acc_book_office a left join csof_wf_menu_node mn on mn.billtype_code=a.billtype_code and mn.menu_id=#{menu_id}
+ where 1=1
+   and a.IS_CLOSE = 1
+   and a.IS_END = 0
+   and a.TYPE_CODE = 'SET_ID'
+   and a.book_id = #{book_id}
+   and a.node_id||'.'||a.status_code not in
+       (mn.cur_node_id||'.'||1,
+        mn.from_node_id||'.'||1,
+        mn.cur_node_id||'.'||0)
+   and oid = #{oid}
+<!-- 2 未进流程，待月结/待汇总数据(判断 只认月结和汇总界面的查询方法,才调用此句sql) --> 
+union all
+select '10' as status_code2, a.status as status_name, a.*
+  from vw_csof_acc_book_office a
+ where 1=1
+   and a.IS_CLOSE = 0
+   and a.IS_END = 0
+   and a.TYPE_CODE = 'SET_ID'
+   and a.book_id = #{book_id}
+   and oid = #{oid} 
+<!-- 3 已流程结束 --> 
+union all
+select '9' as status_code2,a.status as status_name, a.*
+  from vw_csof_acc_book_office a
+ where 1=1
+   and a.IS_END = 1
+   and a.TYPE_CODE = 'SET_ID'
+   and a.book_id = #{book_id}
+   and oid = #{oid}  
+<!-- 4 非set_id节点数据，与流程无关系 -->
+union all
+select a.status_code as status_code2, a.status as status_name, a.*
+  from vw_csof_acc_book_office a
+ where 1=1
+   and a.TYPE_CODE != 'SET_ID'
+   and a.book_id = #{book_id}
+   and oid = #{oid})order by chr_id
+</select>
+<!-- 点击树显示详细信息 -->
+<select id="getAccSupDepByBook" parameterType="java.util.Map"  resultType="java.util.Map">
+select * from csof_acc_sup_dep where SET_MONTH = #{set_month} and YEAR = #{year} and BOOK_ID like concat(#{oid},'%') 
+</select>
+<!-- 点击树显示办汇总表数据 -->
+<select id="getAccSupOfficeBySetid" parameterType="java.util.Map" resultType="java.util.Map">
+select * from csof_acc_sup_office where SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id} and BOOK_ID = #{book_id} order by sup_type_id
+</select>
+<!-- 点击树显示处台账月结数据 -->
+<select id="getAccSupDepBysetid" parameterType="java.util.Map" resultType="java.util.Map">
+select * from csof_acc_sup_dep where  SET_ID =#{chr_code} 
+</select>
+<!-- 通过 id,book_id查询事项 -->
+<select id="FindAccSupOffice" parameterType="java.util.Map" resultType="gov.df.supervise.bean.csofacc.csofAccSupDepEntity">
+select * from csof_acc_sup_dep where  ID = #{acc_sup_dep_id} and SET_ID = #{set_id} 
+</select>
+<!-- 通过sup_name,sup_type_id查询事项名字和监管类型相同的事项数量 -->
+<select id="getAccOfficeCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+select count(*) from CSOF_ACC_SUP_OFFICE where SUP_NAME = #{sup_name} and SUP_TYPE_ID = #{sup_type_id} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</select>
+<!-- 通过sid查询事项名字和监管类型相同的事项数量 -->
+<select id="getTaskAccOfficeCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+select count(*) from CSOF_ACC_SUP_OFFICE where  SID = #{sid} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</select>
+<!-- 通过sup_name,sup_type_id查询事项名字和监管类型相同的办汇总表信息 -->
+<select id="getAccSupOffice" parameterType="java.util.Map" resultType="java.util.Map">
+select * from CSOF_ACC_SUP_OFFICE where  SUP_NAME = #{sup_name} and SUP_TYPE_ID = #{sup_type_id} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</select>
+<!-- 通过sid查询事项名字和监管类型相同的办汇总表信息 -->
+<select id="getTaskAccSupOffice" parameterType="java.util.Map" resultType="java.util.Map">
+select * from CSOF_ACC_SUP_OFFICE where SID = #{sid} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</select>
+<!--  通过sup_name,sup_type_id修改办汇总表里的值 -->
+<update id="updateAccSupOffice" parameterType="java.util.Map">
+update CSOF_ACC_SUP_OFFICE set OBJ_TYPE_NAME = #{obj_type_name},SUP_CONTENT = #{sup_content},FUND_SCALE = #{fund_scale},
+TIME_REQUIREMENT = #{time_requirement},WORKLOAD = #{workload},REMARK = #{remark} where SUP_NAME = #{sup_name} and SUP_TYPE_ID = #{sup_type_id} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</update>
+<!--  通过sid修改办汇总表里的值 -->
+<update id="updateTaskAccSupOffice" parameterType="java.util.Map">
+update CSOF_ACC_SUP_OFFICE set OBJ_TYPE_NAME = #{obj_type_name},SUP_CONTENT = #{sup_content},FUND_SCALE = #{fund_scale},
+TIME_REQUIREMENT = #{time_requirement},WORKLOAD = #{workload},REMARK = #{remark} where SID = #{sid} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</update>
+<!-- 插入数据到办汇总表中 -->
+<insert id="saveAccSupOffice" parameterType="java.util.Map">
+insert into CSOF_ACC_SUP_OffICE (ID,SUP_NAME,IS_VALID,IS_END,OID,SUP_TYPE_ID,SUP_TYPE_CODE,SUP_TYPE_NAME,REGULATORY_AREA,STATUS,WORK_TYPE,REGULATORY_RESULTS,FEEDBACK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE,SET_YEAR,RG_CODE,OBJ_TYPE_NAME,SUP_CONTENT,FUND_SCALE,TIME_REQUIREMENT,WORKLOAD,REMARK,SET_MONTH,YEAR,BOOK_ID,SET_ID)
+ values (#{id},#{sup_name},#{is_valid},#{is_end},#{oid},#{sup_type_id},#{sup_type_code},#{sup_type_name},#{regulatory_area},#{status},#{work_type},#{regulatory_results},#{feedback},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date},#{set_year},#{rg_code},#{obj_type_name},#{sup_content},#{fund_scale},#{time_requirement},#{workload},#{remark},#{set_month},#{year},#{book_id},#{set_id})
+</insert>
+<!-- 汇总成功后回写办汇总表id到处汇总表里 -->
+<update id="motityAccSupDep" parameterType="java.util.Map">
+update CSOF_ACC_SUP_DEP set ACC_SUP_OFFICE_ID = #{id} where ID = #{acc_sup_dep_id} and SET_ID = #{set_id} 
+</update>
+
+<!-- 办撤销汇总 -->
+<!-- 撤销汇总，通过sup_name,sup_type_id,set_month,year等条件删除数据 -->
+<delete id="deleteAccSupOffice" parameterType="java.util.Map">
+delete from csof_acc_sup_office where sup_name = #{sup_name} and sup_type_id = #{sup_type_id} and set_month = #{set_month} and year = #{year} and SET_ID = #{set_id}
+</delete>
+<delete id="deleteTaskAccSupOffice" parameterType="java.util.Map">
+delete from csof_acc_sup_office where sid = #{sid} and set_month = #{set_month} and year = #{year} and SET_ID = #{set_id}
+</delete>
+<!--查询未过账的数据 -->
+<select id="getTaskUser" parameterType="java.util.Map" resultType="java.util.Map">
+select * from vw_csof_task_user u
+where not exists (select 1 from csof_acc_book_log l where l.entity_id=u.id and l.oid=u.oid and table_name= 'VW_CSOF_TASK_USER')
+   and exists (select 1 from sys_user_org o where o.org_id=u.dep_id and o.user_id=#{user_id})
+   and u.oid = #{oid}
+</select>
+<!-- 插入数据到表中 -->
+<insert id="saveAccLog" parameterType="java.util.Map">
+insert into CSOF_ACC_BOOK_LOG (BOOK_ID,ENTITY_ID,TABLE_NAME,ACC_FLAG,ACC_DATE,ACC_USER,DEP_ID,OID)
+ values (#{book_id},#{entity_id},#{table_name},#{acc_flag},#{acc_date},#{acc_user},#{dep_id},#{oid})
+</insert>
+<!-- 把过账的数据写入台账事项表里 -->
+<insert id="saveAccSupById" parameterType="java.util.Map">
+insert into CSOF_ACC_SUP(ID,SID,SUP_NO,SUP_NAME,STATUS,IS_VALID,IS_END,MOFDEP_ID,MOFDEP_CODE,MOFDEP_NAME,OID,DEP_ID,DEP_CODE,DEP_NAME,SUP_TYPE_ID,SUP_TYPE_CODE,SUP_TYPE_NAME,OBJ_TYPE_ID,OBJ_TYPE_CODE,OBJ_TYPE_NAME,IS_ALLOBJ,SUP_NUM,WORK_TYPE,SUP_MODE,SUP_CYCLE,START_DATE,END_DATE,SUP_CONTENT,REMARK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE,SET_YEAR,RG_CODE,BOOK_ID,SET_ID,SET_MONTH,YEAR,WORKLOAD,FUND_SCALE,DEP_TASK_ID,TASK_NO,TASK_NAME,ACC_ID)
+ values (#{id},#{sid},#{sup_no},#{sup_name},#{status},#{is_valid},#{is_end},#{mofdep_id},#{mofdep_code},#{mofdep_name},#{oid},#{dep_id},#{dep_code},#{dep_name},#{sup_type_id},#{sup_type_code},#{sup_type_name},#{obj_type_id},#{obj_type_code},#{obj_type_name},#{is_allobj},#{sup_num},#{work_type},#{sup_mode},#{sup_cycle},#{start_date},#{end_date},#{sup_content},#{remark},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date},#{set_year},#{rg_code},#{book_id},#{set_id},#{set_month},#{year},#{workload},#{fund_scale},#{dep_task_id},#{task_no},#{task_name},#{acc_id})
+</insert>
+<!-- 查询 csof_acc 要素的详细信息 -->
+<select id="getCsofAcc" parameterType="java.util.Map" resultType="java.util.Map">
+select * from  CSOF_E_ACC a where 
+ exists (
+  select 1 from csof_acc_book_user bu 
+    where
+ (bu.acc_id= a.chr_id or bu.acc_id='#')
+and bu.user_id= #{user_id}
+)
+order by a.level_num,a.chr_code
+</select>
+</mapper>

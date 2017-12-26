@@ -1,0 +1,393 @@
+/**
+ * Created by yanqiong on 2017/8/8.
+ */
+require(
+		[ 'jquery', 'knockout', '/df/supervise/ncrd.js', 'bootstrap', 'dateZH',
+				'uui', 'tree', 'grid', 'ip' ],
+		function($, ko, ncrd, _) {
+			window.ko = ko;
+			var tokenid;
+			var options;
+			var pViewType = {
+				VIEWTYPE_INPUT : "001",// 录入视图
+				VIEWTYPE_LIST : "002",// 列表视图
+				VIEWTYPE_QUERY : "003"// 查询视图
+			};
+			var fileData;
+			var num = 0;
+			var elecode;
+			var menuId;
+			var menuName;
+			var BOOK_ID;
+			var BOOK_NAME;
+			var BOOK_GROUP;
+			var DEP_NAME;
+			var SET_YEAR;
+			var SET_MONTH;
+
+			//URL
+			var testURL = '/df/cs/test.do';
+			var btnsURL = '/df/cs/getActionButton.do';//初始化动态按钮获取
+			var getTreeURL = '/df/csofacc/getaccbooksetbyid.do';//获取树的信息getaccbooksetbyid
+			var workGetURL = '/df/csofacc/getaccworkbymonth.do';//通过点击树获取工作记录
+			var monthlyURL = '/df/csofacc/updateAccBookSet.do';//月结
+			var reMonthlyURL = '/df/csofacc/modityAccBookSet.do';//反月结
+			var viewModel = {
+				SearchBookTreeKEY : ko.observable(""),
+				//模糊查询单位树
+				searchBookTree : function() {
+					ncrd.findTreeNode($.fn.zTree.getZTreeObj("bookTree"),viewModel.SearchBookTreeKEY());
+				},
+			    //工作GridDataTable
+				workDataTable: new u.DataTable({
+			        meta: {
+			            
+			        }
+			    }),
+			    //按钮
+			    btnDataTable: new u.DataTable({
+			    	meta: {
+			           
+			        }
+			    }),
+			    bookTreeSetting: {
+	                view:{
+	                    showLine: false,
+	                    selectedMulti: false,
+	                    showIcon: false,
+	                    showTitle: true,
+	                    nameIsHTML: true
+	                },
+	                callback:{
+	                    onClick:function(e,id,node){
+	                        var selectNodeId = node.CHR_ID;
+	                        if(node.LEVEL_NUM == "3"){
+	                        	var bookData = viewModel.bookTreeDataTable.getSimpleData();
+	                        	for(var i=0;i<bookData.length;i++){
+	                        		if(bookData[i].CHR_ID == node.PARENT_ID){
+	                        			$("#accType").html(BOOK_GROUP);
+	    	                        	$("#accDate").html(bookData[i].CHR_NAME+node.CHR_NAME);
+	    	                        	$("#recodeOffice").html(DEP_NAME);
+	    	                        	$("#recodeUser").html(BOOK_NAME.split("台账")[0]);
+	    	                        	$("#accStatus").html(node.STATUS);
+	    	                        	viewModel.refresh(node.CHR_NAME.split("月")[0],node.PARENT_ID);
+	    	                        	break;
+	                        		}
+	                        	}
+	                        }else{
+	                        	$("#accType").html("");
+	                        	$("#accDate").html("");
+	                        	$("#recodeOffice").html("");
+	                        	$("#recodeUser").html("");
+	                        	$("#accStatus").html("");
+	                        	
+	                        }
+	                    }
+	                }
+	            },
+	            bookTreeDataTable: new u.DataTable({
+	                meta: {
+	                	
+	                }
+	            }),
+			};
+			
+			//生成表头
+			viewModel.initData = function() {
+				var current_url = location.search;
+				$.ajax({
+					url : "/df/init/initMsg.do",
+					type : "GET",
+					dataType : "json",
+					async : true,
+					data : options,
+					success : function(datas) {
+						viewModel.viewList = datas.viewlist;// 视图信息
+						viewModel.resList = datas.reslist;// 资源信息
+						viewModel.coaId = datas.coaId;// coaid
+						viewModel.coaDetails = datas.coaDetail;// coa明细
+						viewModel.relations = datas.relationlist;// 关联关系
+						viewModel.initGridData(); //调用初始化表格
+					}
+				});
+			};
+			
+			 // 初始化表格
+	    	viewModel.initGridData = function() {
+	            var queryViewId;
+	            var tableViewDetail;
+	            var queryViewDetail;
+	            for ( var n = 0; n < viewModel.viewList.length; n++) {
+	                var view = viewModel.viewList[n];
+	                viewModel.tableViewDetail = view;
+ 	        	    options["menu_id"] = menuId;
+ 	        	   options["chr_name"] = "";
+	        	    options["book_id"] = BOOK_ID;
+	        	    options["parent_id"] = "";
+                    payViewId = view.viewid;
+                    viewModel.workGridViewModel = ip.initGridWithCallBack(gridCallback,viewModel.tableViewDetail, "workRecodeGrid", workGetURL,options, 1, false,false,false,false);
+	            }
+	        };
+	        
+	        //workgrid查询
+	        viewModel.workGridSearch = function () {
+	        	ip.fuzzyQuery(viewModel.curGridData, "workGridSearchInput", viewModel.workGridViewModel)
+	        };
+	        
+	        //回调函数，定义全局变量viewModel.curGridData并赋值
+	        gridCallback = function(data){
+	        	viewModel.curGridData = data;
+	        };
+	        
+	      //刷新视图
+	        viewModel.refresh = function(chr_name,parent_id) {
+//	        	options["condition"] = ip.getAreaData(viewModel.searchViewModel) + " and clear_date is not null";
+	        	var queryViewId;
+	            var tableViewDetail;
+	            var queryViewDetail;
+	            for ( var n = 0; n < viewModel.viewList.length; n++) {
+	                var view = viewModel.viewList[n];
+	                viewModel.tableViewDetail = view;
+ 	        	    options["menu_id"] = menuId;
+ 	        	    options["chr_name"] = chr_name;
+ 	        	    options["book_id"] = BOOK_ID;
+ 	        	    options["parent_id"] = parent_id;
+                    payViewId = view.viewid;
+                    ip.setGridWithCallBack(gridCallback,viewModel.workGridViewModel, workGetURL,options);
+	            }
+	        }
+	        
+	        //初始化树getTreeURL
+	        viewModel.initTree = function(){
+	        	$.ajax({
+		            type: 'get',
+		            url: getTreeURL + "?tokenid=" + tokenid + "&ajax=noCache",
+		            data: {"book_id":BOOK_ID},
+		            dataType: 'JSON',
+		            async: true,
+		            success: function (result) {
+		            	if(result.errorCode == 0) {
+		            		var data = result.data;
+		            		console.log(data);
+		            		for(var i=0;i<data.length;i++){
+		            			if(data[i].LEVEL_NUM == "1"){
+		            				data[i]["PARENT_ID"] = "";
+		            			}
+		            			if(data[i].STATUS){
+		            				if(data[i].IS_END == "0"){
+		            					data[i]["NAME"] = data[i].CHR_NAME+"<font color='red'>("+data[i].STATUS+")</font>";
+		            				}else if(data[i].IS_END == "1"){
+		            					data[i]["NAME"] = data[i].CHR_NAME+"<font color='green'>("+data[i].STATUS+")</font>";
+		            				}
+		            				
+		            			}else{
+		            				data[i]["NAME"] = data[i].CHR_NAME;
+		            			}
+		            		}
+		            		viewModel.bookTreeDataTable.setSimpleData(data);
+		            		var treeObj = $.fn.zTree.getZTreeObj("bookTree");
+		                    treeObj.expandAll(true);
+		                    treeObj.cancelSelectedNode();
+		            	}else {
+		            		ip.ipInfoJump(result.errorMsg, 'error');
+		            	}
+		            }, error: function () {
+		            	ip.ipInfoJump("错误", 'error');
+		            }		                
+	            });
+	        };
+	        
+	        //初始化台账
+	        viewModel.initBook = function () {
+	        	$("#bookName").html(BOOK_NAME);
+	        };
+	        
+	        //初始化期间
+	        viewModel.initYearMonth = function() {
+	        	var objSelect = document.getElementById("year");
+	        	objSelect.options.length=0;
+	        	objSelect.options.add(new Option(SET_YEAR , SET_YEAR));
+	        	var objSelect2 = document.getElementById("month");
+	        	objSelect2.options.length=0;
+	        	objSelect2.options.add(new Option(SET_MONTH , SET_MONTH));
+	        };
+	        
+	      //初始化按钮
+	        viewModel.initBtns = function () {
+	        	$.ajax({
+		            type: 'get',
+		            url: btnsURL + "?tokenid=" + tokenid + "&ajax=noCache",
+		            data: {"menu_id":menuId},
+		            dataType: 'JSON',
+		            async: true,
+		            success: function (result) {
+		            	console.log(result);	            	
+		            	if(result.errorCode == "0") {
+		            		var data = result.data;
+		            		viewModel.btnDataTable.setSimpleData(data);
+		            		for(var i=0;i<data.length;i++) {
+		            			$("#accBtns").append("<button class='" + data[i].CLASS_NAME + "' type='button' id='"+data[i].BUTTON_ID+"' "+data[i].PARAM+" onclick='"+data[i].FUNC_NAME+"(this)'>"+data[i].DISPLAY_TITLE+"</button>");
+		            			if(data[i].ENABLED == "0") {
+		            				$("#"+data[i].BUTTON_ID).attr("disabled","disabled");
+		            			}
+		            		}	            		
+		            	}	            	
+		            }, error: function () {
+		                ip.ipInfoJump("错误", 'error');
+		            }
+	            });
+	        };
+	        
+	        //月结monthlyURL
+	        monthly = function(obj){
+	        	var treeObj = $.fn.zTree.getZTreeObj("bookTree");
+				var nodes = treeObj.getSelectedNodes();
+	        	if(nodes.length > 0) {
+	        		if(nodes[0].LEVEL_NUM == "3"){
+	        			var workData = viewModel.workGridViewModel.gridData.getSimpleData();
+	        			var sid = "";
+	        			if(workData.length <= 0){
+	        				ip.ipInfoJump("该月份没有工作进度，不可月结", 'info');
+	        			}else{
+	        				if(nodes[0].IS_END == "1"){
+	        					ip.ipInfoJump("该月份已月结，不可月结", 'info');
+	        				}else{
+	        					var monthlyerror = 0;
+		        				for(var i=0;i<workData.length;i++){
+		        					if(monthlyerror > 0){
+		        						break;
+		        					}else{
+		        						if(workData[i].SID != sid){
+				        					sid = workData[i].SID;
+				        					var data = {
+				    	    	        			"chr_code":nodes[0].CHR_CODE,
+				    	    	        			"sid":sid,
+				    	    	        			"chr_name":nodes[0].CHR_NAME.split("月")[0],
+				    	    	        			"parent_id":nodes[0].PARENT_ID,	
+				    	    	        			"book_id" :BOOK_ID,
+				    	    	        	}
+				    	    	        	$.ajax({
+				    	    		            type: 'get',
+				    	    		            url: monthlyURL + "?tokenid=" + tokenid + "&ajax=noCache",
+				    	    		            data: data,
+				    	    		            dataType: 'JSON',
+				    	    		            async: false,
+				    	    		            success: function (result) {
+				    	    		            	if(result.errorCode == 0) {
+				    	    		            		
+				    	    		            	}else {
+				    	    		            		monthlyerror++;
+				    	    		            		ip.ipInfoJump(result.errorMsg, 'error');
+				    	    		            	}
+				    	    		            }, error: function () {
+				    	    		            	monthlyerror++;
+				    	    		            	ip.ipInfoJump("错误", 'error');
+				    	    		            }		                
+				    	    	            });
+				        				}
+		        					}
+			        			}
+		        				viewModel.initTree();
+	        				}
+	        			}
+	        		}else{
+	        			ip.ipInfoJump("请选择月结月份", 'info');
+	        		}
+	        	}else{
+	        		ip.ipInfoJump("请选择月结月份", 'info');
+	        	}
+	        	
+	        }
+
+	        //反月结reMonthlyURL
+	        reMonthly = function(obj){
+	        	var treeObj = $.fn.zTree.getZTreeObj("bookTree");
+				var nodes = treeObj.getSelectedNodes();
+	        	if(nodes.length > 0) {
+	        		if(nodes[0].LEVEL_NUM == "3"){
+	        			var workData = viewModel.workGridViewModel.gridData.getSimpleData();
+	        			var sid = "";
+	        			if(workData.length <= 0){
+	        				ip.ipInfoJump("该月份没有工作进度，不可月结", 'info');
+	        			}else{
+	        				if(nodes[0].IS_END == "0"){
+	        					ip.ipInfoJump("该月份未月结，不可反月结", 'info');
+	        				}else{
+	        					var monthlyerror = 0;
+		        				for(var i=0;i<workData.length;i++){
+		        					if(monthlyerror > 0){
+		        						break;
+		        					}else{
+		        						if(workData[i].SID != sid){
+				        					sid = workData[i].SID;
+				        					var data = {
+				    	    	        			"chr_code":nodes[0].CHR_CODE,
+				    	    	        			"sid":sid,
+				    	    	        			"chr_name":nodes[0].CHR_NAME.split("月")[0],
+				    	    	        			"parent_id":nodes[0].PARENT_ID,	
+				    	    	        			"book_id":BOOK_ID,
+				    	    	        	}
+				    	    	        	$.ajax({
+				    	    		            type: 'get',
+				    	    		            url: reMonthlyURL + "?tokenid=" + tokenid + "&ajax=noCache",
+				    	    		            data: data,
+				    	    		            dataType: 'JSON',
+				    	    		            async: false,
+				    	    		            success: function (result) {
+				    	    		            	if(result.errorCode == 0) {
+				    	    		            		
+				    	    		            	}else {
+				    	    		            		monthlyerror++;
+				    	    		            		ip.ipInfoJump(result.errorMsg, 'error');
+				    	    		            	}
+				    	    		            }, error: function () {
+				    	    		            	monthlyerror++;
+				    	    		            	ip.ipInfoJump("错误", 'error');
+				    	    		            }		                
+				    	    	            });
+				        				}
+		        					}
+			        			}
+		        				viewModel.initTree();
+	        				}
+	        			}
+	        		}else{
+	        			ip.ipInfoJump("请选择月结月份", 'info');
+	        		}
+	        	}else{
+	        		ip.ipInfoJump("请选择月结月份", 'info');
+	        	}
+	        }
+	        
+	      //刷新
+			publicRefresh = function(obj) {
+				location.reload();
+			};
+	        
+			//初始化
+			function init() {
+				app = u.createApp({
+					el : document.body,
+					model : viewModel
+				});
+				var url=window.location.href;
+				elecode = url.split("elecode=")[1].split("&")[0];
+	            menuId = url.split("menuid=")[1].split("&")[0];
+	            menuName = decodeURI(url.split("menuname=")[1].split("&")[0]);
+	            BOOK_ID = url.split("BOOK_ID=")[1].split("&")[0];
+	            BOOK_NAME = decodeURI(url.split("BOOK_NAME=")[1].split("&")[0]);
+	            SET_YEAR = url.split("SET_YEAR=")[1].split("&")[0];
+	            SET_MONTH = url.split("SET_MONTH=")[1].split("&")[0];
+	            BOOK_GROUP = decodeURI(url.split("BOOK_GROUP=")[1].split("&")[0]);
+	            DEP_NAME = decodeURI(url.split("DEP_NAME=")[1].split("&")[0]);
+				tokenid = ip.getTokenId();
+				options = ip.getCommonOptions({});
+				options['tokenid'] = tokenid;
+				viewModel.initData();//初始化grid
+				viewModel.initTree();//初始化树
+				viewModel.initBook();//初始化台账名
+				viewModel.initYearMonth();//初始化期间
+				viewModel.initBtns();//初始化按钮
+			}
+			init();
+		})

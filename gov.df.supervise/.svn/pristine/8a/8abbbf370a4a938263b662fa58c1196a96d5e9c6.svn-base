@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gov.df.supervise.service.itemsupervision.CsofTaskSupDao">
+  <resultMap id="BaseResultMap" type="gov.df.supervise.bean.task.CsofTaskSup">
+    <id column="SID" jdbcType="VARCHAR" property="sid" />
+    <result column="SUP_NO" jdbcType="VARCHAR" property="supNo" />
+    <result column="SUP_NAME" jdbcType="VARCHAR" property="supName" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="IS_VALID" jdbcType="DECIMAL" property="isValid" />
+    <result column="IS_END" jdbcType="DECIMAL" property="isEnd" />
+    <result column="MOFDEP_ID" jdbcType="VARCHAR" property="mofdepId" />
+    <result column="MOFDEP_CODE" jdbcType="VARCHAR" property="mofdepCode" />
+    <result column="MOFDEP_NAME" jdbcType="VARCHAR" property="mofdepName" />
+    <result column="OID" jdbcType="VARCHAR" property="oid" />
+    <result column="DEP_ID" jdbcType="VARCHAR" property="depId" />
+    <result column="DEP_CODE" jdbcType="VARCHAR" property="depCode" />
+    <result column="DEP_NAME" jdbcType="VARCHAR" property="depName" />
+    <result column="SUP_TYPE_ID" jdbcType="VARCHAR" property="supTypeId" />
+    <result column="SUP_TYPE_CODE" jdbcType="VARCHAR" property="supTypeCode" />
+    <result column="SUP_TYPE_NAME" jdbcType="VARCHAR" property="supTypeName" />
+    <result column="OBJ_TYPE_ID" jdbcType="VARCHAR" property="objTypeId" />
+    <result column="OBJ_TYPE_CODE" jdbcType="VARCHAR" property="objTypeCode" />
+    <result column="OBJ_TYPE_NAME" jdbcType="VARCHAR" property="objTypeName" />
+    <result column="IS_REPORT" jdbcType="DECIMAL" property="isReport" />
+    <result column="IS_ALLOBJ" jdbcType="DECIMAL" property="isAllobj" />
+    <result column="SUP_NUM" jdbcType="DECIMAL" property="supNum" />
+    <result column="IS_UNION" jdbcType="DECIMAL" property="isUnion" />
+    <result column="UNION_ORGS" jdbcType="VARCHAR" property="unionOrgs" />
+    <result column="WORK_TYPE" jdbcType="VARCHAR" property="workType" />
+    <result column="SUP_MODE" jdbcType="VARCHAR" property="supMode" />
+    <result column="SUP_CYCLE" jdbcType="VARCHAR" property="supCycle" />
+    <result column="FILE_NO" jdbcType="VARCHAR" property="fileNo" />
+    <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
+    <result column="FILE_DATE" jdbcType="VARCHAR" property="fileDate" />
+    <result column="START_DATE" jdbcType="VARCHAR" property="startDate" />
+    <result column="END_DATE" jdbcType="VARCHAR" property="endDate" />
+    <result column="SUP_CONTENT" jdbcType="VARCHAR" property="supContent" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser" />
+    <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+    <result column="APPROVE_USER" jdbcType="VARCHAR" property="approveUser" />
+    <result column="APPROVE_DATE" jdbcType="VARCHAR" property="approveDate" />
+    <result column="FINISH_USER" jdbcType="VARCHAR" property="finishUser" />
+    <result column="FINISH_DATE" jdbcType="VARCHAR" property="finishDate" />
+    <result column="LATEST_OP_USER" jdbcType="VARCHAR" property="latestOpUser" />
+    <result column="LATEST_OP_DATE" jdbcType="VARCHAR" property="latestOpDate" />
+    <result column="SET_YEAR" jdbcType="VARCHAR" property="setYear" />
+    <result column="RG_CODE" jdbcType="VARCHAR" property="rgCode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SID, SUP_NO, SUP_NAME, STATUS, IS_VALID, IS_END, MOFDEP_ID, MOFDEP_CODE, MOFDEP_NAME, 
+    OID, DEP_ID, DEP_CODE, DEP_NAME, SUP_TYPE_ID, SUP_TYPE_CODE, SUP_TYPE_NAME, OBJ_TYPE_ID, 
+    OBJ_TYPE_CODE, OBJ_TYPE_NAME, IS_REPORT, IS_ALLOBJ, SUP_NUM, IS_UNION, UNION_ORGS, 
+    WORK_TYPE, SUP_MODE, SUP_CYCLE, FILE_NO, FILE_NAME, FILE_DATE, START_DATE, END_DATE, 
+    SUP_CONTENT, REMARK, CREATE_USER, CREATE_DATE, APPROVE_USER, APPROVE_DATE, FINISH_USER, 
+    FINISH_DATE, LATEST_OP_USER, LATEST_OP_DATE, SET_YEAR, RG_CODE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.util.Map" resultType="java.util.Map">
+    select 
+    <include refid="Base_Column_List" />
+    from  CSOF_TASK_SUP
+    where SUP_TYPE_ID = #{supTypeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from  CSOF_TASK_SUP
+    where SID = #{sid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="gov.df.supervise.bean.task.CsofTaskSup">
+    insert into  CSOF_TASK_SUP (SID, SUP_NO, SUP_NAME, 
+      STATUS, IS_VALID, IS_END, 
+      MOFDEP_ID, MOFDEP_CODE, MOFDEP_NAME, 
+      OID, DEP_ID, DEP_CODE, 
+      DEP_NAME, SUP_TYPE_ID, SUP_TYPE_CODE, 
+      SUP_TYPE_NAME, OBJ_TYPE_ID, OBJ_TYPE_CODE, 
+      OBJ_TYPE_NAME, IS_REPORT, IS_ALLOBJ, 
+      SUP_NUM, IS_UNION, UNION_ORGS, 
+      WORK_TYPE, SUP_MODE, SUP_CYCLE, 
+      FILE_NO, FILE_NAME, FILE_DATE, 
+      START_DATE, END_DATE, SUP_CONTENT, 
+      REMARK, CREATE_USER, CREATE_DATE, 
+      APPROVE_USER, APPROVE_DATE, FINISH_USER, 
+      FINISH_DATE, LATEST_OP_USER, LATEST_OP_DATE, 
+      SET_YEAR, RG_CODE)
+    values (#{sid,jdbcType=VARCHAR}, #{supNo,jdbcType=VARCHAR}, #{supName,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{isValid,jdbcType=DECIMAL}, #{isEnd,jdbcType=DECIMAL}, 
+      #{mofdepId,jdbcType=VARCHAR}, #{mofdepCode,jdbcType=VARCHAR}, #{mofdepName,jdbcType=VARCHAR}, 
+      #{oid,jdbcType=VARCHAR}, #{depId,jdbcType=VARCHAR}, #{depCode,jdbcType=VARCHAR}, 
+      #{depName,jdbcType=VARCHAR}, #{supTypeId,jdbcType=VARCHAR}, #{supTypeCode,jdbcType=VARCHAR}, 
+      #{supTypeName,jdbcType=VARCHAR}, #{objTypeId,jdbcType=VARCHAR}, #{objTypeCode,jdbcType=VARCHAR}, 
+      #{objTypeName,jdbcType=VARCHAR}, #{isReport,jdbcType=DECIMAL}, #{isAllobj,jdbcType=DECIMAL}, 
+      #{supNum,jdbcType=DECIMAL}, #{isUnion,jdbcType=DECIMAL}, #{unionOrgs,jdbcType=VARCHAR}, 
+      #{workType,jdbcType=VARCHAR}, #{supMode,jdbcType=VARCHAR}, #{supCycle,jdbcType=VARCHAR}, 
+      #{fileNo,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{fileDate,jdbcType=VARCHAR}, 
+      #{startDate,jdbcType=VARCHAR}, #{endDate,jdbcType=VARCHAR}, #{supContent,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, 
+      #{approveUser,jdbcType=VARCHAR}, #{approveDate,jdbcType=VARCHAR}, #{finishUser,jdbcType=VARCHAR}, 
+      #{finishDate,jdbcType=VARCHAR}, #{latestOpUser,jdbcType=VARCHAR}, #{latestOpDate,jdbcType=VARCHAR}, 
+      #{setYear,jdbcType=VARCHAR}, #{rgCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="gov.df.supervise.bean.task.CsofTaskSup">
+    insert into  CSOF_TASK_SUP
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        SID,
+      </if>
+      <if test="supNo != null">
+        SUP_NO,
+      </if>
+      <if test="supName != null">
+        SUP_NAME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="isValid != null">
+        IS_VALID,
+      </if>
+      <if test="isEnd != null">
+        IS_END,
+      </if>
+      <if test="mofdepId != null">
+        MOFDEP_ID,
+      </if>
+      <if test="mofdepCode != null">
+        MOFDEP_CODE,
+      </if>
+      <if test="mofdepName != null">
+        MOFDEP_NAME,
+      </if>
+      <if test="oid != null">
+        OID,
+      </if>
+      <if test="depId != null">
+        DEP_ID,
+      </if>
+      <if test="depCode != null">
+        DEP_CODE,
+      </if>
+      <if test="depName != null">
+        DEP_NAME,
+      </if>
+      <if test="supTypeId != null">
+        SUP_TYPE_ID,
+      </if>
+      <if test="supTypeCode != null">
+        SUP_TYPE_CODE,
+      </if>
+      <if test="supTypeName != null">
+        SUP_TYPE_NAME,
+      </if>
+      <if test="objTypeId != null">
+        OBJ_TYPE_ID,
+      </if>
+      <if test="objTypeCode != null">
+        OBJ_TYPE_CODE,
+      </if>
+      <if test="objTypeName != null">
+        OBJ_TYPE_NAME,
+      </if>
+      <if test="isReport != null">
+        IS_REPORT,
+      </if>
+      <if test="isAllobj != null">
+        IS_ALLOBJ,
+      </if>
+      <if test="supNum != null">
+        SUP_NUM,
+      </if>
+      <if test="isUnion != null">
+        IS_UNION,
+      </if>
+      <if test="unionOrgs != null">
+        UNION_ORGS,
+      </if>
+      <if test="workType != null">
+        WORK_TYPE,
+      </if>
+      <if test="supMode != null">
+        SUP_MODE,
+      </if>
+      <if test="supCycle != null">
+        SUP_CYCLE,
+      </if>
+      <if test="fileNo != null">
+        FILE_NO,
+      </if>
+      <if test="fileName != null">
+        FILE_NAME,
+      </if>
+      <if test="fileDate != null">
+        FILE_DATE,
+      </if>
+      <if test="startDate != null">
+        START_DATE,
+      </if>
+      <if test="endDate != null">
+        END_DATE,
+      </if>
+      <if test="supContent != null">
+        SUP_CONTENT,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createUser != null">
+        CREATE_USER,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="approveUser != null">
+        APPROVE_USER,
+      </if>
+      <if test="approveDate != null">
+        APPROVE_DATE,
+      </if>
+      <if test="finishUser != null">
+        FINISH_USER,
+      </if>
+      <if test="finishDate != null">
+        FINISH_DATE,
+      </if>
+      <if test="latestOpUser != null">
+        LATEST_OP_USER,
+      </if>
+      <if test="latestOpDate != null">
+        LATEST_OP_DATE,
+      </if>
+      <if test="setYear != null">
+        SET_YEAR,
+      </if>
+      <if test="rgCode != null">
+        RG_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        #{sid,jdbcType=VARCHAR},
+      </if>
+      <if test="supNo != null">
+        #{supNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supName != null">
+        #{supName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=DECIMAL},
+      </if>
+      <if test="isEnd != null">
+        #{isEnd,jdbcType=DECIMAL},
+      </if>
+      <if test="mofdepId != null">
+        #{mofdepId,jdbcType=VARCHAR},
+      </if>
+      <if test="mofdepCode != null">
+        #{mofdepCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mofdepName != null">
+        #{mofdepName,jdbcType=VARCHAR},
+      </if>
+      <if test="oid != null">
+        #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="depId != null">
+        #{depId,jdbcType=VARCHAR},
+      </if>
+      <if test="depCode != null">
+        #{depCode,jdbcType=VARCHAR},
+      </if>
+      <if test="depName != null">
+        #{depName,jdbcType=VARCHAR},
+      </if>
+      <if test="supTypeId != null">
+        #{supTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="supTypeCode != null">
+        #{supTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supTypeName != null">
+        #{supTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="objTypeId != null">
+        #{objTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="objTypeCode != null">
+        #{objTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="objTypeName != null">
+        #{objTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="isReport != null">
+        #{isReport,jdbcType=DECIMAL},
+      </if>
+      <if test="isAllobj != null">
+        #{isAllobj,jdbcType=DECIMAL},
+      </if>
+      <if test="supNum != null">
+        #{supNum,jdbcType=DECIMAL},
+      </if>
+      <if test="isUnion != null">
+        #{isUnion,jdbcType=DECIMAL},
+      </if>
+      <if test="unionOrgs != null">
+        #{unionOrgs,jdbcType=VARCHAR},
+      </if>
+      <if test="workType != null">
+        #{workType,jdbcType=VARCHAR},
+      </if>
+      <if test="supMode != null">
+        #{supMode,jdbcType=VARCHAR},
+      </if>
+      <if test="supCycle != null">
+        #{supCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="fileNo != null">
+        #{fileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileDate != null">
+        #{fileDate,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="supContent != null">
+        #{supContent,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="approveUser != null">
+        #{approveUser,jdbcType=VARCHAR},
+      </if>
+      <if test="approveDate != null">
+        #{approveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="finishUser != null">
+        #{finishUser,jdbcType=VARCHAR},
+      </if>
+      <if test="finishDate != null">
+        #{finishDate,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpUser != null">
+        #{latestOpUser,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpDate != null">
+        #{latestOpDate,jdbcType=VARCHAR},
+      </if>
+      <if test="setYear != null">
+        #{setYear,jdbcType=VARCHAR},
+      </if>
+      <if test="rgCode != null">
+        #{rgCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="gov.df.supervise.bean.task.CsofTaskSup">
+    update  CSOF_TASK_SUP
+    <set>
+      <if test="supNo != null">
+        SUP_NO = #{supNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supName != null">
+        SUP_NAME = #{supName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        IS_VALID = #{isValid,jdbcType=DECIMAL},
+      </if>
+      <if test="isEnd != null">
+        IS_END = #{isEnd,jdbcType=DECIMAL},
+      </if>
+      <if test="mofdepId != null">
+        MOFDEP_ID = #{mofdepId,jdbcType=VARCHAR},
+      </if>
+      <if test="mofdepCode != null">
+        MOFDEP_CODE = #{mofdepCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mofdepName != null">
+        MOFDEP_NAME = #{mofdepName,jdbcType=VARCHAR},
+      </if>
+      <if test="oid != null">
+        OID = #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="depId != null">
+        DEP_ID = #{depId,jdbcType=VARCHAR},
+      </if>
+      <if test="depCode != null">
+        DEP_CODE = #{depCode,jdbcType=VARCHAR},
+      </if>
+      <if test="depName != null">
+        DEP_NAME = #{depName,jdbcType=VARCHAR},
+      </if>
+      <if test="supTypeId != null">
+        SUP_TYPE_ID = #{supTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="supTypeCode != null">
+        SUP_TYPE_CODE = #{supTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supTypeName != null">
+        SUP_TYPE_NAME = #{supTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="objTypeId != null">
+        OBJ_TYPE_ID = #{objTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="objTypeCode != null">
+        OBJ_TYPE_CODE = #{objTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="objTypeName != null">
+        OBJ_TYPE_NAME = #{objTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="isReport != null">
+        IS_REPORT = #{isReport,jdbcType=DECIMAL},
+      </if>
+      <if test="isAllobj != null">
+        IS_ALLOBJ = #{isAllobj,jdbcType=DECIMAL},
+      </if>
+      <if test="supNum != null">
+        SUP_NUM = #{supNum,jdbcType=DECIMAL},
+      </if>
+      <if test="isUnion != null">
+        IS_UNION = #{isUnion,jdbcType=DECIMAL},
+      </if>
+      <if test="unionOrgs != null">
+        UNION_ORGS = #{unionOrgs,jdbcType=VARCHAR},
+      </if>
+      <if test="workType != null">
+        WORK_TYPE = #{workType,jdbcType=VARCHAR},
+      </if>
+      <if test="supMode != null">
+        SUP_MODE = #{supMode,jdbcType=VARCHAR},
+      </if>
+      <if test="supCycle != null">
+        SUP_CYCLE = #{supCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="fileNo != null">
+        FILE_NO = #{fileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileDate != null">
+        FILE_DATE = #{fileDate,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        START_DATE = #{startDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null">
+        END_DATE = #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="supContent != null">
+        SUP_CONTENT = #{supContent,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="approveUser != null">
+        APPROVE_USER = #{approveUser,jdbcType=VARCHAR},
+      </if>
+      <if test="approveDate != null">
+        APPROVE_DATE = #{approveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="finishUser != null">
+        FINISH_USER = #{finishUser,jdbcType=VARCHAR},
+      </if>
+      <if test="finishDate != null">
+        FINISH_DATE = #{finishDate,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpUser != null">
+        LATEST_OP_USER = #{latestOpUser,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpDate != null">
+        LATEST_OP_DATE = #{latestOpDate,jdbcType=VARCHAR},
+      </if>
+      <if test="setYear != null">
+        SET_YEAR = #{setYear,jdbcType=VARCHAR},
+      </if>
+      <if test="rgCode != null">
+        RG_CODE = #{rgCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SID = #{sid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="gov.df.supervise.bean.task.CsofTaskSup">
+    update  CSOF_TASK_SUP
+    set SUP_NO = #{supNo,jdbcType=VARCHAR},
+      SUP_NAME = #{supName,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      IS_VALID = #{isValid,jdbcType=DECIMAL},
+      IS_END = #{isEnd,jdbcType=DECIMAL},
+      MOFDEP_ID = #{mofdepId,jdbcType=VARCHAR},
+      MOFDEP_CODE = #{mofdepCode,jdbcType=VARCHAR},
+      MOFDEP_NAME = #{mofdepName,jdbcType=VARCHAR},
+      OID = #{oid,jdbcType=VARCHAR},
+      DEP_ID = #{depId,jdbcType=VARCHAR},
+      DEP_CODE = #{depCode,jdbcType=VARCHAR},
+      DEP_NAME = #{depName,jdbcType=VARCHAR},
+      SUP_TYPE_ID = #{supTypeId,jdbcType=VARCHAR},
+      SUP_TYPE_CODE = #{supTypeCode,jdbcType=VARCHAR},
+      SUP_TYPE_NAME = #{supTypeName,jdbcType=VARCHAR},
+      OBJ_TYPE_ID = #{objTypeId,jdbcType=VARCHAR},
+      OBJ_TYPE_CODE = #{objTypeCode,jdbcType=VARCHAR},
+      OBJ_TYPE_NAME = #{objTypeName,jdbcType=VARCHAR},
+      IS_REPORT = #{isReport,jdbcType=DECIMAL},
+      IS_ALLOBJ = #{isAllobj,jdbcType=DECIMAL},
+      SUP_NUM = #{supNum,jdbcType=DECIMAL},
+      IS_UNION = #{isUnion,jdbcType=DECIMAL},
+      UNION_ORGS = #{unionOrgs,jdbcType=VARCHAR},
+      WORK_TYPE = #{workType,jdbcType=VARCHAR},
+      SUP_MODE = #{supMode,jdbcType=VARCHAR},
+      SUP_CYCLE = #{supCycle,jdbcType=VARCHAR},
+      FILE_NO = #{fileNo,jdbcType=VARCHAR},
+      FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      FILE_DATE = #{fileDate,jdbcType=VARCHAR},
+      START_DATE = #{startDate,jdbcType=VARCHAR},
+      END_DATE = #{endDate,jdbcType=VARCHAR},
+      SUP_CONTENT = #{supContent,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      APPROVE_USER = #{approveUser,jdbcType=VARCHAR},
+      APPROVE_DATE = #{approveDate,jdbcType=VARCHAR},
+      FINISH_USER = #{finishUser,jdbcType=VARCHAR},
+      FINISH_DATE = #{finishDate,jdbcType=VARCHAR},
+      LATEST_OP_USER = #{latestOpUser,jdbcType=VARCHAR},
+      LATEST_OP_DATE = #{latestOpDate,jdbcType=VARCHAR},
+      SET_YEAR = #{setYear,jdbcType=VARCHAR},
+      RG_CODE = #{rgCode,jdbcType=VARCHAR}
+    where SID = #{sid,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectObjectByDep" parameterType="java.util.Map" resultType="java.util.Map">
+  select * 
+  from vw_csof_e_agency y
+  where 1=1 
+  <!-- <if test="depId != null ">
+    	and y.dep_id in
+		<foreach collection="depId" index="index" item="item" open="(" separator="," close=")"> 
+    		 #{item,jdbcType=VARCHAR}
+   		 </foreach>
+  </if> -->
+  <if test="_parameter != null ">
+  		and y.oid = #{oid,jdbcType=VARCHAR}
+  </if>
+  </select>
+  
+  <select id="selectEReport" parameterType="java.util.Map" resultType="java.util.Map">
+  select *
+  from csof_e_report
+  </select>
+  
+  <select id="selectEDep" parameterType="java.util.Map" resultType="java.util.Map">
+  select *
+  from csof_e_dep
+  where 1=1
+  <if test="_parameter != null ">
+  		and oid = #{oid,jdbcType=VARCHAR}
+  </if>
+  </select>
+  
+  <delete id="deleteDepBySid" parameterType="java.lang.String">
+    delete 
+    from csof_task_dep
+    where SID = #{sid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteAgencyBySid" parameterType="java.lang.String">
+    delete 
+    from csof_task_dep_agency
+    where SID = #{sid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteSupBySid" parameterType="java.lang.String">
+    delete 
+    from csof_task_sup
+    where SID = #{sid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteUserBySid" parameterType="java.lang.String">
+    delete 
+    from csof_task_user
+    where SID = #{sid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteReportBySid" parameterType="java.lang.String">
+    delete 
+    from csof_sup_report
+    where SID = #{sid,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="selectSupBySid" parameterType="java.util.Map" resultType="java.util.Map">
+    select 
+    <include refid="Base_Column_List" />
+    from  CSOF_TASK_SUP
+    where SID = #{sid,jdbcType=VARCHAR}
+  </select>
+</mapper>

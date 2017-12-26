@@ -1,0 +1,416 @@
+<!--台账管理页面-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>台账管理</title>
+		<link rel="stylesheet" type="text/css" href="../../trd/datetimepicker/css/bootstrap-datetimepicker.min.css" />
+        <link rel="stylesheet" type="text/css" href="../../trd/uui/css/font-awesome.min.css">
+	    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/reset.css" />
+        <link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css"/>
+		<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/tree.css" />
+        <link rel="stylesheet" type="text/css" href="/df/trd/ip/changeTree/changeTree.css" />
+        <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/u.css" />
+        <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/grid.css" />
+        <link rel="stylesheet" type="text/css" href="/df/trd/ip/css/ip.css" />     
+        <link rel="stylesheet" type="text/css" href="../../trd/ip/css/bizSys.css" />
+		<link rel="stylesheet" href="css/csofAcc.css">
+		<link rel="stylesheet" href="../matters/css/common.css">
+		<link rel="stylesheet" href="../matters/css/mattersEnter.css">
+		<link rel="stylesheet" href="../sup/css/csofSup.css">
+		<link rel="stylesheet" href="/df/trd/splitter/jqx.base.css">
+		<link rel="stylesheet" href="../common/common.css">
+		<script type="text/javascript" src="/df/trd/splitter/jquery-1.11.1.min.js"></script>
+	    <script type="text/javascript" src="/df/trd/splitter/jqxcore.js"></script>
+	    <script type="text/javascript" src="/df/trd/splitter/jqxsplitter.js"></script>
+	    <script type="text/javascript">
+	        $(document).ready(function () {
+                   $('#main-content').jqxSplitter({ width: '98.3%', height: '87.5%', panels: [{ size: '23.2%', min: 200 }, { min: 800, size: '76.8%' }] });
+	        });
+	    </script>
+	</head>
+	<style>
+	    #testGrid > div{
+	        margin: 5px 0;
+	    }
+	</style>
+<body class="csof-font" style="overflow: hidden;">
+	<!--按钮组-->
+	<div class="col-md-12 csof-btns-content" id="btn-line" >
+		<div class="pull-left" id="btns-group"></div>
+		<div class="pull-right right-search">
+			<div id="workGridSearchDiv" style="display:none;">
+				<form class="form-search form-inline">
+					<div class="input-group">
+						<input type="text" id="workGridSearchInput" class="form-control">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button"
+								data-bind="click:workGridSearch">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button> </span>
+					</div>
+					<button type="button" class="btn" onclick="hignSearch()">高级</button>
+				</form>
+			</div>
+			<div id="questionGridSearchDiv" style="display:none;">
+				<form class="form-search form-inline">
+					<div class="input-group">
+						<input type="text" id="questionGridSearchInput"
+							class="form-control"> <span class="input-group-btn">
+							<button class="btn btn-default" type="button"
+								data-bind="click:questionGridSearch">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button> </span>
+					</div>
+					<button type="button" class="btn" onclick="hignSearch()">高级</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!--main-->
+	<div class="col-md-12" id="main-content">
+		<div class="pull-left" id="left-main-content">
+			<div class="col-md-12" style="padding: 0;margin: 5px;width:97%;">
+				<div class="pull-left" style="padding: 4px 0;width: 25%;">期 间：</div>
+				<div class="pull-left" style="padding: 0 5px 0 0;width: 40%;">
+					<select id="year" style="width: 100%;">
+
+					</select>
+				</div>
+				<div class="pull-left" style="padding: 0;width: 35%;">
+					<select id="month" style="width:100%;">
+
+					</select>
+				</div>
+			</div>
+
+			<!-- acc_id -->
+			<select id="acc_type-select"
+				style="margin:0 5px;width:97%;"
+				onchange="AccTypeById()">
+
+			</select>
+			<!-- 需从数据库取 -->
+			<select id="sup_type-select"
+				style="margin: 5px 5px 0 5px;width:97%;"
+				onchange="supTypeChange()">
+
+			</select>
+			<!-- 树搜索框 -->
+			<div class="input-group tree-search-div">
+				<input type="text" id="SearchdepTree" class="form-control"
+					data-bind="value: SearchdepTreeKEY" placeholder="模糊查询...">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button"
+						data-bind="click:searchDepTree">
+						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					</button> </span>
+			</div>
+			<!--树-->
+			<div id="depTree" class="ztree treeDiv" style="height: 405px;"
+				u-meta='{
+                                "id":"depTree",
+                                "data":"depTreeDataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"CHR_NAME",
+                                "setting":"depTreeSetting"
+                            }'>
+			</div>
+		</div>
+		<div class="pull-left" id="right-main-content">
+			<ul id="righ-tab-ul" class="nav nav-tabs">
+				<li id="exDetails-li" class="active"><a data-toggle="tab"
+					href="#panel-exDetails" id="list-li-a">事项详情</a></li>
+				<li id="workRecode-li"><a data-toggle="tab"
+					href="#panel-workRecode" id="workRecode-li-a">工作记录</a></li>
+				<li id="questionRecode-li"><a data-toggle="tab"
+					href="#panel-questionRecode" id="questionRecode-li-a">问题记录</a></li>
+				<li id="file-li"><a data-toggle="tab" href="#panel-file"
+					id="file-li-a">附录</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane tab-panel active tab-panel-height" id="panel-exDetails" style="width: 95%;">
+					<div id=testGrid class="tabbed-grid"></div>
+				</div>
+				<div class="tab-pane tab-panel tab-panel-height" id="panel-workRecode">
+					<div class="grid-title">
+						<span class="rightTable-title" style="float:left;">工作记录：</span>
+						<span class="rightTable-title-status"></span>
+						<span class="rightTable-recodeNum">共<span id="workGridSumNum" style="letter-spacing: 0;"> </span>笔</span>
+					</div>
+					<div id="workRecodeGrid" class="rightTableGrid-hasnav"></div>
+				</div>
+				<div class="tab-pane tab-panel tab-panel-height" id="panel-questionRecode">
+					<div class="grid-title">
+						<span class="rightTable-title">问题记录列表：</span>
+						<span class="rightTable-title-status"></span>
+						<span class="rightTable-recodeNum">共<span id="questionGridSumNum" class="gridSumNum"> </span>笔</span>
+					</div>
+					<div id="questionRecodeGrid" class="rightTableGrid-hasnav"></div>
+				</div>
+				<div class="tab-pane tab-panel-height tab-panel-file" id="panel-file">
+					<iframe id="fileUploadPage" class="file-iframe"></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+
+	<!-- 新增事项Modal1 -->
+	<div class="modal fade" id="addExModal" tabindex="-1" role="dialog"
+		aria-labelledby="addExModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="addExModalLabel">事项新增</h4>
+				</div>
+				<div class="modal-body" style="overflow: auto;">
+					<div class="tab-content tab-pad">
+						<!-- 基本信息 -->
+						<div role="tabpanel" class="tab-pane active" id="infoAdd"></div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="savebtn" name="btn3" type="button"
+						class="btn btn-prima" data-bind="click:addEx">完成</button>
+					<button id="updatabtn" name="btn3" type="button"
+						class="btn btn-prima" data-bind="click:updataEx">完成</button>
+					<button name="btn4" type="button" class="btn btn-default"
+						data-dismiss="modal">返回</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 事项过账Modal1 -->
+	<div class="modal fade bs-example-modal-lg" id="postExModal"
+		tabindex="-1" role="dialog" aria-labelledby="postExModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="postExModalLabel">事项过账</h4>
+				</div>
+				<div class="modal-body" style="">
+					<div id="postExGrid"
+						style="padding-top: 5px;height: 400px;overflow: auto;"></div>
+				</div>
+				<div class="modal-footer">
+					<button id="postbtn" type="button" class="btn btn-prima"
+						data-bind="click:postEx">完成</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 工作记录新增模态框（Modal） -->
+	<div class="modal fade" id="workAddModal" tabindex="-1" role="dialog"
+		aria-labelledby="workAddModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="workAddModalLabel">工作记录新增</h4>
+				</div>
+				<div class="modal-body" style="overflow: auto;">
+					<div id="exBaseMas" style="margin-bottom: 10px;">
+						<!--<div class="col-md-12 addWorkTitle">
+                        <p><span>执行工作登记单</span></p>
+                    </div>-->
+						<div class="col-md-12" id="workBaseExMas"
+							style="padding-top: 5px;margin-bottom: 10px;"></div>
+					</div>
+					<div id="addworkContent">
+						<div class="col-md-6" style="padding:0px;">
+							<label for="RECONDERDate-w" class="text-right col-md-6"
+								style="width: 30%;font-size: 12px;padding:0; font-weight: normal;">登记时间：</label>
+							<div class="input-group date form_date col-md-6 ip-input-group"
+								data-date="" data-date-format="yyyy-mm-dd"
+								data-link-field="END_DATE" data-link-format="yyyy-mm-dd"
+								style="padding: 0px;width: 66%;padding-left: 4px;">
+								<input class="form-control workAddInput" size="16"
+									id="RECONDERDate-w" type="text" value=""><span
+									class="input-group-addon"><span
+									class="glyphicon glyphicon-remove"></span> </span><span
+									class="input-group-addon"><span
+									class="glyphicon glyphicon-calendar"></span> </span>
+							</div>
+						</div>
+						<div class="col-md-6" style="padding: 0px;">
+							<label for="FUND_SCALE-w" class="text-right"
+								style="width: 44%;font-size: 12px; font-weight: normal;">资金规模（万元）：</label>
+							<input type="text" style="width:54.5%;text-align: right;"
+								id="FUND_SCALE-w"
+								class="u-form-control padding-left-20 workAddInput"
+								onchange="fomateFund()">
+						</div>
+						<div class="col-md-6" style="padding:0px;">
+							<label for="EXECUTOR-w" class="text-right col-md-3"
+								style="width: 30%;font-size: 12px;padding:0; font-weight: normal;">执
+								行 人：</label>
+							<!--  <input type="text" style="width:64.5%;" id="EXECUTOR-w" class="u-form-control padding-left-20 workAddInput">-->
+							<div class="u-combo mutil-select col-md-8" id="EXECUTOR-w"
+								style="padding: 0 1px 0 4px;margin-bottom: -6px;">
+								<div class="u-input-group u-has-feedback">
+									<input class="u-form-control"
+										style="border-color: rgb(204, 204, 204);border-radius: 4px;" />
+									<span class="u-form-control-feedback uf uf-arrow-down"
+										data-role="combo-button"></span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6" style="padding: 0px;">
+							<label for="WORKLOAD-w" class="text-right"
+								style="width: 43.5%;font-size: 12px; font-weight: normal;">工作量（人天）：</label>
+							<input type="text" style="width:55%;text-align: right;"
+								id="WORKLOAD-w"
+								class="u-form-control padding-left-20 workAddInput"
+								onchange="validate(this)">
+						</div>
+						<div class="col-md-6" style="padding: 0px;">
+							<label for="WORK_PROGRESS-w" class="text-right"
+								style="padding:0;width:30%;;font-size: 12px; font-weight: normal;">工作进展：</label>
+							<!--  <input type="text" style="width:72%;" id="WORK_PROGRESS-w" class="u-form-control padding-left-20">-->
+							<select id="WORK_PROGRESS-w" onchange="workProgressChange()"
+								style="background-color: #fff;">
+								<option value="1">进行中</option>
+								<option value="100">已完成</option>
+							</select> <span id="WORK_PROGRESS-p"> <input type="text"
+								style="height: 33px;width:30%;text-align: right;;padding-left: 15px !important;"
+								id="WORK_PROGRESS-wp"
+								class="u-form-control padding-left-20 workAddInput"
+								onchange="validateP(this)">（%） </span>
+						</div>
+						<div class="col-md-6" style="padding: 0px;">
+							<input type="text" style="width:100%;height: 33px;"
+								id="WORKLOADParm-w"
+								class="u-form-control padding-left-20 workAddInput"
+								placeholder="请输入工作进展内容">
+						</div>
+						<div class="col-md-12" style="padding: 0px;">
+							<label for="REMARK-w" class="text-right"
+								style="width: 15%;font-size: 12px; font-weight: normal;padding:0;">备注：</label>
+							<input type="text" style="width: 84%;" id="REMARK-w"
+								class="u-form-control padding-left-20 workAddInput">
+						</div>
+						<div class="col-md-12"
+							style="padding: 0;color:#428bca;padding-left: 90px;">注：本次填写数值为上次登记至本次登记之间的发生数。</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="saveWorkBtn" type="button" class="btn btn-prima"
+						data-bind="click:addWork">完成</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+	<!-- /.modal -->
+	</div>
+
+	<!-- 问题记录新增模态框（Modal） -->
+	<div class="modal fade" id="questionAddModal" tabindex="-1"
+		role="dialog" aria-labelledby="questionAddModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="questionAddModalLabel">问题记录新增</h4>
+				</div>
+				<div class="modal-body" style="overflow: auto;">
+					<div class="col-md-12" style="padding: 0px;">
+						<label for="DISCOVER_PROBLEMS" class="text-right"
+							style="width: 21.5%;font-size: 12px; font-weight: normal;">发现问题</label>
+						<input style="width: 47%;" type="text" id="DISCOVER_PROBLEMS"
+							class="u-form-control padding-left-20 questionAddInput">
+					</div>
+					<div class="col-md-12" style="padding: 0px;">
+						<label for="AUDIT_BASIS" class="text-right"
+							style="width: 21.5%;font-size: 12px; font-weight: normal;">审核依据</label>
+						<input style="width: 47%;" type="text" id="AUDIT_BASIS"
+							class="u-form-control padding-left-20 questionAddInput">
+					</div>
+					<div class="col-md-12" style="padding: 0px;">
+						<label for="AUDIT_OPINION" class="text-right"
+							style="width: 21.5%;font-size: 12px; font-weight: normal;">审核意见</label>
+						<input style="width: 47%;" type="text" id="AUDIT_OPINION"
+							class="u-form-control padding-left-20 questionAddInput">
+					</div>
+					<div class="col-md-12" style="padding: 0px;">
+						<label for="HANDLE" class="text-right"
+							style="width: 21.5%;font-size: 12px; font-weight: normal;">是否处理</label>
+						<select id="HANDLE">
+							<option value="0">未处理</option>
+							<option value="1">已处理</option>
+						</select>
+					</div>
+					<div class="col-md-12" style="padding: 0px;">
+						<label for="REMARK-q" class="text-right"
+							style="width: 21.5%;font-size: 12px; font-weight: normal;">备注</label>
+						<input style="width: 47%;" type="text" id="REMARK-q"
+							class="u-form-control padding-left-20 questionAddInput">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="saveQuestionBtn" type="button" class="btn btn-prima"
+						data-bind="click:addProblem">完成</button>
+					<button id="updateQuestionBtn" style="" type="button"
+						class="btn btn-prima" data-bind="click:updateProblem">完成</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+
+	<!-- 附件上传Modal1 -->
+	<div class="modal fade" id="addFileModal" tabindex="-1" role="dialog"
+		aria-labelledby="addFileModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="addFileModalLabel">附件上传</h4>
+				</div>
+				<div class="modal-body" style="overflow: auto;height: 350px;">
+					<iframe id="filePage" style="width:100%;height:100%;border: 0;"></iframe>
+				</div>
+				<div class="modal-footer">
+					<!-- <button name="btn3" type="button" class="btn btn-prima" data-dismiss="modal">完成</button> -->
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						data-bind="click:closeFile">关闭</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- 引入js-->
+		<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+		<script src="../../trd/requirejs/require.js"></script>
+		<script src="../../require.config.js"></script>
+		<script src="js/csofAcc.js" type="text/javascript"></script>
+</body>
+</html>

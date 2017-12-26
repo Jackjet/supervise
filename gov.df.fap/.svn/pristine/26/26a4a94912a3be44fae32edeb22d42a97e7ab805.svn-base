@@ -1,0 +1,125 @@
+/**
+ * Created by yanqiong on 2017/8/8.
+ */
+require(
+		[ 'jquery', 'knockout', '/df/supervise/ncrd.js', 'bootstrap', 'dateZH',
+				'uui', 'tree', 'grid', 'ip' ],
+		function($, ko, ncrd, _) {
+			window.ko = ko;
+			var tokenid;
+			var options;
+			var pViewType = {
+				VIEWTYPE_INPUT : "001",// 录入视图
+				VIEWTYPE_LIST : "002",// 列表视图
+				VIEWTYPE_QUERY : "003"// 查询视图
+			};
+			var fileData;
+			var num = 0;
+
+			var pageData = {//通过交互获取数据
+				btnDatas : function(url, param) {
+					var mapData = [ {
+						DISPLAY_TITLE : '新增'
+					}, {
+						DISPLAY_TITLE : '修改'
+					}, {
+						DISPLAY_TITLE : '删除'
+					}, {
+						DISPLAY_TITLE : '提交'
+					}, {
+						DISPLAY_TITLE : '回收'
+					} ];
+					var html = ''
+					$.each(mapData, function(index, item) {
+						html += '<button class="btn btn-default" name="'
+								+ item.DISPLAY_TITLE
+								+ '" data-bind="click:btnEvents">'
+								+ item.DISPLAY_TITLE + '</button>';
+					})
+
+					$('.bnt-list').html(html);
+					/*$.get(url, param ,function(map){{DISPLAY_TITLE : 111},{DISPLAY_TITLE : 33}
+					 //console.log(map);
+					 //mapData = map.data;
+					 });*/
+					return mapData;
+				},
+			};
+
+			//URL
+			var testURL = '/df/cs/test.do';
+			var viewModel = {
+				SearchdepTreeKEY : ko.observable(""),
+				//模糊查询单位树
+				searchDepTree : function() {
+					ncrd.findTreeNode($.fn.zTree.getZTreeObj("depTree"),
+							viewModel.SearchdepTreeKEY());
+				},
+			    //工作GridDataTable
+				workDataTable: new u.DataTable({
+			        meta: {
+			            
+			        }
+			    }),
+			};
+			
+			//生成表头
+			viewModel.initData = function() {
+				var current_url = location.search;
+				$.ajax({
+					url : "/df/init/initMsg.do",
+					type : "GET",
+					dataType : "json",
+					async : true,
+					data : options,
+					success : function(datas) {
+						viewModel.viewList = datas.viewlist;// 视图信息
+						viewModel.resList = datas.reslist;// 资源信息
+						viewModel.coaId = datas.coaId;// coaid
+						viewModel.coaDetails = datas.coaDetail;// coa明细
+						viewModel.relations = datas.relationlist;// 关联关系
+						viewModel.initGridData(); //调用初始化表格
+					}
+				});
+			};
+			
+			 // 初始化表格
+	    	viewModel.initGridData = function() {
+	            var queryViewId;
+	            var tableViewDetail;
+	            var queryViewDetail;
+	            for ( var n = 0; n < viewModel.viewList.length; n++) {
+	                var view = viewModel.viewList[n];
+	                viewModel.tableViewDetail = view;
+ 	        	    options["menu_id"] = menuId;
+                    payViewId = view.viewid;
+                    viewModel.workGridViewModel = ip.initGridWithCallBack(gridCallback,viewModel.tableViewDetail, "workRecodeGrid", "/df/test/btns.do",options, 1, true,false,false,false);
+	            }
+	        };
+	        
+	        //workgrid查询
+	        viewModel.workGridSearch = function () {
+	        	ip.fuzzyQuery(viewModel.curGridData, "workGridSearchInput", viewModel.workGridViewModel)
+	        }
+	        
+	        //回调函数，定义全局变量viewModel.curGridData并赋值
+	        gridCallback = function(data){
+	        	viewModel.curGridData = data;
+	        };
+
+			//初始化
+			function init() {
+				app = u.createApp({
+					el : document.body,
+					model : viewModel
+				});
+				var url=window.location.href;
+	            menuId = url.split("menuid=")[1].split("&")[0];
+				tokenid = ip.getTokenId();
+				options = ip.getCommonOptions({});
+				options['tokenid'] = tokenid;
+				viewModel.initData();
+				//初始化grid
+			}
+			init();
+		})

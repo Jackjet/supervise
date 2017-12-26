@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>附件管理</title>
+    
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="expires" content="0"> 
+    
+    <link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../../trd/uui/css/tree.css" />
+    <link rel="stylesheet" href="../../trd/ip/changeTree/changeTree.css" />
+    <link rel="stylesheet" href="../../trd/uui/css/grid.css" />
+    <link rel="stylesheet" href="../../trd/ip/css/ip.css" />
+    <link rel="stylesheet" href="../../trd/uui/css/u.css" />
+    <link rel="stylesheet" href="attachment.css">
+
+  </head>
+  
+  <body>
+  	<div class="csof-sup">
+    <!--按钮组-->
+    <div class="csof-sup-btns btns-underline">
+        <!--  <button class="btn sup-btns sup-input" type="submit" id="upload" data-bind="click:attachUpload" >上传</button> -->
+        <button class="btn sup-btns sup-input" type="submit" id="input" data-toggle="modal"  data-bind="click:up" >上传</button> 
+        	<div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="inputModalLabel" aria-hidden="true">
+		    	<div class="modal-dialog">
+		       		<div class="modal-content">
+			            <div class="modal-header">
+			                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			            </div>
+		            <div class="modal-body">
+		                <!--form表单开始-->
+		                	<form class="form-horizontal" id="myupload">
+                   			 <div class="form-group margin-bottom-10">
+                             	<input class="btn sup-btns sup-input " type="file" id="fileupload" multiple />
+                    		</div>
+                   			<div class="form-group margin-bottom-10">
+                        		<label for="sort-info" class="col-sm-3 control-label">上传说明:</label>
+                        		<div class="col-sm-5 ">
+                            		<textarea class="form-control" id="remark" rows="5" cols="20"></textarea>
+                        		</div>
+                   			</div>
+                		</form>
+                		<!--form表单结束-->
+            		</div>
+		            <div class="modal-footer padding-right-0">
+                    	<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                		<button type="button" class="btn btn-primary" id="upload" data-bind="click:attachUpload">提交</button>
+            		</div>
+		        </div>
+		    	</div>
+		    </div>
+        <button class="btn sup-btns sup-input" type="button" id="down" data-bind="click:downloadFile">下载</button>
+        <button class="btn sup-btns sup-input" type="button" id="show" data-bind="click:showFile">预览</button>
+        <button class="btn sup-btns sup-input" type="button" id="delete" data-bind="click:attachDelete">删除</button>
+    </div>
+    <!--内容-->
+    <div class="sup-container">
+            <div class="tabbable" id="tabs-list">
+              
+                <div class="tab-content">
+                        <div class="ex-list">
+                            <span class="ex-list-title">附件列表：</span>
+							<div class="btn-grid-group flex-1 grid-container-sm">
+								<div id="planInfoToolbarArea" ></div>
+								<div id=testGrid class="tabbed-grid"></div>
+							</div>
+							<div class="tab-pane" id="panel-details">
+                        	<div id="ipot-url"></div>
+                        	<iframe id="input-detail-iframe"  style="width: 100%;height: 481px;border: 0;overflow-y: auto;"></iframe>
+                    		</div>
+                        	</div>
+                    	</div>
+                </div>
+           
+  			</div>
+  	</div>
+  </body>
+  	<!--引入js-->
+	<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+	<script src="../../trd/requirejs/require.js"></script>
+	<script src="../../require.config.js"></script>
+	<script src="attachment.js"></script>
+</html>

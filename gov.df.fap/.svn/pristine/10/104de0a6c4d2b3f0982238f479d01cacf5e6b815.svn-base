@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge;IE=11;IE=10;IE=9;IE=8;" />
+    <title>首部</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/u.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/tree.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/changeTree/changeTree.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/grid.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/ip.css" />
+    <link rel="stylesheet" type="text/css" href="index.css" />
+</head>
+<body style="margin:0;padding: 0">
+    <div id="head" class="csof-head">
+        <div id="name" class="name">
+            中央基层预算单位综合预算监管系统
+        </div>
+        <div id="" class="opreations">
+            <span><a href="javascript:void(0);" id="login-again">重新登录</a></span>
+            <span><a href="javascript:void(0);">切换区间</a></span>
+            <span><a href="javascript:void(0);">退出</a></span>
+        </div>
+        <div class="relevant-infomation">
+            【机构】<span>北京专员办</span>
+            【处室】<span>二处</span>
+            【用户】<span>xxx</span>
+            【期间】<span>2017年</span>
+        </div>
+    </div>
+    <!--<div class="left csof-leftpanel">-->
+        <!--<div class="first-catalog left-catalog-common"><a href="javascript:void(0);">我</a></div>-->
+        <!--<div class="second-catalog left-catalog-common"><a href="javascript:void(0);">事</a></div>-->
+        <!--<div data-bind="click:thCatalogClick" class="third-catalog left-catalog-common"><a href="javascript:void(0);">审</a></div>-->
+        <!--<div class="four-catalog left-catalog-common"><a href="javascript:void(0);">账</a></div>-->
+        <!--<div class="five-catalog left-catalog-common"><a href="javascript:void(0);">库</a></div>-->
+        <!--<div class="six-catalog left-catalog-common"><a href="javascript:void(0);">智</a></div>-->
+    <!--</div>-->
+    <div class="left csof-leftpanel">
+        <button type="button" class="btn btn-primary first-catalog left-catalog-common">我</button>
+        <button type="button" class="btn btn-primary second-catalog left-catalog-common">事</button>
+        <button type="button" class="btn btn-primary third-catalog left-catalog-common">审</button>
+        <button type="button" class="btn btn-primary four-catalog left-catalog-common">账</button>
+        <button type="button" class="btn btn-primary five-catalog left-catalog-common">库</button>
+        <button type="button" class="btn btn-primary six-catalog left-catalog-common">智</button>
+    </div>
+    <div id="" class="right csof-rightpanel">
+        <iframe id="csof-right-iframe" style="margin-left: 90px;margin-top: 60px;width: 100%;min-height: 800px;border: 0;"></iframe>
+    </div>
+    <script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+    <script src="../../trd/requirejs/require.js"></script>
+    <script src="../../require.config.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+package gov.df.supervise.controller.sup;
+
+import gov.df.supervise.api.sup.SupService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSONObject;
+
+
+@Controller
+@RequestMapping(value = "/df/sup")
+public class SupController {
+
+	@Autowired
+	private SupService supService; // 监管事项服务
+
+	/**
+	 * 监管事项查询
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/getSup.do")
+	public @ResponseBody
+	Map<String, Object> getSup(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			List resultList = new ArrayList();
+			String pageInfo = null != request.getParameter("pageInfo") ? request.getParameter("pageInfo") : "";
+			String data = null != request.getParameter("data")?request.getParameter("data") : ""; 
+			List  dataList = JSONObject.parseArray(data, Map.class);
+
+			resultList = supService.getSup(dataList,pageInfo);
+			map.put("flag", true);
+			map.put("errorCode", "0");
+			map.put("dataDetail", resultList);
+			map.put("totalElements", resultList.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("errorCode", "1");
+			map.put("errorMsg", "获取数据出现异常");
+		}
+
+		return map;
+
+	}
+	
+	/**
+	 * 监管事项查询
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/saveSup.do")
+	public @ResponseBody
+	Map<String, Object> saveSup(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			int result = 0;
+			String data = request.getParameter("data") != null ? request.getParameter("data") : "";
+			String action = request.getParameter("action") !=null ? request.getParameter("action") : "";
+			List  dataList = JSONObject.parseArray(data, Map.class);
+			result = supService.saveSup(dataList, action);
+			
+			map.put("flag", true);
+			map.put("errorCode", "0");
+			map.put("data", result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("errorCode", "1");
+			map.put("errorMsg", "获取数据出现异常");
+		}
+
+		return map;
+
+	}
+	
+	/**
+	 * 监管事项查询
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/deleteSup.do")
+	public @ResponseBody
+	Map<String, Object> deleteSup(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			int result = 0;
+ 			String key = request.getParameter("id") !=null ? request.getParameter("id") : "id";
+			String data = request.getParameter("data") !=null ? request.getParameter("data") : "";
+			List  dataList = JSONObject.parseArray(data, Map.class);
+			result = supService.deleteSup(dataList,key);	//返回数据库执行条目数
+			map.put("flag", true);
+			map.put("errorCode", "0");
+			map.put("result", result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("errorCode", "1");
+			map.put("errorMsg", "获取数据出现异常");
+		}
+
+		return map;
+
+	}
+
+}

@@ -1,0 +1,172 @@
+/**
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2017 北京用友政务软件有限公司
+ * </p>
+ * <p>
+ * Company: 北京用友政务软件有限公司
+ * </p>
+ * <p>
+ * CreateData: 2017-9-4下午3:03:30
+ * </p>
+ * 
+ * @author songlr3
+ * @version 1.0
+ */
+package gov.df.supervise.controller.itemsupervision;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import gov.df.supervise.api.itemsupervision.ItemSupervisionService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSONObject;
+import com.ufgov.ip.apiUtils.UUIDTools;
+
+@Controller
+@RequestMapping(value = "/ItemSupervision")
+public class ItemSupervisionController {
+	
+	@Autowired
+	private ItemSupervisionService itemSupervisionService;
+	
+	/**
+	 * 新增监管事项管理
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/saveNewItem.do")
+	public @ResponseBody Map<String, Object> saveNewItem(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		String sid = UUIDTools.uuidRandom();
+		String supNo = request.getParameter("supNo");//事项编号supNo
+		String supTypeId = request.getParameter("supTypeId");
+		String supTypeCode = request.getParameter("supTypeCode");
+		String supTypeName = request.getParameter("supTypeName");//监管类型supTypeId、supTypeCode、supTypeName
+		String supName = request.getParameter("supName");//事项名称supName
+		String workType = request.getParameter("workType");//工作性质workType
+		String mofdepId = request.getParameter("mofdepId");
+		String mofdepCode = request.getParameter("mofdepCode");
+		String mofdepName = request.getParameter("mofdepName");//负责司局mofdepId、mofdepCode、mofdepName
+		String objTypeId = request.getParameter("objTypeId");
+		String objTypeCode = request.getParameter("objTypeCode");
+		String objTypeName = request.getParameter("objTypeName");//监管对象objTypeId、objTypeCode、objTypeName
+		String depId = request.getParameter("depId");
+		String depCode = request.getParameter("depCode");
+		String depName = request.getParameter("depName");//牵头处室depId、depCode、depName
+		String supCycle = request.getParameter("supCycle");//事项周期supCycle
+		String supMode = request.getParameter("supMode");//监管方式supMode
+		String startDate = request.getParameter("startDate");//起始时间startDate
+		//String  = request.getParameter("");//是否汇总
+		String endDate = request.getParameter("endDate");//截止时间endDate
+		String isUnion = request.getParameter("isUnion");//核查性质isUnion
+		String unionOrgs = request.getParameter("unionOrgs");//涉及部门unionOrgs
+		String supContent = request.getParameter("supContent");//监管内容supContent
+		String remark = request.getParameter("remark");//备注remark
+//		String  = request.getParameter("");//机关机构
+//		String  = request.getParameter("");//具体对象
+//		String  = request.getParameter("");//具体内容
+		@SuppressWarnings("rawtypes")
+		List<Map> Objectlist = JSONObject.parseArray(request.getParameter("Objectlist"),Map.class);
+		@SuppressWarnings("rawtypes")
+		List<Map> EReportlist = JSONObject.parseArray(request.getParameter("EReportlist"),Map.class);
+		try{
+			itemSupervisionService.saveNewItem(sid,supNo,supTypeId,supTypeCode,supTypeName,supName,workType,mofdepId,mofdepCode,mofdepName,objTypeId,objTypeCode,
+					objTypeName,depId,depCode,depName,supCycle,supMode,startDate,endDate,isUnion,unionOrgs,supContent,remark,Objectlist,EReportlist);
+			result.put("EReportlist", EReportlist);
+			result.put("errorCode", 0);
+		} catch (Exception e) {
+			result.put("errorCode", -1);
+			result.put("errorMsg", "保存失败");
+			result.put("message", e.getMessage());
+		} 
+
+		return result;
+	}
+	
+	/**
+	 * 新增时具体对象查找（根据选择监管对象查询）
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/selectObjectByDep.do")
+	public @ResponseBody Map<String, Object> selectObjectByDep(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String,Object> param = new HashMap<String,Object>();
+//		List<String> depId = new ArrayList<String>();
+//		String[] str = (request.getParameter("depId")).split(",");
+//		for(int i = 0; i < str.length; i++) {
+//			depId.add(str[i]);
+//		}
+//		String oid = request.getParameter("oid");
+//		param.put("depId", depId);
+//		param.put("oid", oid);
+		try{
+			List<?> deplist = itemSupervisionService.selectEDep();
+			List<?> Objectlist = itemSupervisionService.selectObjectByDep(param);
+			List<?> EReportlist = itemSupervisionService.selectEReport();
+			result.put("Objectlist", Objectlist);
+			result.put("deplist", deplist);
+			result.put("EReportlist", EReportlist);
+			result.put("errorCode", 0);
+		} catch (Exception e) {
+			result.put("errorCode", -1);
+			result.put("errorMsg", "查询失败");
+			result.put("message", e.getMessage());
+		} 
+		return result;		
+	}
+	
+	/**
+	 * 查询e_report表详细监管内容
+	 */
+//	@RequestMapping(method = RequestMethod.POST, value = "/selectEReport.do")
+//	public @ResponseBody Map<String, Object> selectEReport(HttpServletRequest request, HttpServletResponse response) {
+//		Map<String, Object> result = new HashMap<String, Object>();
+//		try{
+//			List<?> list = itemSupervisionService.selectEReport();
+//			result.put("data", list);
+//			result.put("errorCode", 0);
+//		} catch (Exception e) {
+//			result.put("errorCode", -1);
+//			result.put("errorMsg", "查询失败");
+//			result.put("message", e.getMessage());
+//		} 
+//		return result;		
+//	}
+	
+	/**
+	 * 录入页面通过sid删除事项管理
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/deleteBySid.do")
+	public @ResponseBody Map<String, Object> deleteBySid(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		String sid = request.getParameter("sid");
+		try{
+			itemSupervisionService.deleteBySid(sid);
+			result.put("errorCode", 0);
+		} catch (Exception e) {
+			result.put("errorCode", -1);
+			result.put("errorMsg", "查询失败");
+			result.put("message", e.getMessage());
+		} 
+		return result;		
+	}
+	
+	/**
+	 * 分解页面分解
+	 */
+	
+
+}

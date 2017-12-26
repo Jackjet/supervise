@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gov.df.supervise.service.view.CsofCViewDao">
+  <resultMap id="BaseResultMap" type="gov.df.supervise.bean.view.CsofCViewEntity">
+    <id column="VIEW_ID" jdbcType="VARCHAR" property="viewId" />
+    <result column="VIEW_CODE" jdbcType="VARCHAR" property="viewCode" />
+    <result column="VIEW_NAME" jdbcType="VARCHAR" property="viewName" />
+    <result column="OBJTYPE_ID" jdbcType="VARCHAR" property="objtypeId" />
+    <result column="OBJTYPE_CODE" jdbcType="VARCHAR" property="objtypeCode" />
+    <result column="OBJTYPE_NAME" jdbcType="VARCHAR" property="objtypeName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    VIEW_ID, VIEW_CODE, VIEW_NAME, OBJTYPE_ID, OBJTYPE_CODE, OBJTYPE_NAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CSOF_C_VIEW
+    where VIEW_ID = #{viewId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from CSOF_C_VIEW
+    where VIEW_ID = #{viewId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="gov.df.supervise.bean.view.CsofCViewCellEntity">
+    insert into CSOF_C_VIEW (VIEW_ID, VIEW_CODE, VIEW_NAME, 
+      OBJTYPE_ID, OBJTYPE_CODE, OBJTYPE_NAME
+      )
+    values (#{viewId,jdbcType=VARCHAR}, #{viewCode,jdbcType=VARCHAR}, #{viewName,jdbcType=VARCHAR}, 
+      #{objtypeId,jdbcType=VARCHAR}, #{objtypeCode,jdbcType=VARCHAR}, #{objtypeName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="gov.df.supervise.bean.view.CsofCViewCellEntity">
+    insert into CSOF_C_VIEW
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="viewId != null">
+        VIEW_ID,
+      </if>
+      <if test="viewCode != null">
+        VIEW_CODE,
+      </if>
+      <if test="viewName != null">
+        VIEW_NAME,
+      </if>
+      <if test="objtypeId != null">
+        OBJTYPE_ID,
+      </if>
+      <if test="objtypeCode != null">
+        OBJTYPE_CODE,
+      </if>
+      <if test="objtypeName != null">
+        OBJTYPE_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="viewId != null">
+        #{viewId,jdbcType=VARCHAR},
+      </if>
+      <if test="viewCode != null">
+        #{viewCode,jdbcType=VARCHAR},
+      </if>
+      <if test="viewName != null">
+        #{viewName,jdbcType=VARCHAR},
+      </if>
+      <if test="objtypeId != null">
+        #{objtypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="objtypeCode != null">
+        #{objtypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="objtypeName != null">
+        #{objtypeName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="gov.df.supervise.bean.view.CsofCViewCellEntity">
+    update CSOF_C_VIEW
+    <set>
+      <if test="viewCode != null">
+        VIEW_CODE = #{viewCode,jdbcType=VARCHAR},
+      </if>
+      <if test="viewName != null">
+        VIEW_NAME = #{viewName,jdbcType=VARCHAR},
+      </if>
+      <if test="objtypeId != null">
+        OBJTYPE_ID = #{objtypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="objtypeCode != null">
+        OBJTYPE_CODE = #{objtypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="objtypeName != null">
+        OBJTYPE_NAME = #{objtypeName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where VIEW_ID = #{viewId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="gov.df.supervise.bean.view.CsofCViewCellEntity">
+    update CSOF_C_VIEW
+    set VIEW_CODE = #{viewCode,jdbcType=VARCHAR},
+      VIEW_NAME = #{viewName,jdbcType=VARCHAR},
+      OBJTYPE_ID = #{objtypeId,jdbcType=VARCHAR},
+      OBJTYPE_CODE = #{objtypeCode,jdbcType=VARCHAR},
+      OBJTYPE_NAME = #{objtypeName,jdbcType=VARCHAR}
+    where VIEW_ID = #{viewId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectAllExcel" resultType="java.util.Map">
+    select 
+    <include refid="Base_Column_List" />
+    from CSOF_C_VIEW
+  </select>
+</mapper>

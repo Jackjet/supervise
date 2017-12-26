@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow: hidden;">
+<head>
+	<meta charset="UTF-8">
+	<title>审</title>
+	<link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/tree.css" />
+	<link rel="stylesheet" type="text/css" href="/df/trd/ip/changeTree/changeTree.css" />
+	<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/u.css" />
+	<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/grid.css" />
+	<link rel="stylesheet" type="text/css" href="/df/trd/ip/css/ip.css" />
+	<link rel="stylesheet" type="text/css" href="../../trd/ip/css/bizSys.css" />
+	<link rel="stylesheet" href="css/csofSup.css">
+	<link rel="stylesheet" href="/df/trd/splitter/jqx.base.css">
+	<link rel="stylesheet" href="../common/common.css">
+	<script type="text/javascript" src="/df/trd/splitter/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="/df/trd/splitter/jqxcore.js"></script>
+	<script type="text/javascript" src="/df/trd/splitter/jqxsplitter.js"></script>
+	<script type="text/javascript">
+		  $(document).ready(function () {
+	          $('#main-content').jqxSplitter({ width: '98.3%', height: '87.5%', panels: [{ size: '23.2%', min: 200 }, { min: 800, size: '76.8%' }] });
+		  });
+	</script>
+</head>
+<body class="csof-font" style="overflow:hidden;">
+	<!--按钮组-->
+	<div class="col-md-12 csof-btns-content" id="btn-line">
+		<div class="pull-left" id="btns-group"></div>
+		<div class="pull-right right-search">
+			<form class="form-search form-inline">
+				<div class="input-group">
+					<input type="text" id="gridSearchInput" class="form-control">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button"
+							data-bind="click:gridSearch">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button> </span>
+				</div>
+				<button type="button" class="btn" onclick="hignSearch()">高级</button>
+			</form>
+		</div>
+	</div>
+	<!--main-->
+	<div class="col-md-12" id="main-content">
+		<!-- 左树 -->
+		<div class="pull-left" id="left-main-content">
+			<div class="input-group tree-search-div">
+				<input type="text" id="SearchdepTree" class="form-control"
+					data-bind="value: SearchdepTreeKEY" placeholder="模糊查询...">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button"
+						data-bind="click:searchDepTree">
+						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					</button> </span>
+			</div>
+
+			<div id="depTree" class="ztree treeDiv"
+				u-meta='{
+                                "id":"depTree",
+                                "data":"depTreeDataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"NAME",
+                                "setting":"depTreeSetting"
+                            }'>
+			</div>
+		</div>
+		<!--右表-->
+		<div class="pull-left" id="right-main-content">
+			<ul class="nav nav-tabs" id="righ-tab-ul">
+				<li id="list-li" class="active"><a data-toggle="tab" href="#panel-list" id="list-li-a">列表</a>
+				</li>
+				<li id="details-li"><a data-toggle="tab" href="#panel-details" id="details-li-a">详情</a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="panel-list">
+					<div class="tab-panel tab-panel-height">
+						<div class="grid-title">
+							<span class="rightTable-title">监管内容列表：</span>
+							<span class="rightTable-title-status"></span>
+							<span class="rightTable-recodeNum">共<span id="gridSumNum" class="gridSumNum"> </span>笔</span>
+						</div>
+						<!--表格区域-->
+						<div id="testGrid" class="rightTableGrid-hasnav"></div>
+					</div>
+				</div>
+				<div class="tab-pane" id="panel-details">
+					<div id="irptShow" class="tab-content detailNavShowStyle">
+						<div class="tab-pane" style="height:100%;" id="panel-fileUpload">
+							<iframe id="fileUploadPage" class="irptShowIframe"></iframe>
+						</div>
+
+					</div>
+					<div id="detailNav" class="detailNavStyle">
+						<ul id="detailIrptNav" class="nav nav-tabs righ-tab-ul">
+							<li id="fileUplode_li"><a data-toggle="tab"
+								href="#panel-fileUpload" id="fileUplode">附件上传</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 报表导入导出Modal1 -->
+	<div class="modal fide bs-example-modal-lg" id="repEaIModal"
+		tabindex="-1" role="dialog" aria-labelledby="repEaIModalModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header" style="height = 34px">
+					<span style="position: absolute;left: 110px;" onclick="showBigRepEaIModal()"><span
+						class="glyphicon glyphicon-search"></span> </span>
+					<button type="button" style="margin-top: -7px;"
+						onclick="closeRepEaIModal()" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h5 class="modal-title" id="repEaIModalLabel">报表导入导出</h5>
+				</div>
+				<div class="modal-body"
+					style="overflow: auto;height: 425px;padding: 0;">
+					<iframe id="repPage" style="width:100%;height:100%;border: 0;"></iframe>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-prima"
+						onclick="closeRepEaIModal()" data-dismiss="modal">完成</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 数据录入Modal1 -->
+	<div class="modal fade bs-example-modal-lg" id="dataInputModal"
+		tabindex="-1" role="dialog" aria-labelledby="dataInputModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header" style="height=34px">
+					<span style="position: absolute;left: 110px;" onclick="showBigdataInputModal()"><span
+						class="glyphicon glyphicon-search"></span> </span>
+					<button type="button" style="margin-top: -7px;"
+						onclick="closedataInputModal()" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h5 class="modal-title" id="repEaIModalLabel">数据录入</h5>
+				</div>
+				<div class="modal-body" style="overflow: auto;height: 425px;padding: 0;">
+					<div id="dataInputirptShow" class="tab-content detailNavShowStyle" style="height: 395px;">
+						<div class="tab-pane" style="height:100%;" id="panel-dataInputfileUpload">
+							<iframe id="dataInputfileUploadPage" class="irptShowIframe" src=''></iframe>
+						</div>
+
+					</div>
+					<div id="dataInputdetailNav" class="dataInputdetailNavStyle">
+						<ul id="dataInputdetailIrptNav" class="nav nav-tabs righ-tab-ul">
+							<li id="dataInputfileUplode_li"><a data-toggle="tab"
+								href="#panel-dataInputfileUpload" id="dataInputfileUplode">附件上传</a>
+							</li>
+						</ul>
+					</div>
+					<!--  <iframe id="dataInputPage" name="dataInputPage" style="width:100%;height:90%;border: 0;"></iframe>-->
+				</div>
+				<div class="modal-footer">
+					<button class="btn csof-btn" type="button" onclick="saveDataInput()">确  定</button>
+					<button type="button" class="btn btn-prima" onclick="closedataInputModal()" data-dismiss="modal">返回</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 批量导入Modal1 -->
+	<div class="modal fade bs-example-modal-lg" id="batchImpModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="batchImpModalLabel">批量导入</h4>
+				</div>
+				<div class="modal-body add-Modal">
+					<nav class="step-box">
+						<div class="u-pearls  u-row">
+						    <div class="u-step current u-col-md-3 u-col-sm-3 u-col-xs-3  newWid">
+								<span class="u-step-number">1</span> <span class="u-step-title">选择报表页签</span>
+							</div>
+							<div class="u-step u-col-md-3 u-col-sm-3 u-col-xs-3  newWid">
+								<span class="u-step-number">2</span> <span class="u-step-title">选择待导入的数据文件</span>
+							</div>
+							<div class="u-step  u-col-md-3 u-col-sm-3 u-col-xs-3  newWid">
+								<span class="u-step-number">3</span> <span class="u-step-title">确认导入的数据信息</span>
+							</div>
+							<div class="u-step u-col-md-3 u-col-sm-3 u-col-xs-3  newWid">
+								<span class="u-step-number">4</span> <span class="u-step-title">导入执行</span>
+							</div>
+						</div>
+						<div class="show-step">
+							<span class="step-doing">1</span> <span class="step-num">/</span>
+							<span>4</span> <span class="step-name">选择报表页签</span>
+						</div>
+					</nav>
+					<div class="tab-content tab-pad">
+					    <!-- 选择view_Id -->
+					    <div  role="tabpanel" class="tab-pane active" id="viewReport">
+							<div id = "viewShow"></div>
+						</div>
+						
+						<!-- 选择待导入的数据文件 -->
+						<div  role="tabpanel" class="tab-pane" id="filePage">
+							<iframe id="execlFile" style="width:100%;height: 315px;border: 0;"></iframe>
+						</div>
+
+						<!-- 确认导入的数据信息-->
+						<div role="tabpanel" class="tab-pane" id="confirmImp">
+							<div class="u-col-md-12">
+								<div class="col-md-6">
+									<label for="task_id" class="text-right"
+										style="font-size: 12px; font-weight: normal;">任务编号：</label>
+									<input readonly="readonly" type="text" style="width:80%;" id="task_id" class="u-form-control padding-left-20">
+								</div>
+								<div class="col-md-6">
+									<label for="task_name" class="text-right"
+										style="font-size: 12px; font-weight: normal;">任务名称：</label>
+									<input readonly="readonly" type="text" style="width:80%;" id="task_name" class="u-form-control padding-left-20">
+								</div>
+								<div class="col-md-6">
+									<label for="bbq_date" class="text-right"
+										style="font-size: 12px; font-weight: normal;">数据期间：</label>
+									<input readonly="readonly" type="text" style="width:80%;" id="bbq_date" class="u-form-control padding-left-20">
+								</div>
+							</div>
+							<div id="confirmImpGrid" style="overflow: auto;height: 250px;width: 100%;"
+								u-meta='{"id":"confirmImpGrid","editType":"default","editable":false,"type":"grid","field":"","autoExpand":false,"data":"confirmImpGridDataTable","showNumCol":true}'>
+								<div
+									options='{"field":"file_name","dataType":"String","title":"数据文件名"}'></div>
+								<div
+									options='{"field":"dep","dataType":"String","title":"所属对象"}'></div>
+								<div
+									options='{"field":"operate","dataType":"String","title":"单位操作","renderType":"optFun","editable":false,"width":90}'></div>
+								<div
+									options='{"field":"status","dataType":"String","title":"状态"}'></div>
+							</div>
+						</div>
+
+						<!-- 导入执行  -->
+						<div role="tabpanel" class="tab-pane" id="finishImp">
+						    <div style="padding:0;">							
+						                       当前导入： <span id="op_dep_name">单位XXX  </span> <span id="op_file_name">文件XXXXX </span> 
+						       <span style="pull-right">已导入  <span id="hasOpNum" data-bind="text: data.hasOpNum">0</span> 家 /  共  <span id="totleOpNum">0</span> 家</span>
+						    </div>
+						    <div id="log" style="border:1px solid #ccc;height: 300px;overflow: auto;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer" style="padding-right: 15px;border-top: 0;">
+					<button id="btn1" name="btn1" type="button" class="btn btn-default"
+						data-bind="click:btnEvents">上一步</button>
+					<button id="btn2" name="btn2" type="button" class="btn btn-prima"
+						data-bind="click:btnEvents">下一步</button>
+					<button id="btn3" name="btn3" type="button" class="btn btn-prima"
+						data-bind="click:btnEvents">开始导入</button>
+					<button id="btn4" name="btn4" type="button" class="btn btn-prima"
+						data-bind="click:btnEvents">确认</button>
+					<button id="btn5" name="btn5" type="button" class="btn btn-default"
+						data-dismiss="modal" data-bind="click:btnEvents">返回</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- modal2 -->
+	<div class="modal fade modal-" id="impTreeModel" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" style="width: 400px;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">单位树</h4>
+				</div>
+				<div class="modal-body" style="height: 400px;overflow: auto;padding: 0;">
+					<div class=" panel-default panel-body tree-list2">
+						<div id="impDepTree" class="ztree"
+							u-meta='{
+                                "id":"impDepTree",
+                                "data":"impTreeDataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"NAME",
+                                "setting":"impTreeSetting"
+                            }'>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="impTreeSure">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!--引入js-->
+	<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+	<script src="../../trd/requirejs/require.js"></script>
+	<script src="../../require.config.js"></script>
+	<script src="data.js"></script>
+	<script src="csofSup.js"></script>
+</body>
+</html>

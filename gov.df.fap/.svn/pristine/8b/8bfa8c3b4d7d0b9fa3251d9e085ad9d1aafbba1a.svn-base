@@ -1,0 +1,140 @@
+<!-- Created by yanqiong on 2017/11/6. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>补丁在线升级</title>
+    <link rel="stylesheet" type="text/css" href="../../trd/datetimepicker/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../../trd/ip/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/tree.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/ip/changeTree/changeTree.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/u.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/grid.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/ip/css/ip.css" />     
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/bizSys.css" />
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/mattersEnter.css">
+    <link rel="stylesheet" href="/df/trd/splitter/jqx.base.css">
+	<link rel="stylesheet" href="../common/common.css">
+	<script type="text/javascript" src="/df/trd/splitter/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="/df/trd/splitter/jqxcore.js"></script>
+	<script type="text/javascript" src="/df/trd/splitter/jqxsplitter.js"></script>
+	<script type="text/javascript">
+	    $(document).ready(function () {
+	    	  $('#right-top-bottom-content').jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', panels: [{ size: '60%',  min: 60 , collapsible: false },{ size: '40%',  min: 27 }] });
+	    });
+	</script>
+</head>
+<body class="csof-font" style="overflow: hidden;">
+	<!--按钮组-->
+	<div class="col-md-12 csof-btns-content" id="btn-line">
+		<div class="pull-left" id="btns-group"></div>
+		<!-- <div class="pull-right right-search">
+		    <form class="form-search form-inline">
+				<div class="input-group">
+					<input type="text" id="gridSearchInput" class="form-control">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button"
+							data-bind="click:gridSearch">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button> </span>
+				</div>
+				<button type="button" class="btn" onclick="hignSearch()">高级</button>
+			</form>
+		</div> -->
+	</div>
+	
+	<!--main-->
+					<div class="col-md-12" id="right-top-bottom-content" style="margin-top:10px;">
+						<div class="two-panel-div">
+							<div class="grid-title">
+								<span class="rightTable-title">补丁列表：</span> 
+								<span class="rightTable-title-status" id="mainGridStatus"></span> 
+								<span class="rightTable-recodeNum">共 <span id="mainGridSumNum" class="gridSumNum"> </span>笔</span>
+							</div>
+							<div id="upgradeGrid" class="rightTableGrid"></div>
+						</div>
+						<div class="two-panel-div">
+							<ul id="myTab" class="nav nav-tabs nav-show righ-tab-ul" role="tablist">
+								<li role="presentation" class="active"><a href="#home"
+									aria-controls="home" role="tab" data-toggle="tab">补丁内容</a>
+								</li>
+								<li role="presentation"><a href="#profile"
+									aria-controls="profile" role="tab" data-toggle="tab">执行日志</a>
+								</li>
+							</ul>
+							<div class="tab-content tab-pad">
+								<div role="tabpanel" class="tab-pane active tab-panel-height" id="home">
+									
+								</div>
+				
+								<div role="tabpanel" class="tab-pane" id="profile">
+									
+								</div>
+							</div>
+						</div>
+					</div>
+
+	
+<!-- 执行Modal -->
+<div class="modal fade" id="exeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="width:100%;height:300px;">
+            	<div style="margin-top:5%;display:inline-block;margin-left: 20%;">
+            	   	<form  action="" name="forms">
+            	   			<span style="font-size:14px;margin-right:15px;"> 请输入升级密码:</span>
+      						<span><input type="password" name="password" id="uppwd" size="80" style="width: 35%;width:;height: 33px;border-radius:3px;"></span>
+    				</form>
+            	</div>
+               	<div style="margin-top: 40px;margin-left:20%;width: 50%;">
+               		<span style="color:red;font-size:14px;">
+               			注意：此补丁为严重补丁，包含记录或表的删除，请确认是否执行?
+               		</span>
+               	</div>
+            </div>
+            <div class="modal-footer" style="text-align:left;">
+                <button id="btn1" name="btn1" type="button" class="btn btn-primary" style="width:60px;margin-left:40%;" data-bind="click: confirmExe">是</button>
+                <button id="btn2" name="btn2" type="button" class="btn btn-default" style="width:60px;" data-bind="click: cancelExe">否</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 上传Modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+         	<div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">上传</h4>
+            </div>
+            <div class="modal-body">
+					<div style="margin-top:10px;height:35px;">
+							<label  style="height: 35px;font-size: 14px; text-align: right;" class="col-sm-2">升级说明</label>
+							<div class="col-sm-9">
+									<input type="text"  class="form-control" value="" id="remark" onkeyup="verifyInput(this,30)" />
+							</div>		
+					</div>
+	            	<!-- 调用通用上传方法 -->
+	            	<div style="height:300px;overflow:auto;" id="panel-file">
+						<iframe id="filePage" class="file-iframe"></iframe>
+					</div>
+            </div>
+            <div class="modal-footer" style="text-align:left;">
+                <button id="btn1" name="btn1" type="button" class="btn btn-primary" style="width:60px;margin-left:40%;" data-bind="click: confirmUpload">确定</button>
+                <button id="btn2" name="btn2" type="button" class="btn btn-default" style="width:60px;">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+	
+	<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+	<script src="../../trd/requirejs/require.js"></script>
+	<script src="../../require.config.js"></script>
+	<script src="js/patchUpgrade.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+package gov.df.supervise.service.exception;
+
+import org.gov.df.supervice.util.common.exception.PlatformException;
+
+/**
+* <p>Title:使用流程组件错误</p>
+* <p>Description: 凡是使用流程组件出现的错误，应抛出该异常</p>
+* <p>Copyright: Copyright (c) 2006</p>
+* <p>Company: 北京用友政务软件有限公司</p>
+* <p>CreateDate 2006-6-14</p>
+* @author Tim
+* @version 1.0
+*/
+public class WorkFlowException extends PlatformException {
+
+  private static final long serialVersionUID = 200601197122901146L;
+
+  public WorkFlowException() {
+    super();
+  }
+
+  public WorkFlowException(String message) {
+    super(message);
+  }
+
+  public WorkFlowException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
+  public WorkFlowException(Throwable cause) {
+    super(cause);
+  }
+
+}

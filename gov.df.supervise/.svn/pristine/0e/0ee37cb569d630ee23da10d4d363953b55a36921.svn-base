@@ -1,0 +1,436 @@
+package gov.df.supervise.service.task;
+
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.gl.core.CommonUtil;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.supervise.api.task.TaskService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONObject;
+import com.ufgov.ip.apiUtils.UUIDTools;
+
+@Service
+public class TaskBO implements TaskService {
+
+  @Autowired
+  @Qualifier("generalDAO")
+  GeneralDAO dao;
+
+  //监管数据期间（例： 季: 201701--  月：201701-- 旬：20170101 20170102 20170103 半年：201701-- 201702-- )
+  static String[] month = new String[] { "01--", "02--", "03--", "04--", "05--", "06--", "07--", "08--", "09--",
+    "10--", "11--", "12--" }; //月份 3
+
+  static String[] quarter = new String[] { "01--", "02--", "03--", "04--" }; //季节    2
+
+  static String[] xun = new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }; //旬  遍历所有 加  01 02 03    4
+
+  static String[] hafYear = new String[] { "01--", "02--" }; //半年   7
+
+  static String[] month_name = new String[] { "01月", "02月", "03月", "04月", "05月", "06月", "07月", "08月", "09月", "10月",
+    "11月", "12月" }; //月份 3
+
+  static String[] quarter_name = new String[] { "第1季", "第2季", "第3季", "第4季" }; //季节    2
+
+  static String[] xun_name = new String[] { "1月上旬", "1月中旬", "1月下旬", "2月上旬", "2月中旬", "2月下旬", "3月上旬", "3月中旬", "3月下旬",
+    "4月上旬", "4月中旬", "4月下旬", "5月上旬", "5月中旬", "5月下旬", "6月上旬", "6月中旬", "6月下旬", "7月上旬", "7月中旬", "7月下旬", "8月上旬", "8月中旬",
+    "8月下旬", "9月上旬", "9月中旬", "9月下旬", "10月上旬", "10月中旬", "10月下旬", "11月上旬", "11月中旬", "11月下旬", "12月上旬", "12月中旬", "12月下旬", }; //旬  遍历所有 加  01 02 03    4
+
+  static String[] hafYear_name = new String[] { "上半年", "下半年" };
+
+  static String[] bdq = new String[] { "--------" }; //不定期
+
+  static String[] ycx = new String[] { "--------" }; //一次性
+
+  static String set_year = CommonUtil.getSetYear();
+
+  static Map<String, String[]> cycleMapName = new HashMap<String, String[]>();
+
+  static Map<String, String[]> cycleMap = new HashMap<String, String[]>();
+  static {
+    {
+      cycleMap.put("9", ycx);
+      cycleMap.put("0", bdq);
+      cycleMap.put("2", quarter);
+      cycleMap.put("3", month);
+      cycleMap.put("4", xun);
+      cycleMap.put("7", hafYear);
+      cycleMapName.put("2", quarter_name);
+      cycleMapName.put("3", month_name);
+      cycleMapName.put("4", xun_name);
+      cycleMapName.put("7", hafYear_name);
+    }
+  };
+
+  public void setDepAssign(Map map) {
+    String upDep = " update csof_task_dep set remark='" + map.get("REMARK") + "' , plan_cost='" + map.get("PLAN_COST")
+      + "' , end_date='" + map.get("END_DATE") + "' ," + " assign_user='" + map.get("ASSIGN_USER")
+      + "' , assign_date = '" + map.get("ASSIGN_DATE") + "' where ID='" + map.get("ID") + "'";
+    dao.executeBySql(upDep);
+  }
+
+  public int clearAssign(String chr_id, String type_code) {
+
+    Map<String, String> map = new HashMap<String, String>();
+    map.put("REMARK", "");
+    map.put("PLAN_COST", "");
+    map.put("END_DATE", "");
+    map.put("ASSIGN_USER", "");
+    map.put("ASSIGN_DATE", "");
+    setDepAssign(map);
+    return deleteData("CSOF_TASK_USER", "AND " + type_code + "='" + chr_id + "'");
+
+  }
+
+  /**
+  * 分解保存 csof_task_user
+  */
+  public int saveTaskUser(String postData) {
+    List dataList = new ArrayList();
+    dataList = JSONObject.parseArray(postData, Map.class);
+    if (dataList.size() == 1) {
+      Map map = (Map) dataList.get(0);
+      String assign_user = CommonUtil.getUserCode();
+      String assign_date = CommonUtil.getDate("yyyy-MM-dd HH:mm:ss");
+      map.put("ASSIGN_USER", assign_user);
+      map.put("ASSIGN_DATE", assign_date);
+      setDepAssign(map);
+
+      List taskUserSql = new ArrayList();
+      String[] cycleArray = cycleMap.get(map.get("SUP_CYCLE").toString());
+      String[] cycleNameArray = cycleMapName.get(map.get("SUP_CYCLE").toString());
+
+      for (int i = 0; i < cycleArray.length; i++) {
+
+        Map<String, String> taskUser = new HashMap<String, String>();
+        taskUser.put("ID", UUIDTools.uuidRandom());
+        taskUser.put("DEP_TASK_ID", map.get("ID").toString());
+        String sup_data = "";
+        String sup_name = "";
+        if (!(map.get("SUP_CYCLE").equals("0")) && (!map.get("SUP_CYCLE").equals("9"))) {
+          sup_data = set_year + cycleArray[i];
+          sup_name = map.get("SUP_NAME") + "(" + cycleNameArray[i] + ")";
+        }
+        taskUser.put("TASK_NAME", sup_name);
+
+        taskUser.put("SUP_DATE", sup_data);
+        String no = i < 9 ? "0" : "";
+        taskUser.put("TASK_NO", map.get("DEP_TASK_NO") + no + i);
+
+        taskUser.put("SID", map.get("SID").toString());
+        taskUser.put("SUP_NO", map.get("SUP_NO").toString());
+        taskUser.put("SUP_NAME", map.get("SUP_NAME").toString());
+        taskUser.put("SUP_MODE", map.get("SUP_MODE").toString());
+        taskUser.put("DEP_ID", map.get("DEP_ID").toString());
+        taskUser.put("DEP_CODE", map.get("DEP_CODE").toString());
+        taskUser.put("DEP_NAME", map.get("DEP_NAME").toString());
+        taskUser.put("OID", map.get("OID").toString());
+        taskUser.put("SUP_NUM", map.get("SUP_NUM").toString());
+
+        taskUser.put("PLAN_BEGIN_DATE", "");
+        taskUser.put("PLAN_END_DATE", "");
+        taskUser.put("REMARK", null != map.get("REMARK") ? map.get("REMARK").toString() : "");
+        taskUser.put("CREATE_USER", CommonUtil.getUserCode());
+        taskUser.put("CREATE_DATE", CommonUtil.getDate("yyyy-MM-dd"));
+        taskUser.put("LATEST_OP_USER", CommonUtil.getUserCode());
+        taskUser.put("LATEST_OP_DATE", CommonUtil.getDate("yyyy-MM-dd"));
+        taskUser.put("BILLTYPE_CODE", "");
+        taskUser.put("BILLTYPE_NAME", "");
+        taskUser.put("RG_CODE", map.get("RG_CODE").toString());
+        taskUser.put("SET_YEAR", set_year);
+        taskUser.put("SUP_CYCLE", map.get("SUP_CYCLE").toString());
+        taskUser.put("SUP_TYPE_ID", map.get("SUP_TYPE_ID").toString());
+        taskUser.put("SUP_TYPE_CODE", map.get("SUP_TYPE_CODE").toString());
+        taskUser.put("SUP_TYPE_NAME", map.get("SUP_TYPE_NAME").toString());
+
+        String sql = getInsertSql(taskUser, "CSOF_TASK_USER");
+        taskUserSql.add(sql);
+      }
+
+      dao.executeBatchBySql(taskUserSql);
+
+    }
+    return 0;
+  }
+
+  /**
+   * 保存监管事项报表  
+   * @param map
+   * @return
+   */
+  public int saveReport(List reportList) {
+    int result = 0;
+    if (reportList.size() > 0) {
+      List repSqlList = new ArrayList();
+      for (int i = 0; i < reportList.size(); i++) {
+        Map objMap = (Map) reportList.get(i);
+        Map<String, String> repMap = new HashMap<String, String>();
+        repMap.put("SID", null != objMap.get("SID") ? objMap.get("SID").toString() : "");
+        repMap.put("BILLTYPE_CODE", null != objMap.get("BILLTYPE_CODE") ? objMap.get("BILLTYPE_CODE").toString() : "");
+        repMap.put("REPORT_ID", null != objMap.get("REPORT_ID") ? objMap.get("REPORT_ID").toString() : "");
+        repMap.put("DISPLAY_TITLE", null != objMap.get("DISPLAY_TITLE") ? objMap.get("DISPLAY_TITLE").toString() : "");
+        repMap.put("DISPLAY_ORDER", null != objMap.get("DISPLAY_ORDER") ? objMap.get("DISPLAY_ORDER").toString() : "");
+        repMap.put("DISPLAY_ICON", null != objMap.get("DISPLAY_ICON") ? objMap.get("DISPLAY_ICON").toString() : "");
+        repMap.put("REMARK", objMap.get("REMARK") != null ? objMap.get("REMARK").toString() : "");
+
+        repSqlList.add(getInsertSql(repMap, "CSOF_SUP_REPORT"));
+      }
+
+      if (repSqlList.size() > 0) {
+        result = dao.executeBatchBySql(repSqlList).length;
+      }
+    }
+    return result;
+  }
+
+  /**
+   * 
+   */
+  public List getPorData(String tableName, String condition) {
+    String oid = SessionUtil.getUserInfoContext().getOrgCode();
+    String user_id = CommonUtil.getUserId();
+    String sql = "select * from  " + tableName + "  u  where 1=1 " + condition + " and exists ( " + "select ele_value "
+      + "from sys_right_group_detail d,sys_right_group g,sys_user_rule r " + "where 1=1 " + "and r.user_id='" + user_id
+      + "'" + "and d.right_group_id=g.right_group_id " + "and g.rule_id=r.rule_id "
+      + "and (d.ele_code='CSOF_SUPTYPE' and (d.ele_value='#' or d.ele_value=u.SUP_TYPE_CODE)))"
+      + "and (u.dep_id='#' or exists (select 1 from sys_user_org o where o.org_id=u.dep_id and o.user_id='" + user_id
+      + "'))" + "and u.oid = '" + oid + "'";
+    return dao.findBySql(sql);
+  }
+
+  /**
+   * 
+   */
+  public List getData(String tableName, String condition) {
+    String sql = "select * from  " + tableName + "  where 1=1 " + condition;
+    return dao.findBySql(sql);
+  }
+
+  public List getObjList() {
+    String oid = SessionUtil.getUserInfoContext().getOrgCode();
+    String sql = "select CHR_ID,CHR_NAME,CHR_CODE from csof_e_dep t where t.OID='" + oid + "' "
+      + "and t.ENABLED=1 and t.is_leaf=1  and exists (select 1 from csof_s_dep_agency "
+      + "a where a.dep_id=t.chr_id and a.oid=t.oid) ";
+
+    return dao.findBySql(sql);
+  }
+
+  /**
+   * 监管事项 新增、修改方法
+   */
+  public int saveTask(Map<String, String> supMap, List objList, List agencyList, List reportList) {
+    String oid = SessionUtil.getUserInfoContext().getOrgCode();
+
+    String sid = supMap.get("SID");
+
+    if (null != supMap.get("ACTION") && (!supMap.get("ACTION").equals(""))) {
+      String action = supMap.get("ACTION");
+      if (action.equals("UPDATE")) {
+        //修改
+        //重新保存   csof_task_sup  主键不变
+        //删除 csof_dep  、CSOF_TASK_DEP_AGENCY 、 CSOF_SUP_REPORT
+        deleteData("CSOF_TASK_SUP", " and sid = '" + sid + "'");
+        deleteData("CSOF_TASK_DEP", " and sid = '" + sid + "'");
+        deleteData("CSOF_TASK_OBJECT", " and sid = '" + sid + "'");
+        deleteData("CSOF_SUP_REPORT", " and sid = '" + sid + "'");
+      }
+    }
+    saveReport(reportList);
+    String rg_code = CommonUtil.getRgCode();
+    String set_year = CommonUtil.getSetYear();
+    String create_user = CommonUtil.getUserCode();
+    String create_date = CommonUtil.getDate("yyyy-MM-dd");
+
+    supMap.put("OID", oid);
+    supMap.put("SID", sid);
+    supMap.put("CREATE_USER", create_user);
+    supMap.put("CREATE_DATE", create_date);
+    supMap.put("LATEST_OP_USER", create_user);
+    supMap.put("LATEST_OP_DATE", create_date);
+    supMap.put("RG_CODE", rg_code);
+    supMap.put("SET_YEAR", set_year);
+
+    int sup_num = 0;
+    if (null != supMap.get("IS_ALLOBJ") && supMap.get("IS_ALLOBJ").equals("0") && agencyList.size() > 0) {
+      //部分监管要保存关联关系表
+      List agencySqlList = new ArrayList();
+
+      for (int i = 0; i < agencyList.size(); i++) {
+
+        Map<String, String> agency = new HashMap<String, String>();
+        Map obj = (Map) agencyList.get(i);
+        String type = obj.get("TYPE").toString();
+        String is_leaf = String.valueOf(obj.get("IS_LEAF"));
+        agency.put("SID", sid);
+        agency.put("DEP_ID", obj.get("DEP_ID").toString());
+        agency.put("OBJECT_ID", obj.get("CHR_ID").toString());
+        agency.put("OBJ_TYPE_ID", supMap.get("OBJ_TYPE_ID"));
+        agency.put("OBJ_TYPE_CODE", supMap.get("OBJ_TYPE_CODE"));
+        agency.put("OBJ_TYPE_NAME", supMap.get("OBJ_TYPE_NAME"));
+        agency.put("TYPE", obj.get("TYPE").toString());
+        agency.put("IS_LEAF", is_leaf);
+        agency.put("OID", obj.get("OID").toString());
+
+        if (type.equals("AGENCY") && is_leaf.equals("1")) {
+          sup_num++;
+        }
+        agencySqlList.add(getInsertSql(agency, "CSOF_TASK_OBJECT"));
+      }
+      dao.executeBatchBySql(agencySqlList);
+    } else {
+      //获取监管单位数量
+      sup_num = getData("vw_csof_e_agency", " and IS_LEAF=1 and ENABLED=1").size();
+    }
+
+    supMap.put("SUP_NUM", sup_num + "");
+
+    Map<String, String> depMap = new HashMap<String, String>();
+    List depSqlList = new ArrayList();
+    for (int i = 0; i < objList.size(); i++) {
+      Map obj = (Map) objList.get(i);
+      String dep_id = null != obj.get("CHR_ID") ? obj.get("CHR_ID").toString() : obj.get("chr_id").toString();
+
+      String dep_name = null != obj.get("CHR_NAME") ? obj.get("CHR_NAME").toString() : obj.get("chr_name").toString();
+      String dep_code = null != obj.get("CHR_CODE") ? obj.get("CHR_CODE").toString() : obj.get("chr_code").toString();
+      depMap.put("ID", UUIDTools.uuidRandom());
+      depMap.put("SID", sid);
+      depMap.put("SUP_NO", supMap.get("SUP_NO"));
+      String no = i < 9 ? "0" : "";
+      depMap.put("DEP_TASK_NO", supMap.get("SUP_NO") + no + i);
+      depMap.put("DEP_TASK_NAME", supMap.get("SUP_NAME") + "(" + obj.get("CHR_NAME") + ")");
+      depMap.put("SUP_NAME", supMap.get("SUP_NAME"));
+      depMap.put("DEP_ID", dep_id);
+      depMap.put("DEP_CODE", dep_name);
+      depMap.put("DEP_NAME", dep_code);
+      depMap.put("OID", oid);
+      depMap.put("SUP_NUM", sup_num + "");
+      depMap.put("SUP_CYCLE", supMap.get("SUP_CYCLE"));
+      depMap.put("PLAN_BEGIN_DATE", supMap.get("START_DATE"));
+      depMap.put("PLAN_END_DATE", supMap.get("END_DATE"));
+      depMap.put("CREATE_USER", create_user);
+      depMap.put("CREATE_DATE", create_date);
+      depMap.put("LATEST_OP_USER", create_user);
+      depMap.put("LATEST_OP_DATE", create_date);
+      depMap.put("RG_CODE", rg_code);
+      depMap.put("SET_YEAR", set_year);
+      depMap.put("SUP_TYPE_ID", supMap.get("SUP_TYPE_ID").toString());
+      depMap.put("SUP_TYPE_CODE", supMap.get("SUP_TYPE_CODE").toString());
+      depMap.put("SUP_TYPE_NAME", supMap.get("SUP_TYPE_NAME").toString());
+      depSqlList.add(getInsertSql(depMap, "csof_task_dep"));
+    }
+
+    dao.executeBatchBySql(depSqlList);
+
+    supMap.remove("ACTION");
+
+    int snum = dao.executeBySql(getInsertSql(supMap, "csof_task_sup"));
+
+    return snum;
+  }
+
+  /**
+   * 通用插入sql生成
+   * @param map 插入数据Map  key:字段名  value:字段值
+   * @param tableName 插入数据表名
+   * @return
+   */
+  public String getInsertSql(Map<String, String> map, String tableName) {
+    String keyStr = "";
+    String valueStr = "";
+    for (String key : map.keySet()) {
+      keyStr += key + ",";
+      valueStr += "'" + map.get(key) + "',";
+    }
+    if (!("".equals(keyStr))) {
+      keyStr = keyStr.substring(0, keyStr.length() - 1);
+    }
+    if (!("".equals(valueStr))) {
+      valueStr = valueStr.substring(0, valueStr.length() - 1);
+    }
+    return "insert into " + tableName + "(" + keyStr + ") values (" + valueStr + ")";
+  }
+
+  /**
+   * 删除方法
+   * @param tableName  要删除的表名
+   * @param condition  删除过滤条件
+   * @return 执行条目数
+   */
+  public int deleteData(String tableName, String condition) {
+    String delSql = "delete from  " + tableName + " where 1=1 " + condition;
+    return dao.executeBySql(delSql);
+  }
+
+  /**
+   * 修改监管事项
+   */
+  public int updateTaskDep(String data) {
+    List depList = new ArrayList();
+    depList = JSONObject.parseArray(data, Map.class);
+    int resNum = 0;
+    if (depList.size() > 0) {
+      Map depMap = (Map) depList.get(0);
+      String sql = "update csof_task_dep  set  remark='" + depMap.get("REMARK") + "' , plan_cost="
+        + depMap.get("PLAN_COST") + " , end_date ='" + depMap.get("END_DATE") + "'";
+      resNum = dao.executeBySql(sql);
+    }
+    return resNum;
+  }
+
+  /**
+   * 处室任务发布
+   * @param is_put
+   * @return
+   */
+  public int publishTask(String ids) {
+    String publish_user = CommonUtil.getUserCode();
+    String publish_date = CommonUtil.getDate("yyyy-MM-dd HH:mm:ss");
+    String depSql = "update csof_task_dep set is_pub = 1 , publish_user='" + publish_user + "' , publish_date ='"
+      + publish_date + "'  where id in (" + ids + ") and assign_date is not null ";
+    String userSql = "update csof_task_user set is_pub = 1 , publish_user='" + publish_user + "' , publish_date ='"
+      + publish_date + "'  where dep_task_id in (" + ids + ") ";
+    List<String> sqlList = new ArrayList<String>();
+    sqlList.add(depSql);
+    sqlList.add(userSql);
+    return dao.executeBatchBySql(sqlList).length;
+  }
+
+  /**
+   * 任务下达
+   * @param sids
+   * @return
+   */
+  public int approveTask(String sids) {
+    String approve_user = CommonUtil.getUserCode();
+    String approve_date = CommonUtil.getDate("yyyy-MM-dd HH:mm:ss");
+    String supSql = "UPDATE CSOF_TASK_SUP SET APPROVE_USER = '" + approve_user + "' , APPROVE_DATE = '" + approve_date
+      + "' WHERE SID IN (" + sids + ")";
+    String depSql = "UPDATE CSOF_TASK_DEP SET APPROVE_USER = '" + approve_user + "' , APPROVE_DATE = '" + approve_date
+      + "' WHERE SID IN (" + sids + ")";
+    List<String> sqlList = new ArrayList<String>();
+    sqlList.add(supSql);
+    sqlList.add(depSql);
+    return dao.executeBatchBySql(sqlList).length;
+  }
+
+  public List getSupTree() {
+    String oid = SessionUtil.getUserInfoContext().getOrgCode();
+    String user_id = CommonUtil.getUserId();
+    String sql = "select * from VW_CSOF_E_SUP  u " + "where 1=1" + "and exists ( " + "select ele_value "
+      + "from sys_right_group_detail d,sys_right_group g,sys_user_rule r " + "where 1=1 " + "and r.user_id='" + user_id
+      + "'" + "and d.right_group_id=g.right_group_id " + "and g.rule_id=r.rule_id "
+      + "and (d.ele_code='CSOF_SUPTYPE' and (d.ele_value='#' or d.ele_value=u.SUP_TYPE_CODE)))"
+      + "and (u.dep_id='#' or exists (select 1 from sys_user_org o where o.org_id=u.dep_id and o.user_id='" + user_id
+      + "'))" + "and u.oid = '" + oid + "'";
+
+    return dao.findBySql(sql);
+
+  }
+}

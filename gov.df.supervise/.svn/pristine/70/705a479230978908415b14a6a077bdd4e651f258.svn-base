@@ -1,0 +1,514 @@
+package gov.df.supervise.bean.csofacc;
+
+import java.io.Serializable;
+
+public class csofAccProblemEntity implements Serializable {
+  /**
+  * 
+  */
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * 问题记录唯一id（主键）
+   */
+  private String id;
+
+  /**
+   * 监管事项唯一id
+   */
+  private String sid;
+
+  /**
+   * 事项编号
+   */
+  private String supNo;
+
+  /**
+   * 事项名称
+   */
+  private String supName;
+
+  /**
+   * 是否有效
+   */
+  private Short isValid;
+
+  /**
+   * 是否流程结束 0：在途 1：结束  
+   */
+  private Short isEnd;
+
+  /**
+   * 专员办机构id
+   */
+  private String oid;
+
+  /**
+   * 监管对象id
+   */
+  private String objTypeId;
+
+  /**
+   * 监管对象编码
+   */
+  private String objTypeCode;
+
+  /**
+   * 监管对象名称
+   */
+  private String objTypeName;
+
+  /**
+   * 发现问题
+   */
+  private String discoverProblems;
+
+  /**
+   * 审核依据
+   */
+  private String auditBasis;
+
+  /**
+   * 审核意见
+   */
+  private String auditOpinion;
+
+  /**
+   * 是否已处理（0是未处理，1是已处理）
+   */
+  private String handle;
+
+  /**
+   * 分组名
+   */
+  private String groupingName;
+
+  /**
+   * 记录人
+   */
+  private String recordingUser;
+
+  /**
+   * 记录时间
+   */
+  private String recordingTime;
+
+  /**
+   * 备注说明
+   */
+  private String remark;
+
+  /**
+   * 创建人
+   */
+  private String createUser;
+
+  /**
+   * 创建时间
+   */
+  private String createDate;
+
+  /**
+   * 最后操作人
+   */
+  private String latestOpUser;
+
+  /**
+   * 最后操作时间
+   */
+  private String latestOpDate;
+
+  /**
+   * 年度
+   */
+  private String setYear;
+
+  /**
+   * 区划
+   */
+  private String rgCode;
+
+  /**
+   * 问题记录唯一id（主键）
+   * @return ID 问题记录唯一id（主键）
+   */
+  public String getId() {
+    return id;
+  }
+
+  /**
+   * 问题记录唯一id（主键）
+   * @param id 问题记录唯一id（主键）
+   */
+  public void setId(String id) {
+    this.id = id == null ? null : id.trim();
+  }
+
+  /**
+   * 监管事项唯一id
+   * @return SID 监管事项唯一id
+   */
+  public String getSid() {
+    return sid;
+  }
+
+  /**
+   * 监管事项唯一id
+   * @param sid 监管事项唯一id
+   */
+  public void setSid(String sid) {
+    this.sid = sid == null ? null : sid.trim();
+  }
+
+  /**
+   * 事项编号
+   * @return SUP_NO 事项编号
+   */
+  public String getSupNo() {
+    return supNo;
+  }
+
+  /**
+   * 事项编号
+   * @param supNo 事项编号
+   */
+  public void setSupNo(String supNo) {
+    this.supNo = supNo == null ? null : supNo.trim();
+  }
+
+  /**
+   * 事项名称
+   * @return SUP_NAME 事项名称
+   */
+  public String getSupName() {
+    return supName;
+  }
+
+  /**
+   * 事项名称
+   * @param supName 事项名称
+   */
+  public void setSupName(String supName) {
+    this.supName = supName == null ? null : supName.trim();
+  }
+
+  /**
+   * 是否有效
+   * @return IS_VALID 是否有效
+   */
+  public Short getIsValid() {
+    return isValid;
+  }
+
+  /**
+   * 是否有效
+   * @param isValid 是否有效
+   */
+  public void setIsValid(Short isValid) {
+    this.isValid = isValid;
+  }
+
+  /**
+   * 是否流程结束 0：在途 1：结束  
+   * @return IS_END 是否流程结束 0：在途 1：结束  
+   */
+  public Short getIsEnd() {
+    return isEnd;
+  }
+
+  /**
+   * 是否流程结束 0：在途 1：结束  
+   * @param isEnd 是否流程结束 0：在途 1：结束  
+   */
+  public void setIsEnd(Short isEnd) {
+    this.isEnd = isEnd;
+  }
+
+  /**
+   * 专员办机构id
+   * @return OID 专员办机构id
+   */
+  public String getOid() {
+    return oid;
+  }
+
+  /**
+   * 专员办机构id
+   * @param oid 专员办机构id
+   */
+  public void setOid(String oid) {
+    this.oid = oid == null ? null : oid.trim();
+  }
+
+  /**
+   * 监管对象id
+   * @return OBJ_TYPE_ID 监管对象id
+   */
+  public String getObjTypeId() {
+    return objTypeId;
+  }
+
+  /**
+   * 监管对象id
+   * @param objTypeId 监管对象id
+   */
+  public void setObjTypeId(String objTypeId) {
+    this.objTypeId = objTypeId == null ? null : objTypeId.trim();
+  }
+
+  /**
+   * 监管对象编码
+   * @return OBJ_TYPE_CODE 监管对象编码
+   */
+  public String getObjTypeCode() {
+    return objTypeCode;
+  }
+
+  /**
+   * 监管对象编码
+   * @param objTypeCode 监管对象编码
+   */
+  public void setObjTypeCode(String objTypeCode) {
+    this.objTypeCode = objTypeCode == null ? null : objTypeCode.trim();
+  }
+
+  /**
+   * 监管对象名称
+   * @return OBJ_TYPE_NAME 监管对象名称
+   */
+  public String getObjTypeName() {
+    return objTypeName;
+  }
+
+  /**
+   * 监管对象名称
+   * @param objTypeName 监管对象名称
+   */
+  public void setObjTypeName(String objTypeName) {
+    this.objTypeName = objTypeName == null ? null : objTypeName.trim();
+  }
+
+  /**
+   * 发现问题
+   * @return DISCOVER_PROBLEMS 发现问题
+   */
+  public String getDiscoverProblems() {
+    return discoverProblems;
+  }
+
+  /**
+   * 发现问题
+   * @param discoverProblems 发现问题
+   */
+  public void setDiscoverProblems(String discoverProblems) {
+    this.discoverProblems = discoverProblems == null ? null : discoverProblems.trim();
+  }
+
+  /**
+   * 审核依据
+   * @return AUDIT_BASIS 审核依据
+   */
+  public String getAuditBasis() {
+    return auditBasis;
+  }
+
+  /**
+   * 审核依据
+   * @param auditBasis 审核依据
+   */
+  public void setAuditBasis(String auditBasis) {
+    this.auditBasis = auditBasis == null ? null : auditBasis.trim();
+  }
+
+  /**
+   * 审核意见
+   * @return AUDIT_OPINION 审核意见
+   */
+  public String getAuditOpinion() {
+    return auditOpinion;
+  }
+
+  /**
+   * 审核意见
+   * @param auditOpinion 审核意见
+   */
+  public void setAuditOpinion(String auditOpinion) {
+    this.auditOpinion = auditOpinion == null ? null : auditOpinion.trim();
+  }
+
+  /**
+   * 是否已处理（0是未处理，1是已处理）
+   * @return HANDLE 是否已处理（0是未处理，1是已处理）
+   */
+  public String getHandle() {
+    return handle;
+  }
+
+  /**
+   * 是否已处理（0是未处理，1是已处理）
+   * @param handle 是否已处理（0是未处理，1是已处理）
+   */
+  public void setHandle(String handle) {
+    this.handle = handle == null ? null : handle.trim();
+  }
+
+  /**
+   * 分组名
+   * @return GROUPING_NAME 分组名
+   */
+  public String getGroupingName() {
+    return groupingName;
+  }
+
+  /**
+   * 分组名
+   * @param groupingName 分组名
+   */
+  public void setGroupingName(String groupingName) {
+    this.groupingName = groupingName == null ? null : groupingName.trim();
+  }
+
+  /**
+   * 记录人
+   * @return RECORDING_USER 记录人
+   */
+  public String getRecordingUser() {
+    return recordingUser;
+  }
+
+  /**
+   * 记录人
+   * @param recordingUser 记录人
+   */
+  public void setRecordingUser(String recordingUser) {
+    this.recordingUser = recordingUser == null ? null : recordingUser.trim();
+  }
+
+  /**
+   * 记录时间
+   * @return RECORDING_TIME 记录时间
+   */
+  public String getRecordingTime() {
+    return recordingTime;
+  }
+
+  /**
+   * 记录时间
+   * @param recordingTime 记录时间
+   */
+  public void setRecordingTime(String recordingTime) {
+    this.recordingTime = recordingTime == null ? null : recordingTime.trim();
+  }
+
+  /**
+   * 备注说明
+   * @return REMARK 备注说明
+   */
+  public String getRemark() {
+    return remark;
+  }
+
+  /**
+   * 备注说明
+   * @param remark 备注说明
+   */
+  public void setRemark(String remark) {
+    this.remark = remark == null ? null : remark.trim();
+  }
+
+  /**
+   * 创建人
+   * @return CREATE_USER 创建人
+   */
+  public String getCreateUser() {
+    return createUser;
+  }
+
+  /**
+   * 创建人
+   * @param createUser 创建人
+   */
+  public void setCreateUser(String createUser) {
+    this.createUser = createUser == null ? null : createUser.trim();
+  }
+
+  /**
+   * 创建时间
+   * @return CREATE_DATE 创建时间
+   */
+  public String getCreateDate() {
+    return createDate;
+  }
+
+  /**
+   * 创建时间
+   * @param createDate 创建时间
+   */
+  public void setCreateDate(String createDate) {
+    this.createDate = createDate == null ? null : createDate.trim();
+  }
+
+  /**
+   * 最后操作人
+   * @return LATEST_OP_USER 最后操作人
+   */
+  public String getLatestOpUser() {
+    return latestOpUser;
+  }
+
+  /**
+   * 最后操作人
+   * @param latestOpUser 最后操作人
+   */
+  public void setLatestOpUser(String latestOpUser) {
+    this.latestOpUser = latestOpUser == null ? null : latestOpUser.trim();
+  }
+
+  /**
+   * 最后操作时间
+   * @return LATEST_OP_DATE 最后操作时间
+   */
+  public String getLatestOpDate() {
+    return latestOpDate;
+  }
+
+  /**
+   * 最后操作时间
+   * @param latestOpDate 最后操作时间
+   */
+  public void setLatestOpDate(String latestOpDate) {
+    this.latestOpDate = latestOpDate == null ? null : latestOpDate.trim();
+  }
+
+  /**
+   * 年度
+   * @return SET_YEAR 年度
+   */
+  public String getSetYear() {
+    return setYear;
+  }
+
+  /**
+   * 年度
+   * @param setYear 年度
+   */
+  public void setSetYear(String setYear) {
+    this.setYear = setYear == null ? null : setYear.trim();
+  }
+
+  /**
+   * 区划
+   * @return RG_CODE 区划
+   */
+  public String getRgCode() {
+    return rgCode;
+  }
+
+  /**
+   * 区划
+   * @param rgCode 区划
+   */
+  public void setRgCode(String rgCode) {
+    this.rgCode = rgCode == null ? null : rgCode.trim();
+  }
+}

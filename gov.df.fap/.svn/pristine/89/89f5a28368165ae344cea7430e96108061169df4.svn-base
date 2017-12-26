@@ -1,0 +1,59 @@
+package gov.df.fap.controller.login;
+
+import gov.df.fap.api.login.IUsersLogin;
+import gov.df.fap.util.factory.ServiceFactory;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+@RequestMapping(value = "/df/login")
+public class UserLoginController {
+
+  // yy-context.xml - line 129
+	private IUsersLogin userLogin = (IUsersLogin) ServiceFactory.getBean("df.fap.userLogin");
+
+	@RequestMapping(value = "/userLogin.do", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> userLogin(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> map = null;
+		try {
+			map = userLogin.loginsend(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+
+	@RequestMapping(value = "/LoginMessage.do", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> loginMessage(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> map = null;
+		try {
+			map = userLogin.loginMessage(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+
+	@RequestMapping(value = "/loginout.do", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> loginout(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> map = null;
+		try {
+			map = userLogin.loginout(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+
+}

@@ -1,0 +1,871 @@
+/**
+ * Created by yanqiong on 2017/8/8.
+ */
+require(
+		[ 'jquery', 'knockout', '/df/supervise/ncrd.js', 'bootstrap', 'dateZH',
+				'uui', 'tree', 'grid', 'ip' ],
+		function($, ko, ncrd, _) {
+			window.ko = ko;
+			var tokenid;
+			var options;
+			var pViewType = {
+				VIEWTYPE_INPUT : "001",// 录入视图
+				VIEWTYPE_LIST : "002",// 列表视图
+				VIEWTYPE_QUERY : "003"// 查询视图
+			};
+			var fileData;
+			var num = 0;
+			var elecode;
+			var menuId;
+			var menuName;
+			var billTypeCode;
+	        var sumBillTypeCode;
+			var BOOK_ID;
+			var BOOK_NAME;
+			var depId;
+			var DEP_CODE;
+			var DEP_NAME;
+			var SET_YEAR;
+			var SET_MONTH;
+			//var BOOK_GROUP;
+
+			//URL
+			var testURL = '/df/cs/test.do';
+			var btnsURL = '/df/cs/getActionButton.do';//初始化动态按钮获取
+			var getLeftTreeURL = '/df/csofacc/getBookDepById.do';//获取树的信息getBookDepById
+			var getAccSupEndURL = '/df/csofacc/getAccSupEndByBook.do';//通过点击树获取工作记录
+			var officeSumURL = '/df/csofacc/saveAccSupDep.do';//台账处汇总
+			var officeUndoSumURL = '/df/csofacc/deleteAccSupDep.do';//台账撤销汇总
+			var doPayWorkFlowURL= '/df/workflow/work.do';//工作流
+			var getSumTableURL = '/df/csofacc/getAccSupDepBySetid.do';//点击树得到汇总表
+			var getDtailAccSupEndURL = '/df/csofacc/getAccSupEndBysetid.do';//点击底级获取明细
+			var viewModel = {
+				SearchBookSumTreeKEY : ko.observable(""),
+				//模糊查询单位树
+				searchBookSumTree : function() {
+					ncrd.findTreeNode($.fn.zTree.getZTreeObj("bookSumTree"),viewModel.SearchBookSumTreeKEY());
+				},
+			    //工作GridDataTable
+				workDataTable: new u.DataTable({
+			        meta: {
+			            
+			        }
+			    }),
+			    //按钮
+			    btnDataTable: new u.DataTable({
+			    	meta: {
+			           
+			        }
+			    }),
+			    bookSumTreeSetting: {
+	                view:{
+	                    showLine: false,
+	                    selectedMulti: false,
+	                    showIcon: false,
+	                    showTitle: true,
+	                    nameIsHTML: true
+	                },
+	                callback:{
+	                    onClick:function(e,id,node){
+	                        var selectNodeId = node.CHR_ID;	                        
+	                        if(node.LEVEL_NUM == "3"){
+	                        	var bookData = viewModel.bookSumTreeDataTable.getSimpleData();
+	                        	for(var i=0;i<bookData.length;i++){
+	                        		if(bookData[i].CHR_ID == node.PARENT_ID){
+	                        			//$("#accType").html(BOOK_GROUP);
+	    	                        	$("#accDate").html(bookData[i].CHR_NAME+node.CHR_NAME);
+	    	                        	$("#recodeOffice").html(DEP_NAME);
+	    	                        	$("#recodeUser").html(BOOK_NAME.split("台账")[0]);
+	    	                        	$("#accStatus").html(node.STATUS);
+	    	                        	viewModel.refresh(node.CHR_CODE,node.CHR_NAME.split("月")[0],node.PARENT_ID,getAccSupEndURL);
+	    	                        	break;
+	                        		}
+	                        	}
+	                        }else if(node.LEVEL_NUM == "4"){
+	                        	var bookData = viewModel.bookSumTreeDataTable.getSimpleData();
+	                        	for(var i=0;i<bookData.length;i++){
+	                        		if(bookData[i].CHR_ID == node.PARENT_ID){
+	                        			//$("#accType").html(BOOK_GROUP);
+	    	                        	$("#accDate").html(node.CHR_CODE.split("-")[1]);
+	    	                        	$("#recodeOffice").html(DEP_NAME);
+	    	                        	$("#recodeUser").html(node.CHR_NAME.split("台账")[0]);
+	    	                        	$("#accStatus").html(node.STATUS);
+	    	                        	viewModel.refresh(node.CHR_CODE,node.CHR_NAME.split("月")[0],node.PARENT_ID,getDtailAccSupEndURL);
+	    	                        	break;
+	                        		}
+	                        	}
+	                        }else{
+	                        	$("#accType").html("");
+	                        	$("#accDate").html("");
+	                        	$("#recodeOffice").html("");
+	                        	$("#recodeUser").html("");
+	                        	$("#accStatus").html("");
+	                        	
+	                        }
+	                        var btnData = viewModel.btnDataTable.getSimpleData();
+	                        for(var i=0;i<btnData.length;i++){
+                        		var btnId = btnData[i].BUTTON_ID;
+                        		if(btnData[i].DISPLAY_STATUS == "9" || btnData[i].DISPLAY_STATUS == node.STATUS_CODE2){
+                        			$("#"+btnId).removeAttr("disabled","disabled");
+                        		}else{
+                        			$("#"+btnId).attr("disabled","disabled");
+                        		}
+                        	}
+	                    }
+	                }
+	            },
+	            bookSumTreeDataTable: new u.DataTable({
+	                meta: {
+	                	
+	                }
+	            }),
+			};
+			
+			//生成表头
+			viewModel.initData = function() {
+				var current_url = location.search;
+				$.ajax({
+					url : "/df/init/initMsg.do",
+					type : "GET",
+					dataType : "json",
+					async : true,
+					data : options,
+					success : function(datas) {
+						viewModel.viewList = datas.viewlist;// 视图信息
+						viewModel.resList = datas.reslist;// 资源信息
+						viewModel.coaId = datas.coaId;// coaid
+						viewModel.coaDetails = datas.coaDetail;// coa明细
+						viewModel.relations = datas.relationlist;// 关联关系
+						viewModel.initGridData(); //调用初始化表格
+					}
+				});
+			};
+			
+			 // 初始化表格
+	    	viewModel.initGridData = function() {
+	            var tableViewDetail;
+	            for ( var n = 0; n < viewModel.viewList.length; n++) {
+	                var view = viewModel.viewList[n];
+                    if(view.orders == "0"){
+    	                viewModel.tableViewDetail = view;
+     	        	    options["dep_code"] = DEP_CODE;
+     	        	    options["chr_name"] = "";
+    	        	    options["parent_id"] = "";
+                        payViewId = view.viewid;
+                        viewModel.gridViewModel = ip.initGrid(viewModel.tableViewDetail, "detailGrid", getAccSupEndURL,options, 1, false,false,false,false);
+	            	}else if(view.orders == "1"){
+	            		viewModel.tableViewDetail = view;
+     	        	    options["book_id"] = BOOK_ID;
+     	        	    options["chr_name"] = "";
+    	        	    options["chr_code"] = "";
+    	        	    options["parent_id"] = "";
+                        payViewId = view.viewid;
+                        viewModel.sumgridViewModel = ip.initGridWithCallBack(gridCallback,viewModel.tableViewDetail, "sumGrid", getSumTableURL,options, 1, false,false,false,false);
+	            	}else if(view.orders == "2"){
+	            		viewModel.tableViewDetail = view;
+     	        	    options["dep_code"] = DEP_CODE;
+     	        	    options["chr_name"] = "";
+    	        	    options["parent_id"] = "";
+                        payViewId = view.viewid;
+                        viewModel.workgridViewModel = ip.initGridWithCallBack(gridCallback,viewModel.tableViewDetail, "workGrid", getAccSupEndURL,options, 1, false,false,false,false);
+	            	}
+	            }
+	        };
+	        
+	        //workgrid查询
+	        viewModel.gridSearch = function () {
+	        	ip.fuzzyQuery(viewModel.curGridData, "gridSearchInput", viewModel.sumgridViewModel)
+	        };
+	        
+	      //workgrid查询
+	        viewModel.workgridSearch = function () {
+	        	ip.fuzzyQuery(viewModel.curGridData, "workgridSearchInput", viewModel.workgridViewModel)
+	        };
+	        
+	        //回调函数，定义全局变量viewModel.curGridData并赋值
+	        gridCallback = function(data){
+	        	viewModel.curGridData = data;
+	        };
+	        
+	        
+	      //刷新视图
+	        viewModel.refresh = function(chr_code,chr_name,parent_id,URL) {
+	            var tableViewDetail;
+	            for ( var n = 0; n < viewModel.viewList.length; n++) {
+	                var view = viewModel.viewList[n];
+	                if(view.orders == "0"){
+	                	viewModel.tableViewDetail = view;
+	                	options["book_id"] = BOOK_ID;
+		                options["dep_code"] = DEP_CODE;
+	 	        	    options["chr_name"] = chr_name;
+	 	        	    options["chr_code"] = chr_code;
+	 	        	    options["parent_id"] = parent_id;
+	                    payViewId = view.viewid;
+	                    ip.setGrid(viewModel.gridViewModel, URL,options);
+	                }else if(view.orders == "1"){
+	            		viewModel.tableViewDetail = view;
+     	        	    options["book_id"] = BOOK_ID;
+     	        	    options["chr_name"] = chr_name;
+    	        	    options["chr_code"] = chr_code;
+    	        	    options["parent_id"] = parent_id;
+                        payViewId = view.viewid;
+                        ip.setGridWithCallBack(gridCallback,viewModel.sumgridViewModel, getSumTableURL,options);
+	            	}else if(view.orders == "2"){
+	            		viewModel.tableViewDetail = view;
+	                	options["book_id"] = BOOK_ID;
+		                options["dep_code"] = DEP_CODE;
+	 	        	    options["chr_name"] = chr_name;
+	 	        	    options["chr_code"] = chr_code;
+	 	        	    options["parent_id"] = parent_id;
+	                    payViewId = view.viewid;
+	                    ip.setGrid(viewModel.workgridViewModel, URL,options);
+	            	}
+	            }
+	        }
+	        
+	        //初始化树getLeftTreeURL
+	        viewModel.initTree = function(){
+	        	$.ajax({
+		            type: 'get',
+		            url: getLeftTreeURL + "?tokenid=" + tokenid + "&ajax=noCache",
+		            data: {"book_id":BOOK_ID,"billtype_code":sumBillTypeCode,"menu_id":menuId},
+		            dataType: 'JSON',
+		            async: false,
+		            success: function (result) {
+		            	if(result.errorCode == 0) {
+		            		var data = result.data;
+		            		console.log(data);
+		            		for(var i=0;i<data.length;i++){
+		            			if(data[i].LEVEL_NUM == "1"){
+		            				data[i]["PARENT_ID"] = "";
+		            			}
+		            			if(data[i].STATUS_NAME){
+		            				if(data[i].STATUS_CODE2 == "9" || data[i].STATUS_CODE2 == "-1" || data[i].STATUS_CODE2 == "1"){
+		            					data[i]["NAME"] = data[i].CHR_NAME+"<font color='green'>("+data[i].STATUS_NAME+")</font>";
+		            				}else{
+		            					data[i]["NAME"] = data[i].CHR_NAME+"<font color='red'>("+data[i].STATUS_NAME+")</font>";
+		            				}
+		            			}else{
+		            				data[i]["NAME"] = data[i].CHR_NAME;
+		            			}
+		            		}
+		            		viewModel.bookSumTreeDataTable.setSimpleData(data);
+		            		var treeObj = $.fn.zTree.getZTreeObj("bookSumTree");
+		                    treeObj.expandAll(true);
+		                    treeObj.cancelSelectedNode();
+		            	}else {
+		            		ip.ipInfoJump(result.errorMsg, 'error');
+		            	}
+		            }, error: function () {
+		            	ip.ipInfoJump("错误", 'error');
+		            }		                
+	            });
+	        };
+	        
+	        //初始化期间
+	        viewModel.initYearMonth = function() {
+	        	var objSelect = document.getElementById("year");
+	        	objSelect.options.length=0;
+	        	objSelect.options.add(new Option(SET_YEAR , SET_YEAR));
+	        	var objSelect2 = document.getElementById("month");
+	        	objSelect2.options.length=0;
+	        	objSelect2.options.add(new Option(SET_MONTH , SET_MONTH));
+	        };
+	        	       
+	      //初始化按钮
+	        viewModel.initBtns = function () {
+	        	$.ajax({
+		            type: 'get',
+		            url: btnsURL + "?tokenid=" + tokenid + "&ajax=noCache",
+		            data: {"menu_id":menuId},
+		            dataType: 'JSON',
+		            async: true,
+		            success: function (result) {
+		            	console.log(result);	            	
+		            	if(result.errorCode == "0") {
+		            		var data = result.data;
+		            		viewModel.btnDataTable.setSimpleData(data);
+		            		for(var i=0;i<data.length;i++) {
+		            			$("#accBtns").append("<button class='" + data[i].CLASS_NAME + "' type='button' id='"+data[i].BUTTON_ID+"' "+data[i].PARAM+" onclick='"+data[i].FUNC_NAME+"(this.id)'>"+data[i].DISPLAY_TITLE+"</button>");
+		            			if(data[i].ENABLED == "0") {
+		            				$("#"+data[i].BUTTON_ID).attr("disabled","disabled");
+		            			}
+		            		}	            		
+		            	}	            	
+		            }, error: function () {
+		                ip.ipInfoJump("错误", 'error');
+		            }
+	            });
+	        };
+	        
+	        //处汇总officeSumURL
+	        summary = function(id){
+	        	var btnData = viewModel.btnDataTable.getSimpleData();
+	        	for(var bt = 0; bt<btnData.length;bt++) {
+	        		if(btnData[bt].BUTTON_ID == id) {
+	        			var btn = btnData[bt];
+	        			break;
+	        		}
+	        	}
+	        	var op_name = btn.DISPLAY_TITLE;
+        		var op_type = btn.ACTION_TYPE;
+	        	var treeObj = $.fn.zTree.getZTreeObj("bookSumTree");
+				var nodes = treeObj.getSelectedNodes();
+				var bookData = viewModel.bookSumTreeDataTable.getSimpleData();
+	        	if(nodes.length > 0) {
+	        		if(nodes[0].LEVEL_NUM == "3"){
+	        			var workData = viewModel.gridViewModel.gridData.getSimpleData();
+	        			var sid = "";
+	        			var num = 0;
+	    				var nodeChildFlag = 0;
+	    				for(var b =0;b<bookData.length;b++){
+	    					if(bookData[b].PARENT_ID == nodes[0].CHR_ID){
+	    						num++;
+	    						if(bookData[b].STATUS_CODE2 == "11"){
+	        						nodeChildFlag++;
+	        					}
+	    					}
+	    				}
+	    				if(num == nodeChildFlag){
+	    					if(nodes[0].STATUS_CODE2 == "10"){
+	    						if(workData.length <= 0){
+			        				var data = {
+		        							"id":null,
+		        							"dep_task_id":null,
+		        		        		    "sid":null,
+		        		        		    "set_id":null,
+		        		        		    "sup_type_id":null,
+		        		        		    "sup_name":null,
+		        		        		    "dep_id":depId,
+		        		        		    "dep_code":DEP_CODE,
+		        		        		    "dep_name":DEP_NAME,
+		        		        		    "chr_id":nodes[0].CHR_ID,
+		        		        		    "chr_code":nodes[0].CHR_CODE,
+		        		        		    "chr_name":nodes[0].CHR_NAME.split("月")[0],
+		        		        		    "parent_id":nodes[0].PARENT_ID,
+		        		        		    "book_id":BOOK_ID,
+		        		        		    "acc_sup_dep_id":null,
+		        		        		    "op_type":op_type,
+		        		        		    "op_name":op_name,
+		        		        		    "menu_id":menuId,
+		        		        		    "billtype_code":sumBillTypeCode,
+		        		        		    "billtype_code1":billTypeCode,
+		        		        		    "obj_type_id":null,
+		        		        	}
+		    	    	        	$.ajax({
+		    	    		            type: 'get',
+		    	    		            url: officeSumURL + "?tokenid=" + tokenid + "&ajax=noCache",
+		    	    		            data: data,
+		    	    		            dataType: 'JSON',
+		    	    		            async: false,
+		    	    		            success: function (result) {
+		    	    		            	if(result.errorCode == 0) {
+		    	    		            		
+		    	    		            	}else {
+		    	    		            		monthlyerror++;
+		    	    		            		ip.ipInfoJump(result.errorMsg, 'error');
+		    	    		            	}
+		    	    		            }, error: function () {
+		    	    		            	monthlyerror++;
+		    	    		            	ip.ipInfoJump("错误", 'error');
+		    	    		            }		                
+		    	    	            });
+			        			}else{
+//		        					var setNum = 1;
+//		        					var SET_ID = [];
+//		        					SET_ID[0] = workData[0].SET_ID;
+//		        					for(var w=0;w<workData.length;w++){
+//		        						var noflag=0;
+//		        						for(var si=0;si<SET_ID.length;si++){
+//		        							if(SET_ID[si] == workData[w].SET_ID){
+//		        								noflag++;
+//		        							}
+//		        						}
+//		        						if(noflag == 0){
+//		        							SET_ID[setNum] = workData[w].SET_ID;
+//		        							setNum++;
+//		        						}
+//		        					}
+//		        					if(num == setNum && num != 0){
+		        						var monthlyerror = 0;
+				        				for(var i=0;i<workData.length;i++){
+				        					if(monthlyerror > 0){
+				        						break;
+				        					}else{
+					        					sid = workData[i].SID;
+					        					var data = {
+					        							"id":workData[i].ID,
+					        							"dep_task_id":workData[i].DEP_TASK_ID,
+					        		        		    "sid":sid,
+					        		        		    "set_id":workData[i].SET_ID,
+					        		        		    "sup_type_id":workData[i].SUP_TYPE_ID,
+					        		        		    "sup_name":workData[i].SUP_NAME,
+					        		        		    "dep_id":depId,
+					        		        		    "dep_code":DEP_CODE,
+					        		        		    "dep_name":DEP_NAME,
+					        		        		    "chr_id":nodes[0].CHR_ID,
+					        		        		    "chr_code":nodes[0].CHR_CODE,
+					        		        		    "chr_name":nodes[0].CHR_NAME.split("月")[0],
+					        		        		    "parent_id":nodes[0].PARENT_ID,
+					        		        		    "book_id":BOOK_ID,
+					        		        		    "acc_sup_dep_id":workData[i].ACC_SUP_DEP_ID,
+					        		        		    "op_type":op_type,
+					        		        		    "op_name":op_name,
+					        		        		    "menu_id":menuId,
+					        		        		    "billtype_code":sumBillTypeCode,
+					        		        		    "billtype_code1":billTypeCode,
+					        		        		    "obj_type_id":workData[i].OBJ_TYPE_ID,
+					        		        	}
+					    	    	        	$.ajax({
+					    	    		            type: 'get',
+					    	    		            url: officeSumURL + "?tokenid=" + tokenid + "&ajax=noCache",
+					    	    		            data: data,
+					    	    		            dataType: 'JSON',
+					    	    		            async: false,
+					    	    		            success: function (result) {
+					    	    		            	if(result.errorCode == 0) {
+					    	    		            		
+					    	    		            	}else {
+					    	    		            		monthlyerror++;
+					    	    		            		ip.ipInfoJump(result.errorMsg, 'error');
+					    	    		            	}
+					    	    		            }, error: function () {
+					    	    		            	monthlyerror++;
+					    	    		            	ip.ipInfoJump("错误", 'error');
+					    	    		            }		                
+					    	    	            });
+				        					}
+					        			}
+//		        					}else{
+//		        						ip.ipInfoJump("月份未完结，不可汇总", 'info');
+//		        					}
+		        				}
+			        			if(monthlyerror == 0){
+		        					ip.ipInfoJump("处汇总成功", 'success');
+		        				}
+		        				viewModel.initTree();
+		        				viewModel.refresh(nodes[0].CHR_CODE,nodes[0].CHR_NAME.split("月")[0],nodes[0].PARENT_ID,getAccSupEndURL);
+		        				var selectnodes2 = treeObj.getNodeByParam("CHR_ID", nodes[0].CHR_ID, null);
+		        				treeObj.selectNode(selectnodes2);
+		        				for(var btnNum=0;btnNum<btnData.length;btnNum++){
+		                    		var btnId = btnData[btnNum].BUTTON_ID;
+		                    		if(btnData[btnNum].DISPLAY_STATUS == "9" || btnData[btnNum].DISPLAY_STATUS == selectnodes2.STATUS_CODE2){
+		                    			$("#"+btnId).removeAttr("disabled","disabled");
+		                    		}else{
+		                    			$("#"+btnId).attr("disabled","disabled");
+		                    		}
+		                    	}
+	    					}
+	    				}else{
+	    					ip.ipInfoJump("该月份未全部待处汇总，不可处汇总", 'info');
+	    				}
+	        		}else{
+	        			ip.ipInfoJump("请选择处汇总月份", 'info');
+	        		}
+	        	}else{
+	        		ip.ipInfoJump("请选择处汇总月份", 'info');
+	        	}	        		        		        	
+	        };
+	        
+	        //处撤销汇总officeUndoSumURL
+	        UndoSummary = function(id) {
+	        	var btnData = viewModel.btnDataTable.getSimpleData();
+	        	for(var bt = 0; bt<btnData.length;bt++) {
+	        		if(btnData[bt].BUTTON_ID == id) {
+	        			var btn = btnData[bt];
+	        			break;
+	        		}
+	        	}
+	        	var op_name = btn.DISPLAY_TITLE;
+        		var op_type = btn.ACTION_TYPE;
+	        	var treeObj = $.fn.zTree.getZTreeObj("bookSumTree");
+	        	var nodes = treeObj.getSelectedNodes();
+	        	if(nodes.length > 0) {
+	        		if(nodes[0].LEVEL_NUM == "3"){
+	        			var workData = viewModel.gridViewModel.gridData.getSimpleData();
+	        			var sid = "";
+	        			var bookData = viewModel.bookSumTreeDataTable.getSimpleData();
+	        			var num = 0;
+	    				var nodeChildFlag = 0;
+	    				for(var b =0;b<bookData.length;b++){
+	    					if(bookData[b].PARENT_ID == nodes[0].CHR_ID){
+	    						num++;
+	    						if(bookData[b].STATUS_CODE2 == "9"){
+	        						nodeChildFlag++;
+	        					}
+	    					}
+	    				}
+	    				if(num == nodeChildFlag){
+	    					if(nodes[0].STATUS_CODE2 == "0"){
+	    						if(workData.length <= 0){
+			        				var data = {
+		        							"id":null,
+		        							"dep_task_id":null,
+		        		        		    "sid":null,
+		        		        		    "set_id":null,
+		        		        		    "sup_type_id":null,
+		        		        		    "sup_name":null,
+		        		        		    "chr_id":nodes[0].CHR_ID,
+		        		        		    "chr_code":nodes[0].CHR_CODE,
+		        		        		    "chr_name":nodes[0].CHR_NAME.split("月")[0],
+		        		        		    "parent_id":nodes[0].PARENT_ID,
+		        		        		    "book_id":BOOK_ID,
+		        		        		    "acc_sup_dep_id":null,
+		        		        		    "op_type":op_type,
+		        		        		    "op_name":op_name,
+		        		        		    "menu_id":menuId,
+		        		        		    "billtype_code":sumBillTypeCode,
+		        		        		    "billtype_code1":billTypeCode,
+		        		        		    "is_input":null,
+		        		        		    "obj_type_id":null,
+		        		        	}
+		    	    	        	$.ajax({
+		    	    		            type: 'get',
+		    	    		            url: officeUndoSumURL + "?tokenid=" + tokenid + "&ajax=noCache",
+		    	    		            data: data,
+		    	    		            dataType: 'JSON',
+		    	    		            async: false,
+		    	    		            success: function (result) {
+		    	    		            	if(result.errorCode == 0) {
+		    	    		            		
+		    	    		            	}else {
+		    	    		            		monthlyerror++;
+		    	    		            		ip.ipInfoJump(result.errorMsg, 'error');
+		    	    		            	}
+		    	    		            }, error: function () {
+		    	    		            	monthlyerror++;
+		    	    		            	ip.ipInfoJump("错误", 'error');
+		    	    		            }		                
+		    	    	            });
+			        			}else{
+		        					var monthlyerror = 0;
+			        				for(var i=0;i<workData.length;i++){
+			        					if(monthlyerror > 0){
+			        						break;
+			        					}else{
+				        					sid = workData[i].SID;
+				        					var data = {
+				        							"id":workData[i].ID,
+				        							"dep_task_id":workData[i].DEP_TASK_ID,
+				        		        		    "sid":sid,
+				        		        		    "set_id":workData[i].SET_ID,
+				        		        		    "sup_type_id":workData[i].SUP_TYPE_ID,
+				        		        		    "sup_name":workData[i].SUP_NAME,
+				        		        		    "chr_id":nodes[0].CHR_ID,
+				        		        		    "chr_code":nodes[0].CHR_CODE,
+				        		        		    "chr_name":nodes[0].CHR_NAME.split("月")[0],
+				        		        		    "parent_id":nodes[0].PARENT_ID,
+				        		        		    "book_id":BOOK_ID,
+				        		        		    "acc_sup_dep_id":workData[i].ACC_SUP_DEP_ID,
+				        		        		    "op_type":op_type,
+				        		        		    "op_name":op_name,
+				        		        		    "menu_id":menuId,
+				        		        		    "billtype_code":sumBillTypeCode,
+				        		        		    "billtype_code1":billTypeCode,
+				        		        		    "is_input":workData[i].IS_INPUT,
+				        		        		    "obj_type_id":workData[i].OBJ_TYPE_ID,
+				        		        	}
+				    	    	        	$.ajax({
+				    	    		            type: 'get',
+				    	    		            url: officeUndoSumURL + "?tokenid=" + tokenid + "&ajax=noCache",
+				    	    		            data: data,
+				    	    		            dataType: 'JSON',
+				    	    		            async: false,
+				    	    		            success: function (result) {
+				    	    		            	if(result.errorCode == 0) {
+				    	    		            		
+				    	    		            	}else {
+				    	    		            		monthlyerror++;
+				    	    		            		ip.ipInfoJump(result.errorMsg, 'error');
+				    	    		            	}
+				    	    		            }, error: function () {
+				    	    		            	monthlyerror++;
+				    	    		            	ip.ipInfoJump("错误", 'error');
+				    	    		            }		                
+				    	    	            });
+			        					}
+				        			}
+			        				
+		        				}
+			        			if(monthlyerror == 0){
+		        					ip.ipInfoJump("处撤销汇总成功", 'success');
+		        				}
+		        				viewModel.refresh(nodes[0].CHR_CODE,nodes[0].CHR_NAME.split("月")[0],nodes[0].PARENT_ID,getAccSupEndURL);
+		        				viewModel.initTree();
+		        				var selectnodes2 = treeObj.getNodeByParam("CHR_ID", nodes[0].CHR_ID, null);
+		        				treeObj.selectNode(selectnodes2);
+		        				for(var btnNum=0;btnNum<btnData.length;btnNum++){
+		                    		var btnId = btnData[btnNum].BUTTON_ID;
+		                    		if(btnData[btnNum].DISPLAY_STATUS == "9" || btnData[btnNum].DISPLAY_STATUS == selectnodes2.STATUS_CODE2){
+		                    			$("#"+btnId).removeAttr("disabled","disabled");
+		                    		}else{
+		                    			$("#"+btnId).attr("disabled","disabled");
+		                    		}
+		                    	}
+	    					}
+	    				}else{
+	    					ip.ipInfoJump("该月份未汇总，不可撤销", 'info');
+	    				}
+	        		}else{
+	        			ip.ipInfoJump("请选择撤销汇总月份", 'info');
+	        		}
+	        	}else{
+	        		ip.ipInfoJump("请选择撤销汇总月份", 'info');
+	        	}	        		        		        	
+	        };
+	        
+	        //退回
+	        workFlowReturn = function(id){
+	        	var btnData = viewModel.btnDataTable.getSimpleData();
+	        	for(var bt = 0; bt<btnData.length;bt++) {
+	        		if(btnData[bt].BUTTON_ID == id) {
+	        			var btn = btnData[bt];
+	        			break;
+	        		}
+	        	}
+	        	var op_name = btn.DISPLAY_TITLE;
+        		var op_type = btn.ACTION_TYPE;
+	        	var treeObj = $.fn.zTree.getZTreeObj("bookSumTree");
+				var nodes = treeObj.getSelectedNodes();
+	        	if(nodes.length > 0) {
+        			var workData = viewModel.gridViewModel.gridData.getSimpleData();
+        			var sid = "";
+    				if(nodes[0].STATUS_CODE2 == "11" && nodes[0].IS_LEAF == "1"){
+    					if(workData.length <= 0){
+            				var data = {
+        							"entity_id":nodes[0].CHR_CODE,
+    	    	        			"op_name" : op_name,
+    	    	        			"op_type" : op_type,
+    	    	        			"menu_id" : menuId,
+                        			"billtype_code" : billTypeCode,
+        		        	}
+    	    	        	$.ajax({
+    	    		            type: 'get',
+    	    		            url: doPayWorkFlowURL + "?tokenid=" + tokenid + "&ajax=noCache",
+    	    		            data: data,
+    	    		            dataType: 'JSON',
+    	    		            async: false,
+    	    		            success: function (result) {
+    	    		            	if(result.errorCode == 0) {
+    	    		            		
+    	    		            	}else {
+    	    		            		monthlyerror++;
+    	    		            		ip.ipInfoJump(result.errorMsg, 'error');
+    	    		            	}
+    	    		            }, error: function () {
+    	    		            	monthlyerror++;
+    	    		            	ip.ipInfoJump("错误", 'error');
+    	    		            }		                
+    	    	            });
+            			}else{
+        					var monthlyerror = 0;
+            				for(var i=0;i<workData.length;i++){
+            					if(monthlyerror > 0){
+            						break;
+            					}else{
+    	        					sid = workData[i].SID;
+    	        					var data = {
+    	        							"entity_id":nodes[0].CHR_CODE,
+    	    	    	        			"op_name" : op_name,
+    	    	    	        			"op_type" : op_type,
+    	    	    	        			"menu_id" : menuId,
+    	                        			"billtype_code" : billTypeCode,
+    	        		        	}
+    	    	    	        	$.ajax({
+    	    	    		            type: 'get',
+    	    	    		            url: doPayWorkFlowURL + "?tokenid=" + tokenid + "&ajax=noCache",
+    	    	    		            data: data,
+    	    	    		            dataType: 'JSON',
+    	    	    		            async: false,
+    	    	    		            success: function (result) {
+    	    	    		            	if(result.errorCode == 0) {
+    	    	    		            		
+    	    	    		            	}else {
+    	    	    		            		monthlyerror++;
+    	    	    		            		ip.ipInfoJump(result.errorMsg, 'error');
+    	    	    		            	}
+    	    	    		            }, error: function () {
+    	    	    		            	monthlyerror++;
+    	    	    		            	ip.ipInfoJump("错误", 'error');
+    	    	    		            }		                
+    	    	    	            });
+            					}
+    	        			}
+            				
+        				}
+            			viewModel.refresh(nodes[0].CHR_CODE,nodes[0].CHR_NAME.split("月")[0],nodes[0].PARENT_ID,getAccSupEndURL);
+        				viewModel.initTree();
+        				if(monthlyerror == 0){
+        					ip.ipInfoJump("退回成功", 'success');
+        				}
+        				var selectnodes2 = treeObj.getNodeByParam("CHR_ID", nodes[0].CHR_ID, null);
+        				treeObj.selectNode(selectnodes2);
+        				for(var btnNum=0;btnNum<btnData.length;btnNum++){
+                    		var btnId = btnData[btnNum].BUTTON_ID;
+                    		if(btnData[btnNum].DISPLAY_STATUS == "9" || btnData[btnNum].DISPLAY_STATUS == selectnodes2.STATUS_CODE2){
+                    			$("#"+btnId).removeAttr("disabled","disabled");
+                    		}else{
+                    			$("#"+btnId).attr("disabled","disabled");
+                    		}
+                    	}
+    				}else{
+    					ip.ipInfoJump("该月月结未提交，不可退回", 'info');
+    				}
+	        	}else{
+	        		ip.ipInfoJump("请选择退回月份", 'info');
+	        	}	
+	        }
+	        
+	        //提交
+	        workFlowSup = function(id) {
+	        	var btnData = viewModel.btnDataTable.getSimpleData();
+	        	for(var bt = 0; bt<btnData.length;bt++) {
+	        		if(btnData[bt].BUTTON_ID == id) {
+	        			var btn = btnData[bt];
+	        			break;
+	        		}
+	        	}
+	        	var op_name = btn.DISPLAY_TITLE;
+        		var op_type = btn.ACTION_TYPE;
+	        	var treeObj = $.fn.zTree.getZTreeObj("bookSumTree");
+				var nodes = treeObj.getSelectedNodes();
+	        	if(nodes.length > 0) {
+	        		if(nodes[0].LEVEL_NUM == "3"){
+	        			var workData = viewModel.sumgridViewModel.gridData.getSimpleData();
+	        			var sid = "";
+	        			var bookData = viewModel.bookSumTreeDataTable.getSimpleData();
+	        			var num = 0;
+	    				var nodeChildFlag = 0;
+	    				for(var b =0;b<bookData.length;b++){
+	    					if(bookData[b].PARENT_ID == nodes[0].CHR_ID){
+	    						num++;
+	    						if(bookData[b].STATUS_CODE2 == "9"){
+	        						nodeChildFlag++;
+	        					}
+	    					}
+	    				}
+	    				if(num == nodeChildFlag){
+	    					if(nodes[0].STATUS_CODE2 == "0"){
+	    						if(workData.length <= 0){
+			        				var data = {
+		        							"entity_id":nodes[0].CHR_CODE,
+		    	    	        			"op_name" : op_name,
+		    	    	        			"op_type" : op_type,
+		    	    	        			"menu_id" : menuId,
+		                        			"billtype_code" : sumBillTypeCode,
+		        		        	}
+		    	    	        	$.ajax({
+		    	    		            type: 'get',
+		    	    		            url: doPayWorkFlowURL + "?tokenid=" + tokenid + "&ajax=noCache",
+		    	    		            data: data,
+		    	    		            dataType: 'JSON',
+		    	    		            async: false,
+		    	    		            success: function (result) {
+		    	    		            	if(result.errorCode == 0) {
+		    	    		            		
+		    	    		            	}else {
+		    	    		            		monthlyerror++;
+		    	    		            		ip.ipInfoJump(result.errorMsg, 'error');
+		    	    		            	}
+		    	    		            }, error: function () {
+		    	    		            	monthlyerror++;
+		    	    		            	ip.ipInfoJump("错误", 'error');
+		    	    		            }		                
+		    	    	            });
+			        			}else{
+		        					var monthlyerror = 0;
+			        				for(var i=0;i<workData.length;i++){
+			        					if(monthlyerror > 0){
+			        						break;
+			        					}else{
+				        					sid = workData[i].SID;
+				        					var data = {
+				        							"entity_id":nodes[0].CHR_CODE,
+				    	    	        			"op_name" : op_name,
+				    	    	        			"op_type" : op_type,
+				    	    	        			"menu_id" : menuId,
+				                        			"billtype_code" : sumBillTypeCode,
+				        		        	}
+				    	    	        	$.ajax({
+				    	    		            type: 'get',
+				    	    		            url: doPayWorkFlowURL + "?tokenid=" + tokenid + "&ajax=noCache",
+				    	    		            data: data,
+				    	    		            dataType: 'JSON',
+				    	    		            async: false,
+				    	    		            success: function (result) {
+				    	    		            	if(result.errorCode == 0) {
+				    	    		            		
+				    	    		            	}else {
+				    	    		            		monthlyerror++;
+				    	    		            		ip.ipInfoJump(result.errorMsg, 'error');
+				    	    		            	}
+				    	    		            }, error: function () {
+				    	    		            	monthlyerror++;
+				    	    		            	ip.ipInfoJump("错误", 'error');
+				    	    		            }		                
+				    	    	            });
+			        					}
+				        			}
+			        				
+		        				}
+			        			if(monthlyerror == 0){
+		        					ip.ipInfoJump("提交成功", 'success');
+		        				}
+		        				viewModel.initTree();
+		        				viewModel.refresh(nodes[0].CHR_CODE,nodes[0].CHR_NAME.split("月")[0],nodes[0].PARENT_ID,getAccSupEndURL);
+		        				var selectnodes2 = treeObj.getNodeByParam("CHR_ID", nodes[0].CHR_ID, null);
+		        				treeObj.selectNode(selectnodes2);
+		        				for(var btnNum=0;btnNum<btnData.length;btnNum++){
+		                    		var btnId = btnData[btnNum].BUTTON_ID;
+		                    		if(btnData[btnNum].DISPLAY_STATUS == "9" || btnData[btnNum].DISPLAY_STATUS == selectnodes2.STATUS_CODE2){
+		                    			$("#"+btnId).removeAttr("disabled","disabled");
+		                    		}else{
+		                    			$("#"+btnId).attr("disabled","disabled");
+		                    		}
+		                    	}
+	    					}
+	    					
+	    				}
+	        		}else{
+	        			ip.ipInfoJump("请该月份未汇总，不可提交", 'info');
+	        		}
+	        	}else{
+	        		ip.ipInfoJump("请选择月结月份", 'info');
+	        	}
+	        }
+	        
+	        //刷新
+			publicRefresh = function(obj) {
+				location.reload();
+			};
+	         
+			//初始化
+			function init() {
+				app = u.createApp({
+					el : document.body,
+					model : viewModel
+				});
+				tokenid = ip.getTokenId();
+				options = ip.getCommonOptions({});
+				options['tokenid'] = tokenid;
+				var url=window.location.href;
+				elecode = url.split("elecode=")[1].split("&")[0];
+	            menuId = url.split("menuid=")[1].split("&")[0];
+	            menuName = decodeURI(url.split("menuname=")[1].split("&")[0]);
+	            billTypeCode = url.split("billTypeCode=")[1].split("&")[0];
+	            sumBillTypeCode = url.split("sumBillTypeCode=")[1].split("&")[0];
+	            BOOK_ID = url.split("BOOK_ID=")[1].split("&")[0];
+	            BOOK_NAME = decodeURI(url.split("BOOK_NAME=")[1].split("&")[0]);
+	            SET_YEAR = url.split("SET_YEAR=")[1].split("&")[0];
+	            SET_MONTH = url.split("SET_MONTH=")[1].split("&")[0];
+	            //BOOK_GROUP = decodeURI(url.split("group_name=")[1].split("&")[0]);
+	            depId = options.svDepId;
+	            DEP_CODE = options.svDepCode;
+	            DEP_NAME = options.svDepName;
+				viewModel.initData();//初始化grid
+				viewModel.initTree();//初始化树
+				viewModel.initYearMonth();//初始化期间
+				viewModel.initBtns();//初始化按钮
+			}
+			init();
+		})

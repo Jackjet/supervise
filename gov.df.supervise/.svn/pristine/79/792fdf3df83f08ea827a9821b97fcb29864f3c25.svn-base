@@ -1,0 +1,84 @@
+package gov.df.supervise.service.examine;
+
+import gov.df.supervise.api.examine.ExamineService;
+import gov.df.supervise.service.common.SessionUtilEx;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ExamineServiceimp implements ExamineService {
+  @Autowired
+  private ExamineDao csDao;
+
+  public String getYear() {
+    return SessionUtilEx.getLoginYear();
+
+  }
+
+  public String getRgCode() {
+    return SessionUtilEx.getRgCode();
+  }
+
+  public List selectAll(String chr_code, String chr_id, String type, String oid, String status, String s)
+    throws Exception {
+    List data = null;
+    Map<String, String> param = new HashMap<String, String>();
+    if (s != null && s.equals("all")) {
+      if (type == null || type.equals("")) {
+
+        data = csDao.selectAll(status);
+      } else if (type != null && type.equals("AGENCY")) {
+        param.put("chr_code", chr_code);
+        param.put("oid", oid);
+        param.put("status", status);
+        data = csDao.selectAgencyAll(param);
+      } else if (type != null && type.equals("DEP")) {
+        param.put("chr_code", chr_code);
+        param.put("oid", oid);
+        param.put("status", status);
+        data = csDao.selectDepAll(param);
+
+      } else if (type != null && type.equals("OFFICE")) {
+        param.put("chr_id", chr_id);
+        param.put("oid", oid);
+        param.put("status", status);
+        data = csDao.selectOfficeAll(param);
+      }
+    } else {
+      if (type != null && type.equals("AGENCY")) {
+        param.put("chr_code", chr_code);
+        param.put("oid", oid);
+        param.put("status", status);
+        data = csDao.selectAgency(param);
+      } else if (type != null && type.equals("DEP")) {
+        param.put("chr_code", chr_code);
+        param.put("oid", oid);
+        param.put("status", status);
+        data = csDao.selectDep(param);
+
+      } else if (type != null && type.equals("OFFICE")) {
+        param.put("chr_id", chr_id);
+        param.put("oid", oid);
+        param.put("status", status);
+        data = csDao.selectOffice(param);
+      } else if (type == null || type.equals("")) {
+        // param.put("status", status);
+        data = csDao.select(status);
+      }
+
+    }
+    return data;
+  }
+
+  public void update(String id, String is_valid) {
+    Map<String, String> param = new HashMap<String, String>();
+    param.put("id", id);
+    param.put("is_valid", is_valid);
+    csDao.update(param);
+  }
+}

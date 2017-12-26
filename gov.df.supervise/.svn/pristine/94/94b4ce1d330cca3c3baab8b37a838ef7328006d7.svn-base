@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+
+<beans>
+	<bean id="sqlSessionFactory_supervise" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="multiDataSource" />
+		<!-- <property name="configLocation" value="classpath:supervise/supervise-mybatis.xml"></property> -->
+		<!-- 自动扫描mapping.xml文件 -->
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:gov/df/supervise/service/sqlmap/**/*.xml</value>
+				<!--  <value>classpath:gov/df/supervise/service/sqlmap/*.xml</value> -->
+				
+				<!-- oracle 与  mysql 目录二选一， pub必选 ， 文件名可以相同，但sql的id不能重复。
+				<value>classpath:gov/df/fb/service/sqlmap/oracle/**/*.xml</value>
+				<value>classpath:gov/df/fb/service/sqlmap/mysql/**/*.xml</value>
+				-->
+			</list>
+		</property>
+	</bean>
+
+	<!-- 扫描basePackage下所有以@MyBatisDao注解的接口 -->
+	<bean id="mapperScannerConfigurer_supervise" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="gov.df.supervise.service" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory_supervise"></property>
+		<property name="annotationClass" 
+		value="gov.df.supervise.service.common.persistence.annotation.MyBatisDao" />
+	</bean>
+</beans>

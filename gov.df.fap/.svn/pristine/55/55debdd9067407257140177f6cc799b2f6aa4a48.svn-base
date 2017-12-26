@@ -1,0 +1,311 @@
+package gov.df.fap.bean.portal;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import gov.df.fap.bean.user.UserDTO;
+
+/**
+ * 安全验证工具
+ */
+public class UserInfoDFCommon {
+
+  private static UserInfoDFCommon userInfoDFCommon;
+  
+  private UserInfoDFCommon(){
+    if(null==userInfoDFCommon){
+      userInfoDFCommon = new UserInfoDFCommon();
+    }
+  }
+  
+  public static List userList = new ArrayList();
+
+  private static UserDTODF user;
+  
+  // 用户存储
+  private static Map<String, Object> userMap = new HashMap<String, Object>();
+  
+  public Map<String, Object> getUserMap(){
+    return this.userMap;
+  }
+
+  private static ThreadLocal local = new ThreadLocal();
+  
+//  public static void setUserInfo(UserInfoDF userInfo, String guid40) {
+//    if ((userInfo == null) || (guid40 == null) || (guid40.trim().length() == 0)) {
+//      local.remove();
+//      return;
+//    }
+//    Map localMap = new HashMap();
+//    localMap.put("userInfo", userInfo);
+//    localMap.put("guid40", guid40);
+//    localMap.put("doupdate", Boolean.FALSE);
+//    local.set(localMap);
+//  }
+
+  public static void removeLocal() {
+    local.remove();
+  }
+
+  /**
+   * 获取DF当前用户
+   * @return {@link gov.df.fap.bean.portal.UserDTODF}
+   */
+  public static synchronized gov.df.fap.bean.user.UserDTO getCurrentUser() {
+//    UserInfoDF userInfo = getAuthUser();
+//    if (userInfo != null) {
+//      return userInfo.getUser();
+//    }
+    return null;
+  }
+
+//  public static UserInfoDF getCurrentUserInfo() {
+//    return getAuthUser();
+//  }
+
+  public static synchronized List getOnlineUsers() {
+    return userList;
+  }
+
+  public static synchronized boolean checkOnlineUser(UserDTODF user) {
+    return false;
+  }
+
+//  public static synchronized void removeCurrentUser() {
+//    UserInfoDF userInfo = getAuthUser();
+//    if (userInfo == null)
+//      return;
+//    userList.remove(userInfo.getUser());
+//  }
+
+  public static synchronized void addUser(UserDTODF user) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+    //user.setLogindate(sdf.format(new Date()));
+    userList.add(user);
+  }
+
+  public static synchronized void removeUser(UserDTODF user) {
+    userList.remove(user);
+  }
+
+//  public static UserInfoDF getAuthUser() {
+//    Map map = (Map) local.get();
+//    if (map == null)
+//      return null;
+//    UserInfoDF userInfo = (UserInfoDF) map.get("userInfo");
+//    refreshSession();
+//    return userInfo;
+//  }
+
+  public static void setUpdate() {
+    Map map = (Map) local.get();
+    if (map == null)
+      return;
+    map.put("doupdate", Boolean.TRUE);
+  }
+
+  public static boolean isUpdate() {
+    Map map = (Map) local.get();
+    if (map == null) {
+      return false;
+    }
+    return (Boolean.TRUE.equals(map.get("doupdate")));
+  }
+
+//  public static Integer getUserSelectYear() {
+//    UserInfoDF authUser = getAuthUser();
+//    if (authUser == null) {
+//      return null;
+//    }
+//    return new Integer(authUser.getProperty("YEAR").toString());
+//  }
+
+//  public static String getUserSelectProvince() {
+//    UserInfoDF authUser = getAuthUser();
+//    if (authUser == null) {
+//      return null;
+//    }
+//    return ((String) authUser.getProperty("PROVINCE"));
+//  }
+
+//  public static void setUserYear(Integer year) {
+//    UserInfoDF authUser = getAuthUser();
+//    if (authUser == null)
+//      return;
+//    authUser.setProperty("YEAR", year);
+//  }
+
+//  public static void setUserProvince(String province) {
+//    UserInfoDF authUser = getAuthUser();
+//    if (authUser == null)
+//      return;
+//    authUser.setProperty("PROVINCE", province);
+//  }
+
+  public static void setUser(UserDTODF user) {
+    user = user;
+  }
+
+//  public static void setProperty(String name, Object value) {
+//    UserInfoDF userinfo = getAuthUser();
+//    if (userinfo == null) {
+//      return;
+//    }
+//    userinfo.setProperty(name, value);
+//  }
+
+//  public static Object getProperty(String name) {
+//    UserInfoDF userinfo = getAuthUser();
+//    if (userinfo == null)
+//      return null;
+//    return userinfo.getProperty(name);
+//  }
+
+  public static String getKey40() {
+    Map map = (Map) local.get();
+    if ((map == null) || (map.get("guid40") == null))
+      return null;
+    return ((String) map.get("guid40"));
+  }
+
+//  public static void setApp(String appid) {
+//    setProperty("appid", appid);
+//  }
+
+//  public static String getApp() {
+//    return ((String) getProperty("appid"));
+//  }
+
+  // FIXME !!
+  public static void refreshSession() {
+    String token = getKey40();
+    if (token != null) {
+      //IUserSyncManager sync = (IUserSyncManager) ServiceFactory.getBean("fasp.ca.UserSyncManager");
+      //sync.refreshSession(token);
+    }
+  }
+  
+//  public static UserDTODF getUser(String tokenid) {
+//    if(null == tokenid)
+//      return null;
+//    UserDTODF userdtoDF = null;
+//    String userGuid = tokenid.substring(0, 32);
+//    StringBuilder sql = new StringBuilder();
+//    sql.append("select * from sys_usermanage where user_id='"+userGuid+"' ");
+//    final String sqlFinal = new String(sql.toString());
+//    HibernateTemplate hibernateTemplate = new HibernateTemplate();
+//    List executeFind = hibernateTemplate.executeFind(new HibernateCallback() {
+//      public Object doInHibernate(Session session) throws HibernateException, SQLException {
+//        Connection conn = session.connection();
+//        PreparedStatement ps = conn.prepareStatement(sqlFinal);
+//        ResultSet rs = ps.executeQuery();
+//        
+//        ResultSetMetaData md = rs.getMetaData(); //得到结果集(rs)的结构信息，比如字段数、字段名等   
+//        int columnCount = md.getColumnCount(); //返回此 ResultSet 对象中的列数   
+//        List list = new ArrayList();   
+//        Map rowData = new HashMap();   
+//        while (rs.next()) {   
+//         rowData = new HashMap(columnCount);   
+//         for (int i = 1; i <= columnCount; i++) {   
+//           rowData.put(md.getColumnName(i), rs.getObject(i));   
+//         }   
+//         list.add(rowData);   
+//        }
+//        
+//        rs.close();
+//        ps.close();
+//        return list;
+//      }
+//    });
+//    
+//    Map map = new HashMap();
+//    if(executeFind.size() > 0){
+//      map = (Map)executeFind.get(0);
+//      userdtoDF = new UserDTODF(map);
+//    }
+//    
+//    return userdtoDF;
+//    return null;
+//  }
+
+  //private static final Long tokenidTTL = Long.valueOf(2 * 60 * 60 * 1000); // 2小时
+  private static final Long tokenidTTL = Long.valueOf(30 * 60 * 1000); // 120 min
+  private static final String TTL = "ttl-";
+  private static final String TOKENID = "tokenid-";
+  // 是否单例
+  private static final boolean IS_USER_SINGLE_CASE = false;
+  
+  /**
+   * 根据tokenid获取用户信息，仅限DF
+   */
+  public static UserDTO getUser(String tokenid) {
+    if(null == tokenid)
+      return null;
+    if(!isTokenidValid(tokenid)){
+      userMap.remove(TTL+tokenid);
+      return null;
+    }
+    
+    // TODO 获取web.xml过期时间
+    //userMap.put(TTL+tokenid, System.currentTimeMillis());
+    resetTokenidTTL(tokenid);
+    return (UserDTO) userMap.get(tokenid);
+  }
+  
+  /**
+   * 添加userdto与tokenid
+   * @param tokenid
+   * @param obj
+   */
+  public static void setUser(String tokenid, Object obj) {
+    
+    // TODO ?? 用户单例或不单例设置 IS_USER_SINGLE_CASE
+    
+    if(null != tokenid){
+      userMap.put(tokenid, obj);
+      // 设置过期时间
+      resetTokenidTTL(tokenid);
+    }
+  }
+  
+  /**
+   * 移除tokenid对应的userdto
+   */
+  public static void removeUser(String tokenid) {
+    if(null != tokenid){
+      userMap.remove(tokenid);
+      userMap.remove(TTL+tokenid);
+    }
+  }
+  
+  /**
+   * 判断单tokenid是否有效
+   * @param tokenid
+   * @return
+   */
+  public static boolean isTokenidValid(String tokenid){
+    if(userMap.containsKey(TTL+tokenid)){
+      resetTokenidTTL(tokenid);
+      if(System.currentTimeMillis() - (Long)userMap.get(TTL+tokenid) > tokenidTTL){
+        userMap.remove(tokenid);
+        userMap.remove(TTL+tokenid);
+        return false;
+      }
+      return true;
+    }
+    return false;
+  }
+  
+  /**
+   * 重置tokenid过期时间
+   */
+  public static void resetTokenidTTL(String tokenid) {
+    if (null != tokenid) {
+      userMap.put(TTL + tokenid, System.currentTimeMillis());
+    }
+  }
+  
+}

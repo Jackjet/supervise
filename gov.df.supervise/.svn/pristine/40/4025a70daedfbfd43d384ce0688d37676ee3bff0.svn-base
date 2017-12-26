@@ -1,0 +1,117 @@
+package gov.df.supervise.service.examine;
+
+import gov.df.supervise.service.common.persistence.annotation.MyBatisDao;
+
+import java.util.List;
+import java.util.Map;
+
+@MyBatisDao
+public interface ExamineDao {
+  public List getAllBill(Map<String, String> param);
+
+  public List getwfAllBill(Map<String, String> param);
+
+  public List getwfBill(Map<String, String> param);
+
+  public List getwfBillEnd(Map<String, String> param);
+
+  public List selectAgencyAll(Map<String, String> param);
+
+  public List selectwfAgency(Map<String, String> param);
+
+  public List selectAgencyEnd(Map<String, String> param);
+
+  public List selectMofdepAll(Map<String, String> param);
+
+  public List selectwfMofdep(Map<String, String> param);
+
+  public List selectMofdepEnd(Map<String, String> param);
+
+  public List selectDepAll(Map<String, String> param);
+
+  public List selectwfDep(Map<String, String> param);
+
+  public List selectDepEnd(Map<String, String> param);
+
+  public List selectOfficeAll(Map<String, String> param);
+
+  public List selectwfOffice(Map<String, String> param);
+
+  public List selectOfficeEnd(Map<String, String> param);
+
+  /**
+   * 监管内容录入界面的删除操作
+   * @param param
+   */
+  public void update(Map<String, String> param);
+
+  public void deleteBill(Map<String, String> param);
+
+  /**
+   * 同时选择单位和状态来显示列表内容
+   * @param param
+   * @return
+   */
+  public List selectDep(Map<String, String> param);
+
+  /**
+   * 同时选择处室和状态来显示列表内容
+   * @param param
+   * @return
+   */
+  public List selectAgency(Map<String, String> param);
+
+  /**
+   * 同时选择 专员办和状态来显示列表内容
+   * @param param
+   * @return
+   */
+  public List selectOffice(Map<String, String> param);
+
+  /**
+   * 只选择状态来改变列表显示内容
+   * @param status
+   * @return
+   */
+
+  public List selectMofdep(Map<String, String> param);
+
+  /**
+   * 处汇总操作
+   */
+  public String selectBillName(String billtype_code);
+
+  public void insertBillMofDep(Map<String, Object> param);
+
+  public void updateSupBill(Map<String, Object> param);
+
+  public int countSupMoney(String mofdep_id);
+
+  public String getId(String chr_code);
+
+  /**
+   * 处撤销汇总
+   * @param param
+   */
+  public void deleteBillMofDep(String id);
+
+  /**
+   * 办汇总
+   */
+  public int countOfficeSupMoney(String oid);
+
+  public String getOfficeId(String chr_id);
+
+  public void insertBillOffice(Map<String, Object> param);
+
+  /**
+   * 办撤销汇总
+   * @param param
+   */
+  public void deleteBillOffice(String id);
+
+  //动态按钮获取
+  public List getActionButton(String menu_id);
+
+  public Map<String, Object> SelectMenuNode(String menu_id);
+}

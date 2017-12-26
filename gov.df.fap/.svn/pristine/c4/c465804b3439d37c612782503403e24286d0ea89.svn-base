@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow: hidden;">
+<head >
+    <meta charset="UTF-8">
+    <title>审核意见汇总（办-经办岗）及 汇总意见上报</title>
+    <link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../../trd/uui/css/tree.css" />
+    <link rel="stylesheet" href="../../trd/ip/changeTree/changeTree.css" />
+    <link rel="stylesheet" href="../../trd/uui/css/grid.css" />
+    <link rel="stylesheet" href="../../trd/ip/css/ip.css" />
+    <link rel="stylesheet" href="../../trd/uui/css/u.css" />
+    <link rel="stylesheet" href="css/csofSup.css">
+    <link rel="stylesheet" href="../common/common.css">
+</head>
+<body>
+<div class="csof-sup">
+    <!--导航栏-->
+    <div class="csof-sup-header header-underline">
+        <div class="csof-sup-header-left">
+                    <span class="pull-left nav">
+                    <span id="eventName"></span></span>
+        </div>
+        <!--<div class="csof-sup-header-right">
+                  <span class="pull-right">
+                      <ul class="pull-left">
+                          <li class="pull-left"><a data-bind="click:skipPage">流程</a></li>
+                          <li class="space pull-left"></li>
+                          <li class="pull-left"><a href="#">待办</a></li>
+                          <li class="space pull-left"></li>
+                      </ul>
+                      
+                      <ul class="nav nav-pills pull-left" id="sup-procedure">
+                          <li data-toggle="tab" class="pull-left" id="sumoffice-first-trial"><a href="#">汇总意见上报</a></li>
+                      </ul>
+                  </span>
+        </div>
+    </div>-->
+    <!--按钮组-->
+    <div id="csof-sup-btns" class="csof-sup-btns btns-underline">
+        <!-- <button class="btn sup-btns sumagency-input" type="button" id="sum" data-bind="click: summaryClick">汇总</button>
+        <button class="btn sup-btns sumagency-input" type="button" id="return" data-bind="click: reClick">退回</button>
+        <button class="btn sup-btns sumagency-input" type="button" id="undosum" disabled data-bind="click: undosumClick">撤销汇总</button>
+        <button class="btn sup-btns sumagency-input" type="button" id="fillingopinion" disabled data-bind="click: fillingClick">意见填写</button>
+        <button class="btn sup-btns sumagency-input" type="button" id="submit" disabled data-bind="click: submitClick">提交</button>
+        <button class="btn sup-btns sumagency-input" type="button" id="takeback" disabled data-bind="click: takebackClick">收回</button>
+        <button class="btn sup-btns sumagency-input" type="button" id="uploadattach" disabled data-bind="click: uploadClick">附件上传</button>
+        <button class="btn sup-btns sumagency-input" type="button" id="report" disabled data-bind="click: reportClick">上报</button> -->
+    </div>
+    <!--内容-->
+    <div class="sup-container">
+        <!--左树-->
+        <div class="tree-left pull-left">
+            <div class="tabbable" id="tabs-tree">
+                <!--<ul id="depTreeTab" class="nav nav-tabs">
+                    <li class="active">
+                        <a data-toggle="tab" href="#panel-now" id="tree-now">当前</a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#panel-no" id="tree-no-conclude">未办结</a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#panel-has" id="tree-has-conclude">已办结</a>
+                    </li>
+                </ul>-->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="panel-now">
+                        <div class="input-group">
+					      <input type="text" id="SearchdepTree" class="form-control" data-bind="value: SearchdepTreeKEY" placeholder="模糊查询...">
+					      <span class="input-group-btn">
+					        <button class="btn btn-default" type="button"  data-bind="click:searchDepTree">
+					        	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					        </button>
+					      </span>
+					    </div>
+                        <div id="depTree" class="ztree" style="width: 100%;height: 425px;overflow: auto;" u-meta='{
+                                "id":"depTree",
+                                "data":"depTreeDataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"CHR_NAME",
+                                "setting":"depTreeSetting"
+                            }'>
+                        </div>
+                    </div>
+                    <!--<div class="tab-pane" id="panel-no">
+                        <div class="input-group">
+					      <input type="text" id="SearchdepTree2" data-bind="value: SearchdepTreeKEY2" class="form-control" placeholder="模糊查询...">
+					      <span class="input-group-btn">
+					        <button class="btn btn-default" type="button"  data-bind="click:searchDepTree2">
+					        	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					        </button>
+					      </span>
+					    </div>
+                        <div id="depTree2" class="ztree" style="width: 100%;height: 425px;overflow: auto;" u-meta='{
+                                "id":"depTree2",
+                                "data":"depTreeDataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"CHR_NAME",
+                                "setting":"depTreeSetting"
+                            }'>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="panel-has">
+                        <div class="input-group">
+					      <input type="text" id="SearchdepTree3" data-bind="value: SearchdepTreeKEY3" class="form-control" placeholder="模糊查询...">
+					      <span class="input-group-btn">
+					        <button class="btn btn-default" type="button"  data-bind="click:searchDepTree3">
+					        	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					        </button>
+					      </span>
+					    </div>
+                        <div id="depTree3" class="ztree" style="width: 100%;height: 425px;overflow: auto;" u-meta='{
+                                "id":"depTree3",
+                                "data":"depTreeDataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"CHR_NAME",
+                                "setting":"depTreeSetting"
+                            }'>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+        <!--右表-->
+        <div class="table-right pull-right">
+            <div class="tabbable" id="tabs-list">
+                <ul class="nav nav-tabs" style="background-color: rgba(242, 242, 242, 1);">
+                    <li id="list-li">
+                        <a data-toggle="tab" href="#panel-list" id="list-li-a">列表</a>
+                    </li>
+                    <li id="details-li">
+                        <a data-toggle="tab" href="#panel-details" id="details-li-a">详情</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="panel-list">
+                        <div style="margin: 10px 30px 15px 15px;">
+                            <div class="pull-left">
+                            </div>
+                            <div class="pull-right">
+                                <div class="">
+                                    <form class="form-search form-inline">
+                                    <div class="input-group">
+					                      <input type="text" id="gridSearchInput" class="form-control">
+					                      <span class="input-group-btn">
+						                      <button class="btn btn-default" type="button"  data-bind="click:gridSearch">
+						        	             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						                       </button>
+					                       </span>
+					                </div>    
+					                <button type="button" class="btn" onclick="hignSearch">高级</button>                                    
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ex-list">
+                            <span class="ex-list-title">监管内容列表：</span>
+                            <!-- <div class="tab-pane" id="ex-data-list">
+                                <div class="exDataGrid" u-meta='{"id":"exDataGrid","data":"exDataTable2","type":"grid","multiSelect":true,"showNumCol": true,"editType":"default","onDblClickFun":"viewModel.onDblClickFun","canDrag":true,"canSwap":true,"columnMenu":false}'>
+                                    <div options='{"field":"status","dataType":"String","title":"状态","editType":"string","width": 80}'></div>
+                                    <div options='{"field":"billNo","dataType":"String","title":"单号","editType":"string","width": 120}'></div>
+                                    <div options='{"field":"exName","dataType":"String","title":"事项","editType":"string","width": 120}'></div>
+                                    <div options='{"field":"depName","dataType":"String","title":"监管对象","editType":"string","width": 120}'></div>
+                                    <div options='{"field":"fundScale","dataType":"String","title":"资金规模(万元)","editType":"string","width": 100}'></div>
+                                    <div options='{"field":"recorder","dataType":"String","title":"记录人","editType":"string","width": 100}'></div>
+                                    <div options='{"field":"recoderDate","dataType":"String","title":"记录日期","editType":"string","width": 120}'></div>
+                                    <div options='{"field":"operate","dataType":"String","title":"操  作","editType":"string","width": 50}'></div>
+                                </div>
+                            </div> -->
+                            <!--表格按钮区域-->
+                            <div class="btn-grid-group flex-1 grid-container-sm">
+                                <div id="planInfoToolbarArea" >
+                                    <!-- <div class="btn-grid-group-btn ip-content-btn-area">
+                                    </div> -->
+                                </div>
+                                <div id=testGrid class="tabbed-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="panel-details">
+                        <div id="ipot-url">
+                        </div>
+                        <div id="irptShow" style="width: 100%;height: 425px;overflow: auto;" class="tab-content detailNavShowStyle">
+                           <div class="tab-pane" style="height:100%;" id="panel-fileUpload">
+                              <iframe id="fileUploadPage" style="width:100%;height:100%;border: 0;"></iframe>
+                           </div>
+
+                        </div>
+                        <div id="detailNav" class="detailNavStyle">
+                            <ul id="detailIrptNav" class="nav nav-tabs" style="background-color: rgba(242, 242, 242, 1);">
+				                    <li id="fileUplode_li">
+				                        <a data-toggle="tab" href="#panel-fileUpload" id="fileUplode">附件上传</a>
+				                    </li>
+                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="col-md-4">-->
+        <!--<div id="add-contractBasicInfo-otherEnclosures" class="input-group">-->
+            <!--<span class="input-group-btn">-->
+                <!--<button data-bind="click: fileUpload" class="btn btn-default" type="button">-->
+								<!--文件上传-->
+                <!--</button> </span>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--&lt;!&ndash;文件上传框，模态框（Modal）&ndash;&gt;-->
+    <!--<div id="fileUploadDiv" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+
+    <!--</div>-->
+</div>
+<!--引入js-->
+<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+<script src="../../trd/requirejs/require.js"></script>
+<script src="../../require.config.js"></script>
+<script src="data.js"></script>
+<script src="sum-office.js"></script>
+</body>
+</html>

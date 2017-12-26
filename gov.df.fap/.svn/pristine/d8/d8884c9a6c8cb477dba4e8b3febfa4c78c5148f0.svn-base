@@ -1,0 +1,190 @@
+
+/**
+ * Created by yanqiong on 2017/8/8.
+ */
+require(['jquery', 'knockout','/df/supervise/ncrd.js','bootstrap','dateZH', 'uui', 'tree', 'grid', 'ip'],
+    function ($, ko,ncrd, _) {
+        window.ko = ko;
+        var tokenid;
+        var options;
+		var pViewType = {
+        		VIEWTYPE_INPUT : "001",// 录入视图
+        		VIEWTYPE_LIST : "002",// 列表视图
+        		VIEWTYPE_QUERY : "003"// 查询视图
+        };
+		var fileData;
+		var num=0;
+		
+		var pageData = {//通过交互获取数据
+		        btnDatas : function(url,param){
+		            var mapData = [{DISPLAY_TITLE : '新增'},{DISPLAY_TITLE : '修改'},{DISPLAY_TITLE : '删除'},{DISPLAY_TITLE : '提交'},{DISPLAY_TITLE : '回收'}];
+		            var html = ''
+		            $.each(mapData,function(index,item){
+		                html += '<button class="btn btn-default" name="'+item.DISPLAY_TITLE +'" data-bind="click:btnEvents">'+item.DISPLAY_TITLE +'</button>';
+		            })
+
+		            $('.bnt-list').html(html);
+		            /*$.get(url, param ,function(map){{DISPLAY_TITLE : 111},{DISPLAY_TITLE : 33}
+		             //console.log(map);
+		             //mapData = map.data;
+		             });*/
+		            return mapData;
+		        },
+		    };
+        
+        //URL
+        var testURL = '/df/cs/test.do';
+        var viewModel = {
+        		SearchdepTreeKEY: ko.observable(""),
+        		//模糊查询单位树
+                searchDepTree : function () {
+                	 ncrd.findTreeNode($.fn.zTree.getZTreeObj("depTree"), viewModel.SearchdepTreeKEY());    
+                },  
+            exDataTable:new u.DataTable({
+                meta: {
+
+                }
+            }),
+            
+            btnEvents: function(data, events){//所有单击事件
+            var $this = $(events.target),
+                name = $this[0].name;
+            console.log(name);
+            if(name == '新增'){
+                $('#addModal').modal('show');
+                if(num == 0){
+                    $('#btn1').hide();
+                    $('#btn3').hide();
+                }else{
+                    if(num == 4){
+                        $('#btn2').hide();
+                        $('#btn3').show();
+                    }else{
+                        $('#btn2').show();
+                        $('#btn3').hide();
+                    }
+                }
+               
+            }
+            if(name == '修改'){
+                $('#updateModal').modal('show');
+                $('#btn1').hide();
+                $('#btn3').hide();
+            }
+            if(name == '高级'){//高级
+                console.log('111');
+            }
+            if(name == 'btn1'){//上一步
+                num--;
+                if(num == 0){
+                    $('#btn1').hide();
+                }
+                if(num < 4){
+                    $('#btn2').show();
+                    $('#btn3').hide();
+                }
+                eventsDeal.reduceStep();
+                eventsDeal.modalTab();
+            }
+            if(name == 'btn2'){//下一步
+                num++;
+                $('#btn1').show();
+                if(num == 4){
+                    $('#btn2').hide();
+                    $('#btn3').show();
+                }
+                eventsDeal.addStep();
+                eventsDeal.modalTab();
+            }
+            if(name == 'btn3'){//完成
+                num = 0;
+                eventsDeal.modalTab();
+                eventsDeal.reduceStep();
+                $('#addModal').modal('toggle');
+                $('#btn2').show();
+                $('#btn4').show();
+
+            }
+            if(name == 'btn4'){//返回
+
+            }
+
+        },
+        };
+        
+        taskAdd = function() {
+        	$('#addModal').modal('show');
+        	if(num == 0){
+                $('#btn1').hide();
+                $('#btn3').hide();
+            }else{
+                if(num == 4){
+                    $('#btn2').hide();
+                    $('#btn3').show();
+                }else{
+                    $('#btn2').show();
+                    $('#btn3').hide();
+                }
+            }
+            eventsDeal.modalTab();
+        	viewModel.initData("edit","infoAdd");  
+        }
+        
+        var eventsDeal = {
+                addStep: function () {//点击下一步切换step
+                    $('.u-step:eq(' +num+ ')').addClass('current').siblings().removeClass('current');
+                    $('.u-step:lt(' +num+ ')').addClass('done');
+                    $('.step-doing').text(num+1);
+                    $('.step-name').text($('.u-step:eq(' +num+ ') .u-step-title').text());
+                },
+                reduceStep: function () {//点击上一步切换step
+                    $('.u-step:gt(' +num+ ')').removeClass('done');
+                    $('.u-step:eq(' +num+ ')').removeClass('done');
+                    $('.u-step:eq(' +num+ ')').addClass('current').siblings().removeClass('current');
+                    $('.step-doing').text(num+1);
+                    $('.step-name').text($('.u-step:eq(' +num+ ') .u-step-title').text());
+
+                },
+                modalTab: function () {//点击上一步、下一步切换modal页签
+                    var arr = ['infoAdd', 'orgaAdd', 'objectAdd', 'contentAdd', 'partAdd'];
+                    $('#' + arr[num]).addClass('active').siblings().removeClass('active');
+                }
+            }
+        
+      //生成表头
+     	viewModel.initData = function(areaType,areaId) {
+     		var current_url = location.search;
+    		$.ajax({
+    			url : "/df/init/initMsg.do",
+    			type : "GET",
+    			dataType : "json",
+    			async : true,
+    			data : options,
+    			success : function(datas) {
+    				viewModel.viewList = datas.viewlist;// 视图信息
+    				viewModel.resList = datas.reslist;// 资源信息
+    				viewModel.coaId = datas.coaId;// coaid
+    				viewModel.coaDetails = datas.coaDetail;// coa明细
+    				viewModel.relations = datas.relationlist;// 关联关系
+    				//viewModel.initGridData(); //调用初始化表格
+    				ip.createArea(areaType, datas.viewlist[0].viewid, areaId)
+    			}
+    		});
+     	};
+
+        
+        //初始化
+        function init() {
+        	app = u.createApp({
+                el: document.body,
+                model: viewModel
+            });
+            tokenid = ip.getTokenId();
+            options = ip.getCommonOptions({});
+            options['tokenid'] = tokenid;
+            viewModel.initData("edit","testGrid");  
+			//初始化grid
+        }
+        init();
+    }
+)

@@ -1,0 +1,42 @@
+package gov.df.supervise.service.csofinfo;
+
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.supervise.api.csofinfo.csofInfoService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class csofInfoBo implements csofInfoService {
+  @Autowired
+  private csofInfoDao csofInfodao;
+
+  public List getDisplayTitle(String chr_id) {
+    return csofInfodao.getDisplayTitle(chr_id);
+  }
+
+  public List getYear(String ele_code) {
+    Map<String, String> param = new HashMap<String, String>();
+    String ele_source = csofInfodao.findEleSource(ele_code);
+    param.put("ele_source", ele_source);
+    return csofInfodao.findData(param);
+  }
+
+  public List getTreeByuser(String ele_code) {
+    Map<String, String> param = new HashMap<String, String>();
+    String user_id = (String) SessionUtil.getUserInfoContext().getUserID();
+    String ele_source = csofInfodao.findEleSource(ele_code);
+    String elecode = ele_code;
+    if (ele_code.equals("CSOF_MOFAGENCY")) {
+      elecode = "CSOF_AGENCY";
+    }
+    param.put("ele_source", ele_source);
+    param.put("ele_code", elecode);
+    param.put("user_id", user_id);
+    return csofInfodao.findDataByuser(param);
+  }
+}

@@ -1,0 +1,229 @@
+.nav-listDown{
+    display: inline-block;
+    padding-left: 0;
+    font-size: 14px;
+}
+.bnt-list{
+    margin-top: 10px;
+}
+.bnt-list button{
+    margin-right: 10px;
+}
+.content{
+    width:100%;
+    margin-top: 10px;
+
+}
+.content .tree{
+    width: 25%;
+    float: left;
+    margin-top: 32px;
+}
+.tree-list{
+    margin-bottom: -1px;
+    height: 260px;
+    overflow: auto;
+}
+.right-content{
+    width: 73%;
+    margin-left: 25%;
+
+}
+.list-bar{
+    margin: 0;
+    text-align: left;
+}
+.nav-show{
+    height: 32px;
+}
+
+/* tab */
+.tab-pad{
+    padding: 10px 10px;
+}
+.tab-header{
+    height:27px;
+    margin-bottom: 10px;
+}
+.tab-input{
+    height: 27px;
+    padding-left: 8px;
+}
+.tab-input-group{
+    padding-left: 0;
+}
+.upSearch{
+    margin-top:-4px;
+}
+
+
+/* 右边列表页 */
+.seach-icon{
+    margin-left: -20px;
+}
+.top-list{
+    height: 300px;
+    /*overflow: auto;*/
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* modal */
+.add-Modal{
+    height: 500px;
+    overflow: auto;
+}
+
+/* step步骤 */
+.step-box{
+    border-bottom: 1px solid #eee;
+}
+.show-step{
+    padding-left: 26px;
+}
+.step-name:before{
+    content: '   ';
+    width: 10px;
+}
+.step-doing{
+    color: #1871C1;
+    font-size: 27px;
+}
+.step-num{
+
+}
+.newWid{
+    width: 20%;
+}
+
+/* 监管机构穿梭框 */
+#orgaAdd, #objectAdd{
+    position: relative;
+}
+#orgaAdd .tab-play-box, #objectAdd .tab-play-box{
+    display: inline-block;
+    margin-right: 43px;
+}
+.buttonList{
+    position: absolute;
+    top: 70px;
+    left: 220px;
+    width: 46px;
+    height: 300px;
+}
+.buttonList button{
+    width: 39px;
+    margin-top: 20px;
+}
+.leftList, .rightList{
+    width: 216px;
+    height: 300px;
+    border: 1px solid #ccc;
+    overflow: auto;
+}
+.tab-play-header{
+    padding-bottom: 10px;
+}
+.tab-list-title{
+    color: #1871C1;
+}
+.tab-list-title-margin{
+    margin-right: 188px;
+}
+.tab-list-title-margin2{
+    margin-right: 152px;
+}
+.tab-list-title-num{
+    margin-left: 40px;
+    font-size: 18px;
+}
+
+/* 具体内容 */
+.contentAdd-content{
+    position: relative;
+}
+.contentAdd-content > div, .contentAdd-header > div{
+    display: inline-block;
+}
+.contentAdd-content-tree{
+    width: 250px;
+    height: 300px;
+    border: 1px solid #ccc;
+    overflow: auto;
+}
+.contentAdd-header{
+    padding-bottom: 10px;
+
+}
+.btns-header{
+    margin-right: 10px;
+}
+.contentAdd-content-right{
+    position: absolute;
+    left: 250px;
+    width: 286px;
+    height: 300px;
+    padding: 10px;
+    /*border: 1px solid #ccc;*/
+}
+.contentAdd-content-right > div{
+    margin-bottom: 10px;
+}
+.contentAdd-content-right input[type="text"]{
+    border-radius: 4px;
+    padding: 2px 2px;
+    padding-left: 7px;
+    box-shade: 0px;
+    -webkit-box-shadow: none;
+    height: 30px;
+    line-height: 30px;
+    border: solid 1px #bababa;
+}
+.contentAdd-content-right textarea{
+    height: 90px;
+    border: 1px solid #bababa;
+    border-radius: 4px;
+}
+.contentAdd-content-right textarea, .contentAdd-content-right input{
+    padding-left: 10px;
+}
+.btns-contentAdd{
+    padding-left: 80px;
+}
+/* 附件 */
+.partAdd-header{
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ccc;
+}
+.partAdd-header span{
+    margin-right: 70%;
+}
+.partAdd-content input[type="checkbox"]{
+    margin-right: 16px;
+}
+.partAdd-content > div{
+    padding-top: 10px;
+}
+.partAdd-content .deal{
+    margin-right: 10px;
+    cursor: pointer;
+}
+.partAdd-title{
+    margin-right: 25%;
+}
+.partAdd-time{
+    margin-right: 10%;
+}
+
+.text-und{
+    text-decoration: underline;
+}
+.text-color-normal{
+    color: #1871C1;
+}
+.text-color-red{
+    color: darkred;
+}
+
+
+

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gov.df.supervise.service.user.userDao">
+<select id="queryDepByBelongOrg" parameterType="java.lang.String" resultType="gov.df.supervise.bean.user.depDTO">
+select * from csof_e_dep where CHR_ID = #{dep_id}
+</select>
+ <select id="queryOfficeByOrgCode" parameterType="java.lang.String" resultType="gov.df.supervise.bean.user.officeDTO" >
+ select * from csof_e_office where CHR_ID = #{oid}
+</select>
+
+<select id="getMenu" parameterType="java.util.Map" resultType="java.util.Map" >
+select 
+    u.obj_type_id,
+    u.obj_type_code,
+    u.obj_type_name,
+    u.id as task_id,u.task_name,
+    u.sid,u.sup_no,u.sup_name,u.sup_mode,u.sup_date,u.is_allobj,u.obj_type_id,
+    m.menu_id,
+    m.menu_name,
+    m.menu_code,
+    m.disp_order,
+    m.step_shortcut as short_name,
+    m.tips,
+    m.icon,
+    m.url,
+    m.menu_parameter,
+    m.enabled    
+  from vw_csof_task_bill u,sys_menu m
+ where 1=1 
+   and u.is_pub=1
+   and u.is_valid=1
+   and m.enabled=1
+   and exists (select 1 from csof_wf_menu_node n,CSOF_S_SUPMODE_FLOW s where s.oid=u.oid and s.sup_mode=u.sup_mode and s.wf_id=n.wf_id and n.menu_id=m.menu_id)
+   and exists (select 1 from sys_role_menu rm,sys_user_role_rule ur where rm.role_id=ur.role_id and rm.menu_id=m.menu_id and ur.user_id=#{user_id})
+   <!--数据权限-->
+  and exists (
+    select ele_value 
+      from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+     where 1=1 
+       and r.user_id=#{user_id}
+       and d.right_group_id=g.right_group_id 
+       and g.rule_id=r.rule_id 
+       and (d.ele_code='CSOF_SUPTYPE' and (d.ele_value='#' or d.ele_value=u.SUP_TYPE_CODE)) 
+  )
+  <!--机构权限-->
+   and exists (select 1 from sys_user_org o where o.org_id=u.dep_id and o.user_id=#{user_id})
+   and u.oid = #{oid}
+ order by u.task_no,disp_order,menu_code
+</select>
+</mapper>

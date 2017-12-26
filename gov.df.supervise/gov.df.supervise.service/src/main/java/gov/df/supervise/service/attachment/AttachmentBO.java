@@ -1,0 +1,660 @@
+package gov.df.supervise.service.attachment;
+
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.util.Tools;
+import gov.df.fap.util.file2html.Excel2HtmlUtil;
+import gov.df.fap.util.file2html.PPT2HtmlUtil;
+import gov.df.fap.util.file2html.Txt2HtmlUtil;
+import gov.df.fap.util.file2html.Word2HtmlUtil;
+import gov.df.fap.util.xml.XMLData;
+import gov.df.supervise.api.attachment.AttachmentService;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.gov.df.supervice.util.ContinueFTP2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.jiuqi.util.zip.ZipEntry;
+import com.jiuqi.util.zip.ZipFile;
+import com.ufgov.ip.apiUtils.UUIDTools;
+
+@Service
+public class AttachmentBO implements AttachmentService {
+
+  @Autowired
+  @Qualifier("generalDAO")
+  GeneralDAO dao;
+
+  /**GBK编码方式 */
+  public static final String CHINESE_CHARSET = "GBK";
+
+  public static final String[] IMG_FILE_TYPE = new String[] { "jpg", "jpeg", "bmp", "png", "gif", "tiff" };
+
+  public static final String[] COMPRESS_FILE_TYPE = new String[] { "zip", "7z", "rar" };
+
+  public static String FILE_FTP_MODE = "1"; //FTP模式标记
+
+  public static String FILE_DIR_MODE = "0"; //目录模式标记
+
+  //  public static String UPLOAD_FTP_IP = "";
+  //  public static String UPLOAD_FTP_PORT = "";
+  //  public static String UPLOAD_FTP_USER = "";
+  //  public static String UPLOAD_FTP_PASSWORD = "";
+  //  
+  //  static  {
+  //    String chr_codes = "'UPLOAD_FTP_IP','UPLOAD_FTP_PORT','UPLOAD_FTP_USER','UPLOAD_FTP_PASSWORD'";
+  //
+  //  }
+
+  public List getAttachList(String condition, String pageInfo) throws Exception {
+    String sql = "select * from vw_attachment where 1=1 " + condition;
+    return dao.findByPageSql(pageInfo, sql);
+  }
+
+  public List getAttachByIds(String ids) {
+	  
+	  String value ="";
+	  String sql ="";
+	  if(ids.contains(",")){
+		  String [] values = ids.split(",");
+		  for(int i=0;i<values.length;i++){
+			  value +="'"+values[i]+"'";
+		  }
+		  sql = "select * from csof_attachment where id in(" + value + ")";
+	  }else{
+		  value = "'"+ids+"'";
+		  sql = sql = "select * from csof_attachment where id =" + value ;
+	  }
+    return dao.findBySql(sql);
+  }
+
+  public List getAttachById(String id) {
+    String sql = "select id, entity_name, entity_id, file_no, file_name, file_size, "
+      + "file_type, file_url, remark, latest_op_user, latest_op_date, create_user, "
+      + "create_date, set_year, status, org_code, rg_code from csof_attachment where id='" + id + "'";
+    return dao.findBySql(sql);
+  }
+
+  public List getAllAttachments() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public int deleteAttachments(String ids) {
+	  int num = 0;
+	  String value ="";
+	  String sql ="";
+	  if(ids.contains(",")){
+		  String [] values = ids.split(",");
+		  for(int i=0;i<values.length;i++){
+			  value +="'"+values[i]+"'";
+		  }
+          sql = "delete from csof_attachment where id in (" + value + ")";
+          num = values.length;
+	  }else{
+		  value = "'"+ids+"'";
+		  sql = "delete from csof_attachment where id  = " + value;
+		  num = 1;
+	  }
+	  try{
+		  dao.executeBySql(sql);
+	  }catch(Exception e){
+		  num = 0;
+	  }
+    return num;
+  }
+
+  public void saveAttachment(Map<String, String> attachMap) {
+    int i = dao.executeBySql(getInsertSql(attachMap, "csof_attachment"));
+  }
+
+  public String getInsertSql(Map<String, String> map, String tableName) {
+    String keyStr = "";
+    String valueStr = "";
+    for (String key : map.keySet()) {
+      keyStr += key + ",";
+      valueStr += "'" + map.get(key) + "',";
+    }
+    if (!("".equals(keyStr))) {
+      keyStr = keyStr.substring(0, keyStr.length() - 1);
+    }
+    if (!("".equals(valueStr))) {
+      valueStr = valueStr.substring(0, valueStr.length() - 1);
+    }
+    return "insert into " + tableName + "(" + keyStr + ") values (" + valueStr + ")";
+  }
+
+  public String getUploadRootPath() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_ROOT_PATH' ");
+    List list = dao.findBySql(strSQL.toString());
+    XMLData data = (XMLData) list.get(0);
+    return (String) data.get("chr_value");
+  }
+
+  public String getUploadMode() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_MODE' ");
+    List list = dao.findBySql(strSQL.toString());
+    XMLData data = (XMLData) list.get(0);
+    return (String) data.get("chr_value");
+  }
+
+  //获取ftp服务器地址
+  public String getUploadFtpIp() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_FTP_IP' ");
+    List list = dao.findBySql(strSQL.toString());
+    XMLData data = (XMLData) list.get(0);
+    return (String) data.get("chr_value");
+  }
+
+  //获取ftp服务器端口
+  public String getUploadFtpPort() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_FTP_PORT' ");
+    List list = dao.findBySql(strSQL.toString());
+    XMLData data = (XMLData) list.get(0);
+    return (String) data.get("chr_value");
+  }
+
+  //获取ftp服务器用户名
+  public String getUploadFtpUser() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_FTP_USER' ");
+    List list = dao.findBySql(strSQL.toString());
+    XMLData data = (XMLData) list.get(0);
+    return (String) data.get("chr_value");
+  }
+
+  //获取ftp服务器密码
+  public String getUploadFtpPassword() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_FTP_PASSWORD' ");
+    List list = dao.findBySql(strSQL.toString());
+    XMLData data = (XMLData) list.get(0);
+    return (String) data.get("chr_value");
+  }
+
+  public int getCount() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  /**
+   * ftp附件上传
+   */
+
+  public Map upload(MultipartFile file, String pathFile, String FTP_ADDRESS, String FTP_PORT, String FTP_USERNAME,
+    String FTP_PASSWORD) {
+    Map resultmMap = new HashMap<Object, Object>();
+    try {
+      int port = Integer.parseInt(FTP_PORT);
+      // System.out.println(FTP_BASEPATH);
+      // FTP_BASEPATH = local.split("/")[1];
+      String FTP_BASEPATH = file.getOriginalFilename();
+      // 连接ftp服务器
+
+      // boolean result = ContinueFTP.connect(FTP_ADDRESS, port,
+      // FTP_USERNAME, FTP_PASSWORD);
+      // //调用方法，上传文件
+      // Map<String, Object> data = ContinueFTP.upload(file, pathFile);
+      // ContinueFTP.disconnect();
+
+      ContinueFTP2 continueFTP = new ContinueFTP2();
+      boolean result = continueFTP.connect(FTP_ADDRESS, port, FTP_USERNAME, FTP_PASSWORD);
+      if (result == true) {
+        Map<String, Object> data = continueFTP.upload(file, pathFile);
+        continueFTP.disconnect();
+        resultmMap.put("data", data);
+        resultmMap.put("error", data.get("errorCode"));
+      } else {
+        resultmMap.put("error", "1");
+        resultmMap.put("message", "FTP连接发生异常");
+      }
+      return resultmMap;
+    } catch (IOException e) {
+      e.printStackTrace();
+      resultmMap.put("error", "1");
+      resultmMap.put("message", "上传发生异常");
+      return resultmMap;
+    }
+  }
+
+  /**
+   * 文件获取接口 通过文件id获取
+   * @param fileId 文件id
+   * @return 文件信息Map
+   */
+  public Map getFileById(String fileId) {
+    Map<String, Object> returnMap = new HashMap<String, Object>();
+    String mode = getUploadMode();
+    String errorMessage = "";
+    String errorCode = "0";
+    String isTempFile = "0"; //0:不是临时文件，不可删除   1:ftp下载的临时文件需要删除
+
+    List list = getAttachById(fileId);
+    if (list.size() > 0) {
+      XMLData attach = (XMLData) list.get(0);
+      String filePath = attach.get("file_url").toString();
+      String fileName = attach.get("file_name").toString();
+      String fileType = attach.get("file_type").toString();
+      String localPath = "";
+      if (mode.equals(FILE_FTP_MODE)) {
+        isTempFile = "1"; //临时文件标志
+        String UPLOAD_FTP_IP = getUploadFtpIp();
+        String UPLOAD_FTP_PORT = getUploadFtpPort();
+        String UPLOAD_FTP_USER = getUploadFtpUser();
+        String UPLOAD_FTP_PASSWORD = getUploadFtpPassword(); //TO DO 以上参数应该调整为系统启动参数取值
+
+        Map downMap = download(filePath, fileName, UPLOAD_FTP_IP, UPLOAD_FTP_PORT, UPLOAD_FTP_USER, UPLOAD_FTP_PASSWORD);
+        if (null != downMap.get("local")) {
+          localPath = downMap.get("local").toString();
+        } else {
+          errorCode = "1";
+          errorMessage = "FTP文件下载失败";
+        }
+      } else if (mode.equals(FILE_DIR_MODE)) {
+        File file = new File(filePath);
+        if (!file.exists()) {
+          errorCode = "1";
+          errorMessage = "服务器目录不存在该文件";
+        } else {
+          localPath = filePath;
+        }
+      }
+      returnMap.put("fileName", fileName);
+      returnMap.put("fileType", fileType);
+      returnMap.put("localPath", localPath);
+    } else {
+      errorCode = "1";
+      errorMessage = "附件记录不存在";
+    }
+
+    returnMap.put("isTempFile", isTempFile);
+    returnMap.put("errorCode", errorCode);
+    returnMap.put("errorMsg", errorMessage);
+
+    return returnMap;
+  }
+
+  //ftp下载
+  public Map download(String filePath, String filename, String FTP_ADDRESS, String FTP_PORT, String FTP_USERNAME,
+    String FTP_PASSWORD) {
+    Map resultMap = new HashMap<Object, Object>();
+    try {
+      int port = Integer.parseInt(FTP_PORT);
+      // System.out.println(FTP_BASEPATH);
+      String FTP_BASEPATH = filePath;// .split("root")[1];
+      String suf = filename.substring(filename.lastIndexOf("."));
+      String dirPath = "FTP_TEMP";
+      String local = "FTP_TEMP" + File.separator + UUIDTools.uuidRandom() + suf;
+      if (!(new File(dirPath).isDirectory())) {
+        makeDir(dirPath, false);
+      }
+      // 连接ftp服务器
+      // boolean result = ContinueFTP.connect(FTP_ADDRESS, port,
+      // FTP_USERNAME, FTP_PASSWORD);
+      // //调用方法，上传文件
+      // Map<String, Object> data = ContinueFTP.download(FTP_BASEPATH,
+      // local);
+      // ContinueFTP.disconnect();
+
+      ContinueFTP2 continueFTP = new ContinueFTP2();
+      boolean result = continueFTP.connect(FTP_ADDRESS, port, FTP_USERNAME, FTP_PASSWORD);
+      if (result == true) {
+        Map<String, Object> data = continueFTP.download(FTP_BASEPATH, local);
+        continueFTP.disconnect();
+        resultMap.put("errorCode", "0");
+        resultMap.put("data", data);
+        resultMap.put("local", local);
+      } else {
+        resultMap.put("errorCode", "1");
+        resultMap.put("message", "FTP连接发生异常");
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+      resultMap.put("errorCode", "1");
+      resultMap.put("message", "下载发生异常");
+
+    }
+    return resultMap;
+  }
+
+  /**
+   * 预览
+   */
+  public Map<String, String> previewFile(String fileName, String filePath, String fileType, String rootPath,
+    HttpServletResponse response) throws Exception {
+    Map<String, String> htmlMap = null;
+    String delFilePath = null;
+    List<String> typeList = new ArrayList<String>(Arrays.asList(IMG_FILE_TYPE));
+    List<String> compressList = new ArrayList<String>(Arrays.asList(COMPRESS_FILE_TYPE));
+    if (compressList.contains(fileType)) { //如果原文件就是压缩文件，则无法预览
+      throw new Exception("暂不支持预览压缩文件");
+    }
+    if (filePath.endsWith(".zip") || filePath.endsWith(".ZIP")) { // 如果为压缩文件 ，需要解压缩处理
+      filePath = unzip(filePath, rootPath);
+      delFilePath = filePath;
+    }
+    //文件后缀
+    String suffix = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length());
+    suffix = (suffix == null ? null : suffix.toLowerCase());
+    //    if (typeList.contains(suffix)) { // 处理图片附件
+    //      response.setContentType("image/jpeg");
+    //      response.setCharacterEncoding("UTF-8");
+    //      BufferedInputStream bis = null; // 输入流
+    //      OutputStream ops = response.getOutputStream(); // 返回数据流
+    //      try {
+    //        bis = new BufferedInputStream(new FileInputStream(filePath));
+    //        byte[] b = new byte[bis.available()]; // 最大只能处理64M
+    //        bis.read(b);
+    //        ops.write(b);
+    //        ops.flush();
+    //        bis.close();
+    //      } finally {
+    //        if (bis != null) {
+    //          bis.close();
+    //        }
+    //      }
+    //      new File(delFilePath).delete();
+    //      htmlMap = new HashMap<String, String>();
+    //    }
+    Map<String, Integer> map = new HashMap<String, Integer>();
+    map.put("doc", 0);
+    map.put("docx", 1);
+    map.put("xls", 2);
+    map.put("xlsx", 2);
+    map.put("ppt", 3);
+    map.put("pptx", 4);
+    map.put("txt", 5);
+    map.put("pdf", 6);
+    map.put("sql", 5);
+    Integer suffixFlag = map.get(suffix);
+    if (typeList.contains(suffix)) { // 处理图片附件
+      suffixFlag = 7;
+    }
+    //java 1.6不支持String比较, 这里通过map实现比较
+    switch (suffixFlag) {
+    case 0:
+      htmlMap = Word2HtmlUtil.doc2Html(filePath, rootPath);
+      break;
+    case 1:
+      htmlMap = Word2HtmlUtil.docx2Html(filePath, rootPath);
+      break;
+    case 2:
+      htmlMap = Excel2HtmlUtil.readExcelToHtml(filePath, true);
+      break;
+    case 3:
+      htmlMap = PPT2HtmlUtil.ppt2Html(filePath, rootPath, "png");
+      break;
+    case 4:
+      htmlMap = PPT2HtmlUtil.pptx2Html(filePath, rootPath, "png");
+      break;
+    case 5:
+      htmlMap = Txt2HtmlUtil.txt2Html(filePath, rootPath);
+      break;
+    case 6:
+      htmlMap = previewPdfAndImg(fileName, filePath, rootPath, 0);
+      break;
+    case 7:
+      htmlMap = previewPdfAndImg(fileName, filePath, rootPath, 1);
+    }
+    if (delFilePath != null) {
+      new File(delFilePath).delete();
+    }
+    return htmlMap;
+  }
+
+  public Map<String, String> previewPdfAndImg(String fileName, String filePath, String rootPath, Integer flag)
+    throws Exception {
+    Map<String, String> map = new HashMap<String, String>();
+    final long timeStamp = System.currentTimeMillis();
+    File root = new File(rootPath);
+    if (!root.exists()) {
+      root.mkdirs();
+    }
+    //源文件
+    File srcfile = new File(filePath);
+    //输出文件名,添加时间戳，防止多人同时写一个文件
+    String fileName1 = rootPath + fileName;
+    BufferedInputStream bis = null;
+    BufferedOutputStream bos = null;
+    try {
+      bis = new BufferedInputStream(new FileInputStream(srcfile));
+      bos = new BufferedOutputStream(new FileOutputStream(fileName1));
+      byte[] buffer = new byte[2 * 1024 * 1024];
+      int index;
+      while ((index = bis.read(buffer, 0, buffer.length)) != -1) {
+        bos.write(buffer, 0, index);
+        bos.flush();
+      }
+    } catch (Exception e) {
+      throw new Exception("pdf读取失败：" + e.getMessage());
+    } finally {
+      if (bis != null) {
+        bis.close();
+      }
+      if (bos != null) {
+        bos.close();
+      }
+    }
+    if (0 == flag) { //pdf
+      map.put("typeFlag", "0");
+    }
+    if (1 == flag) { //图片
+      map.put("typeFlag", "1");
+    }
+    map.put("htmlString", "/html/" + fileName);
+    map.put("fileName", fileName);
+    return map;
+  }
+
+  /**
+   * 解压缩文件
+   * @param filePath
+   *          压缩文件的路径
+   * @param targetPath
+   *          项目根路径
+   * @return 解压缩文件的全路径
+   */
+  @SuppressWarnings("unchecked")
+  public String unzip(String filePath, String targetPath) {
+    //解压缩流
+    ZipFile zipFile = null;
+    BufferedInputStream bis = null;
+    BufferedOutputStream bos = null;
+    //解压缩文件路径
+    String fileName = null;
+    try {
+      File src = new File(filePath);
+      if (!src.exists()) {//判断文件目录是否存在  
+        throw new Exception("文件:" + filePath + "不存在");
+      }
+      zipFile = new ZipFile(filePath, CHINESE_CHARSET);
+      Enumeration<ZipEntry> zipEntries = zipFile.getEntries();
+      ZipEntry entry = null;
+      while (zipEntries.hasMoreElements()) {
+        entry = zipEntries.nextElement();
+        fileName = targetPath + System.currentTimeMillis() + entry.getName();
+        File target = new File(fileName);
+        if (!target.getParentFile().exists()) { // 父级目录不存在，创建文件父目录
+          target.getParentFile().mkdirs();
+        }
+        //缓冲输入流，读入文件
+        bis = new BufferedInputStream(zipFile.getInputStream(entry));
+        //缓冲输出流，写入文件
+        bos = new BufferedOutputStream(new FileOutputStream(target));
+        int index;
+        byte[] buffer = new byte[1 * 1024 * 1024]; //byte数组接收文件的数据,最大流为1M
+        while ((index = bis.read(buffer, 0, buffer.length)) != -1) {
+          bos.write(buffer, 0, index);
+          bos.flush();
+        }
+      }
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    } finally {
+      try {
+        if (zipFile != null) {
+          zipFile.close();
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      closeQuietly(bis, bos);
+    }
+    return fileName;
+  }
+
+  /**
+   * 关闭一个或多个流对象
+   * 
+   * @param closeables
+   *            可关闭的流对象列表
+   */
+  public void closeQuietly(Closeable... closeables) {
+    try {
+      close(closeables);
+    } catch (IOException e) {
+      e.printStackTrace();
+      // do nothing
+    }
+  }
+
+  /**
+   * 关闭一个或多个流对象
+   * 
+   * @param closeables
+   *            可关闭的流对象列表
+   * @throws IOException
+   */
+  public void close(Closeable... closeables) throws IOException {
+    if (closeables != null) {
+      for (Closeable closeable : closeables) {
+        if (closeable != null) {
+          closeable.close();
+        }
+      }
+    }
+  }
+
+  /**
+   * 查询上传的文件名
+   */
+  public List getNameById(String id) {
+	  String condition = "";
+	    String value ="";
+		if(id.contains(",")){
+			String [] values = id.split(",");
+			for(int i=0;i<values.length;i++){
+				 value +="'"+values[i]+"'";
+			}
+            condition = " AND ENTITY_ID IN ("+value+")";
+		}else{
+			condition = " AND ENTITY_ID = '"+id+"'";
+		}
+    String sql = "select file_name,id from csof_attachment where 1 = 1 "+condition;
+    return dao.findBySql(sql);
+  }
+
+  public Map getUserPara(String chr_codes) {
+    Map map = new HashMap();
+
+    String sql = "select chr_code , chr_value from sys_userpara where chr_code in (" + chr_codes + ") ";
+    List list = dao.findBySql(sql);
+
+    for (int i = 0; i < list.size(); i++) {
+      Map data = (Map) list.get(i);
+      map.put(data.get("chr_code"), data.get("chr_value"));
+    }
+
+    return map;
+  }
+
+  /**
+   * 文件夹创建
+   */
+  public static void makeDir(String fpath, boolean includef) {
+    String fb = "";
+    String[] fp = fpath.split(":");
+    if (fp.length > 1) {
+      fb = fp[0] + ":";
+    }
+    makeDir(fp[fp.length - 1], fb, includef);
+  }
+
+  /**
+   * 根据目录参数,创建无限层的目录结构 如果路径包含文件名,不要将文件名作为目录创建
+   */
+  public static void makeDir(String fileDir, String context, boolean includef) {
+
+    if (includef) {
+      int pos = fileDir.lastIndexOf(File.separatorChar);
+      fileDir = fileDir.substring(0, pos);
+    }
+    String fpath = context + fileDir;
+    File tf = new File(fpath);
+    if (tf.isDirectory() && tf.exists()) {
+      return;
+    }
+    StringTokenizer stringTokenizer = new StringTokenizer(fileDir, "/");
+    String strTemp = "";
+    while (stringTokenizer.hasMoreTokens()) {
+      String str = stringTokenizer.nextToken();
+      if ("".equals(strTemp)) {
+        strTemp = str;
+      } else {
+        strTemp = strTemp + "/" + str;
+      }
+      File dir = new File(context + strTemp);
+      if (!dir.isDirectory()) {
+        dir.mkdirs();
+      }
+    }
+  }
+
+  public boolean deletePreviewFile(String srcPath) throws Exception {
+    File dirFile = new File(srcPath);
+    return deleteDir(dirFile);
+  }
+
+  /**
+   * 递归删除目录下所有文件和子目录下的文件
+   * @param dirFile
+   *          需删除的文件目录
+   * @return
+   *          true:删除成功， false:删除失败
+   */
+  private static boolean deleteDir(File dirFile) {
+    if (dirFile.isDirectory()) {
+      String[] children = dirFile.list(); // 获取该目录下全部文件
+      for (int i = 0; i < children.length; i++) {
+        boolean success = deleteDir(new File(dirFile, children[i]));
+        if (!success) {
+          return false;
+        }
+      }
+    }
+    return dirFile.delete(); //删除空目录
+  }
+
+}

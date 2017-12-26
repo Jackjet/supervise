@@ -1,0 +1,143 @@
+<!--台账管理页面-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>台账处汇总</title>
+		<link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css"/>
+		<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/tree.css" />
+        <link rel="stylesheet" type="text/css" href="/df/trd/ip/changeTree/changeTree.css" />
+        <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/u.css" />
+        <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/grid.css" />
+        <link rel="stylesheet" type="text/css" href="/df/trd/ip/css/ip.css" />
+		<link rel="stylesheet" href="../common/common.css">
+		<link rel="stylesheet" href="css/csofAcc.css">
+		<link rel="stylesheet" href="../matters/css/common.css">
+		<link rel="stylesheet" href="../matters/css/mattersEnter.css">
+		<link rel="stylesheet" href="../sup/css/csofSup.css">
+	</head>
+	<style>
+	    #testGrid > div{
+	        margin: 5px 0;
+	    }
+	</style>
+	<body class="csof-font" style="overflow:auto;">
+		<!-- 台账汇总 -->
+		<div id="led-mana-page" style="background:#f4f4f4;">
+			<!--事项-->
+			<div  class="col-md-12" style="width: 98%;background:#ffffff;margin-top: 15px;">
+				<div style="float:left;" id="accBtns">
+					<!-- <button class="btn csof-btn">提交</button>
+					<button class="btn csof-btn">收回</button> -->
+				</div>
+			</div>
+			<!--main-->
+			<div class="col-md-12" style="width:98%;margin-top:10px;">
+				<div class="col-md-3" style="padding-right:1%;border:1px solid #ccc;height:500px;padding-top: 10px;">
+					<div class="col-md-12" style="padding: 0;">
+						<div class="col-md-2" style="padding: 2px;">期 间：</div>
+						<div class="col-md-6" style="padding: 0 5px;"><select id="year" style="border: 1px solid #ccc;width: 100%;">
+
+						</select></div>
+						<div class="col-md-4" style="padding: 0">
+						<select id="month" style="border: 1px solid #ccc;width: 100%;">
+
+						</select></div>
+					</div>
+					<!--  <div class="input-group" style="margin-top: 10px;">
+						<input type="text" id="SearchdepTree" class="form-control" placeholder="模糊查询...">
+					      <span class="input-group-btn">
+					        <button class="btn btn-default" type="button">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button>
+					      </span>
+					</div>-->
+					<!--树-->
+					<div class="input-group" style="margin-top: 35px;">
+						<input type="text" id="SearchBookSumTree" class="form-control" data-bind="value: SearchBookSumTreeKEY" placeholder="模糊查询...">
+					      <span class="input-group-btn">
+					        <button class="btn btn-default" type="button" data-bind="click:searchBookSumTree">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button>
+					      </span>
+					</div>
+					<div id="bookSumTree" class="ztree" style="width: 100%;height: 425px;overflow: auto;" u-meta='{
+                                "id":"bookSumTree",
+                                "data":"bookSumTreeDataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"NAME",
+                                "setting":"bookSumTreeSetting"
+                            }'>
+                     </div>
+				</div>
+				<div class="col-md-9" style="border:1px solid #ccc;height:500px;border-left: 0;padding: 0;">
+						<div style="border-bottom:1px solid #ccc;padding: 10px;">
+						                    台账类型：<span id="accType" style="margin-right: 20px;"></span> 期 间：<span id="accDate" style="margin-right: 20px;"></span>
+						                    登记处室：<span id="recodeOffice" style="margin-right: 20px;"></span>登记人：<span id="recodeUser" style="margin-right: 20px;"></span>
+						                    状 态：<span id="accStatus" style="margin-right: 20px;"></span>
+						</div>
+						<div style="padding: 10px;"> 
+						      <ul class="nav nav-tabs" style="background-color: rgba(242, 242, 242, 1);">
+									<li id="sumTable-li" class="active">
+										<a data-toggle="tab" href="#panel-sumTable" id="sumTable-li-a">汇总表</a>
+									</li>
+									<li id="detailTable-li">
+										<a data-toggle="tab" href="#panel-detailTable" id="detailTable-li-a">明细表</a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="panel-sumTable">
+				                           <div style="display:inline-block;">
+										     <span class="rightTable-title"></span>
+										     <div style="position: fixed;right: 6%;">
+					                            <form class="form-search form-inline">
+					                                    <div class="input-group">
+										                      <input type="text" id="gridSearchInput" class="form-control">
+										                      <span class="input-group-btn">
+											                      <button class="btn btn-default" type="button"  data-bind="click:gridSearch">
+											        	             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+											                       </button>
+										                       </span>
+										                </div>    
+										                <button type="button" class="btn" onclick="hignSearch()">高级</button>                                    
+					                                    </form>        
+			                                 </div>							
+				                            </div>
+				                            <div id="sumGrid" style="margin-top: 40px;"></div>
+				                            <div id="detailGrid" style=""></div>
+									</div>
+									<div class="tab-pane" id="panel-detailTable">
+										<div style="display:inline-block;">
+										     <span class="rightTable-title"></span>
+										     <div style="position: fixed;right: 6%;">
+					                            <form class="form-search form-inline">
+					                                    <div class="input-group">
+										                      <input type="text" id="workgridSearchInput" class="form-control">
+										                      <span class="input-group-btn">
+											                      <button class="btn btn-default" type="button"  data-bind="click:workgridSearch">
+											        	             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+											                       </button>
+										                       </span>
+										                </div>    
+										                <button type="button" class="btn" onclick="hignSearch()">高级</button>                                    
+					                                    </form>        
+			                                 </div>							
+				                            </div>
+				                            <div id="workGrid" style="margin-top: 40px;"></div>
+									</div>
+                               </div>						
+						</div>
+				</div>
+			</div>
+		</div>				
+		<!-- 引入js-->
+		<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+        <script src="../../trd/requirejs/require.js"></script>
+        <script src="../../require.config.js"></script>
+		<script src="js/csofAccSum.js" type="text/javascript"></script>
+		
+	</body>
+</html>

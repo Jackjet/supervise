@@ -1,0 +1,167 @@
+package gov.df.supervise.service.document;
+
+import gov.df.fap.bean.util.FPaginationDTO;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.fap.util.Tools;
+import gov.df.supervise.api.document.csofDocumentService;
+import gov.df.supervise.service.csofinfo.csofInfoDao;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ * 政策法规库
+ * @author tongya
+ *
+ */
+@Service
+public class csofDocumentBO implements csofDocumentService {
+  @Autowired
+  private csofDocumentDao csofDocumentDao;
+
+  @Autowired
+  private csofInfoDao csofInfodao;
+
+  /**
+   * 查询法规类型
+   * @param ele_code
+   * @return
+   */
+  public List getTreeByOid(String ele_code) {
+    Map<String, Object> param = new HashMap<String, Object>();
+    String ele_source = csofInfodao.findEleSource(ele_code);
+    String oid = (String) SessionUtil.getUserInfoContext().getOrgCode();//获取org_code作为专员办id(oid)
+    param.put("ele_source", ele_source);
+    param.put("oid", oid);
+    return csofDocumentDao.getTreeByOid(param);
+  }
+
+  //新增政策法规
+  public void saveDocument(String id, String doctype_id, String title, String summary) {
+    Map<String, Object> param = new HashMap<String, Object>();
+    String oid = (String) SessionUtil.getUserInfoContext().getOrgCode();//获取org_code作为
+    String dep_id = (String) SessionUtil.getUserInfoContext().getBelongOrg();//获取org_code作为
+    String user_id = (String) SessionUtil.getUserInfoContext().getUserID();
+    String date = Tools.getCurrDate();
+    // String id = UUIDTools.uuidRandom(); // 自动生成id
+    String file_id = csofDocumentDao.getFileId(id);
+    param.put("id", id);
+    param.put("doctype_id", doctype_id);
+    param.put("oid", oid);
+    param.put("dep_id", dep_id);
+    param.put("file_id", file_id);
+    param.put("title", title);
+    param.put("summary", summary);
+    param.put("create_date", date);
+    param.put("create_user", user_id);
+    param.put("publish_date", date);
+    param.put("publish_user", user_id);
+    param.put("is_valid", 1);
+    param.put("is_private", 0);
+    csofDocumentDao.saveDocument(param);
+  }
+
+  /**
+   * 通过法规类型查询政策法规
+   */
+  public List getDocumentById(String id, FPaginationDTO page) {
+    Map<String, Object> param = new HashMap<String, Object>();
+    String oid = (String) SessionUtil.getUserInfoContext().getOrgCode();//获取org_code作为
+    param.put("id", id);
+    param.put("oid", oid);
+    param.put("startpage", page.getPagecount() * (page.getCurrpage() - 1));
+    param.put("endpage", page.getPagecount() * (page.getCurrpage()));
+    return csofDocumentDao.getDocumentById(param);
+  }
+
+  /**
+   * 通过法规类型查询政策法规数量
+   */
+  public int getDocumentCountById(String id) {
+    Map<String, Object> param = new HashMap<String, Object>();
+    String oid = (String) SessionUtil.getUserInfoContext().getOrgCode();//获取org_code作为
+    param.put("id", id);
+    param.put("oid", oid);
+    return csofDocumentDao.getDocumentCountById(param);
+  }
+
+  /**
+   * 查询政策法规
+   */
+  public List getDocument(FPaginationDTO page) {
+    Map<String, Object> param = new HashMap<String, Object>();
+    String oid = (String) SessionUtil.getUserInfoContext().getOrgCode();//获取org_code作为
+    param.put("startpage", page.getPagecount() * (page.getCurrpage() - 1));
+    param.put("endpage", page.getPagecount() * (page.getCurrpage()));
+    param.put("oid", oid);
+    System.out.println(page.getPagecount());
+    System.out.println(page.getCurrpage());
+    return csofDocumentDao.getDocument(param);
+  }
+
+  /**
+   * 查询工作台政策法规
+   */
+  public List getHomeDocument() {
+    Map<String, Object> param = new HashMap<String, Object>();
+    String oid = (String) SessionUtil.getUserInfoContext().getOrgCode();//获取org_code作为
+    param.put("oid", oid);
+
+    return csofDocumentDao.getHomeDocument(param);
+  }
+
+  /**
+   * 查询政策法规数量
+   */
+  public int getDocumentCount() {
+    String oid = (String) SessionUtil.getUserInfoContext().getOrgCode();//获取org_code作为
+    return csofDocumentDao.getDocumentCount(oid);
+  }
+
+  /**
+   * 编辑政策法规
+   */
+  public void updateDocument(String id, String doctype_id, String title, String summary) {
+    Map<String, Object> param = new HashMap<String, Object>();
+    String oid = (String) SessionUtil.getUserInfoContext().getOrgCode();//获取org_code作为
+    String dep_id = (String) SessionUtil.getUserInfoContext().getBelongOrg();//获取org_code作为
+    String user_id = (String) SessionUtil.getUserInfoContext().getUserID();
+    String date = Tools.getCurrDate();
+
+    String file_id = csofDocumentDao.getFileId(id);
+
+    param.put("id", id);
+    param.put("doctype_id", doctype_id);
+    param.put("oid", oid);
+    param.put("dep_id", dep_id);
+    param.put("file_id", file_id);
+    param.put("title", title);
+    param.put("summary", summary);
+    param.put("create_date", date);
+    param.put("create_user", user_id);
+    param.put("publish_date", date);
+    param.put("publish_user", user_id);
+    param.put("is_valid", 1);
+    param.put("is_private", 0);
+    csofDocumentDao.updateDocument(param);
+  }
+
+  /**
+   * 删除政策法规
+   */
+  public void deleteDocument(String id) {
+    csofDocumentDao.deleteDocument(id);
+
+  }
+
+  /**
+   * 通过政策法规类型id查询政策法规类型名称
+   */
+  public String getDoctypeName(String doctype_id) {
+    return csofDocumentDao.getDoctypeName(doctype_id);
+  }
+}

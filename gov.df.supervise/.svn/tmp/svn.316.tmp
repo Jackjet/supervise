@@ -1,0 +1,21 @@
+package gov.df.supervise.api.summary;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 监管单据接口
+ * @author Administrator
+ *
+ */
+public interface SummaryService {
+	
+	public List getSummary(String bill_id,String all,String pageInfo);
+	
+	public int saveSummary(Map summaryData);
+	
+	public int deleteSummary(String ids);
+	
+	public int updateSummary(Map summaryData);
+	
+}

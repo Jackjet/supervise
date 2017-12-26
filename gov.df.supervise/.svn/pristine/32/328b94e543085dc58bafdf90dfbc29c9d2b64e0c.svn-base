@@ -1,0 +1,28 @@
+package gov.df.supervise.api.task;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 附件服务接口
+ * @author w
+ * 2017-08-22 
+ *
+ */
+public interface TaskService {
+
+	/**
+	 * 获取处室任务列表
+	 * @param condition
+	 * @return
+	 */
+	public List getTaskDepList(String condition);
+
+	/**
+	 * 保存监管事项、处室任务
+	 * @param map
+	 * @param list
+	 * @return
+	 */
+	public int saveTask(Map<String,String> map,List list);
+}

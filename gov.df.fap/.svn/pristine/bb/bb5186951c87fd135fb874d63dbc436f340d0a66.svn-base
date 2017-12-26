@@ -1,0 +1,43 @@
+require(['jquery', 'knockout','bootstrap', 'uui', 'tree', 'grid', 'ip'], function ($, ko) {
+	window.ko = ko;
+	var viewModel={
+			
+	};
+	viewModel.addCommonFunc = function(){
+		alert("添加常用功能");
+		//获取功能列表
+		$.ajax({
+			url:"getCommonFunc.do",
+			type: 'GET',
+			data:{},//参数为用户
+			dataType: 'json',
+			success: function (data){
+				if(flag == "1"){
+					
+				}else{
+					
+				}
+			}
+		});
+	};
+	
+	viewModel.commonFuncMore = function(){
+		alert("更多常用功能");
+	};
+	viewModel.moreEvent = function(){
+		alert("更多待办事项");
+	}
+
+	 function init(){
+			var app = u.createApp(
+					{
+						el: document.body,
+						model: viewModel
+					}
+			);
+			
+	    };
+
+	    init();
+
+});

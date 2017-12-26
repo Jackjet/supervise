@@ -1,0 +1,502 @@
+package gov.df.fap.service.userConfig;
+
+import gov.df.fap.api.dictionary.interfaces.IDictionary;
+import gov.df.fap.api.log.ILog;
+import gov.df.fap.api.rule.ISysRight;
+import gov.df.fap.api.userConfig.IUserConfigService;
+import gov.df.fap.bean.log.LogDTO;
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.datasource.SQLUtil;
+import gov.df.fap.service.util.datasource.TypeOfDB;
+import gov.df.fap.service.util.gl.core.CommonUtil;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.fap.util.xml.XMLData;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+/**
+ * 用户配置
+ * 
+ * @author hp
+ * 
+ */
+@Service
+public class UserConfigService implements IUserConfigService {
+
+  @Autowired
+  @Qualifier("generalDAO")
+  private GeneralDAO generalDAO;
+
+  @Autowired
+  @Qualifier("sys.dictionaryService")
+  private IDictionary iDictionary;
+
+  @Autowired
+  private ISysRight iSysRight;
+  
+  @Autowired
+  private ILog logService; 
+
+  /**
+   * 左侧树加载
+   * 
+   */
+  public Map<String, Object> usertree(HttpServletRequest request, HttpServletResponse response) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String year = SessionUtil.getLoginYear();
+    String rg_code = SessionUtil.getRgCode();
+    String passsec = (String) SessionUtil.getParaMap().get("PASSWORD_SECURITY");
+    String sql = "SELECT  a.CHR_ID , " + SQLUtil.replaceLinkChar("a.CHR_CODE||' '||a.CHR_NAME") + " as  CHR_NAME,a.PARENT_ID FROM sys_usertree a  WHERE (a.set_year is null or a.set_year =? )  "
+      + "and (a.rg_code is null or a.rg_code =? ) and not exists ( select 1 from sys_usermanage t where t.user_id = a.CHR_ID)  order by CHR_CODE";
+    List list = generalDAO.findBySql(sql, new Object[] { year, rg_code });
+    String sql1 = "select orgtype_code , ele_code , orgtype_name from sys_orgtype ";
+    List list1 = generalDAO.findBySql(sql1, new Object[] {});
+    Map map1 = new HashMap();
+    if (list1.size() > 0) {
+      for (int k = 0; k < list1.size(); k++) {
+        Map map2 = (Map) list1.get(k);
+        map1.put(map2.get("orgtype_code"), map2.get("ele_code"));
+        map1.put(map2.get("orgtype_code") + "name", map2.get("orgtype_name"));
+      }
+    }
+    map.put("dataDetail", list);
+    map.put("orgtype", map1);
+    map.put("passsec", passsec);
+
+    return map;
+  }
+
+  /**
+   * 表格数据加载
+   * 
+   */
+  public Map<String, Object> usergrid(HttpServletRequest request, HttpServletResponse response) {
+    if(TypeOfDB.isMySQL()){
+      return usergridForMysql(request, response);
+    }
+    Map<String, Object> map = new HashMap<String, Object>();
+    String chr_id = request.getParameter("chr_id");
+    String pid = chr_id.substring(0, 3);
+    String orgType = "";
+    String sql1 = "select ele_code from sys_orgtype  where orgtype_code = ? ";
+    List list1 = generalDAO.findBySql(sql1, new Object[] { pid });
+    if (list1 != null && list1.size() > 0) {
+      orgType = (String) ((XMLData) list1.get(0)).get("ele_code");
+    }
+    String year = SessionUtil.getLoginYear();
+    String rg_code = SessionUtil.getRgCode();
+    String orgsql = "";
+    if ("".equals(orgType)) {
+      orgsql = "select '' from dual";
+    } else {
+      String getsql = "select ele_source from sys_element where rg_code=? and set_year=? and ele_code =?";
+      List list2 = generalDAO.findBySql(getsql, new Object[] { rg_code, year, orgType });
+      if (list2.size() > 0) {
+        Map map1 = (Map) list2.get(0);
+        String tablename = (String) map1.get("ele_source");
+        orgsql = "select chr_name from " + tablename + " where chr_id = b.org_code";
+      } else {
+        orgsql = "select '' from dual";
+      }
+    }
+    String sql = "with sys_usertree_tmp as (select a.CHR_ID  from sys_usertree a where (a.set_year is null or a.set_year = ?) and (a.rg_code is null or a.rg_code = ?)  start with a.CHR_ID = ? connect by  a.PARENT_ID = prior a.CHR_ID ) "
+      + " SELECT b.* , ("
+      + orgsql
+      + ") orgname , (select wm_concat(t.role_name) role_name from sys_role t , sys_user_role_rule a where t.role_id = a.role_id and a.user_id = b.user_id) role_info FROM sys_usermanage b WHERE exists ( select 1 from sys_usertree_tmp a where a.CHR_ID = b.user_id ) order by user_code";
+    List list = generalDAO.findBySql(sql, new Object[] { year, rg_code, chr_id });
+    map.put("dataDetail", list);
+    return map;
+  }
+  //TODO 先临时处理把人员显示出来
+  public Map<String, Object> usergridForMysql(HttpServletRequest request, HttpServletResponse response) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String year = SessionUtil.getLoginYear();
+    String rg_code = SessionUtil.getRgCode();
+    String sql = "select * from sys_usermanage where rg_code=? and set_year=? ";
+    List list = generalDAO.findBySql(sql, new Object[] { rg_code, year });
+    map.put("dataDetail", list);
+    return map;
+  }
+
+  /**
+   * 机构权限树
+   * 
+   */
+  public Map<String, Object> findEleCodeByOrgtypeCode(HttpServletRequest request, HttpServletResponse response) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String orgtype = request.getParameter("orgtype");
+    String sql = "select ele_code from sys_orgtype where orgtype_code = ? ";
+    try {
+      List list = generalDAO.findBySql(sql, new Object[] { orgtype });
+      if (list != null && list.size() > 0) {
+        String ele_code = (String) ((XMLData) list.get(0)).get("ele_code");
+        List orgTypes = iDictionary.findEleValues(ele_code, null, null, false, null, null, " order by CHR_CODE ");
+        map.put("datadetail", orgTypes);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return map;
+  }
+
+  //角色树数据
+  public Map<String, Object> findrole(HttpServletRequest request, HttpServletResponse response) {
+    String year = SessionUtil.getLoginYear();
+    String rg_code = SessionUtil.getRgCode();
+    Map<String, Object> map = new HashMap<String, Object>();
+    String sql = "select t.role_id id, " + SQLUtil.replaceLinkChar("t.role_code||' '||t.role_name") + " as name , t.user_sys_id parentid  from sys_role t where t.rg_code = ? and t.set_year = ? order by t.role_code";
+    String sql1 = "select t.sys_id id, " + SQLUtil.replaceLinkChar("t.sys_id||' '||t.sys_name") + " as name, '0' parentid  from sys_app t order by t.sys_id";
+    List list = generalDAO.findBySql(sql, new Object[] { rg_code, year });
+    List list1 = generalDAO.findBySql(sql1, new Object[] {});
+    list.addAll(list1);
+    map.put("datadetail", list);
+    return map;
+  }
+
+  /**
+   * 用户新增
+   * 
+   */
+  public Map<String, Object> addUser(HttpServletRequest request, HttpServletResponse response) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String year = SessionUtil.getLoginYear();
+    String rg_code = SessionUtil.getRgCode();
+    String user_code = request.getParameter("user_code");
+    String user_name = request.getParameter("user_name");
+    String password = request.getParameter("password");
+    String org_type = request.getParameter("org_type");
+    String imsi = request.getParameter("imsi");
+    String imei = request.getParameter("imei");
+    String organSelectList = request.getParameter("organSelectList");
+    String identity_card = request.getParameter("identity_card");
+    String belong_type = request.getParameter("belong_type");
+    String belong_org = request.getParameter("belong_org");
+    String org_code=request.getParameter("org_code");
+    String security_level = request.getParameter("security_level");
+    String enabled = request.getParameter("enabled");
+    String birthday = request.getParameter("birthday");
+    String nickname = request.getParameter("nickname");
+    String mobile = request.getParameter("mobile");
+    String gender = request.getParameter("gender");
+    String isNew = request.getParameter("isNew");
+    String user_id = "";
+
+    if ("1".equals(isNew)) {
+      user_id = getNumberBySeq("SEQ_SYS_FRAME_ID");
+      if (isUserExistid(user_id)) {
+        map.put("flag", "0");
+        map.put("message", "已经存在相同的用户ID");
+        return map;
+      }
+
+      if (isUserExistcode(user_code)) {
+        map.put("flag", "0");
+        map.put("message", "已经存在相同的用户编码");
+        return map;
+      }
+    } else {
+      user_id = request.getParameter("user_id");
+      if ("".equals(user_id) || user_id == null) {
+
+      }
+    }
+    //    String deleteRegion = "delete  from sys_user_region t where t.user_id = ?";
+    //    int countRegio1 = generalDAO.executeBySql(deleteRegion, new Object[] { user_id });
+    //    String insertRegion = "insert into sys_user_region (user_id,rg_code,is_default) values(?,?,?)";
+    //    int countRegio = generalDAO.executeBySql(insertRegion, new Object[] { user_id, rg_code, new Integer(0) });
+    if (!"1".equals(isNew)) {
+      String deleteuser = "delete from sys_usermanage where user_id = ? ";
+      int z = generalDAO.executeBySql(deleteuser, new Object[] { user_id });
+    }
+    String userinsertsql = "insert into sys_usermanage (USER_ID, USER_CODE, USER_NAME,NICKNAME , PASSWORD, ORG_TYPE, ORG_CODE, LEVEL_NUM, IS_LEAF, GENDER, "
+      + "TELEPHONE, MOBILE, ENABLED, HEADSHIP_CODE, BIRTHDAY, ADDRESS, EMAIL, USER_TYPE, IS_AUDIT, AUDIT_DATE, AUDIT_USER, LAST_VER, "
+      + "MB_ID, BELONG_ORG, BELONG_TYPE, SECURITY_LEVEL, INIT_PASSWORD,SET_YEAR,IMSI,IMEI , identity_card,rg_code) values (?, ?, ?, ?, ?, ?, ?, 0, 1, ?, '', "
+      + "?, ?, '', ?, '', '', 0, 1, '2007-01-01 00:00:00', ?, "+SQLUtil.getSysdateToCharSql()+",'', ?, ?, ?, 0, ?,?,?,?,?)";
+    int countinsert = generalDAO.executeBySql(userinsertsql, new Object[] { user_id, user_code, user_name, nickname,
+      password, organSelectList, org_code, gender, mobile, enabled, birthday,  SessionUtil.getUserInfoContext().getUserID(),  belong_org, belong_type,
+      security_level, year, imsi, imei, identity_card, rg_code });
+
+    String org_id = request.getParameter("org_id");
+    int orginsert = 0;
+    String delorg = "delete from sys_user_org where user_id = ? and set_year = ?";
+    generalDAO.executeBySql(delorg, new Object[] { user_id, year });
+    if (org_id != null && !"".endsWith(org_id)) {
+      String[] orgid = org_id.split("@");
+      String orgInsertSql = "insert into sys_user_org (USER_ID, ORG_ID, LAST_VER, SET_YEAR) values (?, ?, "+SQLUtil.getSysdateToCharSql()+", ?)";
+      for (int k = 0; k < orgid.length; k++) {
+        generalDAO.executeBySql(orgInsertSql, new Object[] { user_id, orgid[k], year });
+        orginsert++;
+      }
+    }
+    String ruleId = request.getParameter("ruleId");
+    if (ruleId != null && !"".endsWith(ruleId)) {
+      if (!"1".equals(isNew)) {
+        String delsql = "delete from sys_user_rule where user_id = ?  and rg_code = ?  and set_year = ? ";
+        generalDAO.executeBySql(delsql, new Object[] { user_id, rg_code, year });
+      }
+      String insertUserRule = "insert into sys_user_rule (user_id,rule_id,set_year,last_ver,rg_code) values ( ? , ?  ,?,"+SQLUtil.getSysdateToCharSql()+",?) ";
+      generalDAO.executeBySql(insertUserRule, new Object[] { user_id, ruleId, year, rg_code });
+    }
+    String delrole = "delete from sys_user_role_rule where user_id = ? and  rg_code= ?  and set_year=  ? ";
+    generalDAO.executeBySql(delrole, new Object[] { user_id, rg_code, year });
+    String roleMessage = request.getParameter("roleMessage");
+    if (roleMessage != null && !"".endsWith(roleMessage)) {
+      String insertUserRole = "insert into sys_user_role_rule (user_id  , role_id ,rule_id ,is_defined , set_year ,last_ver ,rg_code ) values ( ? , ?  ,?, ? , ? , "+SQLUtil.getSysdateToCharSql()+",?)";
+      JSONObject jasonObject = JSONObject.fromObject(roleMessage);
+      Map messageMap = (Map) jasonObject;
+      Set keySet = messageMap.keySet();
+      Iterator iter = keySet.iterator();
+      while (iter.hasNext()) {
+        String key = (String) iter.next();
+        Map roleMap = (Map) messageMap.get(key);
+        String Check = (String) roleMap.get("Check");
+        if ("0".equals(Check)) {
+          generalDAO.executeBySql(insertUserRole, new Object[] { user_id, key, ruleId, "0", year, rg_code });
+        } else {
+          generalDAO.executeBySql(insertUserRole, new Object[] { user_id, key, (String) roleMap.get("id"), "1", year,
+            rg_code });
+        }
+      }
+
+    }
+    map.put("flag", "1");
+    return map;
+  }
+
+  /**
+   * 用户新增--序列
+   * 
+   */
+  private String getNumberBySeq(String seq) {
+    String sql = "select " + seq + ".NEXTVAL as id from dual";
+
+    List list = null;
+    try {
+      list = generalDAO.findBySql(sql);
+
+      if (((XMLData) list.get(0)).get("id").toString() != null) {
+        return ((XMLData) list.get(0)).get("id").toString();
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  /**
+   * 判读用户id是否存在
+   * 
+   */
+  private boolean isUserExistid(String userId) {
+    String sql = "select count(1) user_count from sys_usermanage where user_id = '" + userId + "'";
+    List list = generalDAO.findBySql(sql);
+    if (list != null && list.size() > 0) {
+      XMLData data = (XMLData) list.get(0);
+      int userCount = Integer.parseInt(String.valueOf(data.get("user_count")));
+      if (userCount > 0)
+        return true;
+    }
+    return false;
+  }
+
+  /**
+   * 判断用户编码是否已存在
+   * 
+   */
+  private boolean isUserExistcode(String user_code) {
+    String year = SessionUtil.getLoginYear();
+    String rg_code = SessionUtil.getRgCode();
+    String sql = "select count(1) user_count from sys_usermanage su where  su.user_code = ? and su.rg_code=? and su.set_year = ? ";
+    List list = generalDAO.findBySql(sql, new Object[] { user_code, rg_code, year });
+    if (list != null && list.size() > 0) {
+      XMLData data = (XMLData) list.get(0);
+      int userCount = Integer.parseInt(String.valueOf(data.get("user_count")));
+      if (userCount > 0)
+        return true;
+    }
+    return false;
+  }
+
+  /**
+   * 初始化修改修改界面数据
+   * 
+   */
+  public Map<String, Object> initMessage(HttpServletRequest request, HttpServletResponse response) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String year = SessionUtil.getLoginYear();
+    String rg_code = SessionUtil.getRgCode();
+    String user_id = request.getParameter("user_id");
+    String roleInfosql = "select " + SQLUtil.replaceLinkChar("t.role_code || ' '||t.role_name") + " as role_name , t.role_id , a.rule_id , a.is_defined from sys_role t , sys_user_role_rule a where t.role_id = a.role_id and a.user_id = ?";
+    List roleinfolist = generalDAO.findBySql(roleInfosql, new Object[] { user_id });
+    map.put("roleinfo", roleinfolist);
+    String ruleInfosql = "select a.rule_id , " + SQLUtil.replaceLinkChar("t.rule_code || ' '||t.rule_name") + " as rule_name  from sys_user_role_rule a  ,sys_rule t where a.rule_id = t.rule_id and a.is_defined = '1' and a.user_id = ? ";
+    List ruleinfolist = generalDAO.findBySql(ruleInfosql, new Object[] { user_id });
+    for (int i = 0; i < ruleinfolist.size(); i++) {
+      Map rulemap = (Map) ruleinfolist.get(i);
+      String ruleid = (String) rulemap.get("rule_id");
+      String rule_name = (String) rulemap.get("rule_name");
+      List rulelist = iSysRight.getMainInfoTreeByRuleIdNew(ruleid);
+      Map ruletmp = new HashMap();
+      ruletmp.put("treedata", rulelist);
+      ruletmp.put("name", rule_name);
+      map.put(ruleid, ruletmp);
+    }
+    String sysrule = "select t.rule_id , " + SQLUtil.replaceLinkChar("a.rule_code || ' ' || a.rule_name ") + " as  rule_name from sys_user_rule t , sys_rule a where a.rule_id = t.rule_id and t.user_id = ? ";
+    List sysrulelist = generalDAO.findBySql(sysrule, new Object[] { user_id });
+    if (sysrulelist.size() > 0) {
+      Map rulemap = (Map) sysrulelist.get(0);
+      String ruleid = (String) rulemap.get("rule_id");
+      String rulename = (String) rulemap.get("rule_name");
+      List rulelist = iSysRight.getMainInfoTreeByRuleIdNew(ruleid);
+      map.put("sysrule", ruleid);
+      map.put("rule_name", rulename);
+      map.put("sysruledata", rulelist);
+    }
+    String userOrg = "select * from sys_user_org t where t.user_id = ? and t.set_year = ? ";
+    List userOrglist = generalDAO.findBySql(userOrg, new Object[] { user_id, year });
+    map.put("userOrglist", userOrglist);
+    String orgtype = request.getParameter("org_type");
+    String sql = "select ele_code from sys_orgtype where orgtype_code = ? ";
+    try {
+      List list = generalDAO.findBySql(sql, new Object[] { orgtype });
+      if (list != null && list.size() > 0) {
+        String ele_code = (String) ((XMLData) list.get(0)).get("ele_code");
+        List orgTypes = iDictionary.findEleValues(ele_code, null, null, false, null, null, " order by CHR_CODE ");
+        map.put("datadetail", orgTypes);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    String belontype = request.getParameter("belontype");
+    String belonorg = request.getParameter("belonorg");
+    if (!"001".equals(belontype)) {
+      try {
+        List list = generalDAO.findBySql(sql, new Object[] { belontype });
+        if (list != null && list.size() > 0) {
+          String ele_code = (String) ((XMLData) list.get(0)).get("ele_code");
+          List orgTypes = iDictionary.findEleValues(ele_code, null, null, false, null, null, " and chr_id = '"
+            + belonorg + "' order by CHR_CODE ");
+          map.put("dataorg", orgTypes);
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+    return map;
+  }
+
+  /**
+   * 删除用户
+   * 
+   */
+  public Map<String, Object> deleteUser(HttpServletRequest request, HttpServletResponse response) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String year = SessionUtil.getLoginYear();
+    String rg_code = SessionUtil.getRgCode();
+    String user_id = request.getParameter("user_id");
+    String deleteuser = "delete sys_usermanage where user_id = ? ";
+    String delsql = "delete sys_user_rule t where t.user_id = ?  and t.rg_code = ?  and t.set_year = ? ";
+    String delrole = "delete from sys_user_role_rule where user_id = ? and  rg_code= ?  and set_year=  ? ";
+    String delorg = "delete sys_user_org t where t.user_id = ? and t.set_year = ?";
+    //    String deleteRegion = "delete  from sys_user_region t where t.user_id = ?";
+    String[] userId = user_id.split("@");
+    for (int i = 0; i < userId.length; i++) {
+      generalDAO.executeBySql(deleteuser, new Object[] { userId[i] });
+      generalDAO.executeBySql(delsql, new Object[] { userId[i], rg_code, year });
+      generalDAO.executeBySql(delrole, new Object[] { userId[i], rg_code, year });
+      generalDAO.executeBySql(delorg, new Object[] { userId[i], year });
+      //      generalDAO.executeBySql(deleteRegion, new Object[] { userId[i] });
+    }
+    try{
+    	String op_user_name = CommonUtil.getUserName();
+    	String op_user_id = CommonUtil.getUserId();
+    	String action = "删除用户";
+    	LogDTO logDto = new LogDTO();
+  	  	logDto.setUser_id(CommonUtil.getUserId());
+  	  	logDto.setUser_ip(getIP(request));
+  	  	logDto.setUser_name(CommonUtil.getUserName());
+  	  	logDto.setAction_name(action);
+  	  	logDto.setRemark(op_user_name+"【"+op_user_id+"】"+action+"【"+user_id+"】");
+  	  	logService.saveLog(logDto);
+    }catch(Exception e){
+    	
+    }
+    
+    
+    map.put("flag", "1");
+    return map;
+  }
+
+  /**
+   * 锁定用户
+   * 
+   */
+  public Map<String, Object> locked(HttpServletRequest request, HttpServletResponse response) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String user_id = request.getParameter("user_id");
+    String[] user_array = user_id.split("@");
+    String insql = " ( '',";
+    for (int k = 0; k < user_array.length; k++) {
+      insql = insql + "'" + user_array[k] + "',";
+    }
+    insql = insql + "'')";
+    String sql = "update sys_usermanage set is_ever_locked=1 ,locked_date=to_char(sysdate,'yyyy-mm-dd') where user_id in "
+      + insql;
+    int num = generalDAO.executeBySql(sql, new Object[] {});
+    map.put("flag", "1");
+    map.put("num", num);
+    return map;
+  }
+
+  /**
+   * 解锁用户
+   * 
+   */
+  public Map<String, Object> unlocked(HttpServletRequest request, HttpServletResponse response) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String user_id = request.getParameter("user_id");
+    String[] user_array = user_id.split("@");
+    String insql = " ( '',";
+    for (int k = 0; k < user_array.length; k++) {
+      insql = insql + "'" + user_array[k] + "',";
+    }
+    insql = insql + "'')";
+    String sql = "update sys_usermanage set is_ever_locked=0 ,locked_date=to_char(sysdate,'yyyy-mm-dd') where user_id in "
+      + insql;
+    int num = generalDAO.executeBySql(sql, new Object[] {});
+    map.put("flag", "1");
+    map.put("num", num);
+    return map;
+  }
+  
+  public String getIP(HttpServletRequest request){  
+      String ip=request.getHeader("x-forwarded-for");  
+      if(ip==null || ip.length()==0 || "unknown".equalsIgnoreCase(ip)){  
+          ip=request.getHeader("Proxy-Client-IP");  
+      }  
+      if(ip==null || ip.length()==0 || "unknown".equalsIgnoreCase(ip)){  
+          ip=request.getHeader("WL-Proxy-Client-IP");  
+      }  
+      if(ip==null || ip.length()==0 || "unknown".equalsIgnoreCase(ip)){  
+          ip=request.getHeader("X-Real-IP");  
+      }  
+      if(ip==null || ip.length()==0 || "unknown".equalsIgnoreCase(ip)){  
+          ip=request.getRemoteAddr();  
+      }  
+      return ip;  
+  }  
+}

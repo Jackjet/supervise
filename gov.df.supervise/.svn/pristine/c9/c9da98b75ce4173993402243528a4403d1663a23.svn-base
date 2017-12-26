@@ -1,0 +1,166 @@
+package gov.df.supervise.service.task;
+
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.gl.core.CommonUtil;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.supervise.api.task.TaskService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import com.ufgov.ip.apiUtils.UUIDTools;
+
+@Service
+public class TaskBO implements TaskService {
+
+	@Autowired
+	@Qualifier("generalDAO")
+	GeneralDAO dao;
+
+	/**
+	 * 获取处室任务列表
+	 */
+	public List getTaskDepList(String condition) {
+		String sql = "select ID, SID, SUP_NO, SUP_NAME, DEP_ID, DEP_CODE, DEP_NAME, OID, SUP_NUM, SUP_MONEY, PLAN_COST, SUP_COST, PLAN_BEGIN_DATE, PLAN_END_DATE, BEGIN_DATE, END_DATE, REMARK, STATUS, IS_PUB, IS_VALID, IS_END, CREATE_USER, CREATE_DATE, APPROVE_USER, APPROVE_DATE, PUBLISH_USER, PUBLISH_DATE, FINISH_USER, FINISH_DATE, LATEST_OP_USER, LATEST_OP_DATE, BILLTYPE_CODE, BILLTYPE_NAME, RG_CODE, SET_YEAR  from CSOF_TASK_DEP where 1=1 " + condition;
+		return dao.findBySql(sql);
+	}
+	
+	public List getAgency(String condition){
+		String sql="select * from  vw_csof_e_agency  where 1=1 " +condition;
+		return dao.findBySql(sql);
+	}
+	
+	public List getTaskAgency(String condition){
+		String sql="select * from CSOF_TASK_DEP_AGENCY where 1=1 "+condition;
+		return dao.findBySql(sql);
+	}
+	
+	public int saveTask(Map<String,String> supMap,List objList,List agencyList){
+		String oid=SessionUtil.getUserInfoContext().getOrgCode();
+        
+		String sid=supMap.get("SID");
+
+		 if(null!=supMap.get("ACTION")&&(!supMap.get("ACTION").equals(""))){
+				String action=supMap.get("ACTION");
+				if(action.equals("UPDATE")){
+					//修改
+					//重新保存   csof_task_sup  主键不变
+					//删除 csof_dep  、CSOF_TASK_DEP_AGENCY
+					deleteData("CSOF_TASK_DEP"," and sid = '"+sid+"'");
+					deleteData("CSOF_TASK_DEP_AGENCY"," and sid = '"+sid+"'");
+				}
+			}
+		
+        String rg_code=CommonUtil.getRgCode();
+        String set_year=CommonUtil.getSetYear();
+        String create_user=CommonUtil.getUserCode();
+        String create_date=CommonUtil.getDate("yyyy-MM-dd");
+        
+        supMap.put("OID", oid);
+	    supMap.put("SID", sid);
+	    supMap.put("CREATE_USER",create_user);
+	    supMap.put("CREATE_DATE",create_date);
+	    supMap.put("LATEST_OP_USER",create_user);
+	    supMap.put("LATEST_OP_DATE",create_date);
+	    supMap.put("RG_CODE",rg_code);
+        supMap.put("SET_YEAR",set_year);
+        
+        
+	    Map  depMap=new HashMap();
+	    List depSqlList=new ArrayList();
+        for(int i=0;i<objList.size();i++){
+        	Map obj=(Map) objList.get(i);
+        	depMap.put("ID",UUIDTools.uuidRandom());
+        	depMap.put("SID",sid);
+    		depMap.put("SUP_NO",supMap.get("SUP_NO"));
+    		depMap.put("SUP_NAME",supMap.get("SUP_NAME"));
+    		depMap.put("DEP_ID",obj.get("CHR_ID"));
+    		depMap.put("DEP_CODE",obj.get("CHR_CODE"));
+    		depMap.put("DEP_NAME",obj.get("CHR_NAME"));
+            depMap.put("OID", oid);
+            depMap.put("SUP_NUM","");     //  全部是查视图 单位数量，  部分看勾选了几家单位
+            depMap.put("PLAN_BEGIN_DATE",supMap.get("START_DATE"));
+            depMap.put("PLAN_END_DATE",supMap.get("END_DATE"));
+            depMap.put("CREATE_USER",create_user);
+            depMap.put("CREATE_DATE",create_date);
+            depMap.put("LATEST_OP_USER",create_user);
+            depMap.put("LATEST_OP_DATE",create_date);
+        	depMap.put("RG_CODE",rg_code);
+        	depMap.put("SET_YEAR",set_year);
+        	
+        	depSqlList.add(getInsertSql(depMap, "csof_task_dep"));
+        }
+        
+        if(null!=supMap.get("IS_ALLOBJ")&&supMap.get("IS_ALLOBJ").equals("0")&&agencyList.size()>0){
+    		//部分监管要保存关联关系表
+    		List agencySqlList = new ArrayList();
+    		int sup_num=0;
+    		for(int i=0;i<agencyList.size();i++){
+    			
+    			Map agency= new HashMap();
+                Map obj = (Map) agencyList.get(i);
+                String type=obj.get("TYPE").toString();
+                String is_leaf= String.valueOf(obj.get("IS_LEAF"));
+    			agency.put("SID", sid);
+    			agency.put("DEP_ID",obj.get("DEP_ID") );
+    			agency.put("AGENCY_ID",obj.get("CHR_ID"));
+    			agency.put("TYPE",obj.get("TYPE"));
+    			agency.put("IS_LEAF",is_leaf);
+    			agency.put("OID", obj.get("OID"));
+    			
+    			if(type.equals("AGENCY")&&is_leaf.equals("1")){
+    				sup_num++;
+    			}
+    			agencySqlList.add(getInsertSql(agency,"CSOF_TASK_DEP_AGENCY"));
+    		}
+    		dao.executeBatchBySql(agencySqlList);
+
+    		supMap.put("SUP_NUM", sup_num+"");
+    	}else{
+    		//获取监管单位数量
+    		supMap.put("SUP_NUM", getAgency(" and IS_LEAF=1 and ENABLED=1").size()+"");
+    	}
+        dao.executeBatchBySql(depSqlList);
+    
+		supMap.remove("ACTION");
+
+        int snum=dao.executeBySql(getInsertSql(supMap, "csof_task_sup"));
+
+		return snum;
+	}
+	
+	public String getInsertSql(Map<String, String> map, String tableName) {
+		String keyStr = "";
+		String valueStr = "";
+		for (String key : map.keySet()) {
+			keyStr += key + ",";
+			valueStr += "'" + map.get(key) + "',";
+		}
+		if (!("".equals(keyStr))) {
+			keyStr = keyStr.substring(0, keyStr.length() - 1);
+		}
+		if (!("".equals(valueStr))) {
+			valueStr = valueStr.substring(0, valueStr.length() - 1);
+		}
+		return "insert into " + tableName + "(" + keyStr + ") values ("
+				+ valueStr + ")";
+	}
+	
+	/**
+	 * 删除方法
+	 * @param tableName  要删除的表名
+	 * @param condition  删除过滤条件
+	 * @return 执行条目数
+	 */
+	public int deleteData(String tableName,String condition){
+		String delSql="delete from  " + tableName + " where 1=1 "+condition;
+		return dao.executeBySql(delSql);
+	}
+
+}

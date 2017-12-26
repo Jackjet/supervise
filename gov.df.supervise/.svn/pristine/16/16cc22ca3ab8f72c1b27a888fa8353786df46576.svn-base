@@ -1,0 +1,46 @@
+package gov.df.supervise.api.task;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 附件服务接口
+ * @author w
+ * 2017-08-22 
+ *
+ */
+public interface TaskService {
+
+	/**
+	 * 保存监管事项、处室任务
+	 * @param map 监管事项信息
+	 * @param objlist  部门关联关系树
+	 * @param agencyList 勾选单位树
+	 * @return
+	 */
+	public int saveTask(Map<String,String> map,List objlist, List agencyList);
+	
+	public int saveTaskUser(String postData);
+	
+	/**
+	 * 根据条件查询单表所有数据
+	 * @param condition
+	 * @return
+	 */
+	public List getData(String tableName,String condition);
+	
+	/**
+	 * 单表通用删除方法
+	 * @param tableName 删除表名
+	 * @param condition 删除数据过滤条件
+	 * @return	数据执行条目数
+	 */
+	public int deleteData(String tableName,String condition);
+	
+	/**
+	 * 监管事项报表保存方法
+	 * @param tableName csof_sup_report
+	 * @return	数据执行条目数
+	 */
+	public int saveReport(List reportList);
+}

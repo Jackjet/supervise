@@ -1,0 +1,1459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.yonyougov.fap</groupId>
+	<artifactId>gov.df.fap</artifactId>
+	<version>8.0.0-SNAPSHOT</version>
+	<name>gov.df.fap</name>
+	<packaging>pom</packaging>
+	<modules>
+		<module>gov.df.fap.api</module>
+		<module>gov.df.fap.bean</module>
+		<module>gov.df.fap.controller</module>
+		<module>gov.df.fap.service</module>
+		<module>gov.df.fap.util</module>
+		<module>gov.df.fap.web</module>
+		<module>gov.df.fap.service.util</module>
+		<module>gov.df.fap.script</module>
+	</modules>
+	<properties>
+		<df.version>8.0.0-SNAPSHOT</df.version>
+		<spring.version>3.2.6.RELEASE</spring.version>
+		<fasp.version>yy-2.0</fasp.version>
+		<activiti.version>5.16</activiti.version>
+  	    <batik.version>1.7</batik.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+		<!-- part1 -begin -->
+		<dependency>
+			<groupId>org.acegisecurity</groupId>
+			<artifactId>acegi-security</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-all</artifactId>
+			<version>5.9.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-bpmn-converter</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+
+		<!-- move useless dependency jar for run time 2017-03-09 -->
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-bpmn-layout</artifactId>
+			<version>${activiti.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-common-rest</artifactId>
+			<version>${activiti.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-json-converter</artifactId>
+			<version>${activiti.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-simple-workflow</artifactId>
+			<version>${activiti.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>ant</artifactId>
+			<version>1.7.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>ant-launcher</artifactId>
+			<version>1.7.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>3.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>backport-util-concurrent</groupId>
+			<artifactId>backport-util-concurrent</artifactId>
+			<version>3.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>bouncycastle</groupId>
+			<artifactId>bcmail-jdk14</artifactId>
+			<version>136</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>bouncycastle</groupId>
+			<artifactId>bcprov-jdk16</artifactId>
+			<version>140</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.bluecatcode.time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils-core</artifactId>
+			<version>1.8.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-email</artifactId>
+			<version>1.2</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging-api</artifactId>
+			<version>1.0.4</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>2.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>1.9.9</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.9</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>math.geom2d</groupId>
+			<artifactId>javaGeom</artifactId>
+			<version>0.11.1</version>
+			<!-- <scope>provided</scope> -->
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.7.12</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jfree</groupId>
+			<artifactId>jcommon</artifactId>
+			<version>1.0.15</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>eclipse</groupId>
+			<artifactId>jdtcore</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-core</artifactId>
+			<version>1.8</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.0.12</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.tinyjee.jgraphx</groupId>
+			<artifactId>jgraphx</artifactId>
+			<version>1.10.4.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>mx4j</groupId>
+			<artifactId>mx4j-jmx</artifactId>
+			<version>1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.netty</groupId>
+			<artifactId>netty</artifactId>
+			<version>3.2.5.Final</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+			<version>4.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.8</version>
+			<scope>provided</scope>
+		</dependency>
+<!-- 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring</artifactId>
+			<version>2.5.6.SEC03</version>
+			<scope>provided</scope>
+		</dependency> -->
+		<dependency>
+			<groupId>stax</groupId>
+			<artifactId>stax-api</artifactId>
+			<version>1.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.woodstox</groupId>
+			<artifactId>wstx-asl</artifactId>
+			<version>3.2.9</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis-ext</artifactId>
+			<version>1.3.04</version>
+			<!-- <scope>provided</scope> -->
+		</dependency>
+		
+		 <dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.0.b2</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.restlet.jee</groupId>
+			<artifactId>org.restlet</artifactId>
+			<version>2.0.15</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.restlet.jee</groupId>
+			<artifactId>org.restlet.ext.fileupload</artifactId>
+			<version>2.0.15</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp.jstl</groupId>
+			<artifactId>jstl-api</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<!-- end -->
+
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-bpmn-model</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-engine</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-rest</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-spring</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>antlr</groupId>
+			<artifactId>antlr</artifactId>
+			<version>2.7.6</version>
+		</dependency>
+		<!-- <dependency> <groupId>org.apache.servicemix.bundles</groupId> <artifactId>aopalliance</artifactId> 
+			<version>1.0</version> </dependency> -->
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.6.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf</artifactId>
+			<version>2.6.1</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.apache.ws.commons.axiom</groupId> <artifactId>axiom-api</artifactId> 
+			<version>1.2.11</version> </dependency> -->
+
+		<dependency>
+			<groupId>org.apache.ws.commons.axiom</groupId>
+			<artifactId>axiom-dom</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.ws.commons.axiom</groupId>
+			<artifactId>axiom-impl</artifactId>
+			<version>1.2.11</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>axis</groupId> <artifactId>axis</artifactId> 
+			<version>${fasp.version}</version> </dependency> <dependency> <groupId>org.apache.axis2</groupId> 
+			<artifactId>axis2-adb</artifactId> <version>1.6.0</version> </dependency> 
+			<dependency> <groupId>org.apache.axis2</groupId> <artifactId>axis2-jaxws</artifactId> 
+			<version>1.7.3</version> </dependency> <dependency> <groupId>org.apache.axis2</groupId> 
+			<artifactId>axis2-kernel</artifactId> <version>1.6.0</version> </dependency> 
+			<dependency> <groupId>org.apache.axis2</groupId> <artifactId>axis2-spring</artifactId> 
+			<version>1.6.0</version> </dependency> <dependency> <groupId>org.apache.axis2</groupId> 
+			<artifactId>axis2-transport-http</artifactId> <version>1.6.0</version> </dependency> 
+			<dependency> <groupId>org.apache.axis2</groupId> <artifactId>axis2-transport-local</artifactId> 
+			<version>1.6.0</version> </dependency> -->
+		<dependency>
+			<groupId>backport-util-concurrent</groupId>
+			<artifactId>backport-util-concurrent-java12</artifactId>
+			<version>3.1</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>net.sf.barcode4j</groupId>
+			<artifactId>barcode4j</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-gvt</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.clojars.aaroniba</groupId>
+			<artifactId>bcprov</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>com.dameng.impexp</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>com.ufgov.gfmis</groupId> <artifactId>com.springsource.org.aopalliance</artifactId> 
+			<version>${fasp.version}</version> </dependency> -->
+
+		<!-- <dependency> <groupId>commons-beanutils</groupId> <artifactId>commons-beanutils</artifactId> 
+			<version>1.7.0</version> </dependency> -->
+
+		<!-- <dependency> <groupId>commons-beanutils</groupId> <artifactId>commons-beanutils-core</artifactId> 
+			<version>1.8.0</version> </dependency> -->
+
+		<dependency>
+			<groupId>commons-cli</groupId>
+			<artifactId>commons-cli</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ow2.util.bundles</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-compress</groupId>
+			<artifactId>commons-compress</artifactId>
+			<version>1.4.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-digester</groupId>
+			<artifactId>commons-digester</artifactId>
+			<version>1.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-discovery</groupId>
+			<artifactId>commons-discovery</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-el</groupId>
+			<artifactId>commons-el</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<!-- <dependency> <groupId>org.ow2.util.bundles</groupId> <artifactId>commons-logging-1.1.1</artifactId> 
+			<version>1.1.1</version> </dependency> -->
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math3</artifactId>
+			<version>3.1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-modeler</groupId>
+			<artifactId>commons-modeler</artifactId>
+			<version>1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>concurrent</groupId>
+			<artifactId>concurrent</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.rmoquin.bundle</groupId>
+			<artifactId>curator-client</artifactId>
+			<version>1.3.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.clojars.jasonjckn</groupId>
+			<artifactId>curator-framework</artifactId>
+			<version>1.3.3</version>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>Dm7JdbcDriver16</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>dmgeo_1.6</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>dom4j</groupId> <artifactId>dom4j</artifactId> 
+			<version>1.6.1</version> </dependency> -->
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>drools</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+			<version>2.4.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>2.7.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>el-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>exchange_jclient</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.ezmorph</groupId>
+			<artifactId>ezmorph</artifactId>
+			<version>1.0.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>ezReport</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>fasp2</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>fm</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>1.5.5</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>com.ufgov.gfmis</groupId> <artifactId>gson-2.1</artifactId> 
+			<version>${fasp.version}</version> </dependency> -->
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>15.0</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.apache.hadoop</groupId> <artifactId>hadoop-annotations</artifactId> 
+			<version>2.5.0</version> </dependency> <dependency> <groupId>org.apache.hadoop</groupId> 
+			<artifactId>hadoop-archives</artifactId> <version>2.5.0</version> </dependency> 
+			<dependency> <groupId>org.apache.hadoop</groupId> <artifactId>hadoop-auth</artifactId> 
+			<version>2.5.0</version> </dependency> <dependency> <groupId>org.apache.hadoop</groupId> 
+			<artifactId>hadoop-common</artifactId> <version>2.5.0</version> </dependency> 
+			<dependency> <groupId>org.apache.hadoop</groupId> <artifactId>hadoop-datajoin</artifactId> 
+			<version>2.5.0</version> </dependency> <dependency> <groupId>org.apache.hadoop</groupId> 
+			<artifactId>hadoop-distcp</artifactId> <version>2.5.0</version> </dependency> 
+			<dependency> <groupId>org.apache.hadoop</groupId> <artifactId>hadoop-extras</artifactId> 
+			<version>2.5.0</version> </dependency> <dependency> <groupId>org.apache.hadoop</groupId> 
+			<artifactId>hadoop-gridmix</artifactId> <version>2.5.0</version> </dependency> 
+			<dependency> <groupId>org.apache.hadoop</groupId> <artifactId>hadoop-hdfs</artifactId> 
+			<version>2.5.0</version> </dependency> <dependency> <groupId>org.apache.hadoop</groupId> 
+			<artifactId>hadoop-openstack</artifactId> <version>2.5.0</version> </dependency> 
+			<dependency> <groupId>org.apache.hadoop</groupId> <artifactId>hadoop-rumen</artifactId> 
+			<version>2.5.0</version> </dependency> <dependency> <groupId>org.apache.hadoop</groupId> 
+			<artifactId>hadoop-sls</artifactId> <version>2.5.0</version> </dependency> 
+			<dependency> <groupId>org.apache.hadoop</groupId> <artifactId>hadoop-streaming</artifactId> 
+			<version>2.5.0</version> </dependency> <dependency> <groupId>com.caucho</groupId> 
+			<artifactId>hessian</artifactId> <version>4.0.7</version> </dependency> -->
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>hqbpmn</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>httpcomponents-httpcore</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>ibmpkcs</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>ifmis-ltreport</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>iText-2.1.7</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>iTextAsian</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>itruscom1.4</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>janino</groupId>
+			<artifactId>janino</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>3.6.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-fonts</artifactId>
+			<version>3.6.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.11.0.GA</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jaxen</groupId>
+			<artifactId>jaxen</artifactId>
+			<version>1-beta-4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>jboss-aop</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+
+		<!--part2 -end -->
+
+
+		<!-- part3 -begin -->
+
+		<dependency>
+			<groupId>org.jboss.cache</groupId>
+			<artifactId>jbosscache-core</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>jbosscache-pojo</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss</groupId>
+			<artifactId>jboss-common-core</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging-spi</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.javaee</groupId>
+			<artifactId>jboss-transaction-api</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>jce1_2_2</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.jcip</groupId>
+			<artifactId>jcip-annotations</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>com.ufgov.gfmis</groupId> <artifactId>Jcrontab</artifactId> 
+			<version>1.4.1</version> </dependency> -->
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>jdbf</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>jdom</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>1.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>jgroups</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>jmock</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>jnlp</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>jnlp-servlet</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+
+		<!-- move useless dependency jar for run time 2017-03-09 <dependency> <groupId>com.bluecatcode.time</groupId> 
+			<artifactId>joda-time</artifactId> <version>2.1</version> <scope>provided</scope> 
+			</dependency> -->
+
+		<dependency>
+			<groupId>net.sf.jopt-simple</groupId>
+			<artifactId>jopt-simple</artifactId>
+			<version>4.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>jqlib</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>js</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk13</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>jspsmartupload</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+		<!-- move useless dependency jar for run time 2017-03-09 <dependency> <groupId>com.ufgov.gfmis</groupId> 
+			<artifactId>jstl-api</artifactId> <version>1.2</version> </dependency> -->
+
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>jstl-impl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>jxl</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>ltinspect-remote</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>ltrpt-jasper-server</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+		<!-- move useless dependency jar for run time 2017-03-09 <dependency> <groupId>com.ufgov.gfmis</groupId> 
+			<artifactId>mail</artifactId> <version>1.4</version> </dependency> -->
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>memcached-client</artifactId>
+			<version>2.5.1</version>
+			<classifier>jdk14</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis.mybatis-spring</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.neethi</groupId>
+			<artifactId>neethi</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty</artifactId>
+			<version>3.2.4.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>odmg</groupId>
+			<artifactId>odmg</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ognl</groupId>
+			<artifactId>ognl</artifactId>
+			<version>2.6.11</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc14</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>oro</groupId>
+			<artifactId>oro</artifactId>
+			<version>2.0.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>opensymphony</groupId>
+			<artifactId>oscache</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>com.ufgov.gfmis</groupId> <artifactId>payTask</artifactId> 
+			<version>${fasp.version}</version> </dependency> -->
+
+
+		<dependency>
+			<groupId>ruiyun</groupId>
+			<artifactId>pinyin4j</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.10-FINAL-20140208</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-examples</artifactId>
+			<version>3.10-FINAL-20140208</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-excelant</artifactId>
+			<version>3.10-FINAL-20140208</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.10-FINAL-20140208</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.apache.poi</groupId> <artifactId>poi-ooxml-schemas</artifactId> 
+			<version>3.10-FINAL</version> </dependency> -->
+
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-scratchpad</artifactId>
+			<version>3.10-FINAL-20140208</version>
+		</dependency>
+
+		<dependency>
+			<groupId>trybeee</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.retrotranslator</groupId>
+			<artifactId>retrotranslator-runtime</artifactId>
+			<version>1.2.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.bidib.jbidib.org.qbang.rxtx</groupId>
+			<artifactId>rxtxcomm</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>SDCASOF</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>sertest</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>sign_ServerAPI2.0.16jdk14</artifactId>
+			<version>1.4.12</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.6</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>smslib</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-3.2.6-rmi-compatibility</artifactId>
+			<version>${fasp.version}</version>
+			<classifier>compatibility</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-build-src</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-framework-bom</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-instrument</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-instrument-tomcat</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jms</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-struts</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc-portlet</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>com.ufgov.gfmis</groupId> <artifactId>tlclient</artifactId> 
+			<version>${fasp.version}</version> </dependency> <dependency> <groupId>com.ufgov.gfmis</groupId> 
+			<artifactId>tlq63j</artifactId> <version>${fasp.version}</version> </dependency> 
+			<dependency> <groupId>com.ufgov.gfmis</groupId> <artifactId>TLQRemoteApi</artifactId> 
+			<version>${fasp.version}</version> </dependency> <dependency> <groupId>com.ufgov.gfmis</groupId> 
+			<artifactId>TongJMS</artifactId> <version>${fasp.version}</version> </dependency> -->
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>trove</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.6.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.woden</groupId>
+			<artifactId>woden-api</artifactId>
+			<version>1.0M9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.woden</groupId>
+			<artifactId>woden-impl-commons</artifactId>
+			<version>1.0M9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.woden</groupId>
+			<artifactId>woden-impl-dom</artifactId>
+			<version>1.0M9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>wsdl4j</groupId>
+			<artifactId>wsdl4j</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.apache.xbean</groupId> <artifactId>xbean-spring</artifactId> 
+			<version>3.14</version> </dependency> <dependency> <groupId>com.ufgov.gfmis</groupId> 
+			<artifactId>xerces</artifactId> <version>${fasp.version}</version> </dependency> 
+			<dependency> <groupId>com.ufgov.gfmis</groupId> <artifactId>xbean</artifactId> 
+			<version>2.2.0</version> </dependency> <dependency> <groupId>com.ufgov.gfmis</groupId> 
+			<artifactId>xercesimpl</artifactId> <version>${fasp.version}</version> </dependency> 
+			<dependency> <groupId>org.apache.xmlbeans</groupId> <artifactId>xmlbeans</artifactId> 
+			<version>2.3.0</version> </dependency> <dependency> <groupId>xmlpull</groupId> 
+			<artifactId>xmlpull</artifactId> <version>1.1.3.1</version> </dependency> -->
+
+		<dependency>
+			<groupId>xml-resolver</groupId>
+			<artifactId>xml-resolver</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.ws.commons.schema</groupId>
+			<artifactId>XmlSchema</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>xpp3</groupId> <artifactId>xpp3_min</artifactId> 
+			<version>1.1.4c</version> </dependency> <dependency> <groupId>com.thoughtworks.xstream</groupId> 
+			<artifactId>xstream</artifactId> <version>1.4.8</version> </dependency> -->
+
+		<dependency>
+			<groupId>com.ufgov.gfmis</groupId>
+			<artifactId>xwork</artifactId>
+			<version>2.0.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.101tec</groupId>
+			<artifactId>zkclient</artifactId>
+			<version>0.10</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>3.3.3</version>
+		</dependency>
+		<!-- json -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate3</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet1.6</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+		<!-- <dependency> <groupId>org.apache.zookeeper</groupId> <artifactId>zookeeper</artifactId> 
+			<version>3.4.5</version> </dependency> part4 -end -->
+		<!--redis相关包 -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>${fasp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+			<version>${fasp.version}</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.1</version>
+			<classifier>javadoc</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.1</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.1</version>
+		</dependency>
+		 <!-- portal pagenition dependency -->
+	<dependency>
+	    <groupId>org.springframework.data</groupId>
+	    <artifactId>spring-data-commons-core</artifactId>
+	    <version>1.4.1.RELEASE</version>
+        </dependency>
+	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>fastjson</artifactId>
+		<version>1.2.4</version>
+	</dependency>
+	<dependency>
+	  <groupId>org.activiti</groupId>
+	  <artifactId>activiti-image-generator</artifactId>
+	  <version>5.16.4.pack1.RELEASE</version>
+	</dependency>
+	<dependency>
+	  <groupId>org.activiti</groupId>
+	  <artifactId>activiti-process-validation</artifactId>
+	  <version>5.16.4.pack1.RELEASE</version>
+	</dependency>
+	<dependency>
+	  <groupId>org.apache.commons</groupId>
+	  <artifactId>commons-lang3</artifactId>
+	  <version>3.3.2</version>
+	</dependency>
+	<dependency>
+       <groupId>org.apache.commons</groupId>
+       <artifactId>discovery</artifactId>
+       <version>0.4.0</version>
+     </dependency>
+     <dependency>
+        <groupId>org.apache.axis</groupId>
+        <artifactId>axis1</artifactId>
+        <version>1.4.0</version>
+      </dependency>
+      <dependency>
+         <groupId>javax.xml.rpc</groupId>
+         <artifactId>rpc</artifactId>
+         <version>1.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springsource</groupId>
+        <artifactId>bsh</artifactId>
+        <version>2.0.0</version>
+       </dependency>
+       <dependency>
+                <groupId>com.bd</groupId>
+                <artifactId>dss-api</artifactId>
+                <version>1.0.0</version>
+       </dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.yonyougov.fap</groupId>
+				<artifactId>gov.df.fap.bean</artifactId>
+				<version>${df.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.yonyougov.fap</groupId>
+				<artifactId>gov.df.fap.util</artifactId>
+				<version>${df.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.yonyougov.fap</groupId>
+				<artifactId>gov.df.fap.api</artifactId>
+				<version>${df.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.yonyougov.fap</groupId>
+				<artifactId>gov.df.fap.service.util</artifactId>
+				<version>${df.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.yonyougov.fap</groupId>
+				<artifactId>gov.df.fap.controller</artifactId>
+				<version>${df.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.yonyougov.fap</groupId>
+				<artifactId>gov.df.fap.service</artifactId>
+				<version>${df.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+</project>

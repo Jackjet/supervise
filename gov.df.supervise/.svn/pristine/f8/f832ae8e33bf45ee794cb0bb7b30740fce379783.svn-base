@@ -1,0 +1,16 @@
+package gov.df.supervise.service.csofinfo;
+
+import gov.df.supervise.service.common.persistence.annotation.MyBatisDao;
+
+import java.util.List;
+import java.util.Map;
+
+@MyBatisDao
+public interface csofInfoDao {
+  public List getDisplayTitle(String chr_id);
+
+  public String findEleSource(String ele_code);
+
+  public List findYear(Map<String, String> param);
+
+}

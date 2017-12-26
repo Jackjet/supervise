@@ -1,0 +1,354 @@
+package gov.df.fap.controller.portal;
+
+import gov.df.fap.api.portal.IArticleService;
+import gov.df.fap.api.portal.IPortalService;
+import gov.df.fap.bean.portal.ArticleEntity;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+@RequestMapping(value = "/df/portal")
+public class PortalController {
+
+  @Autowired
+  private IPortalService portalService;
+
+  @Autowired
+  private IArticleService articleService;
+
+
+
+  /**
+   * 登录页显示年度区划
+   */
+  @RequestMapping(value = "/getYearRgcode.do", method = RequestMethod.POST)
+  @ResponseBody
+  public Map<String, Object> getYearRgcode(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.getYearRgcode(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 初始化index页
+   */
+  @RequestMapping(value = "/initIndex.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> initIndex(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    try {
+      map = portalService.initIndex(req, resp);
+    } catch (Exception e) {
+      e.printStackTrace();
+      try {
+        resp.sendRedirect("/df/portal/login/login.html");
+      } catch (IOException e1) {
+        e1.printStackTrace();
+      }
+    }
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 初始化csofindex页
+   */
+  @RequestMapping(value = "/csofInitIndex.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> csofInitIndex(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    try {
+      map = portalService.initIndex(req, resp);
+    } catch (Exception e) {
+      e.printStackTrace();
+      try {
+        resp.sendRedirect("/df/portal/login/csoflogin.html");
+      } catch (IOException e1) {
+        e1.printStackTrace();
+      }
+    }
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 初始化预算页面--xu
+   */
+  @RequestMapping(value = "/initBudget.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> initBudget(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    try {
+      map = portalService.initIndex(req, resp);
+    } catch (Exception e) {
+      e.printStackTrace();
+      try {
+        resp.sendRedirect("/df/portal/login/login.html");
+      } catch (IOException e1) {
+        e1.printStackTrace();
+      }
+    }
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 根据用户角色获取菜单
+   */
+  @RequestMapping(value = "/getMenuByRole.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getMenuByRole(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.getMenuByRole(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 跳转密码修改页
+   */
+  @RequestMapping("/register.do")
+  @ResponseBody
+  public Map<String, Object> toRegister(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 修改密码
+   */
+  @RequestMapping("/registerPwd.do")
+  @ResponseBody
+  public Map<String, Object> registerPwd(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.registerPwd(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 密码修改时输入原始密码错误记录
+   */
+  @RequestMapping("/registerPwdWrongRecord.do")
+  @ResponseBody
+  public Map<String, Object> registerPwdWrongRecord(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.registerPwdWrongRecord(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 切换角色
+   */
+  @RequestMapping("/switchRole.do")
+  @ResponseBody
+  public Map<String, Object> switchRole(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.switchRole(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 切换角色(重新加载userdto)
+   */
+  @RequestMapping(value = "/switchRoleConfirm.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> switchRoleConfirm(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.switchRoleConfirm(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 获取文章内容
+   */
+  @RequestMapping("/getArticleData")
+  @ResponseBody
+  public Object getArticleData(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    final String ruleId = "getArticleByParams";
+    Map paraMap = new HashMap();
+    String articleId = null == req.getParameter("articleId") ? "" : req.getParameter("articleId");
+    paraMap.put("id", articleId);
+    ArticleEntity article = articleService.getArticleData(ruleId, paraMap);
+    resp.setHeader("Cache-Control", "no-cache");
+    return article;
+
+  }
+
+  /**
+   * 获取当前用户选定的常用操作
+   */
+  @RequestMapping(value = "/getCommonOperation.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getCommonOperation(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.getCommonOperation(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 获取全部常用操作
+   */
+  @RequestMapping(value = "/getAllCommonOperation.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getAllCommonOperation(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.getAllCommonOperation(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 添加常用操作
+   */
+  @RequestMapping(value = "/addToCommonOperation.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> addToCommonOperation(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.addToCommonOperation(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 移除常用操作
+   */
+  @RequestMapping(value = "/removeCommonOperation.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> removeCommonOperation(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.removeCommonOperation(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 获取待办事项
+   */
+  @RequestMapping(value = "/getDealingThing.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getDealingThing(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.getDealingThing(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  //start
+  /**
+   * 获取yusuan待办事项
+   */
+  @RequestMapping(value = "/getBudgetTask.do", method = RequestMethod.GET)
+  @ResponseBody
+  public List getBudgetTask(HttpServletRequest req, HttpServletResponse resp) {
+    //Map<String, Object> map = new HashMap<String, Object>();
+    List list = null;
+    list = portalService.getBudgetTask(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return list;
+  }
+
+  //
+
+  /**
+   * 获取年度
+   */
+  @RequestMapping(value = "/getUserSetyear.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getUserSetyear(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.getUserSetyear(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 获取区划
+   */
+  @RequestMapping(value = "/getUserRgcode.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getUserRgcode(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.getUserRgcode(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 获取区划确认
+   */
+  @RequestMapping(value = "/switchRgcodeConfirm.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> switchRgcodeConfirm(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.switchRgcodeConfirm(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 获取支出进度情况，dubbo
+   */
+  @RequestMapping(value = "/getPayProgress.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getPayProgress(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.getPayProgress(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 获取预算指标
+   */
+  @RequestMapping(value = "/getBudget.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getBudget(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.getBudget(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 获取财政监控
+   */
+  @RequestMapping(value = "/getFundmonitor.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getFundmonitor(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.getFundmonitor(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+
+  /**
+   * 获取当前用户全部单位信息
+   */
+  @RequestMapping(value = "/getAllCompony.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getAllCompony(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    map = portalService.getAllCompony(req, resp);
+    resp.setHeader("Cache-Control", "no-cache");
+    return map;
+  }
+}

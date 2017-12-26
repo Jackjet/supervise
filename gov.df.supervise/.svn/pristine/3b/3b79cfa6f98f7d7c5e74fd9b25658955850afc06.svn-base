@@ -1,0 +1,25 @@
+package gov.df.supervise.service.view;
+
+import java.util.List;
+
+import gov.df.supervise.bean.report.CsofEReportEntity;
+import gov.df.supervise.bean.view.CsofCViewEntity;
+import gov.df.supervise.service.common.persistence.annotation.MyBatisDao;
+@MyBatisDao
+public interface CsofCViewDao {
+    int deleteByPrimaryKey(String viewId);
+
+    int insert(CsofCViewEntity record);
+
+    int insertSelective(CsofCViewEntity record);
+
+    CsofCViewEntity selectByPrimaryKey(String viewId);
+
+    int updateByPrimaryKeySelective(CsofCViewEntity record);
+
+    int updateByPrimaryKey(CsofCViewEntity record);
+
+	List<CsofCViewEntity> selectAllExcel();
+
+	CsofEReportEntity selectCsofEReportByReportId(String reportId);
+}

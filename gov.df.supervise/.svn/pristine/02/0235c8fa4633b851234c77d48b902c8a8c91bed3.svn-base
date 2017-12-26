@@ -1,0 +1,306 @@
+package gov.df.supervise.service.common;
+
+import gov.df.fap.api.workflow.IBillTypeServices;
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.gl.core.CommonUtil;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.fap.util.xml.XMLData;
+import gov.df.supervise.api.common.CommonService;
+import gov.df.supervise.api.workflow.WorkFlow;
+import gov.df.supervise.service.examine.ExamineDao;
+import gov.df.supervise.service.workflow.workFlowDao;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CommonBo implements CommonService {
+
+  @Autowired
+  @Qualifier("generalDAO")
+  GeneralDAO dao;
+
+  public static String user_id = CommonUtil.getUserId(); //当前登录用户 user_id
+
+  public static String oid = SessionUtil.getUserInfoContext().getOrgCode(); //当前登录用户机构编号 oid
+
+  @Autowired
+  private IBillTypeServices billTypeService;
+
+  @Autowired
+  private WorkFlow workflow;
+
+  @Autowired
+  private workFlowDao workFlowdao;
+
+  @Autowired
+  private ExamineDao csDao;
+
+  /**
+   * 根据条件查询单表数据
+   * 
+   * @param tableName	单表查询表名
+   * @param condition 查询条件
+   * @param proFlag   是否带权限查询
+   * @param pageInfo  分页信息
+   * @return 返回查询结果集List
+   */
+  public List getDataList(String tableName, String condition, boolean proFlag, String pageInfo) {
+
+    String proCondition = " "; //数据权限过滤条件 
+
+    if (proFlag) {
+      proCondition = " and exists ( " + "select ele_value "
+        + "from sys_right_group_detail d,sys_right_group g,sys_user_rule r " + "where 1=1 " + "and r.user_id='"
+        + user_id + "'" + "and d.right_group_id=g.right_group_id " + "and g.rule_id=r.rule_id "
+        + "and (d.ele_code='CSOF_SUPTYPE' and (d.ele_value='#' or d.ele_value=u.SUP_TYPE_CODE)))"
+        + "and (u.dep_id='#' or exists (select 1 from sys_user_org o where o.org_id=u.dep_id and o.user_id='" + user_id
+        + "'))" + "and u.oid = '" + oid + "'";
+    }
+    String sql = "select * from " + tableName + " u  where 1=1 " + condition + proCondition;
+
+    return dao.findByPageSql(pageInfo, sql);
+  }
+
+  /**
+   * 单表通用删除方法
+   * 
+   * @param tableName  删除表名
+   * @param condition  删除数据过滤条件
+   * @return 数据执行条目数
+   */
+  public int deleteDataList(String tableName, String condition) {
+    String sql = "delete from  " + tableName + " where 1=1 " + condition;
+    return dao.executeBySql(sql);
+  }
+
+  /**
+     * 通用插入sql生成
+     * @param map 插入数据Map  key:字段名  value:字段值
+     * @param tableName 插入数据表名
+     * @return
+     */
+  public String getInsertSql(Map<String, String> map, String tableName) {
+    String keyStr = "";
+    String valueStr = "";
+    for (String key : map.keySet()) {
+      keyStr += key + ",";
+      valueStr += "'" + map.get(key) + "',";
+    }
+    if (!("".equals(keyStr))) {
+      keyStr = keyStr.substring(0, keyStr.length() - 1);
+    }
+    if (!("".equals(valueStr))) {
+      valueStr = valueStr.substring(0, valueStr.length() - 1);
+    }
+    return "insert into " + tableName + "(" + keyStr + ") values (" + valueStr + ")";
+  }
+
+  /**
+   * 获取单据信息方法
+   */
+  public Map getBillInfo(String billtype_code, Map data) {
+    Map<String, String> billInfo = new HashMap<String, String>();
+    try {
+      String bill_no = billTypeService.getBillNo(billtype_code, data);
+      billInfo.put("bill_no", bill_no);
+      billInfo.put("billtype_code", billtype_code);
+      List billList = dao.findBySql("select billtype_name from sys_billtype  where billtype_code = ? ",
+        new Object[] { billtype_code });
+      if (billList.size() == 1) {
+        XMLData billData = (XMLData) billList.get(0);
+        billInfo.put("billtype_name", billData.get("billtype_name").toString());
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return billInfo;
+  }
+
+  /**
+   * 保存工作流数据
+   */
+  public boolean saveWorkFlow(Map workMap, String[] ids) {
+    String menu_id = workMap.get("menu_id").toString();
+    String op_type = workMap.get("op_type").toString();
+    String op_name = workMap.get("op_name").toString();
+    String billtype_code = workMap.get("billtype_code").toString();
+    String opinion = workMap.get("opinion").toString();
+    int num = 0;
+    if (ids.length > 0) {
+      for (int i = 0; i < ids.length; i++) {
+        String entity_id = ids[i].replace("'", "");
+        boolean flag = workflow.doWorkFlow(menu_id, entity_id, billtype_code, op_type, op_name, opinion);
+        if (flag) {
+          num++;
+        }
+      }
+    }
+    if (ids.length == num) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * 单个工作流处理
+   * @param workMap
+   * @return
+   */
+  public boolean doWorkFlow(Map workMap) {
+    String menu_id = workMap.get("menu_id").toString();
+    String op_type = workMap.get("op_type").toString();
+    String op_name = workMap.get("op_name").toString();
+    String entity_id = workMap.get("entity_id").toString();
+    String billtype_code = workMap.get("billtype_code").toString();
+    String opinion = workMap.get("opinion").toString();
+    return workflow.doWorkFlow(menu_id, entity_id, billtype_code, op_type, op_name, opinion);
+  }
+
+  public List getWorkData(String menu_id, String status, String billtype_code, Map conditionMap, String pageInfo) {
+    Map<String, Object> billdata = workFlowdao.selectTableName(billtype_code);
+    String table_name = billdata.get("VIEW_NAME").toString();
+    Map<String, Object> param = new HashMap<String, Object>();
+    param.put("menu_id", menu_id);
+    param.put("billtype_code", billtype_code);
+    Map<String, Object> res = csDao.SelectMenuNode(param);
+    String from_node_id = res.get("FROM_NODE_ID") != null ? res.get("FROM_NODE_ID").toString() : "";
+    String cur_node_id = res.get("CUR_NODE_ID").toString();
+    Map<String, Object> map = workFlowdao.SelectNode(cur_node_id);
+    String node_type = map.get("NODE_TYPE").toString();
+
+    Map<String, String> paramMap = new HashMap<String, String>();
+    paramMap.put("status", status);
+    paramMap.put("cur_node_id", cur_node_id);
+    paramMap.put("from_node_id", from_node_id);
+    paramMap.put("view_name", table_name);
+    paramMap.put("node_type", node_type);
+    paramMap.put("billtype_code", billtype_code);
+    String condition = " ";
+    if (!conditionMap.isEmpty()) {
+      condition = getCondition(conditionMap);
+    }
+
+    StringBuffer sql = new StringBuffer("");
+    //status 0:待办	1:已办	9:全部
+    if (status.equals("0") || status.equals("1")) {
+      sql.append(getWorkQuerySql(paramMap)).append(condition);
+    } else if (status.equals("9")) {
+      paramMap.put("status", "0");
+      sql.append(getWorkQuerySql(paramMap)).append(condition);
+      paramMap.put("status", "1");
+      sql.append(" union all ").append(getWorkQuerySql(paramMap)).append(condition);
+    } else {
+      new Exception("没有该状态流程数据");
+    }
+
+    return dao.findByPageSql(pageInfo, sql.toString());
+  }
+
+  /**
+   * 拼接工作流查询sql
+   * @param param
+   * @return
+   */
+  public String getWorkQuerySql(Map paramMap) {
+
+    String org = "";
+    String wf_table = "";
+    String statusCode = "";
+    String statusDesc = "";
+    String user_id = CommonUtil.getUserId();
+    String status = paramMap.get("status").toString();
+    String cur_node_id = paramMap.get("cur_node_id").toString();
+    String from_node_id = paramMap.get("from_node_id").toString();
+    String table_name = paramMap.get("view_name").toString();
+    String node_type = paramMap.get("node_type").toString();
+    String billtype_code = paramMap.get("billtype_code").toString();
+    String oid = SessionUtil.getUserInfoContext().getOrgCode();
+    StringBuffer sql = new StringBuffer();
+    String org_type = SessionUtil.getUserInfoContext().getOrgType();
+
+    if (org_type.equals("105")) {
+      org = "oid";
+    } else if (org_type.equals("106")) { //    
+      org = "dep_id";
+    }
+    //node_type 2:结束节点的 已办 
+    if (null != node_type && node_type.equals("2")) {
+      wf_table = "csof_wf_item_end";
+    } else {
+      wf_table = "csof_wf_item_cur";
+    }
+
+    if (status.equals("0")) {
+      statusDesc = "待";
+      statusCode = from_node_id + "||'.'||1," + cur_node_id + "||'.'||0";
+    } else if (status.equals("1")) {
+      statusDesc = "已";
+      statusCode = cur_node_id + "||'.'||1";
+    }
+
+    //流程状态sql
+    String statusSql = "select '" + status + "' as status_code,(select '" + statusDesc
+      + "'||n.node_name from csof_wf_nodes n where n.node_id='" + cur_node_id + "') as status_name,a.* " + "from "
+      + table_name + " a " + "where 1=1" + " and a.IS_VALID = 1" + " and exists (" + " select 1 from " + wf_table
+      + " c " + "where 1=1 " + "and c.entity_id=a.id " + "and c.billtype_code=a.billtype_code "
+      + " and c.node_id||'.'||c.status_code in (" + statusCode + ")" + ")";
+    //用户机构权限sql
+    String orgSql = " and exists (" + "select 1 from sys_user_org o " + " where 1=1" + " and o.org_id=a." + org
+      + " and o.user_id= '" + user_id + "')";
+
+    //用户数据权限sql   TO DO   可抽取方法    目前用来过滤监管事项     监管审核单的    处室任务单 CSOF_TASK_BILL 只按照机构权限过滤   
+    String userSql = " and exists (" + "select ele_value "
+      + "from sys_right_group_detail d,sys_right_group g,sys_user_rule r " + "where 1=1 "
+      + " and d.right_group_id=g.right_group_id " + " and g.rule_id=r.rule_id "
+      + " and (  (d.ele_code='CSOF_AGENCY'  and (d.ele_value='#' or d.ele_value=a.agency_id)) "
+      //	    								+" or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id))"
+      //	    								+" or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id))"
+      //	    								+" or (d.ele_code='CSOF_BUDGET'  and (d.ele_value='#' or d.ele_value=a.budget_id))
+      + ")" + " and r.user_id= '" + user_id + "'" + ")";
+
+    if (billtype_code.equals("131") || billtype_code.equals("132")) {
+      userSql = "";
+      orgSql = "";
+      if (org_type.equals("106")) {
+        orgSql = " and a.oid = '" + oid + "'";
+        userSql = " and exists ( select 1 from  CSOF_S_SUPTYPE_DEP  s" + " where s.sup_type_id=a.sup_type_id "
+          + "and s.oid=a.oid " + "and s.dep_id=(select  m.belong_org  from sys_usermanage  m where m.user_id='"
+          + user_id + "')"
+
+          + ")";
+      }
+    }
+    sql.append(statusSql).append(orgSql).append(userSql);
+    return sql.toString();
+  }
+
+  /**
+   * 拼接sql  and 
+   * @param conditionMap
+   * @return
+   */
+  public String getCondition(Map conditionMap) {
+    StringBuffer condition = new StringBuffer("");
+    if (!conditionMap.isEmpty()) {
+      Iterator iter = conditionMap.entrySet().iterator();
+      while (iter.hasNext()) {
+        Map.Entry entry = (Map.Entry) iter.next();
+        String key = entry.getKey().toString();
+        String value = entry.getValue().toString();
+        condition.append(" and " + key + " = '" + value + "'");
+      }
+    }
+    return condition.toString();
+  }
+
+}

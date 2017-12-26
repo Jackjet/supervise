@@ -1,0 +1,74 @@
+package gov.df.fap.util.web;
+
+import java.io.IOException;
+import java.util.Enumeration;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+/**
+ * 参数过滤器
+ */
+public class CsofContextFilter implements Filter {
+  protected FilterConfig filterConfig = null;
+
+  public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
+    throws IOException, ServletException {
+       //获得所有请求参数名    
+      Enumeration params = req.getParameterNames();    
+      String sql = "";    
+      while (params.hasMoreElements()) {        
+          String name = params.nextElement().toString();    
+          String[] value = req.getParameterValues(name);    
+          for (int i = 0; i < value.length; i++) {    
+              sql = sql + value[i];    
+          }    
+      }     
+      if (sqlValidate(sql)) {  
+          throw new IOException("您发送请求中的参数中含有非法字符："+sql);    
+      } else {    
+    	  filterChain.doFilter(req, res);  
+      } 
+    
+   
+  }
+
+
+
+  
+  protected static boolean sqlValidate(String str) {    
+      str = str.toLowerCase();//统一转为小写    
+      String badStr = "'|select|update|and|or|delete|insert|truncate|char|into"  
+              + "|substr|declare|exec|master|drop|execute|"  
+              + "union|;|--|+|,|like|//|/|%|#|*|$|@|\"|http|cr|lf|<|>|(|)";//过滤掉的sql关键字，可以手动添加    
+      String[] badStrs = badStr.split("\\|");    
+      for (int i = 0; i < badStrs.length; i++) {    
+          if (str.indexOf(badStrs[i]) >= 0) {    
+              return true;    
+          }    
+      }    
+      return false;    
+  }
+
+
+
+
+@Override
+public void destroy() {
+	// TODO Auto-generated method stub
+	
+}
+
+
+
+
+@Override
+public void init(FilterConfig arg0) throws ServletException {
+	// TODO Auto-generated method stub
+	
+}    
+}

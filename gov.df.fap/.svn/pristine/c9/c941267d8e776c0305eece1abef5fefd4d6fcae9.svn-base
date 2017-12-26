@@ -1,0 +1,120 @@
+<html>
+<head>
+	<title>flow</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css"/>
+	<link rel="stylesheet" href="../../trd/uui/css/tree.css" />
+	<link rel="stylesheet" href="../../trd/ip/changeTree/changeTree.css" />
+	<link rel="stylesheet" href="../../trd/uui/css/grid.css" />
+	<link rel="stylesheet" href="../../trd/ip/css/ip.css" />
+	<link rel="stylesheet" href="../../trd/uui/css/u.css" />
+	<link rel="stylesheet" href="css/csofSup.css">
+</head>
+<body>
+<div class="csof-sup">
+	<!--导航栏-->
+	<div class="row">
+		<div class="col-md-12 column page-header" style="margin-top: 5px;margin-bottom: 5px;">
+			<div class="col-md-6">
+					<span class="pull-left nav"><span><a href="javascript:void(0)">首页</a>&nbsp;>&nbsp;</span>
+					<span>监管内容审查</span>
+					<span>&nbsp;>&nbsp;<select id="eventName"></select></span></span>
+			</div>
+			<div class="col-md-6">
+				  <span class="pull-right">
+					  <ul calss="">
+						  <li class="pull-left"><a href="#">流程</a></li>
+						  <li class="space pull-left"></li>
+						  <li class="pull-left"><a href="#">待办</a></li>
+						  <li class="space pull-left"></li>
+						  <li class="pull-left active"><a onclick="skipFlow('input')">监管内容录入</a></li>
+					  </ul>
+				  </span>
+			</div>
+		</div>
+	</div>
+	<table id="__01" width="870" height="492" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;">
+		<tr>
+			<td colspan="9">
+				<img src="images/flow_01.jpg" width="870" height="44" alt=""/></td>
+		</tr>
+		<tr>
+			<td rowspan="7">
+				<img src="images/flow_02.jpg" width="288" height="447" alt=""/></td>
+			<td>
+				<img id="input" src="images/flow_03.jpg" width="107" height="62" onclick="skipFlow(this.id)"/></td>
+			<td colspan="7" rowspan="2">
+				<img src="images/flow_04.jpg" width="475" height="88" alt=""/></td>
+		</tr>
+		<tr>
+			<td>
+				<img src="images/flow_05.jpg" width="107" height="26" alt=""/></td>
+		</tr>
+		<tr>
+			<td>
+				<img id="first-trial" src="images/flow_06.jpg" width="107" height="64" onclick="skipFlow(this.id)"/></td>
+			<td rowspan="5">
+				<img src="images/flow_07.jpg" width="36" height="359" alt=""/></td>
+			<td>
+				<img id="review" src="images/flow_08.jpg" width="103" height="64" onclick="skipFlow(this.id)"/></td>
+			<td colspan="5">
+				<img src="images/flow_09.jpg" width="336" height="64" alt=""/></td>
+		</tr>
+		<tr>
+			<td rowspan="4">
+				<img src="images/flow_10.jpg" width="107" height="295" alt=""/></td>
+			<td colspan="2" rowspan="4">
+				<img src="images/flow_11.jpg" width="138" height="295" alt=""/></td>
+			<td>
+				<img id="summary" src="images/flow_12.jpg" width="104" height="61" onclick="skipFlow(this.id)"/></td>
+			<td rowspan="4">
+				<img src="images/flow_13.jpg" width="39" height="295" alt=""/></td>
+			<td>
+				<img id="office-summary" src="images/flow_14.jpg" width="101" height="61" onclick="skipFlow(this.id)"/></td>
+			<td rowspan="4">
+				<img src="images/flow_15.jpg" width="57" height="295" alt=""/></td>
+		</tr>
+		<tr>
+			<td rowspan="3">
+				<img src="images/flow_16.jpg" width="104" height="234" alt=""/></td>
+			<td>
+				<img src="images/flow_17.jpg" width="101" height="30" alt=""/></td>
+		</tr>
+		<tr>
+			<td>
+				<img id="office-sum" src="images/flow_18.jpg" width="101" height="59" onclick="skipFlow(this.id)"/></td>
+		</tr>
+		<tr>
+			<td>
+				<img src="images/flow_19.jpg" width="101" height="145" alt=""/></td>
+		</tr>
+		<tr>
+			<td>
+				<img src="images/&#x5206;&#x9694;&#x7b26;.gif" width="288" height="1" alt=""/></td>
+			<td>
+				<img src="images/&#x5206;&#x9694;&#x7b26;.gif" width="107" height="1" alt=""/></td>
+			<td>
+				<img src="images/&#x5206;&#x9694;&#x7b26;.gif" width="36" height="1" alt=""/></td>
+			<td>
+				<img src="images/&#x5206;&#x9694;&#x7b26;.gif" width="103" height="1" alt=""/></td>
+			<td>
+				<img src="images/&#x5206;&#x9694;&#x7b26;.gif" width="35" height="1" alt=""/></td>
+			<td>
+				<img src="images/&#x5206;&#x9694;&#x7b26;.gif" width="104" height="1" alt=""/></td>
+			<td>
+				<img src="images/&#x5206;&#x9694;&#x7b26;.gif" width="39" height="1" alt=""/></td>
+			<td>
+				<img src="images/&#x5206;&#x9694;&#x7b26;.gif" width="101" height="1" alt=""/></td>
+			<td>
+				<img src="images/&#x5206;&#x9694;&#x7b26;.gif" width="57" height="1" alt=""/></td>
+		</tr>
+	</table>
+
+</div>
+
+    <script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+    <script src="../../trd/requirejs/require.js"></script>
+    <script src="../../require.config.js"></script>
+    <script src="flow.js"></script>
+</body>
+</html>

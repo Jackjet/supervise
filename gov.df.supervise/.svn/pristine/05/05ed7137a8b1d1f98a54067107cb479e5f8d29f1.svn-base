@@ -1,0 +1,359 @@
+package gov.df.supervise.bean.csofacc;
+
+import java.io.Serializable;
+
+public class csofAccWorkEntity implements Serializable {
+  /**
+  * 
+  */
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * 工作记录唯一id（主键）
+   */
+  private String id;
+
+  private String executor;
+
+  public String getExecutor() {
+    return executor;
+  }
+
+  public void setExecutor(String executor) {
+    this.executor = executor;
+  }
+
+  /**
+   * 工作记录编号
+   */
+  private String work_no;
+
+  /**
+   * 监管事项唯一id
+   */
+  private String entity_id;
+
+  public String getEntity_id() {
+    return entity_id;
+  }
+
+  public void setEntity_id(String entity_id) {
+    this.entity_id = entity_id;
+  }
+
+  /**
+   * 事项编号
+   */
+  private String sup_no;
+
+  /**
+   * 事项名称
+   */
+  private String sup_name;
+
+  /**
+   * 是否有效
+   */
+  private Short is_valid;
+
+  /**
+   * 是否流程结束 0：在途 1：结束  
+   */
+  private Short is_end;
+
+  /**
+   * 负责司局ID(CSOF_E_MOFDEP)
+   */
+  private String mofdep_id;
+
+  /**
+   * 负责司局编码
+   */
+  private String mofdep_code;
+
+  /**
+   * 负责司局名称
+   */
+  private String mofdep_name;
+
+  /**
+   * 专员办机构id
+   */
+  private String oid;
+
+  /**
+   * 监管对象id
+   */
+  private String obj_type_id;
+
+  /**
+   * 监管对象编码
+   */
+  private String obj_type_code;
+
+  /**
+   * 监管对象名称
+   */
+  private String obj_type_name;
+
+  /**
+   * 工作性质
+   */
+  private String work_type;
+
+  /**
+   * 工作进度
+   */
+  private String work_progress;
+
+  /**
+   * 工作量
+   */
+  private String workload;
+
+  /**
+   * 资金规模
+   */
+  private String fund_scale;
+
+  /**
+   * 登记时间
+   */
+  private String registration_time;
+
+  /**
+   * 备注说明
+   */
+  private String remark;
+
+  /**
+   * 创建人
+   */
+  private String create_user;
+
+  /**
+   * 创建时间
+   */
+  private String create_date;
+
+  /**
+   * 最后操作人
+   */
+  private String latest_op_user;
+
+  /**
+   * 最后操作时间
+   */
+  private String latest_op_date;
+
+  /**
+   * 年度
+   */
+  private String set_year;
+
+  /**
+   * 区划
+   */
+  private String rg_code;
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public String getWork_no() {
+    return work_no;
+  }
+
+  public void setWork_no(String work_no) {
+    this.work_no = work_no;
+  }
+
+  public String getSup_no() {
+    return sup_no;
+  }
+
+  public void setSup_no(String sup_no) {
+    this.sup_no = sup_no;
+  }
+
+  public String getSup_name() {
+    return sup_name;
+  }
+
+  public void setSup_name(String sup_name) {
+    this.sup_name = sup_name;
+  }
+
+  public Short getIs_valid() {
+    return is_valid;
+  }
+
+  public void setIs_valid(Short is_valid) {
+    this.is_valid = is_valid;
+  }
+
+  public Short getIs_end() {
+    return is_end;
+  }
+
+  public void setIs_end(Short is_end) {
+    this.is_end = is_end;
+  }
+
+  public String getMofdep_id() {
+    return mofdep_id;
+  }
+
+  public void setMofdep_id(String mofdep_id) {
+    this.mofdep_id = mofdep_id;
+  }
+
+  public String getMofdep_code() {
+    return mofdep_code;
+  }
+
+  public void setMofdep_code(String mofdep_code) {
+    this.mofdep_code = mofdep_code;
+  }
+
+  public String getMofdep_name() {
+    return mofdep_name;
+  }
+
+  public void setMofdep_name(String mofdep_name) {
+    this.mofdep_name = mofdep_name;
+  }
+
+  public String getOid() {
+    return oid;
+  }
+
+  public void setOid(String oid) {
+    this.oid = oid;
+  }
+
+  public String getObj_type_id() {
+    return obj_type_id;
+  }
+
+  public void setObj_type_id(String obj_type_id) {
+    this.obj_type_id = obj_type_id;
+  }
+
+  public String getObj_type_code() {
+    return obj_type_code;
+  }
+
+  public void setObj_type_code(String obj_type_code) {
+    this.obj_type_code = obj_type_code;
+  }
+
+  public String getObj_type_name() {
+    return obj_type_name;
+  }
+
+  public void setObj_type_name(String obj_type_name) {
+    this.obj_type_name = obj_type_name;
+  }
+
+  public String getWork_type() {
+    return work_type;
+  }
+
+  public void setWork_type(String work_type) {
+    this.work_type = work_type;
+  }
+
+  public String getWork_progress() {
+    return work_progress;
+  }
+
+  public void setWork_progress(String work_progress) {
+    this.work_progress = work_progress;
+  }
+
+  public String getWorkload() {
+    return workload;
+  }
+
+  public void setWorkload(String workload) {
+    this.workload = workload;
+  }
+
+  public String getFund_scale() {
+    return fund_scale;
+  }
+
+  public void setFund_scale(String fund_scale) {
+    this.fund_scale = fund_scale;
+  }
+
+  public String getRegistration_time() {
+    return registration_time;
+  }
+
+  public void setRegistration_time(String registration_time) {
+    this.registration_time = registration_time;
+  }
+
+  public String getRemark() {
+    return remark;
+  }
+
+  public void setRemark(String remark) {
+    this.remark = remark;
+  }
+
+  public String getCreate_user() {
+    return create_user;
+  }
+
+  public void setCreate_user(String create_user) {
+    this.create_user = create_user;
+  }
+
+  public String getCreate_date() {
+    return create_date;
+  }
+
+  public void setCreate_date(String create_date) {
+    this.create_date = create_date;
+  }
+
+  public String getLatest_op_user() {
+    return latest_op_user;
+  }
+
+  public void setLatest_op_user(String latest_op_user) {
+    this.latest_op_user = latest_op_user;
+  }
+
+  public String getLatest_op_date() {
+    return latest_op_date;
+  }
+
+  public void setLatest_op_date(String latest_op_date) {
+    this.latest_op_date = latest_op_date;
+  }
+
+  public String getSet_year() {
+    return set_year;
+  }
+
+  public void setSet_year(String set_year) {
+    this.set_year = set_year;
+  }
+
+  public String getRg_code() {
+    return rg_code;
+  }
+
+  public void setRg_code(String rg_code) {
+    this.rg_code = rg_code;
+  }
+
+}

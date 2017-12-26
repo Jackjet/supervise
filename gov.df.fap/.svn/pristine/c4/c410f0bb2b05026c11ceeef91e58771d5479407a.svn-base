@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow: hidden;">
+<head >
+    <meta charset="UTF-8">
+    <title>审核意见汇总（处-经办岗）</title>
+    <link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../../trd/uui/css/tree.css" />
+    <link rel="stylesheet" href="../../trd/ip/changeTree/changeTree.css" />
+    <link rel="stylesheet" href="../../trd/uui/css/grid.css" />
+    <link rel="stylesheet" href="../../trd/ip/css/ip.css" />
+    <link rel="stylesheet" href="../../trd/uui/css/u.css" />
+    <link rel="stylesheet" href="css/csofSup.css">
+</head>
+<body>
+<div class="csof-sup">
+    <!--导航栏-->
+    <div class="csof-sup-header header-underline">
+        <div class="csof-sup-header-left">
+                    <span class="pull-left nav"><span><a href="javascript:void(0)">首页</a>&nbsp;>&nbsp;</span>
+                    <span>监管内容审查</span>
+                    <span>&nbsp;>&nbsp;<select id="eventName"></select></span></span>
+        </div>
+        <div class="csof-sup-header-right">
+                  <span class="pull-right">
+                      <ul class="pull-left">
+                          <li class="pull-left"><a data-bind="click:skipPage">流程</a></li>
+                          <li class="space pull-left"></li>
+                          <li class="pull-left"><a href="#">待办</a></li>
+                          <li class="space pull-left"></li>
+                      </ul>
+                      <!--审核意见汇总（处-经办岗）-->
+                      <ul class="nav nav-pills pull-left" id="sup-procedure">
+                        <li data-toggle="tab" class="pull-left active" id="sumagency-input"><a href="#">审核意见汇总</a></li>
+                      </ul>
+                  </span>
+        </div>
+    </div>
+    <!--按钮组-->
+    <div class="csof-sup-btns btns-underline">
+        <button class="btn sup-btns sumagency-input" type="button" id="sum" data-bind="click: summaryClick">汇总</button>
+        <button class="btn sup-btns sumagency-input" type="button" id="return" data-bind="click: reClick">退回</button>
+        <button class="btn sup-btns sumagency-input" type="button" id="undosum" disabled data-bind="click: undosumClick">撤销汇总</button>
+        <button class="btn sup-btns sumagency-input" type="button" id="fillingopinion" disabled data-bind="click: fillingClick">意见填写</button>
+        <!--<button class="btn sup-btns sumagency-input" type="button" id="modifyopinion" disabled data-bind="click: modifyClick">意见修改</button>-->
+        <button class="btn sup-btns sumagency-input" type="button" id="submit" disabled data-bind="click: submitClick">提交</button>
+        <button class="btn sup-btns sumagency-input" type="button" id="takeback" disabled data-bind="click: takebackClick">收回</button>
+        <button class="btn sup-btns sumagency-input" type="button" id="uploadattach" disabled data-bind="click: uploadClick">附件上传</button>
+    </div>
+    <!--内容-->
+    <div class="sup-container">
+        <!--左树-->
+        <div class="tree-left pull-left">
+            <div class="tabbable" id="tabs-tree">
+                <ul id="depTreeTab" class="nav nav-tabs">
+                    <li class="active">
+                        <a data-toggle="tab" href="#panel-now" id="tree-now">当前</a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#panel-no" id="tree-no-conclude">未办结</a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#panel-has" id="tree-has-conclude">已办结</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="panel-now">
+                        <div class="depSearch">
+                            <span class="glyphicon glyphicon-search form-control-feedback searchTree" onclick="searchDepTree()"></span>
+                            <input type="text" class="form-control" id="SearchdepTree" name="SearchdepTree" placeholder="模糊查询..." onkeydown="AutoMatch()">
+                        </div>
+                        <!--当前监管对象树-->
+                        <div id="depTree" class="ztree" style="width: 100%;height: 500px;overflow: auto;" u-meta='{
+                                "id":"depTree",
+                                "data":"depTreeDataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"CHR_NAME",
+                                "setting":"depTreeSetting"
+                            }'>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="panel-no">
+                        <div class="depSearch">
+                            <span class="glyphicon glyphicon-search form-control-feedback searchTree" onclick="searchDepTree()"></span>
+                            <input type="text" class="form-control" id="SearchdepTree2" name="SearchdepTree2" placeholder="模糊查询..." onkeydown="AutoMatch()">
+                        </div>
+                        <!--未办结监管对象树-->
+                        <div id="depTree2" class="ztree" style="width: 100%;height: 500px;overflow: auto;" u-meta='{
+                                "id":"depTree2",
+                                "data":"depTreeDataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"CHR_NAME",
+                                "setting":"depTreeSetting"
+                            }'>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="panel-has">
+                        <div class="depSearch">
+                            <span class="glyphicon glyphicon-search form-control-feedback searchTree" onclick="searchDepTree()"></span>
+                            <input type="text" class="form-control" id="SearchdepTree3" name="SearchdepTree3" placeholder="模糊查询..." onkeyup="AutoMatch()">
+                        </div>
+                        <!--已办结监管对象树-->
+                        <div id="depTree3" class="ztree" style="width: 100%;height: 500px;overflow: auto;" u-meta='{
+                                "id":"depTree3",
+                                "data":"depTreeDataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"CHR_NAME",
+                                "setting":"depTreeSetting"
+                            }'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--右表-->
+        <div class="table-right pull-right">
+            <div class="tabbable" id="tabs-list">
+                <ul class="nav nav-tabs" style="background-color: rgba(242, 242, 242, 1);">
+                    <li class="active">
+                        <a data-toggle="tab" href="#panel-list">列表</a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#panel-details">详情</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="panel-list">
+                        <div style="margin: 10px 30px 15px 15px;">
+                            <div class="pull-left">
+                                状态：<select id = "submitStatus" data-bind="event{change:submitStatusChange}">
+                                <option value="all">全部</option>
+                                <option value="3">待汇总</option>
+                                <option value="4">已汇总</option>
+                            </select>
+                            </div>
+                            <div class="pull-right">
+                                <div class="">
+                                    <form class="form-search form-inline">
+                                        <span class="glyphicon glyphicon-search form-control-feedback searchEx"></span>
+                                        <input class="form-control input-medium search-query" type="text" style="width: 272px;">
+                                        <button type="button" class="btn">高级</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ex-list">
+                            <span class="ex-list-title">监管内容列表：</span>
+                            <!-- <div class="tab-pane" id="ex-data-list">
+                                <div class="exDataGrid" u-meta='{"id":"exDataGrid","data":"exDataTable2","type":"grid","multiSelect":true,"showNumCol": true,"editType":"default","onDblClickFun":"viewModel.onDblClickFun","canDrag":true,"canSwap":true,"columnMenu":false}'>
+                                    <div options='{"field":"status","dataType":"String","title":"状态","editType":"string","width": 80}'></div>
+                                    <div options='{"field":"billNo","dataType":"String","title":"单号","editType":"string","width": 120}'></div>
+                                    <div options='{"field":"exName","dataType":"String","title":"事项","editType":"string","width": 120}'></div>
+                                    <div options='{"field":"depName","dataType":"String","title":"监管对象","editType":"string","width": 120}'></div>
+                                    <div options='{"field":"fundScale","dataType":"String","title":"资金规模(万元)","editType":"string","width": 100}'></div>
+                                    <div options='{"field":"recorder","dataType":"String","title":"记录人","editType":"string","width": 100}'></div>
+                                    <div options='{"field":"recoderDate","dataType":"String","title":"记录日期","editType":"string","width": 120}'></div>
+                                    <div options='{"field":"operate","dataType":"String","title":"操  作","editType":"string","width": 50}'></div>
+                                </div>
+                            </div> -->
+                            <!--表格按钮区域-->
+                            <div class="btn-grid-group flex-1 grid-container-sm">
+                                <div id="planInfoToolbarArea" >
+                                    <!-- <div class="btn-grid-group-btn ip-content-btn-area">
+                                    </div> -->
+                                </div>
+                                <div id=testGrid class="tabbed-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="panel-details">
+                  		 <iframe id="input-detail-iframe"  style="width: 100%;height: 481px;border: 0;overflow-y: auto;"> </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--引入js-->
+<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+<script src="../../trd/requirejs/require.js"></script>
+<script src="../../require.config.js"></script>
+<script src="data.js"></script>
+<script src="summary.js"></script>
+
+</body>
+</html>

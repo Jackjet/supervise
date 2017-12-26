@@ -1,0 +1,280 @@
+<!-- Created by yanqiong on 2017/11/6. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>审核流程</title>
+    <link rel="stylesheet" type="text/css" href="../../trd/datetimepicker/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../../trd/ip/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/tree.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/ip/changeTree/changeTree.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/u.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/grid.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/ip/css/ip.css" />     
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/bizSys.css" />
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/mattersEnter.css">
+    <link rel="stylesheet" href="/df/trd/splitter/jqx.base.css">
+	<link rel="stylesheet" href="../common/common.css">
+	<script type="text/javascript" src="/df/trd/splitter/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="/df/trd/splitter/jqxcore.js"></script>
+	<script type="text/javascript" src="/df/trd/splitter/jqxsplitter.js"></script>
+	<script type="text/javascript">
+	    $(document).ready(function () {
+               $('#main-content').jqxSplitter({ width: '98.3%', height: '87.5%', panels: [{ size: '23.2%', min: 200 }, { min: 800, size: '76.8%' }] });
+	    	  $('#right-top-bottom-content').jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', panels: [{ size: '60%',  min: 60 , collapsible: false },{ size: '40%',  min: 27 }] });
+	    });
+	</script>
+</head>
+<body class="csof-font" style="overflow: hidden;">
+	<!--按钮组-->
+	<div class="col-md-12 csof-btns-content" id="btn-line">
+		<div class="pull-left" id="btns-group"></div>
+		<div class="pull-right right-search">
+			<form class="form-search form-inline">
+				<div class="input-group">
+					<input type="text" id="gridSearchInput" class="form-control">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button"
+							data-bind="click:gridSearch">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button> </span>
+				</div>
+				<button type="button" class="btn" onclick="hignSearch()">高级</button>
+			</form>
+		</div>
+	</div>
+
+	<!--main-->
+	<div class="col-md-12" id="main-content">
+		<!-- 左树 -->
+		<div class="pull-left" id="left-main-content">
+			<div class="input-group tree-search-div">
+				<input type="text" id="SearchTree" class="form-control"
+					data-bind="value: SearchTreeKEY" placeholder="模糊查询..."> <span
+					class="input-group-btn">
+					<button class="btn btn-default" type="button"
+						data-bind="click:searchTree">
+						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					</button> </span>
+			</div>
+			<div id="tree1" class="ztree treeDiv"
+				u-meta='{
+				       "id":"tree1",
+				       "data":"treeDataTable",
+				       "type":"tree",
+				       "idField":"CHR_ID",
+				       "pidField":"PARENT_ID",
+				       "nameField":"CHR_NAME",
+				       "setting":"treeSetting"
+				}'>
+			</div>
+		</div>
+		<!--右表-->
+		<div class="pull-left" id="right-main-content">
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs nav-show righ-tab-ul" role="tablist">
+				<li role="presentation" class="active"><a href="#home"
+					aria-controls="home" role="tab" data-toggle="tab">列表</a></li>
+				<li role="presentation"><a href="#profile"
+					aria-controls="profile" role="tab" data-toggle="tab">详情</a></li>
+			</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content tab-pad">
+				<!-- 列表页签 -->
+				<div role="tabpanel" class="tab-pane active tab-panel-height"
+					id="home">
+					<div id="right-top-bottom-content">
+						<div class="two-panel-div">
+							<div class="grid-title">
+								<span class="rightTable-title">任务列表：</span> <span
+									class="rightTable-title-status" id="mainGridStatus"></span> <span
+									class="rightTable-recodeNum">共<span id="mainGridSumNum"
+									class="gridSumNum"> </span>笔</span>
+							</div>
+							<div id="mainGrid" class="rightTableGrid"></div>
+							<!-- -->
+						</div>
+						<div class="two-panel-div">
+							<ul class="nav nav-tabs nav-show righ-tab-ul" role="tablist">
+								<li id="officeSumLi" style="display:none;" role="presentation" class="active"><a href="#officeSum"
+									aria-controls="officeSum" role="tab" data-toggle="tab">办工作总结</a>
+								</li>
+								<li id="depSumLi" role="presentation"><a href="#depSum"
+									aria-controls="depSum" role="tab" data-toggle="tab">处工作总结</a>
+								</li>
+								<li role="presentation"><a href="#detail"
+									aria-controls="detail" role="tab" data-toggle="tab">任务明细</a>
+								</li>
+							</ul>
+
+							<!-- Tab panes -->
+							<div class="tab-content tab-pad">
+								<!-- 列表页签 -->
+								<div role="tabpanel" class="tab-pane active" id="officeSum" style="display:none;">
+									<div class="grid-title">
+										<span class="rightTable-title">总结意见：</span> <span
+											class="rightTable-title-status"></span> <span
+											class="rightTable-recodeNum">共<span
+											id="officeSumGridSumNum" class="detailGridSumNum"> </span>笔</span>
+									</div>
+									<div id="officeSumGrid" class="rightTableGrid"></div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="depSum">
+									<div class="grid-title">
+										<span class="rightTable-title">总结意见：</span> <span
+											class="rightTable-title-status"></span> <span
+											class="rightTable-recodeNum">共<span id="depSumGridSumNum"
+											class="detailGridSumNum"> </span>笔</span>
+									</div>
+									<div id="depSumGrid" class="rightTableGrid"></div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="detail">
+									<div class="grid-title">
+										<span class="rightTable-title">任务明细列表：</span> <span
+											class="rightTable-title-status"></span> <span
+											class="rightTable-recodeNum">共<span
+											id="detailGridSumNum" class="detailGridSumNum"> </span>笔</span>
+									</div>
+									<div id="detailGrid" class="rightTableGrid"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 详情页签 -->
+				<div role="tabpanel" class="tab-pane" id="profile">
+					<div id="detailNav" class="detailNavStyle">
+						<ul class="nav nav-tabs nav-show righ-tab-ul" role="tablist">
+							<li role="presentation" class="active"><a href="#info"
+								aria-controls="info" role="tab" data-toggle="tab">基本信息</a>
+							</li>
+							<li role="presentation"><a href="#orga"
+								aria-controls="profile" role="tab" data-toggle="tab">监管机构</a>
+							</li>
+							<li role="presentation"><a href="#object"
+								aria-controls="profile" role="tab" data-toggle="tab">具体对象</a>
+							</li>
+							<li role="presentation"><a href="#content"
+								aria-controls="profile" role="tab" data-toggle="tab">具体内容</a>
+							</li>
+							<li role="presentation"><a href="#part"
+								aria-controls="profile" role="tab" data-toggle="tab">附件</a>
+							</li>
+						</ul>
+					</div>
+					<div id="irptShow" class="tab-content detailNavShowStyle">
+						<!-- 基本信息 -->
+						<div role="tabpanel" class="tab-pane active" style="height:100%;"
+							id="info">基本信息</div>
+
+						<!-- 监管机构 -->
+						<div role="tabpanel" class="tab-pane" style="height:100%;"
+							id="orga">监管机构</div>
+
+						<!-- 具体对象 -->
+						<div role="tabpanel" class="tab-pane" style="height:100%;"
+							id="object">具体对象</div>
+
+						<!-- 具体内容 -->
+						<div role="tabpanel" class="tab-pane" style="height:100%;"
+							id="content">具体内容</div>
+
+						<!-- 附件 -->
+						<div role="tabpanel" class="tab-pane" style="height:100%;"
+							id="part">附件</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 总结录入模态框 -->
+	<div class="modal fade" id="sumModal"
+		tabindex="-1" role="dialog" aria-labelledby="sumModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="sumModalLabel">监管工作总结录入</h4>
+				</div>
+				<div class="modal-body" style="height: 500px;">
+					<nav class="step-box">
+						<div class="u-pearls  u-row">
+							<div class="u-step current u-col-xs-6">
+								<span class="u-step-number">1</span> <span class="u-step-title">录入总结意见</span>
+							</div>
+							<div class="u-step  u-col-xs-6">
+								<span class="u-step-number">2</span> <span class="u-step-title">上传附件</span>
+							</div>
+						</div>
+						<div class="show-step">
+							<span class="step-doing">1</span> <span class="step-num">/</span>
+							<span>2</span> <span class="step-name">录入总结意见</span>
+						</div>
+					</nav>
+
+					<!-- tab切换页签 -->
+					<div class="tab-content tab-pad">
+						<!-- 录入总结意见 -->
+						<div role="tabpanel" class="tab-pane active" id="sumAdd">
+							<div class="col-md-12" style="padding: 10px 0;">
+								<label for="sup_task" class="text-right"
+									style="height: 0;width:21%;font-size: 12px; font-weight: normal;">监管任务：</label>
+								<input type="text" style="width:69%;"
+									id="sup_task" class="u-form-control padding-left-20" readonly="readonly">
+							</div>
+							<div class="col-md-12" style="padding: 0px;">
+								<label for="summary" class="text-right"
+									style="height: 0;width: 21%;font-size: 12px; font-weight: normal;">总结意见：</label>
+									<textarea  rows="5" cols="20" id="summary" style="width:69%"></textarea>
+							</div>
+							<div class="col-md-12" style="padding: 10px 0;">
+								<label for="sup_results" class="text-right"
+									style="height: 0;width: 21%;font-size: 12px; font-weight: normal;">监管成果：</label>
+									<textarea  rows="8" cols="20" id="sup_results" style="width:69%"></textarea>
+							</div>
+							<div >
+							</div>
+						</div>
+						<!-- 附件 -->
+						<div role="tabpanel" class="tab-pane" id="partAdd">
+							<div class="partAdd-header">
+								<span>附件：</span>
+								<!--  <input type="file" id="uploadFile" style="display: none" multiple="multiple" >
+                            <button class="btn btn-primary" id="addUpLoad">添加</button>
+                            <button class="btn btn-primary">删除</button> -->
+							</div>
+							<div class="partAdd-content">
+								<iframe id="filePage" style="width:100%;height:375px;border: 0;"></iframe>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="btn1" name="btn1" type="button" class="btn btn-default"
+						data-bind="click:btnEvents">上一步</button>
+					<button id="btn2" name="btn2" type="button" class="btn btn-prima"
+						data-bind="click:btnEvents">下一步</button>
+					<button id="btn3" name="btn3" type="button" class="btn btn-prima"
+						data-bind="click:btnEvents">完成</button>
+					<button id="btn4" name="btn4" type="button" class="btn btn-default"
+						data-dismiss="modal" data-bind="click:btnEvents">返回</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+	<script src="../../trd/requirejs/require.js"></script>
+	<script src="../../require.config.js"></script>
+	<script src="js/taskSum.js"></script>
+</body>
+</html>

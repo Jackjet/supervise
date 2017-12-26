@@ -1,0 +1,11 @@
+.info-search-icon{
+	top: 56px;
+	left: 195px;
+	width: 34px;
+	height: 34px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+.showcolor{
+	background-color : blue;
+}

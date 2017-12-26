@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gov.df.supervise.service.view.CsofCViewSheetDao">
+  <resultMap id="BaseResultMap" type="gov.df.supervise.bean.view.CsofCViewSheetEntity">
+    <id column="SHEET_ID" jdbcType="VARCHAR" property="sheetId" />
+    <result column="VIEW_ID" jdbcType="VARCHAR" property="viewId" />
+    <result column="SHEET_CODE" jdbcType="VARCHAR" property="sheetCode" />
+    <result column="SHEET_NAME" jdbcType="VARCHAR" property="sheetName" />
+    <result column="SHEET_TYPE" jdbcType="DECIMAL" property="sheetType" />
+    <result column="DATA_TABLE" jdbcType="VARCHAR" property="dataTable" />
+    <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+    <result column="LAST_VER" jdbcType="VARCHAR" property="lastVer" />
+    <result column="IS_VALID" jdbcType="DECIMAL" property="isValid" />
+    <result column="SHEET_INDEX" jdbcType="DECIMAL" property="sheetIndex" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SHEET_ID, VIEW_ID, SHEET_CODE, SHEET_NAME, SHEET_TYPE, DATA_TABLE, CREATE_DATE, LAST_VER, 
+    IS_VALID, SHEET_INDEX
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CSOF_C_VIEW_SHEET
+    where SHEET_ID = #{sheetId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from CSOF_C_VIEW_SHEET
+    where SHEET_ID = #{sheetId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="gov.df.supervise.bean.view.CsofCViewSheetEntity">
+    insert into CSOF_C_VIEW_SHEET (SHEET_ID, VIEW_ID, SHEET_CODE, 
+      SHEET_NAME, SHEET_TYPE, DATA_TABLE, 
+      CREATE_DATE, LAST_VER, IS_VALID, 
+      SHEET_INDEX)
+    values (#{sheetId,jdbcType=VARCHAR}, #{viewId,jdbcType=VARCHAR}, #{sheetCode,jdbcType=VARCHAR}, 
+      #{sheetName,jdbcType=VARCHAR}, #{sheetType,jdbcType=DECIMAL}, #{dataTable,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=VARCHAR}, #{lastVer,jdbcType=VARCHAR}, #{isValid,jdbcType=DECIMAL}, 
+      #{sheetIndex,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="gov.df.supervise.bean.view.CsofCViewSheetEntity">
+    insert into CSOF_C_VIEW_SHEET
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sheetId != null">
+        SHEET_ID,
+      </if>
+      <if test="viewId != null">
+        VIEW_ID,
+      </if>
+      <if test="sheetCode != null">
+        SHEET_CODE,
+      </if>
+      <if test="sheetName != null">
+        SHEET_NAME,
+      </if>
+      <if test="sheetType != null">
+        SHEET_TYPE,
+      </if>
+      <if test="dataTable != null">
+        DATA_TABLE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="lastVer != null">
+        LAST_VER,
+      </if>
+      <if test="isValid != null">
+        IS_VALID,
+      </if>
+      <if test="sheetIndex != null">
+        SHEET_INDEX,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sheetId != null">
+        #{sheetId,jdbcType=VARCHAR},
+      </if>
+      <if test="viewId != null">
+        #{viewId,jdbcType=VARCHAR},
+      </if>
+      <if test="sheetCode != null">
+        #{sheetCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sheetName != null">
+        #{sheetName,jdbcType=VARCHAR},
+      </if>
+      <if test="sheetType != null">
+        #{sheetType,jdbcType=DECIMAL},
+      </if>
+      <if test="dataTable != null">
+        #{dataTable,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="lastVer != null">
+        #{lastVer,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=DECIMAL},
+      </if>
+      <if test="sheetIndex != null">
+        #{sheetIndex,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="gov.df.supervise.bean.view.CsofCViewSheetEntity">
+    update CSOF_C_VIEW_SHEET
+    <set>
+      <if test="viewId != null">
+        VIEW_ID = #{viewId,jdbcType=VARCHAR},
+      </if>
+      <if test="sheetCode != null">
+        SHEET_CODE = #{sheetCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sheetName != null">
+        SHEET_NAME = #{sheetName,jdbcType=VARCHAR},
+      </if>
+      <if test="sheetType != null">
+        SHEET_TYPE = #{sheetType,jdbcType=DECIMAL},
+      </if>
+      <if test="dataTable != null">
+        DATA_TABLE = #{dataTable,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="lastVer != null">
+        LAST_VER = #{lastVer,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        IS_VALID = #{isValid,jdbcType=DECIMAL},
+      </if>
+      <if test="sheetIndex != null">
+        SHEET_INDEX = #{sheetIndex,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where SHEET_ID = #{sheetId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="gov.df.supervise.bean.view.CsofCViewSheetEntity">
+    update CSOF_C_VIEW_SHEET
+    set VIEW_ID = #{viewId,jdbcType=VARCHAR},
+      SHEET_CODE = #{sheetCode,jdbcType=VARCHAR},
+      SHEET_NAME = #{sheetName,jdbcType=VARCHAR},
+      SHEET_TYPE = #{sheetType,jdbcType=DECIMAL},
+      DATA_TABLE = #{dataTable,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      LAST_VER = #{lastVer,jdbcType=VARCHAR},
+      IS_VALID = #{isValid,jdbcType=DECIMAL},
+      SHEET_INDEX = #{sheetIndex,jdbcType=DECIMAL}
+    where SHEET_ID = #{sheetId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectColumnName" parameterType="java.lang.String" resultType="java.util.Map">
+    select s.COLUMN_NAME
+	from user_tab_columns s
+	where s.Table_Name= #{dataTable,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteSheetByViewId" parameterType="java.lang.String">
+    delete from CSOF_C_VIEW_SHEET
+    where VIEW_ID = #{viewId,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="getCsofCViewSheet" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CSOF_C_VIEW_SHEET
+    where 1=1
+    and SHEET_CODE = #{sheetCode,jdbcType=VARCHAR}
+    and VIEW_ID = #{viewId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getHeadFootNum" parameterType="java.lang.String" resultType="java.util.Map">
+    select 
+    (SELECT MAX(C.ROW_INDEX) FROM csof_c_view_cell C WHERE C.SHEET_ID=S.SHEET_ID AND C.ROW_TYPE='HEAD') AS HEAD_NUM,
+    (SELECT COUNT(DISTINCT ROW_INDEX) FROM csof_c_view_cell C WHERE C.SHEET_ID=S.SHEET_ID AND C.ROW_TYPE='FOOT') AS FOOT_NUM
+    from csof_c_view_sheet S where S.sheet_id = #{sheetId,jdbcType=VARCHAR}
+  </select>
+</mapper>

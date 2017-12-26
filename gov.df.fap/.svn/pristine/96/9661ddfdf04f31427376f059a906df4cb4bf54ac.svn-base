@@ -1,0 +1,250 @@
+package gov.df.fap.service.view;
+
+import gov.df.fap.api.dictionary.interfaces.IDictionary;
+import gov.df.fap.api.fapcommon.IUserSync;
+import gov.df.fap.api.paging.IPagingUtilService;
+import gov.df.fap.api.redis.CacheUtil;
+import gov.df.fap.api.view.IViewService;
+import gov.df.fap.bean.user.UserDTO;
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.datasource.SQLUtil;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+@SuppressWarnings({ "unchecked", "rawtypes", "unused" })
+@Service
+public class ViewService implements IViewService {
+
+  @Autowired
+  @Qualifier("generalDAO")
+  private GeneralDAO generalDAO;
+
+  @Autowired
+  private IPagingUtilService IPagingUtilService;
+
+  @Autowired
+  @Qualifier("sys.dictionaryService")
+  private IDictionary iDictionary;
+
+  @Autowired
+  @Qualifier("df.cacheUtil")
+  private CacheUtil cacheUtil;
+
+  @Autowired
+  private IUserSync iUserSyncManager;
+
+  public ViewService() {
+    //iUserSyncManager = (IUserSyncManager) ServiceFactory.getBean("fasp.ca.UserSyncManager");
+  }
+
+  public Map<String, Object> getViewByGuid(HttpServletRequest request, HttpServletResponse response) {
+    String guid = request.getParameter("guid");
+    Map<String, Object> map = new HashMap<String, Object>();
+    List list = new ArrayList();
+    List btnlist = new ArrayList();
+    try {
+      String year = SessionUtil.getLoginYear();
+      String rg_code = SessionUtil.getRgCode();
+      String sql = "select a.ui_code viewcode , a.ui_name viewname, a.ui_type viewtype, t.disp_order orders,t.remark keyword , t.MENUVIEW_ID guid  from sys_uimanager a ,SYS_MENU_VIEW t where t.ui_id = a.ui_id and t.menu_guid = ? and t.rg_code = ? and t.set_year = ? order by t.disp_order";
+      list = generalDAO.findBySql(sql, new Object[] { guid, rg_code, year });
+      String btnSql = "select t.btn_id , t.btn_name buttonname , t.btn_code actioncode, t.remark actionname  from SYS_MENU_BUTTON t where t.menu_id = ? ";
+      btnlist = generalDAO.findBySql(btnSql, new Object[] { guid });
+      String sql2 = "select c.status_name,c.status_code,t.belone_menu_name menu_name ,t.menu_id , t.status_id , t.belone_menu ,t.guid from sys_status c,  sys_menu_status t "
+        + "where  t.status_id = c.status_id and t.rg_code = ? and t.set_year = ?  and t.menu_id = ? order by c.status_code";
+      List list2 = generalDAO.findBySql(sql2, new Object[] { rg_code, year, guid });
+      map.put("statusgrid", list2);
+
+      String sql3 = "select t.chr_id , a.action_code ,a.action_name,a.func_name,a.param from sys_action a , SYS_MENU_ACTION t "
+        + "where a.action_id = t.action_id and t.menu_id = ? and t.rg_code = ? and t.set_year = ? order by a.action_code";
+      List list3 = generalDAO.findBySql(sql3, new Object[] { guid, rg_code, year });
+      map.put("btngrid", list3);
+    } catch (Exception e) {
+
+      e.printStackTrace();
+    }
+    map.put("viewList", list);
+    map.put("btnList", btnlist);
+
+    return map;
+  }
+
+  public Map<String, Object> getViewTree(HttpServletRequest request, HttpServletResponse response) {
+    String tokenId = request.getParameter("tokenid");
+    Map<String, Object> map = new HashMap<String, Object>();
+    List list = new ArrayList();
+    try {
+      if (!cacheUtil.exist("uiviewtree")) {
+        UserDTO userdto = (UserDTO) iUserSyncManager.getUser(tokenId);
+        String year = userdto.getSet_year();
+        String rg_code = userdto.getRg_code();
+        String sql = "select t.ui_id , t.ui_code ,t.ui_name ,t.ui_type , " + SQLUtil.replaceLinkChar("t.ui_code||' '||t.ui_name") + " as uiName ,t.ui_source,t.remark,t.columns,t.id,t.title,t.query_relation_sign,t.sys_id from SYS_UIMANAGER t where t.rg_code = ? and t.set_year = ?  order by t.ui_code";
+        list = generalDAO.findBySql(sql, new Object[] { rg_code, year });
+        for (Map viewMap : (List<Map>) list) {
+          viewMap.put("parentid", "0");
+          String prtCode = (String) viewMap.get("ui_code");
+          prtCode = prtCode.substring(0, prtCode.length() - 3);
+          for (Map viewPrtMap : (List<Map>) list) {
+            if (viewPrtMap.get("ui_code").toString().equals(prtCode)) {
+              viewMap.put("parentid", viewPrtMap.get("ui_id"));
+            }
+          }
+        }
+        cacheUtil.put("uiviewtree", list);
+      } else {
+        list = cacheUtil.get("uiviewtree", List.class);
+      }
+
+    } catch (Exception e) {
+
+      e.printStackTrace();
+    }
+    map.put("viewlist", list);
+    return map;
+  }
+
+  public Map<String, Object> updateMenuView(HttpServletRequest request, HttpServletResponse response) {
+    String tokenId = request.getParameter("tokenid");
+    String menuGuid = request.getParameter("menuGuid");
+    String ui_guid = request.getParameter("ui_guid");
+
+    String key = request.getParameter("key");
+    String orderNum = request.getParameter("orderNum");
+    Map<String, Object> map = new HashMap<String, Object>();
+    List list = new ArrayList();
+    try {
+      UserDTO userdto = (UserDTO) iUserSyncManager.getUser(tokenId);
+      String year = userdto.getSet_year();
+      String rg_code = userdto.getRg_code();
+      if (checkExist(menuGuid, ui_guid, year, rg_code)) {
+        map.put("flag", 0);
+        map.put("msg", "视图在菜单中已存在!");
+        return map;
+      }
+      UUID uuid = UUID.randomUUID();
+      String sql = "insert into SYS_MENU_VIEW (MENUVIEW_ID,MENU_GUID,UI_ID,DISP_ORDER,REMARK,RG_CODE,SET_YEAR) values(?,?,?,?,?,?,?)";
+      int k = generalDAO.executeBySql(sql, new Object[] { uuid.toString(), menuGuid, ui_guid, orderNum, key, rg_code,
+        year });
+      map.put("flag", 1);
+    } catch (Exception e) {
+
+      e.printStackTrace();
+      map.put("flag", 0);
+    }
+
+    return map;
+  }
+
+  private boolean checkExist(String menuGuid, String ui_guid, String year, String rg_code) {
+    String sql = "select 1 from SYS_MENU_VIEW where MENU_GUID=? and UI_ID=? and SET_YEAR=? and RG_CODE=?";
+    List list = generalDAO.findBySql(sql, new Object[] { menuGuid, ui_guid, year, rg_code });
+    if (list.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
+
+  public Map<String, Object> delMenuView(HttpServletRequest request, HttpServletResponse response) {
+    String selguid = request.getParameter("selguid");
+    String[] selAllGuid = selguid.split(",");
+    Map<String, Object> map = new HashMap<String, Object>();
+    String inSql = "('',";
+    for (int i = 0; i < selAllGuid.length; i++) {
+      inSql = inSql + "'" + selAllGuid[i] + "'" + ",";
+    }
+    inSql = inSql + "'')";
+    String sql = "delete from SYS_MENU_VIEW where MENUVIEW_ID in " + inSql;
+    try {
+      int k = generalDAO.executeBySql(sql, new Object[] {});
+      map.put("num", k);
+      map.put("flag", 1);
+    } catch (Exception e) {
+
+      e.printStackTrace();
+      map.put("flag", 0);
+    }
+
+    return map;
+  }
+
+  public Map<String, Object> getViewDetail(HttpServletRequest request, HttpServletResponse response) {
+    String tokenId = request.getParameter("tokenid");
+    String guid = request.getParameter("viewid");
+    Map<String, Object> map = new HashMap<String, Object>();
+    try {
+      UserDTO userdto = (UserDTO) iUserSyncManager.getUser(tokenId);
+      String year = userdto.getSet_year();
+      String rg_code = userdto.getRg_code();
+      String sql = "select t.ui_detail_id , t.ui_id viewid , t.disp_mode , t.is_nessary , t.is_enabled , t.field_index , t.id , t.title name "
+        + ", t.visible , t.width ,t.parent_id, nvl(t.HEADER_LEVEL,'1') headerlevel , nvl(t.SUM_FLAG,'fasle') sumflag,t.ref_model,t.source,t.query_relation_sign  from sys_uidetail t where t.ui_id =? and t.set_year = ? and  t.rg_code=?  order by t.field_index ";
+      List list = generalDAO.findBySql(sql, new Object[] { guid, year, rg_code });
+      String codesql = "select t.ui_code from sys_uimanager t where t.ui_id = ?";
+      List list2 = generalDAO.findBySql(codesql, new Object[] { guid });
+      if (list2.size() > 0) {
+        Map codemap = (Map) list2.get(0);
+        map.put("viewCode", codemap.get("ui_code"));
+      }
+      map.put("flag", 1);
+      map.put("viewDetail", list);
+      map.put("viewid", guid);
+    } catch (Exception e) {
+
+      e.printStackTrace();
+      map.put("flag", 0);
+    }
+    return map;
+  }
+
+  public Map<String, Object> getAllMenuView(HttpServletRequest request, HttpServletResponse response) {
+    String tokenId = request.getParameter("tokenid");
+    String guid = request.getParameter("menuid");
+    Map<String, Object> map = new HashMap<String, Object>();
+    try {
+      UserDTO userdto = (UserDTO) iUserSyncManager.getUser(tokenId);
+      String year = userdto.getSet_year();
+      String rg_code = userdto.getRg_code();
+      String sql = "select * from SYS_MENU_VIEW t where t.menu_guid = ? and t.rg_code = ? and t.set_year = ? order by t.disp_order";
+      List list = generalDAO.findBySql(sql, new Object[] { guid, rg_code, year });
+      map.put("flag", 1);
+      map.put("viewlist", list);
+    } catch (Exception e) {
+
+      e.printStackTrace();
+      map.put("flag", 0);
+    }
+    return map;
+  }
+
+  public List getSysMenuViewByViewId(String viewId) {
+    String sql = "select * from SYS_MENU_VIEW t where t.ui_id = ? and t.rg_code = ? and t.set_year = ? order by t.disp_order";
+    List list = generalDAO.findBySql(sql, new Object[] { viewId, SessionUtil.getRgCode(), SessionUtil.getLoginYear() });
+    return list;
+  }
+
+  public Map<String, Object> test(HttpServletRequest request, HttpServletResponse response) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String pageinfo = request.getParameter("pageInfo");
+    try {
+      String sql = "select t.ui_id chr_id , t.field_index chr_code ,t.title chr_name ,t.parent_id ,t.enabled ,t.disp_mode type_id  from SYS_UIDETAIL t ";
+      map = IPagingUtilService.PagingCommon(sql, new Object[] {}, request);
+      map.put("flag", 1);
+    } catch (Exception e) {
+
+      e.printStackTrace();
+      map.put("flag", 0);
+    }
+    return map;
+  }
+
+}

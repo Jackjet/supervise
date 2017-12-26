@@ -1,0 +1,122 @@
+.csof-sup {
+    width:width: 100%;;
+    margin-top: 5px;
+    font-family: "Microsoft YaHei";
+}
+.csof-sup input {
+    outline: none;
+}
+.csof-sup  ul li{
+    list-style-type:none;
+}
+.csof-sup a {
+    text-decoration:none;
+    color: black;
+}
+.csof-sup a:hover {
+    color: #fc804c;
+}
+.csof-sup .active {
+    background: #fff;
+}
+/*导航栏*/
+.csof-sup-header {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+#sup-procedure > li.active > a, .nav-pills > li.active > a:hover, #sup-procedure > li.active > a:focus {
+    color: #fff;
+    background-color: #ffffcc;
+    color: #fc804c;
+}
+#sup-procedure > li > a {
+    padding: 1px 5px;
+}
+#sup-procedure li {
+    border: 1px solid #fc804c;
+}
+#sup-procedure > li + li {
+    margin-left: 0px;
+}
+#sup-input {
+    border-right: 0 !important;
+}
+.header-underline {
+    padding-bottom: 25px;
+    border-bottom: 1px solid #eee;
+}
+/*下拉框去掉框*/
+#eventName {
+    border: 0;
+    background: transparent;
+    outline: none;
+}
+/*空间*/
+.space {
+    overflow: hidden;
+    margin: 6px 8px 0;
+    width: 1px;
+    height: 10px;
+    background-color: rgb(255, 128, 64);
+}
+/*按钮组*/
+.csof-sup-btns {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.btns-underline {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+.sup-btns {
+	margin: 0 5px;
+}
+/*隐藏*/
+.sup_fade {
+    display: none;
+}
+/*内容*/
+.sup-container {
+    height: 520px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+}
+/*左树*/
+.tree-left {
+    width:25%;
+    margin-top: -5px;
+}
+#depTreeTab {
+    background-color: rgba(242, 242, 242, 1);
+}
+/*搜索框*/
+.depSearch {
+    width: 98%;
+    padding-top: 5px;
+    padding-left: 6px;
+}
+.searchTree {
+    position: absolute;
+    top: 135px;
+    left: 220px;
+}
+/*右表*/
+.table-right {
+    width:75%;
+    margin-top: -5px;
+    border-left: 1px solid #ddd;
+}
+.searchEx {
+    position: absolute;
+    top: 144px;
+    right: 198px;
+}
+/*监管列表标题*/
+.ex-list-title {
+    color: #169BD5;
+}
+.ex-list {
+    display: inline-block;
+    margin: 10px 25px 10px 15px;
+    width: 96%;
+}

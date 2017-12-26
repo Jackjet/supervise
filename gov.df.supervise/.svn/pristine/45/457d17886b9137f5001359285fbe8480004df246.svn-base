@@ -1,0 +1,42 @@
+package gov.df.supervise.controller.Report;
+
+import gov.df.supervise.api.examine.ExamineService;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+@RequestMapping(value = "/df/cs")
+public class PublicReportController {
+  @Autowired
+  private ExamineService csService;
+
+  private static String URL = "http://10.15.0.191:8001/irpt/oemlogin.do?id=gaoxb&pw=gaoxb&target=task&task=";
+
+  // http://10.15.0.191:8001/irpt/welcome.do#navigator:/ei/portal/listbbq.do?cmd=listbbqjch
+
+  @RequestMapping(value = "/test.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> SelectReprot(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String rid = request.getParameter("rid");
+    String code = request.getParameter("code");
+
+    String set_year = csService.getYear();
+    String bbq = "&bbq=2016----";
+    String userid = "&userid=101001";
+    String rg_code = csService.getRgCode();
+    String data = (URL + rid + userid + bbq);
+    result.put("data", data);
+    return result;
+
+  }
+}

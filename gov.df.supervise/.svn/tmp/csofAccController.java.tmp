@@ -1,0 +1,265 @@
+package gov.df.supervise.controller.csofacc;
+
+import gov.df.fap.api.workflow.IBillTypeServices;
+import gov.df.supervise.api.csofacc.csofAccService;
+import gov.df.supervise.bean.csofacc.csofAccSupEntity;
+import gov.df.supervise.bean.csofacc.csofAccWorkEntity;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+@RequestMapping(value = "/df/csofacc")
+public class csofAccController {
+  @Autowired
+  private csofAccService csofAccService;
+
+  @Autowired
+  private IBillTypeServices billTypeService;
+
+  //事项新增
+  @RequestMapping(value = "/save.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> saveAccSup(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String data = request.getParameter("data");
+    String billtype_code = request.getParameter("billtype_code");
+    Map csofAccSupEntity = new HashMap<String, csofAccSupEntity>();
+    String sup_no = billTypeService.getBillNo(billtype_code, csofAccSupEntity);
+    try {
+      csofAccService.saveAccSup(data, sup_no);
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  //事项查询
+  @RequestMapping(value = "/get.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getAccSup(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String sid = request.getParameter("sid");
+    try {
+      List data = csofAccService.getAccSup(sid);
+      result.put("data", data);
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  //事项查询
+  @RequestMapping(value = "/update.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> updateAccSup(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String data = request.getParameter("data");
+    try {
+      csofAccService.updateAccSup(data);
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  //事项删除
+  @RequestMapping(value = "/delete.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> deleteAccSup(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String sid = request.getParameter("sid");
+    try {
+      csofAccService.deleteAccSup(sid);
+      csofAccService.deleteAllAccWork(sid);
+      csofAccService.deleteAllAccProblem(sid);
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  /**
+   * 工作记录
+   */
+  //工作记录新增
+  @RequestMapping(value = "/worksave.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> saveAccWork(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String data1 = request.getParameter("data1");
+<<<<<<< .mine
+    //String data2 = request.getParameter("data2");
+=======
+    String billtype_code = request.getParameter("billtype_code");
+    Map csofAccWorkEntity = new HashMap<String, csofAccWorkEntity>();
+    String work_no = billTypeService.getBillNo(billtype_code, csofAccWorkEntity);
+>>>>>>> .r354
+    try {
+<<<<<<< .mine
+      csofAccService.saveAccWork(data1);
+      //csofAccService.saveAccProblem(data2);
+=======
+      csofAccService.saveAccWork(data1, work_no);
+>>>>>>> .r354
+
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  //工作记录查询
+  @RequestMapping(value = "/workget.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getAccWork(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String sid = request.getParameter("sid");
+    try {
+      List data = csofAccService.getAccWork(sid);
+      result.put("data", data);
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  //工作记录修改
+  @RequestMapping(value = "/workupdate.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> updateAccWork(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String data1 = request.getParameter("data1");
+    try {
+      csofAccService.updateAccWork(data1);
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  //工作记录删除
+  @RequestMapping(value = "/workdelete.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> deleteAccWork(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String sid = request.getParameter("sid");
+    String id = request.getParameter("id");
+    try {
+      csofAccService.deleteAccWork(sid, id);
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  /**
+   * 问题记录新增
+   */
+  @RequestMapping(value = "/problemsave.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> saveAccProblem(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String data2 = request.getParameter("data2");
+    try {
+      csofAccService.saveAccProblem(data2);
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  //问题记录查询
+  @RequestMapping(value = "/problemget.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getAccWorkProblem(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String sid = request.getParameter("sid");
+    try {
+      List data = csofAccService.getAccProblem(sid);
+      result.put("data", data);
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  //问题记录修改
+  @RequestMapping(value = "/problemupdate.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> updateAccProblem(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String data2 = request.getParameter("data2");
+    try {
+      csofAccService.updateAccProblem(data2);
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  //问题记录删除
+  @RequestMapping(value = "/problemdelete.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> deleteAccProblem(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String sid = request.getParameter("sid");
+    String id = request.getParameter("id");
+    try {
+      csofAccService.deleteAccProblem(sid, id);
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+
+  //左侧列表
+  @RequestMapping(value = "/getsupname.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getSupName(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String ele_code = request.getParameter("ele_code");
+    try {
+      List data = csofAccService.getSupData(ele_code);
+      result.put("data", data);
+      result.put("errorCode", 0);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("message", e.getMessage());
+    }
+    return result;
+  }
+}

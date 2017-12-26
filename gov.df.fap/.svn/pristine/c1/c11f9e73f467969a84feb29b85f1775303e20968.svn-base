@@ -1,0 +1,185 @@
+<!-- Created by yanqiong on 2017/11/6. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>分解</title>
+    <link rel="stylesheet" type="text/css" href="../../trd/datetimepicker/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../../trd/ip/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/tree.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/ip/changeTree/changeTree.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/u.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/grid.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/ip/css/ip.css" />     
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/bizSys.css" />
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/mattersEnter.css">
+    <link rel="stylesheet" href="/df/trd/splitter/jqx.base.css">
+	<link rel="stylesheet" href="../common/common.css">
+</head>
+<body class="csof-font" style="overflow: hidden;">
+	<!--按钮组-->
+	<div class="col-md-12 csof-btns-content" id="btn-line">
+		<div class="pull-left" id="btns-group"></div>
+		<div class="pull-right right-search">
+		    <form class="form-search form-inline">
+				<div class="input-group">
+					<input type="text" id="gridSearchInput" class="form-control">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button"
+							data-bind="click:gridSearch">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button> </span>
+				</div>
+				<button type="button" class="btn" onclick="hignSearch()">高级</button>
+			</form>
+		</div>
+	</div>
+
+	<!--main-->
+	<div class="col-md-12" id="main-content">
+		<!-- 左树 -->
+		<div class="pull-left" id="left-main-content">
+			<div class="input-group tree-search-div">
+				<input type="text" id="SearchTree" class="form-control"
+					data-bind="value: SearchTreeKEY" placeholder="模糊查询..."> <span
+					class="input-group-btn">
+					<button class="btn btn-default" type="button"
+						data-bind="click:searchTree">
+						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					</button> </span>
+			</div>
+			<div id="tree1" class="ztree treeDiv"
+				u-meta='{
+				       "id":"tree1",
+				       "data":"treeDataTable",
+				       "type":"tree",
+				       "idField":"CHR_ID",
+				       "pidField":"PARENT_ID",
+				       "nameField":"CHR_NAME",
+				       "setting":"treeSetting"
+				}'>
+			</div>
+		</div>
+		<!--右表-->
+		<div class="pull-left" id="right-main-content">
+			<div id="right-top-bottom-content">
+						<div class="two-panel-div top-panel-div">
+							<div class="grid-title">
+								<span class="rightTable-title">总任务单列表：</span> <span
+									class="rightTable-title-status" id="mainGridStatus"></span> <span
+									class="rightTable-recodeNum">共<span id="mainGridSumNum"
+									class="gridSumNum"> </span>笔</span>
+							</div>
+							<div id="mainGrid" class="rightTableGrid top-rightTableGrid"></div>
+						</div>
+						<div class="two-panel-div bottom-panel-div">
+								<div class="grid-title">
+									<span class="rightTable-title">监管任务单列表：</span> <span
+										class="rightTable-title-status" id="detailGridStatus"></span> <span
+										class="rightTable-recodeNum">共<span
+										id="detailGridSumNum" class="gridSumNum"> </span>笔</span>
+								</div>
+								<div id="detailGrid" class="rightTableGrid bottom-rightTableGrid"></div>
+						</div>
+					</div>
+		</div>
+	</div>
+
+	<!-- 处室任务分解Modal1 -->
+	<div class="modal csof-modal fade bs-example-modal-lg" id="addModal"
+		tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content csof-modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="addModalLabel">处室任务分解</h4>
+				</div>
+				<div class="modal-body csof-modal-body">
+					<nav class="step-box">
+						<div class="u-pearls  u-row">
+							<div class="u-step current u-col-xs-4">
+								<span class="u-step-number">1</span> <span class="u-step-title">基本信息</span>
+							</div>
+							<div class="u-step  u-col-xs-4">
+								<span class="u-step-number">2</span> <span class="u-step-title">单位分解</span>
+							</div>
+							<div class="u-step  u-col-xs-4">
+								<span class="u-step-number">3</span> <span class="u-step-title">任务分解</span>
+							</div>
+						</div>
+						<div class="show-step">
+							<span class="step-doing">1</span> <span class="step-num">/</span>
+							<span>3</span> <span class="step-name">基本信息</span>
+						</div>
+					</nav>
+
+					<!-- tab切换页签 -->
+					<div class="tab-content tab-pad">
+						<!-- 基本信息 -->
+						<div role="tabpanel" class="tab-pane active" id="infoAdd">
+							<div id="baseInfo" style="margin-top: 15px;"></div>
+						</div>
+
+						<!-- 监管对象分解 -->
+						<div role="tabpanel" class="tab-pane" id="objectAdd">
+							<div class="tab-play-header">
+								<span class="tab-list-title tab-list-title-margin2">未分组监管对象：</span>
+								<label class="radio-inline"> <input type="radio"
+									name="inlineRadioOptions" id="allCheck" value="0"
+									data-bind="checked: data.radio"> 全部 </label> <label
+									class="radio-inline"> <input type="radio"
+									name="inlineRadioOptions" id="partCheck" value="1"
+									data-bind="checked: data.radio"> 部分 </label> <label
+									class="radio-inline"> <span
+									class="tab-list-title tab-list-title-num"
+									data-bind="text: data.eventsNum">共3家</span> </label>
+							</div>
+							<div>
+								<div class="leftList tab-play-box">
+									<div class=" panel-default panel-body tree-list">
+										<div id="tree3" class="ztree"
+											u-meta='{"id":"tree3","data":"dataTable3","type":"tree","idField":"CHR_ID","pidField":"PARENT_ID","nameField":"CHR_NAME","setting":"treeSetting3"}'></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- 任务分解 -->
+						<div role="tabpanel" class="tab-pane" id="workResoveAdd">
+							<button style="margin-top: 5px;" class="btn csof-btn"
+								type="button" onclick="workResoveAdd()">新增</button>
+							<button style="margin-top: 5px;" class="btn csof-btn"
+								type="button" onclick="workResoveDel()">删除</button>
+							<label style="float: right;margin-top: 10px;margin-right: 2px;letter-spacing: 1px;">总计工时：<span style="color: red;letter-spacing: 0;" data-bind="text: data.totelManHour"></span>/<span id="playHour"></span></label>
+							<div id="workResoveGrid" style="margin-top: 5px;height: 351px;overflow: auto;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="btn1" name="btn1" type="button" class="btn btn-default"
+						data-bind="click:btnEvents">上一步</button>
+					<button id="btn2" name="btn2" type="button" class="btn btn-prima"
+						data-bind="click:btnEvents">下一步</button>
+					<button id="btn3" name="btn3" type="button" class="btn btn-prima"
+						data-bind="click:btnEvents">完成</button>
+					<button id="btn4" name="btn4" type="button" class="btn btn-default"
+						data-dismiss="modal" data-bind="click:btnEvents">返回</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+	<script src="../../trd/requirejs/require.js"></script>
+	<script src="../../require.config.js"></script>
+	<script type="text/javascript" src="/df/trd/splitter/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="/df/trd/splitter/jqxcore.js"></script>
+	<script type="text/javascript" src="/df/trd/splitter/jqxsplitter.js"></script>
+	<script src="js/taskResove.js"></script>
+</body>
+</html>

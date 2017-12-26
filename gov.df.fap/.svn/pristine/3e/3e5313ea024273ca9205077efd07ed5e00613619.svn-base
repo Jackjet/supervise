@@ -1,0 +1,495 @@
+/**
+ * Created by wenben on 2017/10/18.
+ */
+require(['jquery','knockout','./js/webuploader.js', 'bootstrap', 'uui','tree', 'grid', 'ip'], function($,ko,WebUploader) {
+    window.ko = ko;
+
+    var $list=$("#fileList"); //
+    var $btn =$("#pickUploadFile");
+    var thumbnailWidth = 1;   //缩略图高度和宽度 （单位是像素），当宽高度是0~1的时候，是按照百分比计算，具体可以看api文档
+    var thumbnailHeight = 1;
+
+    var fileMd5;  //文件唯一标识
+
+    /* 自定义参数 */
+    var fileName, //文件名称
+        oldProcess, // 如果该文件上传过，记录该文件的进度
+        count = 0, // 当前正在上传文件在数组中的下标，一次上传多个文件时使用
+        fileArr = [], //文件数组，当有文件被添加到队列时，就push到数组中
+        map = {}; //key存储文件id，value存储该文件的上传进度
+
+    var /*options = ip.getCommonOptions({}),*/
+        tokenid = ip.getTokenId();//通过ip.js获取token值
+
+    /* 请求链接 */
+    var requireUrl = {
+        GET_ATTACH_LIST : '/df/cs/getAttachList.do?tokenid='+ tokenid + '&ajax=noCache',  //附件查询
+        DEL_ATTACH : '/df/cs/delAttach.do?tokenid='+ tokenid + '&ajax=noCache',  //附件删除
+        UPLOAD_ATTACH : '/df/cs/uploadAttach.do?tokenid='+ tokenid + '&ajax=noCache',  //附件上传
+        DOWNLOAD_ATTACH : '/df/cs/downloadAttach.do?tokenid='+ tokenid + '&ajax=noCache',  //附件下载
+        OPEN_ATTACH : '/df/cs/openAttach.do?tokenid='+ tokenid + '&ajax=noCache',  //附件预览
+    };
+
+    /* 根据链接url获取一些参数值 */
+    var url = window.location.href;
+   /* var entityId = url.split("entityId=")[1].split("&")[0],
+        entityName = url.split("entityName=")[1].split("&")[0],
+        oid = url.split("oid=")[1].split("&")[0],
+        dep_id = url.split("dep_id=")[1].split("&")[0],
+        dep_code = url.split("dep_code=")[1].split("&")[0],
+        modelFlag = url.split("modelFlag=")[1].split("&")[0],
+        admin= url.split("admin=")[1].split("&")[0];*/
+    var entityId = '',//先将这些参数置空，避免测试报错
+        entityName = '',
+        oid = '',
+        dep_id = '',
+        dep_code = '',
+        modelFlag = '',
+        admin= '';
+
+
+    var viewModel = {};
+
+    var commonFun = {
+        getNowTime : function () {//得到当前时间
+            var nowDate = new Date();
+            /*var yy = nowDate.getFullYear();
+            var mm = nowDate.getMonth();
+            var dd = nowDate.getDate();
+            var hh = nowDate.getHours();
+            var MM = nowDate.getMinutes();
+            var ss = nowDate.getSeconds();*/
+            nowDate = nowDate.toString().split('GMT')[0];//先将时间转化为字符形式，通过分割得到简易时间
+
+            /*function addZero(e){
+                if(e < 10){
+                    return '0' + e
+                }else{
+                    return e
+                }
+            }*/
+
+            //var nowTime = yy + '-' + addZero(mm) + '-' + addZero(dd) + ' ' + addZero(hh) + ':' + addZero(MM) + ':' + addZero(ss) ;
+            return nowDate;
+        },
+
+        getFileSize : function(e){//将文件大小从字节装换为通用的表达方式 ，e为文件的大小
+            var i = 0,
+                sizeName ;//文件表达类型 ，分别为 B,KB,MB,GB,TB
+            while(e > 1024){
+                e = Math.round(e /1024);
+                i++;
+            }
+            if(i == 0){
+                sizeName = 'B';
+            }
+            if(i == 1){
+                sizeName = 'KB';
+            }
+            if(i == 2){
+                sizeName = 'MB';
+            }
+            if(i == 3){
+                sizeName = 'GB';
+            }
+            if(i == 4){
+                sizeName = 'TB';
+            }
+            return (e + sizeName);
+        },
+        getProcess : function (e) {//得到当前的上传进度,e为需要查询的文件名 ： fileName
+            var process;//定义获取的上传进度
+            $.ajax({
+                type : 'POST',
+                url : '',
+                data : {
+                    fileName : e
+                },
+                success : function (map) {
+                    process = map.data;
+                }
+            });
+            return process;
+        },
+        deleteFile : function (e) {//  e为当前要删除的文件的数组集（这个删除可以考虑后台接收数组参数，减少请求）
+            if(typeof e == 'array'){//判断参数是否时数组
+                $.each(e, function (index, item) {
+                    uploader.removeFile(item);//在组件中移除上传文件，使文件形式处于取消状态
+                    $.get(requireUrl.DEL_ATTACH,{ids : item.id}, function (map) {//后台接受参数param ：ids
+                        if(map.errorCode == '0'){
+
+                        }
+                    })
+                })
+            }else{
+                console.log('删除的参数形式不对！');
+            }
+        },
+        openFile : function (e) { //文件预览，e为文件的路径path
+            $.get(requireUrl.OPEN_ATTACH, {filePath : e}, function (map) {
+
+            });
+        }
+
+    };
+
+    /* 上传状态所需要的变化 */
+    var uploadState = {
+        success : function (e) { // e: file
+
+        },
+
+        fail : function (e) {// e : file
+            $('#' + e.id).find('.state').html('<span class="failed">上传失败</span>');
+            ip.ipInfoJump('发生未知错误导致上传失败！','err');
+            $('#' + e.id + 'icon1').html('<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span><span class="preShow icon upload-restart">重试</span>')
+        }
+    }
+
+
+    /*\监听文件上传过程中的三个时间段
+    * 1. beforeSendFile  整个文件上传前
+    * 2. beforeSend      每个分段上传前
+    * 3. afterSendFile   整个文件上传后
+    * */
+
+    WebUploader.Uploader.register({//自定义状态函数
+        "before-send-file" : "beforeSendFile",
+        "before-send" : "beforeSend",
+        "after-send-file" : "afterSendFile"
+    },
+        {
+            beforeSendFile : function (file) {//整个文件上传前
+                var deferred = WebUploader.Deferred();
+                console.log(file);
+                console.log(uploader);
+                //计算文件的唯一标记fileMd5，用于断点续传
+                //如果.md5File(file)方法里只写一个file参数则计算md5值会很慢 所以后面加了参数：100*1024
+                (new WebUploader.Uploader()).md5File(file, 0, 1024*1024).progress(function (percentage) {
+                    $('#' + file.id).find('.state').html('<span class="">正在读取文件中...</span>');
+                })
+                    .then(function (val) {// 前面是一个promise对象，使用then进行回调
+                       $('#' + file.id).find('.state').html('<div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0%</div></div>');
+
+                        //获取文件信息后进入下一步
+                        deferred.resolve();
+                    });
+                
+                var process = 0,//上传进度
+                    state = true,//上传状态
+                    data = new FormData($("#form")[0]);
+                data.append( fileName,file.name );
+                data.append("entityId",entityId);
+                data.append("entityName",entityName);
+                data.append("oid",oid);
+                data.append("dep_id",dep_id);
+                data.append("dep_code",dep_code);
+                
+                fileName = file.name; // 为自定义的参数赋值
+
+
+
+                var getPer = setInterval(function () {// 定时，每一秒请求一次后端获取上传的进度
+                    $.ajax({
+                        type: 'POST',
+                        url: requireUrl.UPLOAD_ATTACH,
+                        data: data,
+                        contentType: undefined,
+                        processData: false,//processData用于对data参数进行序列化处理，默认值是true。默认情况下发送的数据将被转换为对象，如果不希望把File转换，需要设置为false,若此参数为true，会产生Illegal invocation 错误
+                        mimeType: "multipart/form-data",
+                        success: function (map) {
+                            if (map.errorCode == '0') {
+                                state = false;
+                                console.log(map);
+                                process = map.process;
+                                var per = process;
+                                /* 根据上传的进度实现进度条 */
+                                $('#' + file.id).find('.progress-bar')
+                                    .attr({"aria-valuenow": per})
+                                    .css({"width": per + '%'})
+                                    .text(per + '%');
+                                if (per == '100') {//若进度值达到100，则停止上传
+                                    clearInterval(getPer);
+                                    //文件上传成功，状态改变
+                                    $('#' + file.id).find('.state').html('<span class="success">上传成功</span>');
+                                    $('#' + file.id + 'icon1').html('<span class="glyphicon glyphicon-file" aria-hidden="true"></span><span class="preShow icon" data-toggle="modal" data-target="#preShowModel">预览</span>');
+                                }
+                            } else {//或者上传后台发生错误，errCode不为0
+                                state = true;
+                            }
+
+                        },
+                        error: function () {//error,请求失败
+                            state = true;
+                        }
+                    });
+                    if(state){//根据状态来判断是否继续上传，若失败，显示需要重试
+                        clearInterval(getPer);
+                        uploadState.fail(file);
+                    }
+                },1000);
+                return deferred.promise();
+            },
+
+            //分块文件上传前调用
+            beforeSend : function (block) {
+                var deferred = WebUploader.Deferred();
+                $.ajax({
+                    type : 'POST',
+                    url : '',
+                    data: {
+                        fileName : fileName,
+                        porgressVal : $('#' + block.file.id).find('.progress-bar').text(),
+                        fileMd5 : fileMd5, //文件唯一标记
+                        chunk : block.chunk,//当前分块下标
+                        chunkSize : block.end - block.start//当前分块大小
+                    },
+                    cache : false,
+                    async : false,
+                    timeout : 1000,
+                    dataType : "json",
+                    success : function (map) {
+
+                    }
+                });
+
+                this.owner.options.formData.fileMd5 = fileMd5;
+                deferred.resolve();
+                return deferred.promise();
+            },
+
+            //文件分块上传成功后调用
+            afterSendFile : function () {
+                $.ajax({
+                    type : 'POST',
+                    url : '',
+                    data : {
+                        fileName :fileName,
+                        fileMd5 : fileMd5
+                    },
+                    success : function (map) {
+                        count ++;//每上传完一个文件加1
+
+                    }
+                })
+            }
+        });
+
+    var uploader = WebUploader.create({
+        // 选完文件后，是否自动上传。
+        auto: true,
+
+        // swf文件路径
+        swf: 'js/Uploader.swf',
+
+        // 文件接收服务端。这是通过插件的上传方法，但是个人觉得现在文件加入上传列表的时候可以进行上传
+        //，由于文件时自动上传的，所以交互在那里写，后端的参数在这使用会产生不匹配
+        //server: '/df/cs/uploadAttach.do?tokenid='+ tokenid + '&ajax=noCache',
+
+        // 选择文件的按钮。可选。
+        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+        pick: '#pickUploadFile',
+
+        chunked : true, //开始分片上传
+
+        chunkSize : 1024*1024, //每个片段的大小    1M
+
+        chunkRetry : 3, //由于网络问题导致上传失败，可以允许多少次重新上传
+
+        threads : 3, //上传并发数，允许最大的上传进程数的默认值
+
+        duplicate : false, //是否重复上传（同时选择多个一样的文件），true可以重复上传
+
+        prepareNextFile : true,//上传当前分片时处理下一个分片
+
+        /*accept : { // 文件类型的限制，可以不通过后端来控制，通过前端文件选择控制即可
+         exten : "txt,jpg,jpeg,bmp,png,zip,rar,war,pdf,cebx,doc,docx,ppt,pptx,xls,xlsx,mp4,rmvb",//允许的文件后缀，不带点，多个用逗号分割
+         mimeTypes : '.txt,.jpg,.jpeg,.bmp,.png,.zip,.rar,.war,.pdf,.cebx,.doc,.docx,.ppt,.pptx,.xls,.xlsx'
+         },*/
+
+        method:'POST' //上传方法
+    });
+
+
+
+
+
+
+    /*
+    * 1.需要文件保存的请求
+    * 2.查询文件上传状态请求，查询文件是否上传过，若上传过，返回上传的比
+    * 3.文件预览功能请求
+    * 4.
+    *
+    * */
+
+
+    // 当有文件添加进来的时候
+    $('#pickUploadFile').removeClass('webuploader-pick');
+    uploader.on( 'fileQueued', function( file ) {  // webuploader事件.当选择文件后，文件被加载到文件队列中，触发该事件。等效于 uploader.onFileueued = function(file){...} ，类似js的事件定义。
+        console.log(uploader.getFiles());
+        //通过本地记录判断是否曾经上传过此文件,判断状态是否继续还是开始上传
+        var percent = window.localStorage.getItem(file.name);
+        console.log(percent);
+        var $li = $(
+                '<div id="' + file.id + '" class="file-item">' +
+                '<div class="col-md-1 checkBox"><input type="checkbox"  name="listItem" value="'+ file.id +'" /></div>'+
+                '<div class="info col-md-6"> <div class="fileName">'+ file.name + '</div><div class="col-md-2 fileSize">'+ commonFun.getFileSize(file.size) +'</div><div class="col-md-8">'+ commonFun.getNowTime() +'</div></div>' +
+                    '<div class="state col-md-2"><div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0%</div></div></div>'+
+                    '<div class="col-md-3 dealWith">' +
+                        '<div id="'+ file.id +'icon1"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span><span class="preShow icon upload-item">上传</span></div>'+
+                        '<div id="'+ file.id +'icon2"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span><span class="deleteItem icon">删除</span></div>'+
+                    '</div>'+
+                '</div>'
+            ),
+        $img = $('#preShowCon');
+        $img.html('');
+
+        /* 给input file增加一个form父级 */
+        var inputHtml = $('#pickUploadFile > div:last').html();
+        var newInputHtml = '<form id="form">'+ inputHtml + '</form>'
+        $('#pickUploadFile > div:last').html(newInputHtml);
+
+
+        //删除
+        $li.on('click', '.deleteItem', function () {
+            $(this).parent().parent().parent().remove();
+            uploader.removeFile(file);
+        });
+
+        //上传
+        $li.on('click', '.upload-item', function () {
+            $(this).parent().html('<span class="glyphicon glyphicon-pause" aria-hidden="true"></span><span class="preShow icon upload-stop">暂停</span>');
+            uploader.upload(file);
+            
+        })
+        //暂停
+        $li.on('click', '.upload-stop', function () {
+            console.log(uploader.getFiles());
+            uploader.stop(true);
+            $(this).parent().html('<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span><span class="preShow icon upload-continue">继续</span>')
+        });
+
+        //继续
+        $li.on('click', '.upload-continue', function () {
+            uploader.upload(file);
+            var per = window.localStorage.getItem(file.id + '_p');
+            $(this).parent().html('<span class="glyphicon glyphicon-pause" aria-hidden="true"></span><span class="preShow icon upload-stop">暂停</span>')
+        });
+
+        //重试
+        $li.on('click', '.upload-restart', function () {
+            $('#' + file.id).find('.state').html('<div class="progress"><div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0%</div></div')
+            uploader.upload(file);
+            $(this).parent().html('<span class="glyphicon glyphicon-pause" aria-hidden="true"></span><span class="preShow icon">文件上传中...</span>')
+        });
+
+
+        // $list为容器jQuery实例
+        $list.append( $li );
+
+        // 创建缩略图
+        // 如果为非图片文件，可以不用调用此方法。
+        // thumbnailWidth x thumbnailHeight 为 1 x 1
+        uploader.makeThumb( file, function( error, src ) {   //webuploader方法
+            if ( error ) {
+                //这里发送文件预览请求，得到对应的html标签，实现预览
+                $img.html('<span>不能预览</span>');
+                return;
+            }
+            $img.html('<img>');
+            $img = $img.find('img');
+            $img.attr( 'src', src );
+        }, thumbnailWidth, thumbnailHeight );
+    });
+
+    //文件开始上传前
+    uploader.on('uploadStart', function (file) {
+        $('#' + file.id + 'icon1').html('<span class="preShow icon " >文件上传中...</span>')
+
+    });
+   
+    //上传过程中触发，携带上传进度
+    /*uploader.on('uploadProgress', function (file, percentage) {
+        var per = Math.round(percentage*100);
+        $('#' + file.id).find('.progress-bar')
+            .attr({"aria-valuenow" : per})
+            .css({"width" : per + '%'})
+            .text(per + '%');
+
+        //利用本地缓存记录已经上传的百分比
+        window.localStorage.setItem(file.id + '_p', percentage);
+    });
+*/
+    //文件上传暂停
+    uploader.on('stopUpload', function(){
+        //console.log(file);
+    })
+
+    //文件上传成功
+   /* uploader.on('uploadSuccess', function (file, res) {
+        $('#' + file.id).find('.state').html('<span class="success">上传成功</span>');
+        ip.ipInfoJump('文件上传成功', 'info');
+        console.log(res);
+        $('#' + file.id + 'icon1').html('<span class="glyphicon glyphicon-file" aria-hidden="true"></span><span class="preShow icon" data-toggle="modal" data-target="#preShowModel">预览</span>')
+    });*/
+
+
+    // 文件上传失败，显示上传出错。
+   /* uploader.on( 'uploadError', function( file ) {
+        $('#' + file.id).find('.state').html('<span class="failed">上传失败</span>');
+        ip.ipInfoJump('发生未知错误导致上传失败！','err');
+        $('#' + file.id + 'icon1').html('<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span><span class="preShow icon upload-restart">重试</span>')
+        var $li = $( '#'+file.id ),
+            $progress = $('.state'),
+            $error = $li.find('div.error');
+
+        // 避免重复创建
+        if ( !$error.length ) {
+           // $error = $progress.html('<div class="error"></div>');
+            //$error = $('<div class="error"></div>').appendTo( $li );
+        }
+
+       // $error.text('上传失败');
+        console.log(uploader);
+        console.log($('.deleteItem'));
+    });*/
+
+    // 完成上传完了，成功或者失败，先删除进度条。
+    uploader.on( 'uploadComplete', function( file ) {
+        //$( '#'+file.id ).find('.progress').remove();
+    });
+
+    $('.webuploader-element-invisible').on('change', function () {
+        console.log($(this).val());
+    });
+    
+    
+    
+    $('#deleteFiles').click(function () {//批量删除，但是目前只是前端删除
+        var arr = [];
+        var lists = $('input[type="checkbox"]');
+        $.each(lists, function(index, item){
+            if(item.checked){
+                arr.push(item.value);
+            }
+        });
+        console.log(arr);
+        if(arr.length){
+            $.each(arr, function (index, item) {
+                $('#' + item).remove();
+            });
+        }else{
+            ip.ipInfoJump('请选择你要删除的文件', 'info');
+        }
+    })
+
+
+function init(){  //整个JS代码初始化
+        app = u.createApp({
+            el: 'body',
+            model: viewModel
+        });
+    }
+    init();
+});

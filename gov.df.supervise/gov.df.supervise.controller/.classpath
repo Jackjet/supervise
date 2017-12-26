@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="target/classes" path="src/main/java"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry exported="true" kind="src" path="/gov.df.supervise.api"/>
+	<classpathentry exported="true" kind="src" path="/gov.df.supervise.service"/>
+	<classpathentry kind="src" path="/gov.df.fap.util"/>
+	<classpathentry kind="src" path="/gov.df.supervise.bean"/>
+	<classpathentry kind="src" path="/gov.df.fap.service.util"/>
+	<classpathentry kind="lib" path="F:/yonyou/df2.0/maven3.2.5/local/repo/org/springframework/spring-web/3.2.6.RELEASE/spring-web-3.2.6.RELEASE.jar" sourcepath="F:/yonyou/df2.0/maven3.2.5/local/repo/org/springframework/spring-web/3.2.6.RELEASE/spring-web-3.2.6.RELEASE-sources.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="org.springframework"/>
+			<attribute name="maven.artifactId" value="spring-web"/>
+			<attribute name="maven.version" value="3.2.6.RELEASE"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="F:/yonyou/df2.0/maven3.2.5/local/repo/org/springframework/spring-context/3.2.6.RELEASE/spring-context-3.2.6.RELEASE.jar" sourcepath="F:/yonyou/df2.0/maven3.2.5/local/repo/org/springframework/spring-context/3.2.6.RELEASE/spring-context-3.2.6.RELEASE-sources.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="org.springframework"/>
+			<attribute name="maven.artifactId" value="spring-context"/>
+			<attribute name="maven.version" value="3.2.6.RELEASE"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="F:/yonyou/df2.0/maven3.2.5/local/repo/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar" sourcepath="F:/yonyou/df2.0/maven3.2.5/local/repo/javax/servlet/servlet-api/2.5/servlet-api-2.5-sources.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="javax.servlet"/>
+			<attribute name="maven.artifactId" value="servlet-api"/>
+			<attribute name="maven.version" value="2.5"/>
+			<attribute name="maven.scope" value="provided"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="F:/yonyou/df2.0/maven3.2.5/local/repo/org/springframework/spring-beans/3.2.6.RELEASE/spring-beans-3.2.6.RELEASE.jar" sourcepath="F:/yonyou/df2.0/maven3.2.5/local/repo/org/springframework/spring-beans/3.2.6.RELEASE/spring-beans-3.2.6.RELEASE-sources.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="org.springframework"/>
+			<attribute name="maven.artifactId" value="spring-beans"/>
+			<attribute name="maven.version" value="3.2.6.RELEASE"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="F:/yonyou/df2.0/maven3.2.5/local/repo/com/bd/dss-api/1.0.0/dss-api-1.0.0.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="com.bd"/>
+			<attribute name="maven.artifactId" value="dss-api"/>
+			<attribute name="maven.version" value="1.0.0"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="/gov.df.fap.api"/>
+	<classpathentry kind="src" path="/gov.df.fap.bean"/>
+	<classpathentry kind="lib" path="F:/yonyou/df2.0/maven3.2.5/local/repo/com/alibaba/fastjson/1.2.4/fastjson-1.2.4.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="com.alibaba"/>
+			<attribute name="maven.artifactId" value="fastjson"/>
+			<attribute name="maven.version" value="1.2.4"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="F:/yonyou/df2.0/maven3.2.5/local/repo/org/slf4j/slf4j-api/1.7.6/slf4j-api-1.7.6.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="org.slf4j"/>
+			<attribute name="maven.artifactId" value="slf4j-api"/>
+			<attribute name="maven.version" value="1.7.6"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="/gov.df.supervise.util"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

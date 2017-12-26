@@ -1,0 +1,116 @@
+package gov.df.supervise.service.summary;
+
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.gl.core.CommonUtil;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.supervise.api.attachment.AttachmentService;
+import gov.df.supervise.api.common.CommonService;
+import gov.df.supervise.api.summary.SummaryService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ufgov.ip.apiUtils.UUIDTools;
+
+@Service
+public class SummaryBo implements SummaryService {
+
+	@Autowired
+	@Qualifier("generalDAO")
+	GeneralDAO dao;
+	
+	@Autowired
+	private CommonService commonService; // 监管事项服务
+	
+	private AttachmentService attachmentService;
+
+
+	public List getSummary(String bill_id,String all,String pageInfo) {
+		String condition = "";
+
+		if(!bill_id.equals("")){
+			if(all.equals("")){
+				condition = " and bill_id = '"+bill_id+"'";
+			}else if(all.equals("1")){
+				condition = " and bill_id  in (select id from csof_task_bill  where mof_bill_id ='"+bill_id+"') ";
+			}
+		}
+		return commonService.getDataList("VW_CSOF_TASK_SUMMARY", condition, false, pageInfo);
+	}
+
+	
+	public int saveSummary(Map sumData) {
+		
+		Map<String,String> summary = new HashMap<String,String>();
+		
+		String rg_code = CommonUtil.getRgCode();
+	    String set_year = CommonUtil.getSetYear();
+	    String user_code = CommonUtil.getUserCode();
+	    String date =  CommonUtil.getDate("yyyy-MM-dd");
+	    String oid = SessionUtil.getUserInfoContext().getOrgCode();
+	    String summary_id = sumData.get("SUMMARY_ID").toString();
+	    String sid = null!=sumData.get("SID")?sumData.get("SID").toString():sumData.get("sid").toString();
+	    String bill_id = null!=sumData.get("ID")?sumData.get("ID").toString():sumData.get("id").toString();
+	    String dep_id = SessionUtil.getUserInfoContext().getBelongOrg();
+	    summary.put("DEP_ID", dep_id);
+		summary.put("ID",summary_id);
+		summary.put("OID",oid);
+		summary.put("SID", sid);
+		summary.put("BILL_ID", bill_id);
+		summary.put("SUMMARY", sumData.get("SUMMARY").toString());
+		summary.put("SUMMARY_FILES", getFileNames(summary_id));
+		summary.put("BILLTYPE_CODE", sumData.get("BILLTYPE_CODE").toString());
+		summary.put("SUP_RESULTS", sumData.get("SUP_RESULTS").toString());		
+		summary.put("SET_YEAR", set_year);
+		summary.put("RG_CODE", rg_code);
+		summary.put("CREATE_DATE", date);
+		summary.put("CREATE_USER", user_code);
+		summary.put("LATEST_OP_DATE", date);
+		summary.put("LATEST_OP_USER", user_code);
+		
+		String sql =commonService.getInsertSql(summary, "CSOF_TASK_SUMMARY");
+		return dao.executeBySql(sql);
+	}
+	
+	public String getFileNames(String entity_id){
+		
+		String condition = " and entity_id = '"+entity_id+"'";
+		List attachmentList = commonService.getDataList("CSOF_ATTACHMENT", condition, false, "");
+		StringBuffer nameBuffer = new StringBuffer();
+        for(int i=0;i<attachmentList.size();i++){
+        	Map attach = (Map)attachmentList.get(i);
+        	String fileName = attach.get("file_name").toString();
+        	nameBuffer.append(fileName);
+        }
+		
+        return nameBuffer.toString();
+	}
+
+	
+	@Transactional(readOnly = false)
+	public int deleteSummary(String ids) {
+		int result = 0;
+		result=commonService.deleteDataList("CSOF_TASK_SUMMARY",  "  and id in ("+ids+") ");
+		commonService.deleteDataList("CSOF_ATTACHMENT", " and entity_id in ("+ids+")");
+		return result;
+	}
+
+
+	@Transactional(readOnly = false)
+	public int updateSummary(Map summaryData) {
+	    String summary_id = summaryData.get("SUMMARY_ID").toString();
+
+		deleteSummary (summary_id);
+        
+		return saveSummary(summaryData);
+	}
+	
+	
+
+}

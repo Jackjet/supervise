@@ -1,0 +1,43 @@
+package gov.df.supervise.service.itemsupervision;
+
+import gov.df.supervise.bean.task.CsofTaskDep;
+import gov.df.supervise.service.common.persistence.annotation.MyBatisDao;
+
+@MyBatisDao
+public interface CsofTaskDepDao {
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+    int deleteByPrimaryKey(String id);
+
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+    int insert(CsofTaskDep record);
+
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+    int insertSelective(CsofTaskDep record);
+
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+    CsofTaskDep selectByPrimaryKey(String id);
+
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+    int updateByPrimaryKeySelective(CsofTaskDep record);
+
+    /**
+     *
+     * @mbggenerated 2017-09-04
+     */
+    int updateByPrimaryKey(CsofTaskDep record);
+}

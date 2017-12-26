@@ -1,0 +1,205 @@
+package gov.df.supervise.service.sup;
+
+import gov.df.fap.api.workflow.IBillTypeServices;
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.gl.core.CommonUtil;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.fap.util.xml.XMLData;
+import gov.df.supervise.api.common.CommonService;
+import gov.df.supervise.api.sup.SupService;
+import gov.df.supervise.api.task.TaskService;
+
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.alibaba.fastjson.JSONObject;
+import com.ufgov.ip.apiUtils.UUIDTools;
+
+@Service
+public class SupBo implements SupService {
+
+	@Autowired
+	@Qualifier("generalDAO")
+	GeneralDAO dao;
+    
+	@Autowired
+	private CommonService commonService; // 监管事项服务
+	
+	@Autowired
+	private TaskService taskService;
+	
+	@Autowired
+	private IBillTypeServices billTypeService;
+	
+	public static String tableName = "csof_e_sup";
+	
+    public static String create_date = CommonUtil.getDate("yyyy-MM-dd");
+	
+	public List getSup(List dataList,String pageInfo){
+		String condition = "" ;
+		return commonService.getDataList(tableName, condition, false, pageInfo);
+	}
+
+	public int deleteSup(List dataList , String key) {
+		String condition = "" ;
+		if(null != dataList && dataList.size()==1){
+			Map dataMap = (Map) dataList.get(0);
+			String ids = dataMap.get("ids").toString();
+			condition = " and " + key + " in (" + ids +")" ;
+		}
+		return commonService.deleteDataList(tableName, condition);
+	}
+
+	/**
+	 * 监管事项 新增、修改方法
+	 */
+//	@Transactional(readOnly = false)
+	public int saveSup(List supList,List reportList,String billtype_code) {
+		String user_id = CommonUtil.getUserId();						//当前登录用户 user_id
+		String oid = SessionUtil.getUserInfoContext().getOrgCode();   //当前登录用户机构编号 oid
+		String create_user = CommonUtil.getUserCode();
+		int resultNum = 0;
+		 try {
+				
+				Map <String,String> supMap = new HashMap<String,String>();
+				for (int i = 0 ;i<supList.size(); i++){
+					Map data = (HashMap) supList.get(i);
+					String chr_id = null!=data.get("CHR_ID")?data.get("CHR_ID").toString():UUIDTools.uuidRandom();
+				   
+					supMap.put("chr_id", chr_id);
+					supMap.put("chr_name", null!=data.get("CHR_NAME")?data.get("CHR_NAME").toString():"");
+					supMap.put("oid", oid);
+					String rg_code = CommonUtil.getRgCode();
+				    String set_year = CommonUtil.getSetYear();
+				    supMap.put("RG_CODE", rg_code);
+				    supMap.put("SET_YEAR", set_year);
+					supMap.put("create_date", create_date);
+					supMap.put("create_user", create_user);
+					supMap.put("latest_op_user", create_user);
+					supMap.put("latest_op_date", create_date);
+					
+					String suptype = data.get("SUP_TYPE_NAME")!=null?data.get("SUP_TYPE_NAME").toString():"";
+					if (suptype.contains("@")) {
+			            supMap.put("SUP_TYPE_ID", suptype.split("@")[0]);
+			            supMap.put("SUP_TYPE_NAME",URLDecoder.decode(suptype.split("@")[1], "UTF-8"));
+			            supMap.put("SUP_TYPE_CODE", suptype.split("@")[2]);
+			        } 
+					
+					String objtype = data.get("OBJ_TYPE_NAME")!=null?data.get("OBJ_TYPE_NAME").toString():"";
+					if(objtype.contains("@")){
+						supMap.put("OBJ_TYPE_ID", objtype.split("@")[0]);
+						supMap.put("OBJ_TYPE_NAME", URLDecoder.decode(objtype.split("@")[1], "UTF-8"));
+						supMap.put("OBJ_TYPE_CODE",objtype.split("@")[2]);
+					}
+					
+					String moftype = data.get("MOFDEP_NAME")!=null?data.get("MOFDEP_NAME").toString():"";
+					if(moftype.contains("@")){
+						supMap.put("MOFDEP_ID", moftype.split("@")[0]);
+						supMap.put("MOFDEP_NAME", URLDecoder.decode(moftype.split("@")[1], "UTF-8"));
+						supMap.put("MOFDEP_CODE",moftype.split("@")[2]);
+					}
+					
+					String deptype = data.get("DEP_NAME")!=null?data.get("DEP_NAME").toString():"";
+					if(deptype.contains("@")){
+						supMap.put("DEP_ID", deptype.split("@")[0]);
+						supMap.put("DEP_NAME", URLDecoder.decode(deptype.split("@")[1], "UTF-8"));
+						supMap.put("DEP_CODE",deptype.split("@")[2]);
+					}
+					
+					
+					String chr_code = billTypeService.getBillNo(billtype_code, supMap);
+					supMap.put("chr_code", chr_code);
+				    resultNum = dao.executeBySql(commonService.getInsertSql(supMap, tableName)) +resultNum;
+				}
+				
+				/**
+				 * 保存监管事项报表
+				 */
+				if(reportList.size()>0){
+					taskService.saveReport(reportList);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		return resultNum;
+	}
+
+	public int updateSup(List supList,List reportList,String billtype_code) {
+		String user_id = CommonUtil.getUserId();						//当前登录用户 user_id
+		String oid = SessionUtil.getUserInfoContext().getOrgCode();   //当前登录用户机构编号 oid
+		String create_user = CommonUtil.getUserCode();
+		int resultNum = 0;
+		 try {
+				
+				Map <String,String> supMap = new HashMap<String,String>();
+				for (int i = 0 ;i<supList.size(); i++){
+					Map data = (HashMap) supList.get(i);
+					String chr_id = null!=data.get("CHR_ID")?data.get("CHR_ID").toString():"";
+					supMap.put("chr_id", chr_id);
+					supMap.put("chr_name", null!=data.get("CHR_NAME")?data.get("CHR_NAME").toString():"");
+					supMap.put("oid", oid);
+					String rg_code = CommonUtil.getRgCode();
+				    String set_year = CommonUtil.getSetYear();
+				    supMap.put("RG_CODE", rg_code);
+				    supMap.put("SET_YEAR", set_year);
+					supMap.put("create_date", create_date);
+					supMap.put("create_user", create_user);
+					supMap.put("latest_op_user", create_user);
+					supMap.put("latest_op_date", create_date);
+					String suptype = data.get("SUP_TYPE_NAME").toString();
+					if (suptype.contains("@")) {
+			            supMap.put("SUP_TYPE_ID", suptype.split("@")[0]);
+			            supMap.put("SUP_TYPE_NAME",URLDecoder.decode(suptype.split("@")[1], "UTF-8"));
+			            supMap.put("SUP_TYPE_CODE", suptype.split("@")[2]);
+			        } 
+					String objtype = data.get("OBJ_TYPE_NAME").toString();
+					supMap.put("OBJ_TYPE_ID", objtype.split("@")[0]);
+					supMap.put("OBJ_TYPE_NAME", URLDecoder.decode(objtype.split("@")[1], "UTF-8"));
+					supMap.put("OBJ_TYPE_CODE",objtype.split("@")[2]);
+					
+					String montype = data.get("MOFDEP_NAME").toString();
+					supMap.put("MOFDEP_ID", montype.split("@")[0]);
+					supMap.put("MOFDEP_NAME", URLDecoder.decode(montype.split("@")[1], "UTF-8"));
+					supMap.put("MOFDEP_CODE",montype.split("@")[2]);
+					
+					String deptype = data.get("DEP_NAME").toString();
+					supMap.put("DEP_ID", deptype.split("@")[0]);
+					supMap.put("DEP_NAME", URLDecoder.decode(deptype.split("@")[1], "UTF-8"));
+					supMap.put("DEP_CODE",deptype.split("@")[2]);
+					
+					
+					String chr_code = billTypeService.getBillNo(billtype_code, supMap);
+					supMap.put("chr_code", chr_code);
+				    resultNum = dao.updateDataBySql(tableName, supMap);
+				    
+				    
+				}
+				
+				/**
+				 * 保存监管事项报表
+				 */
+				if(reportList.size()>0){
+					taskService.saveReport(reportList);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		return resultNum;
+	}
+
+
+
+	
+ 
+}

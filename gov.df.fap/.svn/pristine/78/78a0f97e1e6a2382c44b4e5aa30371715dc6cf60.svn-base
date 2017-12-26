@@ -1,0 +1,101 @@
+<!--台账管理页面-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>台账管理</title>
+		<link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css"/>
+		<link rel="stylesheet" href="csofAcc.css">
+	</head>
+	<body>
+		<!-- 台账管理 -->
+		<div id="led-mana-page" style="background:#f4f4f4;">
+			<!--首页，流程，待办-->
+			<div class="col-md-12" style="margin-top:10px;">
+				<div style="float:left;">首页<span style="margin:0 5px;"> > </span>监管工作台账<span style="margin:0 5px;"> > </span>工作台账登记</div>
+				<div style="float:right;">
+					<button class="btn btn-primary">流程</button>
+					<button class="btn btn-primary">待办</button>
+					<button class="btn btn-primary">台账登记</button>
+				</div>
+			</div>
+			<!--事项-->
+			<div  class="col-md-12" style="height:50px;margin-top:10px;padding-top:10px;border:1px solid #ccc;background:#ffffff;">
+				<div style="float:left;">
+					<button class="btn btn-primary">事项新增</button>
+					<button class="btn btn-primary">事项修改</button>
+					<button class="btn btn-primary">事项作废</button>
+					<button class="btn btn-primary">事项办结</button>
+					<button class="btn btn-primary">工作登记</button>
+					<button class="btn btn-primary">反馈登记</button>
+				</div>
+				<div style="float:right;">
+					<input type="text" class="u-form-control4 am" style="margin-top:10px;" placeholder="请输入关键词" data-bind="value:searchText" />
+					<button class="find-btn4 fbt" type="submit">
+							查询
+					</button>
+				</div>
+			</div>
+			<!--main-->
+			<div class="col-md-12" style="width:98%;margin-top:10px;">
+				<div class="col-md-3" style="padding-right:1%;border:1px solid #ccc;height:500px;">
+					<!-- 需从数据库取 -->
+					<select id="" style="margin-top:10px;width:98%;margin-left:1%;margin-right:1%;height:30px;border: 1px solid #ccc;">
+						<option value="2017" selected="selected">001业务工作开展台账</option>
+					</select>
+					<!--树-->
+				</div>
+				<div class="col-md-9" style="border:1px solid #ccc;height:500px;">
+					<div>
+						监管大类：
+						<select id="" style="margin-top:10px;width:98%;margin-left:1%;margin-right:1%;height:30px;border: 1px solid #ccc;">
+							<option value="2017" selected="selected">一：属地中央预算单位预算编制审核</option>
+						</select>
+						监管对象：
+						<select id="" style="margin-top:10px;width:98%;margin-left:1%;margin-right:1%;height:30px;border: 1px solid #ccc;">
+							<option value="2017" selected="selected">000全部单位</option>
+						</select>
+						负责司局：
+						<select id="" style="margin-top:10px;width:98%;margin-left:1%;margin-right:1%;height:30px;border: 1px solid #ccc;">
+							<option value="2017" selected="selected">xxx司局</option>
+						</select>
+					</div>
+					 <hr style="margin-top:5px;border-bottom: 1px solid #E5E5E5;"/>
+					 <!--单选按钮组-->
+					 <div style="height:30px;display:inline-block;">
+						<div class="radio">
+							<label>
+								<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>全部
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">未审核
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">已审核 
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">已月结
+							</label>
+						</div>
+					 </div>
+					 <!--展示区-->
+					 <div>
+						分为上下两个表，下表为明细
+					 </div>
+				</div>
+			</div>
+		</div>
+		<!-- 引入js-->
+		<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+        <script src="../../trd/requirejs/require.js"></script>
+        <script src="../../require.config.js"></script>
+		<script src="csofAcc.js" type="text/javascript"></script>
+	</body>
+</html>

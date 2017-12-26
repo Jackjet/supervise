@@ -1,0 +1,4903 @@
+begin
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '09', '21', 1, 0, '2009-09-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '09', '22', 2, 0, '2009-09-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '09', '23', 3, 0, '2009-09-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '09', '24', 4, 0, '2009-09-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '09', '25', 5, 0, '2009-09-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '09', '26', 6, 1, '2009-09-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '09', '27', 7, 1, '2009-09-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '09', '28', 1, 0, '2009-09-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '09', '29', 2, 0, '2009-09-29', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '09', '30', 3, 0, '2009-09-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '01', 4, 0, '2009-10-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '02', 5, 0, '2009-10-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '03', 6, 1, '2009-10-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '04', 7, 1, '2009-10-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '05', 1, 0, '2009-10-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '06', 2, 0, '2009-10-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '07', 3, 0, '2009-10-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '08', 4, 0, '2009-10-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '09', 5, 0, '2009-10-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '10', 6, 1, '2009-10-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '11', 7, 1, '2009-10-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '12', 1, 0, '2009-10-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '13', 2, 0, '2009-10-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '14', 3, 0, '2009-10-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '15', 4, 0, '2009-10-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '16', 5, 0, '2009-10-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '17', 6, 1, '2009-10-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '18', 7, 1, '2009-10-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '19', 1, 0, '2009-10-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '20', 2, 0, '2009-10-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '21', 3, 0, '2009-10-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '22', 4, 0, '2009-10-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '23', 5, 0, '2009-10-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2009, '10', '24', 6, 1, '2009-10-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '14', 5, 0, '2013-06-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '15', 6, 1, '2013-06-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '16', 7, 1, '2013-06-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '17', 1, 0, '2013-06-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '18', 2, 0, '2013-06-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '19', 3, 0, '2013-06-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '20', 4, 0, '2013-06-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '21', 5, 0, '2013-06-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '22', 6, 1, '2013-06-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '23', 7, 1, '2013-06-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '24', 1, 0, '2013-06-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '25', 2, 0, '2013-06-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '26', 3, 0, '2013-06-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '27', 4, 0, '2013-06-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '28', 5, 0, '2013-06-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '29', 6, 1, '2013-06-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '30', 7, 1, '2013-06-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '01', 1, 0, '2013-07-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '02', 2, 0, '2013-07-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '03', 3, 0, '2013-07-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '04', 4, 0, '2013-07-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '05', 5, 0, '2013-07-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '06', 6, 1, '2013-07-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '07', 7, 1, '2013-07-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '08', 1, 0, '2013-07-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '09', 2, 0, '2013-07-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '10', 3, 0, '2013-07-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '11', 4, 0, '2013-07-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '12', 5, 0, '2013-07-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '13', 6, 1, '2013-07-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '14', 7, 1, '2013-07-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '15', 1, 0, '2013-07-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '16', 2, 0, '2013-07-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '17', 3, 0, '2013-07-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '18', 4, 0, '2013-07-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '19', 5, 0, '2013-07-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '20', 6, 1, '2013-07-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '21', 7, 1, '2013-07-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '22', 1, 0, '2013-07-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '23', 2, 0, '2013-07-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '24', 3, 0, '2013-07-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '25', 4, 0, '2013-07-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '26', 5, 0, '2013-07-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '27', 6, 1, '2013-07-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '28', 7, 1, '2013-07-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '29', 1, 0, '2013-07-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '30', 2, 0, '2013-07-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '07', '31', 3, 0, '2013-07-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '01', 4, 0, '2013-08-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '02', 5, 0, '2013-08-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '03', 6, 1, '2013-08-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '04', 7, 1, '2013-08-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '05', 1, 0, '2013-08-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '06', 2, 0, '2013-08-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '07', 3, 0, '2013-08-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '08', 4, 0, '2013-08-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '09', 5, 0, '2013-08-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '10', 6, 1, '2013-08-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '11', 7, 1, '2013-08-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '12', 1, 0, '2013-08-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '13', 2, 0, '2013-08-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '14', 3, 0, '2013-08-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '15', 4, 0, '2013-08-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '16', 5, 0, '2013-08-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '17', 6, 1, '2013-08-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '18', 7, 1, '2013-08-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '19', 1, 0, '2013-08-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '20', 2, 0, '2013-08-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '21', 3, 0, '2013-08-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '22', 4, 0, '2013-08-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '23', 5, 0, '2013-08-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '24', 6, 1, '2013-08-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '25', 7, 1, '2013-08-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '26', 1, 0, '2013-08-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '27', 2, 0, '2013-08-27', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '28', 3, 0, '2013-08-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '29', 4, 0, '2013-08-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '30', 5, 0, '2013-08-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '08', '31', 6, 1, '2013-08-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '01', 7, 1, '2013-09-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '02', 1, 0, '2013-09-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '03', 2, 0, '2013-09-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '04', 3, 0, '2013-09-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '05', 4, 0, '2013-09-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '06', 5, 0, '2013-09-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '07', 6, 1, '2013-09-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '08', 7, 1, '2013-09-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '09', 1, 0, '2013-09-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '10', 2, 0, '2013-09-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '11', 3, 0, '2013-09-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '12', 4, 0, '2013-09-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '13', 5, 0, '2013-09-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '14', 6, 1, '2013-09-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '15', 7, 1, '2013-09-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '16', 1, 0, '2013-09-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '17', 2, 0, '2013-09-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '18', 3, 0, '2013-09-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '19', 4, 0, '2013-09-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '20', 5, 0, '2013-09-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '21', 6, 1, '2013-09-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '22', 7, 1, '2013-09-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '23', 1, 0, '2013-09-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '24', 2, 0, '2013-09-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '25', 3, 0, '2013-09-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '26', 4, 0, '2013-09-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '27', 5, 0, '2013-09-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '28', 6, 1, '2013-09-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '29', 7, 1, '2013-09-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '09', '30', 1, 0, '2013-09-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '01', 2, 0, '2013-10-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '02', 3, 0, '2013-10-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '03', 4, 0, '2013-10-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '04', 5, 0, '2013-10-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '05', 6, 1, '2013-10-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '06', 7, 1, '2013-10-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '07', 1, 0, '2013-10-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '08', 2, 0, '2013-10-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '09', 3, 0, '2013-10-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '10', 4, 0, '2013-10-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '11', 5, 0, '2013-10-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '12', 6, 1, '2013-10-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '13', 7, 1, '2013-10-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '14', 1, 0, '2013-10-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '15', 2, 0, '2013-10-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '16', 3, 0, '2013-10-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '17', 4, 0, '2013-10-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '18', 5, 0, '2013-10-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '19', 6, 1, '2013-10-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '20', 7, 1, '2013-10-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '21', 1, 0, '2013-10-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '22', 2, 0, '2013-10-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '23', 3, 0, '2013-10-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '24', 4, 0, '2013-10-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '25', 5, 0, '2013-10-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '26', 6, 1, '2013-10-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '27', 7, 1, '2013-10-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '28', 1, 0, '2013-10-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '29', 2, 0, '2013-10-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '30', 3, 0, '2013-10-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '10', '31', 4, 0, '2013-10-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '01', 5, 0, '2013-11-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '02', 6, 1, '2013-11-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '03', 7, 1, '2013-11-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '04', 1, 0, '2013-11-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '05', 2, 0, '2013-11-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '06', 3, 0, '2013-11-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '07', 4, 0, '2013-11-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '08', 5, 0, '2013-11-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '09', 6, 1, '2013-11-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '10', 7, 1, '2013-11-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '11', 1, 0, '2013-11-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '12', 2, 0, '2013-11-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '13', 3, 0, '2013-11-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '14', 4, 0, '2013-11-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '15', 5, 0, '2013-11-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '16', 6, 1, '2013-11-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '17', 7, 1, '2013-11-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '18', 1, 0, '2013-11-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '19', 2, 0, '2013-11-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '20', 3, 0, '2013-11-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '21', 4, 0, '2013-11-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '22', 5, 0, '2013-11-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '23', 6, 1, '2013-11-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '24', 7, 1, '2013-11-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '25', 1, 0, '2013-11-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '26', 2, 0, '2013-11-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '27', 3, 0, '2013-11-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '28', 4, 0, '2013-11-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '29', 5, 0, '2013-11-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '11', '30', 6, 1, '2013-11-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '01', 7, 1, '2013-12-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '02', 1, 0, '2013-12-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '03', 2, 0, '2013-12-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '04', 3, 0, '2013-12-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '05', 4, 0, '2013-12-05', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '06', 5, 0, '2013-12-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '07', 6, 1, '2013-12-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '08', 7, 1, '2013-12-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '09', 1, 0, '2013-12-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '10', 2, 0, '2013-12-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '11', 3, 0, '2013-12-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '12', 4, 0, '2013-12-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '13', 5, 0, '2013-12-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '14', 6, 1, '2013-12-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '15', 7, 1, '2013-12-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '16', 1, 0, '2013-12-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '17', 2, 0, '2013-12-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '18', 3, 0, '2013-12-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '19', 4, 0, '2013-12-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '20', 5, 0, '2013-12-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '21', 6, 1, '2013-12-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '22', 7, 1, '2013-12-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '23', 1, 0, '2013-12-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '24', 2, 0, '2013-12-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '25', 3, 0, '2013-12-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '26', 4, 0, '2013-12-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '27', 5, 0, '2013-12-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '28', 6, 1, '2013-12-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '29', 7, 1, '2013-12-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '30', 1, 0, '2013-12-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '12', '31', 2, 0, '2013-12-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '01', 3, 0, '2014-01-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '02', 4, 0, '2014-01-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '03', 5, 0, '2014-01-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '04', 6, 1, '2014-01-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '05', 7, 1, '2014-01-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '06', 1, 0, '2014-01-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '07', 2, 0, '2014-01-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '08', 3, 0, '2014-01-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '09', 4, 0, '2014-01-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '10', 5, 0, '2014-01-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '11', 6, 1, '2014-01-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '12', 7, 1, '2014-01-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '13', 1, 0, '2014-01-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '14', 2, 0, '2014-01-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '15', 3, 0, '2014-01-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '16', 4, 0, '2014-01-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '17', 5, 0, '2014-01-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '18', 6, 1, '2014-01-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '19', 7, 1, '2014-01-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '20', 1, 0, '2014-01-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '21', 2, 0, '2014-01-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '22', 3, 0, '2014-01-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '23', 4, 0, '2014-01-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '24', 5, 0, '2014-01-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '25', 6, 1, '2014-01-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '26', 7, 1, '2014-01-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '27', 1, 0, '2014-01-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '28', 2, 0, '2014-01-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '29', 3, 0, '2014-01-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '30', 4, 0, '2014-01-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '01', '31', 5, 0, '2014-01-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '01', 6, 1, '2014-02-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '02', 7, 1, '2014-02-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '03', 1, 0, '2014-02-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '04', 2, 0, '2014-02-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '05', 3, 0, '2014-02-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '06', 4, 0, '2014-02-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '07', 5, 0, '2014-02-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '08', 6, 1, '2014-02-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '09', 7, 1, '2014-02-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '10', 1, 0, '2014-02-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '11', 2, 0, '2014-02-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '12', 3, 0, '2014-02-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '13', 4, 0, '2014-02-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '14', 5, 0, '2014-02-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '15', 6, 1, '2014-02-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '16', 7, 1, '2014-02-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '17', 1, 0, '2014-02-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '18', 2, 0, '2014-02-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '19', 3, 0, '2014-02-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '20', 4, 0, '2014-02-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '21', 5, 0, '2014-02-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '22', 6, 1, '2014-02-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '23', 7, 1, '2014-02-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '24', 1, 0, '2014-02-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '25', 2, 0, '2014-02-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '26', 3, 0, '2014-02-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '27', 4, 0, '2014-02-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '02', '28', 5, 0, '2014-02-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '01', 6, 1, '2014-03-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '02', 7, 1, '2014-03-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '03', 1, 0, '2014-03-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '04', 2, 0, '2014-03-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '05', 3, 0, '2014-03-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '06', 4, 0, '2014-03-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '07', 5, 0, '2014-03-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '08', 6, 1, '2014-03-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '09', 7, 1, '2014-03-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '10', 1, 0, '2014-03-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '11', 2, 0, '2014-03-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '12', 3, 0, '2014-03-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '13', 4, 0, '2014-03-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '14', 5, 0, '2014-03-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '15', 6, 1, '2014-03-15', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '16', 7, 1, '2014-03-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '17', 1, 0, '2014-03-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '18', 2, 0, '2014-03-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '19', 3, 0, '2014-03-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '20', 4, 0, '2014-03-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '21', 5, 0, '2014-03-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '22', 6, 1, '2014-03-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '23', 7, 1, '2014-03-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '24', 1, 0, '2014-03-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '25', 2, 0, '2014-03-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '26', 3, 0, '2014-03-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '27', 4, 0, '2014-03-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '28', 5, 0, '2014-03-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '29', 6, 1, '2014-03-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '30', 7, 1, '2014-03-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '03', '31', 1, 0, '2014-03-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '01', 2, 0, '2014-04-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '02', 3, 0, '2014-04-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '03', 4, 0, '2014-04-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '04', 5, 0, '2014-04-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '05', 6, 1, '2014-04-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '06', 7, 1, '2014-04-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '07', 1, 0, '2014-04-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '08', 2, 0, '2014-04-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '09', 3, 0, '2014-04-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '10', 4, 0, '2014-04-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '11', 5, 0, '2014-04-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '12', 6, 1, '2014-04-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '13', 7, 1, '2014-04-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '14', 1, 0, '2014-04-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '15', 2, 0, '2014-04-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '16', 3, 0, '2014-04-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '17', 4, 0, '2014-04-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '18', 5, 0, '2014-04-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '19', 6, 1, '2014-04-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '20', 7, 1, '2014-04-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '21', 1, 0, '2014-04-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '22', 2, 0, '2014-04-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '23', 3, 0, '2014-04-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '24', 4, 0, '2014-04-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '25', 5, 0, '2014-04-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '26', 6, 1, '2014-04-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '27', 7, 1, '2014-04-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '28', 1, 0, '2014-04-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '29', 2, 0, '2014-04-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '04', '30', 3, 0, '2014-04-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '01', 4, 0, '2014-05-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '02', 5, 0, '2014-05-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '03', 6, 1, '2014-05-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '04', 7, 1, '2014-05-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '05', 1, 0, '2014-05-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '06', 2, 0, '2014-05-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '07', 3, 0, '2014-05-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '08', 4, 0, '2014-05-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '09', 5, 0, '2014-05-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '10', 6, 1, '2014-05-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '11', 7, 1, '2014-05-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '12', 1, 0, '2014-05-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '13', 2, 0, '2014-05-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '14', 3, 0, '2014-05-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '15', 4, 0, '2014-05-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '16', 5, 0, '2014-05-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '17', 6, 1, '2014-05-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '18', 7, 1, '2014-05-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '19', 1, 0, '2014-05-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '20', 2, 0, '2014-05-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '21', 3, 0, '2014-05-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '22', 4, 0, '2014-05-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '23', 5, 0, '2014-05-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '24', 6, 1, '2014-05-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '25', 7, 1, '2014-05-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '26', 1, 0, '2014-05-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '27', 2, 0, '2014-05-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '28', 3, 0, '2014-05-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '29', 4, 0, '2014-05-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '30', 5, 0, '2014-05-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '05', '31', 6, 1, '2014-05-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '01', 7, 1, '2014-06-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '02', 1, 0, '2014-06-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '03', 2, 0, '2014-06-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '04', 3, 0, '2014-06-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '05', 4, 0, '2014-06-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '06', 5, 0, '2014-06-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '07', 6, 1, '2014-06-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '08', 7, 1, '2014-06-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '09', 1, 0, '2014-06-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '10', 2, 0, '2014-06-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '11', 3, 0, '2014-06-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '12', 4, 0, '2014-06-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '13', 5, 0, '2014-06-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '14', 6, 1, '2014-06-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '15', 7, 1, '2014-06-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '16', 1, 0, '2014-06-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '17', 2, 0, '2014-06-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '18', 3, 0, '2014-06-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '19', 4, 0, '2014-06-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '20', 5, 0, '2014-06-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '21', 6, 1, '2014-06-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '22', 7, 1, '2014-06-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '23', 1, 0, '2014-06-23', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '24', 2, 0, '2014-06-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '25', 3, 0, '2014-06-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '26', 4, 0, '2014-06-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '27', 5, 0, '2014-06-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '28', 6, 1, '2014-06-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '29', 7, 1, '2014-06-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '06', '30', 1, 0, '2014-06-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '01', 2, 0, '2014-07-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '02', 3, 0, '2014-07-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '03', 4, 0, '2014-07-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '04', 5, 0, '2014-07-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '05', 6, 1, '2014-07-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '06', 7, 1, '2014-07-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '07', 1, 0, '2014-07-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '08', 2, 0, '2014-07-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '09', 3, 0, '2014-07-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '10', 4, 0, '2014-07-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '11', 5, 0, '2014-07-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '12', 6, 1, '2014-07-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '13', 7, 1, '2014-07-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '14', 1, 0, '2014-07-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '15', 2, 0, '2014-07-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '16', 3, 0, '2014-07-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '17', 4, 0, '2014-07-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '18', 5, 0, '2014-07-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '19', 6, 1, '2014-07-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '20', 7, 1, '2014-07-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '21', 1, 0, '2014-07-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '22', 2, 0, '2014-07-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '23', 3, 0, '2014-07-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '24', 4, 0, '2014-07-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '25', 5, 0, '2014-07-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '26', 6, 1, '2014-07-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '27', 7, 1, '2014-07-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '28', 1, 0, '2014-07-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '29', 2, 0, '2014-07-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '30', 3, 0, '2014-07-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '07', '31', 4, 0, '2014-07-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '01', 5, 0, '2014-08-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '02', 6, 1, '2014-08-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '03', 7, 1, '2014-08-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '04', 1, 0, '2014-08-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '05', 2, 0, '2014-08-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '06', 3, 0, '2014-08-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '07', 4, 0, '2014-08-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '08', 5, 0, '2014-08-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '09', 6, 1, '2014-08-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '10', 7, 1, '2014-08-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '11', 1, 0, '2014-08-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '12', 2, 0, '2014-08-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '13', 3, 0, '2014-08-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '14', 4, 0, '2014-08-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '15', 5, 0, '2014-08-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '16', 6, 1, '2014-08-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '17', 7, 1, '2014-08-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '18', 1, 0, '2014-08-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '19', 2, 0, '2014-08-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '20', 3, 0, '2014-08-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '21', 4, 0, '2014-08-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '22', 5, 0, '2014-08-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '23', 6, 1, '2014-08-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '24', 7, 1, '2014-08-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '25', 1, 0, '2014-08-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '26', 2, 0, '2014-08-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '27', 3, 0, '2014-08-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '28', 4, 0, '2014-08-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '29', 5, 0, '2014-08-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '30', 6, 1, '2014-08-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '08', '31', 7, 1, '2014-08-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '01', 1, 0, '2014-09-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '02', 2, 0, '2014-09-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '03', 3, 0, '2014-09-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '04', 4, 0, '2014-09-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '05', 5, 0, '2014-09-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '06', 6, 1, '2014-09-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '07', 7, 1, '2014-09-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '08', 1, 0, '2014-09-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '09', 2, 0, '2014-09-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '10', 3, 0, '2014-09-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '11', 4, 0, '2014-09-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '12', 5, 0, '2014-09-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '13', 6, 1, '2014-09-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '14', 7, 1, '2014-09-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '15', 1, 0, '2014-09-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '16', 2, 0, '2014-09-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '17', 3, 0, '2014-09-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '18', 4, 0, '2014-09-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '19', 5, 0, '2014-09-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '20', 6, 1, '2014-09-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '21', 7, 1, '2014-09-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '01', 4, 0, '2015-01-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '02', 5, 0, '2015-01-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '03', 6, 1, '2015-01-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '04', 7, 1, '2015-01-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '05', 1, 0, '2015-01-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '06', 2, 0, '2015-01-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '07', 3, 0, '2015-01-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '08', 4, 0, '2015-01-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '09', 5, 0, '2015-01-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '10', 6, 1, '2015-01-10', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '11', 7, 1, '2015-01-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '12', 1, 0, '2015-01-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '13', 2, 0, '2015-01-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '14', 3, 0, '2015-01-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '15', 4, 0, '2015-01-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '16', 5, 0, '2015-01-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '17', 6, 1, '2015-01-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '18', 7, 1, '2015-01-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '19', 1, 0, '2015-01-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '20', 2, 0, '2015-01-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '21', 3, 0, '2015-01-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '22', 4, 0, '2015-01-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '23', 5, 0, '2015-01-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '24', 6, 1, '2015-01-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '25', 7, 1, '2015-01-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '26', 1, 0, '2015-01-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '27', 2, 0, '2015-01-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '28', 3, 0, '2015-01-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '29', 4, 0, '2015-01-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '30', 5, 0, '2015-01-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '01', '31', 6, 1, '2015-01-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '01', 7, 1, '2015-02-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '02', 1, 0, '2015-02-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '03', 2, 0, '2015-02-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '04', 3, 0, '2015-02-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '05', 4, 0, '2015-02-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '06', 5, 0, '2015-02-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '07', 6, 1, '2015-02-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '08', 7, 1, '2015-02-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '09', 1, 0, '2015-02-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '10', 2, 0, '2015-02-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '11', 3, 0, '2015-02-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '12', 4, 0, '2015-02-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '13', 5, 0, '2015-02-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '14', 6, 1, '2015-02-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '15', 7, 1, '2015-02-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '16', 1, 0, '2015-02-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '17', 2, 0, '2015-02-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '18', 3, 0, '2015-02-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '19', 4, 0, '2015-02-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '20', 5, 0, '2015-02-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '21', 6, 1, '2015-02-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '22', 7, 1, '2015-02-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '23', 1, 0, '2015-02-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '24', 2, 0, '2015-02-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '25', 3, 0, '2015-02-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '26', 4, 0, '2015-02-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '27', 5, 0, '2015-02-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '02', '28', 6, 1, '2015-02-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '01', 7, 1, '2015-03-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '02', 1, 0, '2015-03-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '03', 2, 0, '2015-03-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '04', 3, 0, '2015-03-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '05', 4, 0, '2015-03-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '06', 5, 0, '2015-03-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '07', 6, 1, '2015-03-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '08', 7, 1, '2015-03-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '09', 1, 0, '2015-03-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '10', 2, 0, '2015-03-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '11', 3, 0, '2015-03-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '12', 4, 0, '2015-03-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '13', 5, 0, '2015-03-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '14', 6, 1, '2015-03-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '15', 7, 1, '2015-03-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '16', 1, 0, '2015-03-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '17', 2, 0, '2015-03-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '18', 3, 0, '2015-03-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '19', 4, 0, '2015-03-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '20', 5, 0, '2015-03-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '21', 6, 1, '2015-03-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '22', 7, 1, '2015-03-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '23', 1, 0, '2015-03-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '24', 2, 0, '2015-03-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '25', 3, 0, '2015-03-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '26', 4, 0, '2015-03-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '27', 5, 0, '2015-03-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '28', 6, 1, '2015-03-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '29', 7, 1, '2015-03-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '30', 1, 0, '2015-03-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '03', '31', 2, 0, '2015-03-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '01', 3, 0, '2015-04-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '02', 4, 0, '2015-04-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '03', 5, 0, '2015-04-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '04', 6, 1, '2015-04-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '05', 7, 1, '2015-04-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '06', 1, 0, '2015-04-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '07', 2, 0, '2015-04-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '08', 3, 0, '2015-04-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '09', 4, 0, '2015-04-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '10', 5, 0, '2015-04-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '11', 6, 1, '2015-04-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '12', 7, 1, '2015-04-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '13', 1, 0, '2015-04-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '14', 2, 0, '2015-04-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '15', 3, 0, '2015-04-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '16', 4, 0, '2015-04-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '17', 5, 0, '2015-04-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '18', 6, 1, '2015-04-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '19', 7, 1, '2015-04-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '20', 1, 0, '2015-04-20', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '21', 2, 0, '2015-04-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '22', 3, 0, '2015-04-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '23', 4, 0, '2015-04-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '24', 5, 0, '2015-04-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '25', 6, 1, '2015-04-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '26', 7, 1, '2015-04-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '27', 1, 0, '2015-04-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '28', 2, 0, '2015-04-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '29', 3, 0, '2015-04-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '04', '30', 4, 0, '2015-04-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '01', 5, 0, '2015-05-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '02', 6, 1, '2015-05-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '03', 7, 1, '2015-05-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '04', 1, 0, '2015-05-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '05', 2, 0, '2015-05-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '06', 3, 0, '2015-05-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '07', 4, 0, '2015-05-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '08', 5, 0, '2015-05-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '09', 6, 1, '2015-05-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '10', 7, 1, '2015-05-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '11', 1, 0, '2015-05-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '12', 2, 0, '2015-05-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '13', 3, 0, '2015-05-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '14', 4, 0, '2015-05-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '15', 5, 0, '2015-05-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '16', 6, 1, '2015-05-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '17', 7, 1, '2015-05-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '18', 1, 0, '2015-05-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '19', 2, 0, '2015-05-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '20', 3, 0, '2015-05-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '21', 4, 0, '2015-05-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '22', 5, 0, '2015-05-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '23', 6, 1, '2015-05-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '24', 7, 1, '2015-05-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '25', 1, 0, '2015-05-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '26', 2, 0, '2015-05-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '27', 3, 0, '2015-05-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '28', 4, 0, '2015-05-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '29', 5, 0, '2015-05-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '30', 6, 1, '2015-05-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '05', '31', 7, 1, '2015-05-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '01', 1, 0, '2015-06-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '02', 2, 0, '2015-06-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '03', 3, 0, '2015-06-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '04', 4, 0, '2015-06-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '05', 5, 0, '2015-06-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '06', 6, 1, '2015-06-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '07', 7, 1, '2015-06-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '08', 1, 0, '2015-06-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '09', 2, 0, '2015-06-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '10', 3, 0, '2015-06-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '11', 4, 0, '2015-06-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '12', 5, 0, '2015-06-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '13', 6, 1, '2015-06-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '14', 7, 1, '2015-06-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '15', 1, 0, '2015-06-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '16', 2, 0, '2015-06-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '17', 3, 0, '2015-06-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '18', 4, 0, '2015-06-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '19', 5, 0, '2015-06-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '20', 6, 1, '2015-06-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '21', 7, 1, '2015-06-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '22', 1, 0, '2015-06-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '23', 2, 0, '2015-06-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '24', 3, 0, '2015-06-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '25', 4, 0, '2015-06-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '26', 5, 0, '2015-06-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '27', 6, 1, '2015-06-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '28', 7, 1, '2015-06-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '29', 1, 0, '2015-06-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '06', '30', 2, 0, '2015-06-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '01', 3, 0, '2015-07-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '02', 4, 0, '2015-07-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '03', 5, 0, '2015-07-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '04', 6, 1, '2015-07-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '05', 7, 1, '2015-07-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '06', 1, 0, '2015-07-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '07', 2, 0, '2015-07-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '08', 3, 0, '2015-07-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '09', 4, 0, '2015-07-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '10', 5, 0, '2015-07-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '11', 6, 1, '2015-07-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '12', 7, 1, '2015-07-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '13', 1, 0, '2015-07-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '14', 2, 0, '2015-07-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '15', 3, 0, '2015-07-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '16', 4, 0, '2015-07-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '17', 5, 0, '2015-07-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '18', 6, 1, '2015-07-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '19', 7, 1, '2015-07-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '20', 1, 0, '2015-07-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '21', 2, 0, '2015-07-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '22', 3, 0, '2015-07-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '23', 4, 0, '2015-07-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '24', 5, 0, '2015-07-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '25', 6, 1, '2015-07-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '26', 7, 1, '2015-07-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '27', 1, 0, '2015-07-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '28', 2, 0, '2015-07-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '29', 3, 0, '2015-07-29', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '30', 4, 0, '2015-07-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '07', '31', 5, 0, '2015-07-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '01', 6, 1, '2015-08-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '02', 7, 1, '2015-08-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '03', 1, 0, '2015-08-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '04', 2, 0, '2015-08-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '05', 3, 0, '2015-08-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '06', 4, 0, '2015-08-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '07', 5, 0, '2015-08-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '08', 6, 1, '2015-08-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '09', 7, 1, '2015-08-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '10', 1, 0, '2015-08-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '11', 2, 0, '2015-08-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '12', 3, 0, '2015-08-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '13', 4, 0, '2015-08-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '14', 5, 0, '2015-08-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '15', 6, 1, '2015-08-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '16', 7, 1, '2015-08-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '17', 1, 0, '2015-08-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '18', 2, 0, '2015-08-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '19', 3, 0, '2015-08-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '20', 4, 0, '2015-08-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '21', 5, 0, '2015-08-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '22', 6, 1, '2015-08-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '22', 1, 0, '2014-09-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '23', 2, 0, '2014-09-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '24', 3, 0, '2014-09-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '25', 4, 0, '2014-09-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '26', 5, 0, '2014-09-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '27', 6, 1, '2014-09-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '28', 7, 1, '2014-09-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '29', 1, 0, '2014-09-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '09', '30', 2, 0, '2014-09-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '01', 3, 0, '2014-10-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '02', 4, 0, '2014-10-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '03', 5, 0, '2014-10-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '04', 6, 1, '2014-10-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '05', 7, 1, '2014-10-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '06', 1, 0, '2014-10-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '07', 2, 0, '2014-10-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '08', 3, 0, '2014-10-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '09', 4, 0, '2014-10-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '10', 5, 0, '2014-10-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '11', 6, 1, '2014-10-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '12', 7, 1, '2014-10-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '13', 1, 0, '2014-10-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '14', 2, 0, '2014-10-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '15', 3, 0, '2014-10-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '16', 4, 0, '2014-10-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '17', 5, 0, '2014-10-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '18', 6, 1, '2014-10-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '19', 7, 1, '2014-10-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '20', 1, 0, '2014-10-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '21', 2, 0, '2014-10-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '22', 3, 0, '2014-10-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '23', 4, 0, '2014-10-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '24', 5, 0, '2014-10-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '25', 6, 1, '2014-10-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '26', 7, 1, '2014-10-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '27', 1, 0, '2014-10-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '28', 2, 0, '2014-10-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '29', 3, 0, '2014-10-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '30', 4, 0, '2014-10-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '10', '31', 5, 0, '2014-10-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '01', 6, 1, '2014-11-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '02', 7, 1, '2014-11-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '03', 1, 0, '2014-11-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '04', 2, 0, '2014-11-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '05', 3, 0, '2014-11-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '06', 4, 0, '2014-11-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '07', 5, 0, '2014-11-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '08', 6, 1, '2014-11-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '09', 7, 1, '2014-11-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '10', 1, 0, '2014-11-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '11', 2, 0, '2014-11-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '12', 3, 0, '2014-11-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '13', 4, 0, '2014-11-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '14', 5, 0, '2014-11-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '15', 6, 1, '2014-11-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '16', 7, 1, '2014-11-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '17', 1, 0, '2014-11-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '18', 2, 0, '2014-11-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '19', 3, 0, '2014-11-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '20', 4, 0, '2014-11-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '21', 5, 0, '2014-11-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '22', 6, 1, '2014-11-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '23', 7, 1, '2014-11-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '24', 1, 0, '2014-11-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '25', 2, 0, '2014-11-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '26', 3, 0, '2014-11-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '27', 4, 0, '2014-11-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '28', 5, 0, '2014-11-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '29', 6, 1, '2014-11-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '11', '30', 7, 1, '2014-11-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '01', 1, 0, '2014-12-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '02', 2, 0, '2014-12-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '03', 3, 0, '2014-12-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '04', 4, 0, '2014-12-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '05', 5, 0, '2014-12-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '06', 6, 1, '2014-12-06', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '07', 7, 1, '2014-12-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '08', 1, 0, '2014-12-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '09', 2, 0, '2014-12-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '10', 3, 0, '2014-12-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '11', 4, 0, '2014-12-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '12', 5, 0, '2014-12-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '13', 6, 1, '2014-12-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '14', 7, 1, '2014-12-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '15', 1, 0, '2014-12-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '16', 2, 0, '2014-12-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '17', 3, 0, '2014-12-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '18', 4, 0, '2014-12-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '19', 5, 0, '2014-12-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '20', 6, 1, '2014-12-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '21', 7, 1, '2014-12-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '22', 1, 0, '2014-12-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '23', 2, 0, '2014-12-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '24', 3, 0, '2014-12-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '25', 4, 0, '2014-12-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '26', 5, 0, '2014-12-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '27', 6, 1, '2014-12-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '28', 7, 1, '2014-12-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '29', 1, 0, '2014-12-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '30', 2, 0, '2014-12-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2014, '12', '31', 3, 0, '2014-12-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '23', 7, 1, '2015-08-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '24', 1, 0, '2015-08-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '25', 2, 0, '2015-08-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '26', 3, 0, '2015-08-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '27', 4, 0, '2015-08-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '28', 5, 0, '2015-08-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '29', 6, 1, '2015-08-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '30', 7, 1, '2015-08-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '08', '31', 1, 0, '2015-08-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '01', 2, 0, '2015-09-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '02', 3, 0, '2015-09-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '03', 4, 0, '2015-09-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '04', 5, 0, '2015-09-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '05', 6, 1, '2015-09-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '06', 7, 1, '2015-09-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '07', 1, 0, '2015-09-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '08', 2, 0, '2015-09-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '09', 3, 0, '2015-09-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '10', 4, 0, '2015-09-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '11', 5, 0, '2015-09-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '12', 6, 1, '2015-09-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '13', 7, 1, '2015-09-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '14', 1, 0, '2015-09-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '15', 2, 0, '2015-09-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '16', 3, 0, '2015-09-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '17', 4, 0, '2015-09-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '18', 5, 0, '2015-09-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '19', 6, 1, '2015-09-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '20', 7, 1, '2015-09-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '21', 1, 0, '2015-09-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '22', 2, 0, '2015-09-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '23', 3, 0, '2015-09-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '24', 4, 0, '2015-09-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '25', 5, 0, '2015-09-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '26', 6, 1, '2015-09-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '27', 7, 1, '2015-09-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '28', 1, 0, '2015-09-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '29', 2, 0, '2015-09-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '09', '30', 3, 0, '2015-09-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '01', 4, 0, '2015-10-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '02', 5, 0, '2015-10-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '03', 6, 1, '2015-10-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '04', 7, 1, '2015-10-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '05', 1, 0, '2015-10-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '06', 2, 0, '2015-10-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '07', 3, 0, '2015-10-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '08', 4, 0, '2015-10-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '09', 5, 0, '2015-10-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '10', 6, 1, '2015-10-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '11', 7, 1, '2015-10-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '12', 1, 0, '2015-10-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '13', 2, 0, '2015-10-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '14', 3, 0, '2015-10-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '15', 4, 0, '2015-10-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '16', 5, 0, '2015-10-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '17', 6, 1, '2015-10-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '18', 7, 1, '2015-10-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '19', 1, 0, '2015-10-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '20', 2, 0, '2015-10-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '21', 3, 0, '2015-10-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '22', 4, 0, '2015-10-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '23', 5, 0, '2015-10-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '24', 6, 1, '2015-10-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '25', 7, 1, '2015-10-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '26', 1, 0, '2015-10-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '27', 2, 0, '2015-10-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '28', 3, 0, '2015-10-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '29', 4, 0, '2015-10-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '30', 5, 0, '2015-10-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '10', '31', 6, 1, '2015-10-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '01', 7, 1, '2015-11-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '02', 1, 0, '2015-11-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '03', 2, 0, '2015-11-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '04', 3, 0, '2015-11-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '05', 4, 0, '2015-11-05', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '06', 5, 0, '2015-11-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '07', 6, 1, '2015-11-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '08', 7, 1, '2015-11-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '09', 1, 0, '2015-11-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '10', 2, 0, '2015-11-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '11', 3, 0, '2015-11-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '12', 4, 0, '2015-11-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '13', 5, 0, '2015-11-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '14', 6, 1, '2015-11-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '15', 7, 1, '2015-11-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '16', 1, 0, '2015-11-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '17', 2, 0, '2015-11-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '18', 3, 0, '2015-11-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '19', 4, 0, '2015-11-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '20', 5, 0, '2015-11-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '21', 6, 1, '2015-11-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '22', 7, 1, '2015-11-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '23', 1, 0, '2015-11-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '24', 2, 0, '2015-11-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '25', 3, 0, '2015-11-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '26', 4, 0, '2015-11-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '27', 5, 0, '2015-11-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '28', 6, 1, '2015-11-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '29', 7, 1, '2015-11-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '11', '30', 1, 0, '2015-11-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '01', 2, 0, '2015-12-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '02', 3, 0, '2015-12-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '03', 4, 0, '2015-12-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '04', 5, 0, '2015-12-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '05', 6, 1, '2015-12-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '06', 7, 1, '2015-12-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '07', 1, 0, '2015-12-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '08', 2, 0, '2015-12-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '09', 3, 0, '2015-12-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '10', 4, 0, '2015-12-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '11', 5, 0, '2015-12-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '12', 6, 1, '2015-12-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '13', 7, 1, '2015-12-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '14', 1, 0, '2015-12-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '15', 2, 0, '2015-12-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '16', 3, 0, '2015-12-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '17', 4, 0, '2015-12-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '18', 5, 0, '2015-12-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '19', 6, 1, '2015-12-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '20', 7, 1, '2015-12-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '21', 1, 0, '2015-12-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '22', 2, 0, '2015-12-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '23', 3, 0, '2015-12-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '24', 4, 0, '2015-12-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '25', 5, 0, '2015-12-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '26', 6, 1, '2015-12-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '27', 7, 1, '2015-12-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '28', 1, 0, '2015-12-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '29', 2, 0, '2015-12-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '30', 3, 0, '2015-12-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2015, '12', '31', 4, 0, '2015-12-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '01', 5, 0, '2016-01-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '02', 6, 1, '2016-01-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '03', 7, 1, '2016-01-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '04', 1, 0, '2016-01-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '05', 2, 0, '2016-01-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '06', 3, 0, '2016-01-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '07', 4, 0, '2016-01-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '08', 5, 0, '2016-01-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '09', 6, 1, '2016-01-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '10', 7, 1, '2016-01-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '11', 1, 0, '2016-01-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '12', 2, 0, '2016-01-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '13', 3, 0, '2016-01-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '14', 4, 0, '2016-01-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '15', 5, 0, '2016-01-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '16', 6, 1, '2016-01-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '17', 7, 1, '2016-01-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '18', 1, 0, '2016-01-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '19', 2, 0, '2016-01-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '20', 3, 0, '2016-01-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '21', 4, 0, '2016-01-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '22', 5, 0, '2016-01-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '23', 6, 1, '2016-01-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '24', 7, 1, '2016-01-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '25', 1, 0, '2016-01-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '26', 2, 0, '2016-01-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '27', 3, 0, '2016-01-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '28', 4, 0, '2016-01-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '29', 5, 0, '2016-01-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '30', 6, 1, '2016-01-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '01', '31', 7, 1, '2016-01-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '01', 1, 0, '2016-02-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '02', 2, 0, '2016-02-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '03', 3, 0, '2016-02-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '04', 4, 0, '2016-02-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '05', 5, 0, '2016-02-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '06', 6, 1, '2016-02-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '07', 7, 1, '2016-02-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '08', 1, 0, '2016-02-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '09', 2, 0, '2016-02-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '10', 3, 0, '2016-02-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '11', 4, 0, '2016-02-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '12', 5, 0, '2016-02-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '13', 6, 1, '2016-02-13', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '14', 7, 1, '2016-02-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '15', 1, 0, '2016-02-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '16', 2, 0, '2016-02-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '17', 3, 0, '2016-02-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '18', 4, 0, '2016-02-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '19', 5, 0, '2016-02-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '20', 6, 1, '2016-02-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '21', 7, 1, '2016-02-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '22', 1, 0, '2016-02-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '23', 2, 0, '2016-02-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '24', 3, 0, '2016-02-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '25', 4, 0, '2016-02-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '26', 5, 0, '2016-02-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '27', 6, 1, '2016-02-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '28', 7, 1, '2016-02-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '02', '29', 1, 0, '2016-02-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '01', 2, 0, '2016-03-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '02', 3, 0, '2016-03-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '03', 4, 0, '2016-03-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '04', 5, 0, '2016-03-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '05', 6, 1, '2016-03-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '06', 7, 1, '2016-03-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '07', 1, 0, '2016-03-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '08', 2, 0, '2016-03-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '09', 3, 0, '2016-03-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '10', 4, 0, '2016-03-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '11', 5, 0, '2016-03-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '12', 6, 1, '2016-03-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '13', 7, 1, '2016-03-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '14', 1, 0, '2016-03-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '15', 2, 0, '2016-03-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '16', 3, 0, '2016-03-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '17', 4, 0, '2016-03-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '18', 5, 0, '2016-03-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '19', 6, 1, '2016-03-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '20', 7, 1, '2016-03-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '21', 1, 0, '2016-03-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '22', 2, 0, '2016-03-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '23', 3, 0, '2016-03-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '24', 4, 0, '2016-03-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '25', 5, 0, '2016-03-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '26', 6, 1, '2016-03-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '27', 7, 1, '2016-03-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '28', 1, 0, '2016-03-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '29', 2, 0, '2016-03-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '30', 3, 0, '2016-03-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '03', '31', 4, 0, '2016-03-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '01', 5, 0, '2016-04-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '02', 6, 1, '2016-04-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '03', 7, 1, '2016-04-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '04', 1, 0, '2016-04-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '05', 2, 0, '2016-04-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '06', 3, 0, '2016-04-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '07', 4, 0, '2016-04-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '08', 5, 0, '2016-04-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '09', 6, 1, '2016-04-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '10', 7, 1, '2016-04-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '11', 1, 0, '2016-04-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '12', 2, 0, '2016-04-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '13', 3, 0, '2016-04-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '14', 4, 0, '2016-04-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '15', 5, 0, '2016-04-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '16', 6, 1, '2016-04-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '17', 7, 1, '2016-04-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '18', 1, 0, '2016-04-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '19', 2, 0, '2016-04-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '20', 3, 0, '2016-04-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '21', 4, 0, '2016-04-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '22', 5, 0, '2016-04-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '23', 6, 1, '2016-04-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '24', 7, 1, '2016-04-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '25', 1, 0, '2016-04-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '26', 2, 0, '2016-04-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '27', 3, 0, '2016-04-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '28', 4, 0, '2016-04-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '29', 5, 0, '2016-04-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '04', '30', 6, 1, '2016-04-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '01', 7, 1, '2016-05-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '02', 1, 0, '2016-05-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '03', 2, 0, '2016-05-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '04', 3, 0, '2016-05-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '05', 4, 0, '2016-05-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '06', 5, 0, '2016-05-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '07', 6, 1, '2016-05-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '08', 7, 1, '2016-05-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '09', 1, 0, '2016-05-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '10', 2, 0, '2016-05-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '11', 3, 0, '2016-05-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '12', 4, 0, '2016-05-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '13', 5, 0, '2016-05-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '14', 6, 1, '2016-05-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '15', 7, 1, '2016-05-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '16', 1, 0, '2016-05-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '17', 2, 0, '2016-05-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '18', 3, 0, '2016-05-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '19', 4, 0, '2016-05-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '20', 5, 0, '2016-05-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '21', 6, 1, '2016-05-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '22', 7, 1, '2016-05-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '23', 1, 0, '2016-05-23', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '24', 2, 0, '2016-05-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '25', 3, 0, '2016-05-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '26', 4, 0, '2016-05-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '27', 5, 0, '2016-05-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '28', 6, 1, '2016-05-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '29', 7, 1, '2016-05-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '30', 1, 0, '2016-05-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '05', '31', 2, 0, '2016-05-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '01', 3, 0, '2016-06-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '02', 4, 0, '2016-06-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '03', 5, 0, '2016-06-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '04', 6, 1, '2016-06-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '05', 7, 1, '2016-06-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '06', 1, 0, '2016-06-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '07', 2, 0, '2016-06-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '08', 3, 0, '2016-06-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '09', 4, 0, '2016-06-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '10', 5, 0, '2016-06-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '11', 6, 1, '2016-06-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '12', 7, 1, '2016-06-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '13', 1, 0, '2016-06-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '14', 2, 0, '2016-06-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '15', 3, 0, '2016-06-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '16', 4, 0, '2016-06-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '17', 5, 0, '2016-06-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '18', 6, 1, '2016-06-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '19', 7, 1, '2016-06-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '20', 1, 0, '2016-06-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '21', 2, 0, '2016-06-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '22', 3, 0, '2016-06-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '23', 4, 0, '2016-06-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '24', 5, 0, '2016-06-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '25', 6, 1, '2016-06-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '26', 7, 1, '2016-06-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '27', 1, 0, '2016-06-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '28', 2, 0, '2016-06-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '29', 3, 0, '2016-06-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '06', '30', 4, 0, '2016-06-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '01', 5, 0, '2016-07-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '02', 6, 1, '2016-07-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '03', 7, 1, '2016-07-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '04', 1, 0, '2016-07-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '05', 2, 0, '2016-07-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '06', 3, 0, '2016-07-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '07', 4, 0, '2016-07-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '08', 5, 0, '2016-07-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '09', 6, 1, '2016-07-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '10', 7, 1, '2016-07-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '11', 1, 0, '2016-07-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '12', 2, 0, '2016-07-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '13', 3, 0, '2016-07-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '14', 4, 0, '2016-07-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '15', 5, 0, '2016-07-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '16', 6, 1, '2016-07-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '17', 7, 1, '2016-07-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '18', 1, 0, '2016-07-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '19', 2, 0, '2016-07-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '20', 3, 0, '2016-07-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '21', 4, 0, '2016-07-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '22', 5, 0, '2016-07-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '23', 6, 1, '2016-07-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '24', 7, 1, '2016-07-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '25', 1, 0, '2016-07-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '26', 2, 0, '2016-07-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '27', 3, 0, '2016-07-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '28', 4, 0, '2016-07-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '29', 5, 0, '2016-07-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '30', 6, 1, '2016-07-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '07', '31', 7, 1, '2016-07-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '01', 1, 0, '2016-08-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '02', 2, 0, '2016-08-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '03', 3, 0, '2016-08-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '04', 4, 0, '2016-08-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '05', 5, 0, '2016-08-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '06', 6, 1, '2016-08-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '07', 7, 1, '2016-08-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '08', 1, 0, '2016-08-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '09', 2, 0, '2016-08-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '10', 3, 0, '2016-08-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '11', 4, 0, '2016-08-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '12', 5, 0, '2016-08-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '13', 6, 1, '2016-08-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '14', 7, 1, '2016-08-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '15', 1, 0, '2016-08-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '16', 2, 0, '2016-08-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '17', 3, 0, '2016-08-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '18', 4, 0, '2016-08-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '19', 5, 0, '2016-08-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '20', 6, 1, '2016-08-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '21', 7, 1, '2016-08-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '22', 1, 0, '2016-08-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '23', 2, 0, '2016-08-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '24', 3, 0, '2016-08-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '25', 4, 0, '2016-08-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '26', 5, 0, '2016-08-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '27', 6, 1, '2016-08-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '28', 7, 1, '2016-08-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '29', 1, 0, '2016-08-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '30', 2, 0, '2016-08-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '08', '31', 3, 0, '2016-08-31', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '01', 4, 0, '2016-09-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '02', 5, 0, '2016-09-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '03', 6, 1, '2016-09-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '04', 7, 1, '2016-09-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '05', 1, 0, '2016-09-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '06', 2, 0, '2016-09-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '07', 3, 0, '2016-09-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '08', 4, 0, '2016-09-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '09', 5, 0, '2016-09-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '10', 6, 1, '2016-09-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '11', 7, 1, '2016-09-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '12', 1, 0, '2016-09-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '13', 2, 0, '2016-09-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '14', 3, 0, '2016-09-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '15', 4, 0, '2016-09-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '16', 5, 0, '2016-09-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '17', 6, 1, '2016-09-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '18', 7, 1, '2016-09-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '19', 1, 0, '2016-09-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '20', 2, 0, '2016-09-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '21', 3, 0, '2016-09-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '22', 4, 0, '2016-09-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '23', 5, 0, '2016-09-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '24', 6, 1, '2016-09-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '25', 7, 1, '2016-09-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '26', 1, 0, '2016-09-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '27', 2, 0, '2016-09-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '28', 3, 0, '2016-09-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '29', 4, 0, '2016-09-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '09', '30', 5, 0, '2016-09-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '01', 6, 1, '2016-10-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '02', 7, 1, '2016-10-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '03', 1, 0, '2016-10-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '04', 2, 0, '2016-10-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '05', 3, 0, '2016-10-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '06', 4, 0, '2016-10-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '07', 5, 0, '2016-10-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '08', 6, 1, '2016-10-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '09', 7, 1, '2016-10-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '10', 1, 0, '2016-10-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '11', 2, 0, '2016-10-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '12', 3, 0, '2016-10-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '13', 4, 0, '2016-10-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '14', 5, 0, '2016-10-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '15', 6, 1, '2016-10-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '16', 7, 1, '2016-10-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '17', 1, 0, '2016-10-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '18', 2, 0, '2016-10-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '19', 3, 0, '2016-10-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '20', 4, 0, '2016-10-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '21', 5, 0, '2016-10-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '22', 6, 1, '2016-10-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '23', 7, 1, '2016-10-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '24', 1, 0, '2016-10-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '25', 2, 0, '2016-10-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '26', 3, 0, '2016-10-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '27', 4, 0, '2016-10-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '28', 5, 0, '2016-10-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '29', 6, 1, '2016-10-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '30', 7, 1, '2016-10-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '10', '31', 1, 0, '2016-10-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '01', 2, 0, '2016-11-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '02', 3, 0, '2016-11-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '03', 4, 0, '2016-11-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '04', 5, 0, '2016-11-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '05', 6, 1, '2016-11-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '06', 7, 1, '2016-11-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '07', 1, 0, '2016-11-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '08', 2, 0, '2016-11-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '09', 3, 0, '2016-11-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '10', 4, 0, '2016-11-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '11', 5, 0, '2016-11-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '12', 6, 1, '2016-11-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '13', 7, 1, '2016-11-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '14', 1, 0, '2016-11-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '15', 2, 0, '2016-11-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '16', 3, 0, '2016-11-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '17', 4, 0, '2016-11-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '18', 5, 0, '2016-11-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '19', 6, 1, '2016-11-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '20', 7, 1, '2016-11-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '21', 1, 0, '2016-11-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '22', 2, 0, '2016-11-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '23', 3, 0, '2016-11-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '24', 4, 0, '2016-11-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '25', 5, 0, '2016-11-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '26', 6, 1, '2016-11-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '27', 7, 1, '2016-11-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '28', 1, 0, '2016-11-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '29', 2, 0, '2016-11-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '11', '30', 3, 0, '2016-11-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '01', 4, 0, '2016-12-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '02', 5, 0, '2016-12-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '03', 6, 1, '2016-12-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '04', 7, 1, '2016-12-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '05', 1, 0, '2016-12-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '06', 2, 0, '2016-12-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '07', 3, 0, '2016-12-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '08', 4, 0, '2016-12-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '09', 5, 0, '2016-12-09', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '10', 6, 1, '2016-12-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '11', 7, 1, '2016-12-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '12', 1, 0, '2016-12-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '13', 2, 0, '2016-12-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '14', 3, 0, '2016-12-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '15', 4, 0, '2016-12-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '16', 5, 0, '2016-12-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '17', 6, 1, '2016-12-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '18', 7, 1, '2016-12-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '19', 1, 0, '2016-12-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '20', 2, 0, '2016-12-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '21', 3, 0, '2016-12-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '22', 4, 0, '2016-12-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '23', 5, 0, '2016-12-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '24', 6, 1, '2016-12-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '25', 7, 1, '2016-12-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '26', 1, 0, '2016-12-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '27', 2, 0, '2016-12-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '28', 3, 0, '2016-12-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '29', 4, 0, '2016-12-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '30', 5, 0, '2016-12-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2016, '12', '31', 6, 1, '2016-12-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '01', 7, 1, '2017-01-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '02', 1, 0, '2017-01-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '03', 2, 0, '2017-01-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '04', 3, 0, '2017-01-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '05', 4, 0, '2017-01-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '06', 5, 0, '2017-01-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '07', 6, 1, '2017-01-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '08', 7, 1, '2017-01-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '09', 1, 0, '2017-01-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '10', 2, 0, '2017-01-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '11', 3, 0, '2017-01-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '12', 4, 0, '2017-01-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '13', 5, 0, '2017-01-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '14', 6, 1, '2017-01-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '15', 7, 1, '2017-01-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '16', 1, 0, '2017-01-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '17', 2, 0, '2017-01-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '18', 3, 0, '2017-01-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '19', 4, 0, '2017-01-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '20', 5, 0, '2017-01-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '21', 6, 1, '2017-01-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '22', 7, 1, '2017-01-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '23', 1, 0, '2017-01-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '24', 2, 0, '2017-01-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '25', 3, 0, '2017-01-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '26', 4, 0, '2017-01-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '27', 5, 0, '2017-01-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '28', 6, 1, '2017-01-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '29', 7, 1, '2017-01-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '30', 1, 0, '2017-01-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '01', '31', 2, 0, '2017-01-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '01', 3, 0, '2017-02-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '02', 4, 0, '2017-02-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '03', 5, 0, '2017-02-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '04', 6, 1, '2017-02-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '05', 7, 1, '2017-02-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '06', 1, 0, '2017-02-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '07', 2, 0, '2017-02-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '08', 3, 0, '2017-02-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '09', 4, 0, '2017-02-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '10', 5, 0, '2017-02-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '11', 6, 1, '2017-02-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '12', 7, 1, '2017-02-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '13', 1, 0, '2017-02-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '14', 2, 0, '2017-02-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '15', 3, 0, '2017-02-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '16', 4, 0, '2017-02-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '17', 5, 0, '2017-02-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '18', 6, 1, '2017-02-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '19', 7, 1, '2017-02-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '20', 1, 0, '2017-02-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '21', 2, 0, '2017-02-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '22', 3, 0, '2017-02-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '23', 4, 0, '2017-02-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '24', 5, 0, '2017-02-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '25', 6, 1, '2017-02-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '26', 7, 1, '2017-02-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '27', 1, 0, '2017-02-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '02', '28', 2, 0, '2017-02-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '01', 3, 0, '2017-03-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '02', 4, 0, '2017-03-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '03', 5, 0, '2017-03-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '04', 6, 1, '2017-03-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '05', 7, 1, '2017-03-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '06', 1, 0, '2017-03-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '07', 2, 0, '2017-03-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '08', 3, 0, '2017-03-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '09', 4, 0, '2017-03-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '10', 5, 0, '2017-03-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '11', 6, 1, '2017-03-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '12', 7, 1, '2017-03-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '13', 1, 0, '2017-03-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '14', 2, 0, '2017-03-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '15', 3, 0, '2017-03-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '16', 4, 0, '2017-03-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '17', 5, 0, '2017-03-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '18', 6, 1, '2017-03-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '19', 7, 1, '2017-03-19', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '20', 1, 0, '2017-03-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '21', 2, 0, '2017-03-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '22', 3, 0, '2017-03-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '23', 4, 0, '2017-03-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '24', 5, 0, '2017-03-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '25', 6, 1, '2017-03-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '26', 7, 1, '2017-03-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '27', 1, 0, '2017-03-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '28', 2, 0, '2017-03-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '29', 3, 0, '2017-03-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '30', 4, 0, '2017-03-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '03', '31', 5, 0, '2017-03-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '01', 6, 1, '2017-04-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '02', 7, 1, '2017-04-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '03', 1, 0, '2017-04-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '04', 2, 0, '2017-04-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '07', 5, 0, '2013-06-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '08', 6, 1, '2013-06-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '09', 7, 1, '2013-06-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '10', 1, 0, '2013-06-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '11', 2, 0, '2013-06-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '12', 3, 0, '2013-06-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2013, '06', '13', 4, 0, '2013-06-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '02', 6, 1, '2017-12-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '03', 7, 1, '2017-12-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '04', 1, 0, '2017-12-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '05', 2, 0, '2017-12-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '06', 3, 0, '2017-12-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '07', 4, 0, '2017-12-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '08', 5, 0, '2017-12-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '09', 6, 1, '2017-12-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '10', 7, 1, '2017-12-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '11', 1, 0, '2017-12-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '12', 2, 0, '2017-12-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '13', 3, 0, '2017-12-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '14', 4, 0, '2017-12-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '15', 5, 0, '2017-12-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '16', 6, 1, '2017-12-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '17', 7, 1, '2017-12-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '18', 1, 0, '2017-12-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '19', 2, 0, '2017-12-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '20', 3, 0, '2017-12-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '21', 4, 0, '2017-12-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '22', 5, 0, '2017-12-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '23', 6, 1, '2017-12-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '24', 7, 1, '2017-12-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '25', 1, 0, '2017-12-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '26', 2, 0, '2017-12-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '27', 3, 0, '2017-12-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '28', 4, 0, '2017-12-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '29', 5, 0, '2017-12-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '30', 6, 1, '2017-12-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '31', 7, 1, '2017-12-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '01', 1, 0, '2018-01-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '02', 2, 0, '2018-01-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '03', 3, 0, '2018-01-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '04', 4, 0, '2018-01-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '05', 5, 0, '2018-01-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '06', 6, 1, '2018-01-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '07', 7, 1, '2018-01-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '08', 1, 0, '2018-01-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '09', 2, 0, '2018-01-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '10', 3, 0, '2018-01-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '11', 4, 0, '2018-01-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '12', 5, 0, '2018-01-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '13', 6, 1, '2018-01-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '14', 7, 1, '2018-01-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '15', 1, 0, '2018-01-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '16', 2, 0, '2018-01-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '17', 3, 0, '2018-01-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '18', 4, 0, '2018-01-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '19', 5, 0, '2018-01-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '20', 6, 1, '2018-01-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '21', 7, 1, '2018-01-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '22', 1, 0, '2018-01-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '23', 2, 0, '2018-01-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '24', 3, 0, '2018-01-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '25', 4, 0, '2018-01-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '26', 5, 0, '2018-01-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '27', 6, 1, '2018-01-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '28', 7, 1, '2018-01-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '29', 1, 0, '2018-01-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '30', 2, 0, '2018-01-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '01', '31', 3, 0, '2018-01-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '01', 4, 0, '2018-02-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '02', 5, 0, '2018-02-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '03', 6, 1, '2018-02-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '04', 7, 1, '2018-02-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '05', 1, 0, '2018-02-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '06', 2, 0, '2018-02-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '07', 3, 0, '2018-02-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '08', 4, 0, '2018-02-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '09', 5, 0, '2018-02-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '10', 6, 1, '2018-02-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '11', 7, 1, '2018-02-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '12', 1, 0, '2018-02-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '13', 2, 0, '2018-02-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '14', 3, 0, '2018-02-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '15', 4, 0, '2018-02-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '16', 5, 0, '2018-02-16', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '17', 6, 1, '2018-02-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '18', 7, 1, '2018-02-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '19', 1, 0, '2018-02-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '20', 2, 0, '2018-02-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '21', 3, 0, '2018-02-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '22', 4, 0, '2018-02-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '23', 5, 0, '2018-02-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '24', 6, 1, '2018-02-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '25', 7, 1, '2018-02-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '26', 1, 0, '2018-02-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '27', 2, 0, '2018-02-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '02', '28', 3, 0, '2018-02-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '01', 4, 0, '2018-03-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '02', 5, 0, '2018-03-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '03', 6, 1, '2018-03-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '04', 7, 1, '2018-03-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '05', 1, 0, '2018-03-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '06', 2, 0, '2018-03-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '07', 3, 0, '2018-03-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '08', 4, 0, '2018-03-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '09', 5, 0, '2018-03-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '10', 6, 1, '2018-03-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '11', 7, 1, '2018-03-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '12', 1, 0, '2018-03-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '13', 2, 0, '2018-03-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '14', 3, 0, '2018-03-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '15', 4, 0, '2018-03-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '16', 5, 0, '2018-03-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '17', 6, 1, '2018-03-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '18', 7, 1, '2018-03-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '19', 1, 0, '2018-03-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '20', 2, 0, '2018-03-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '21', 3, 0, '2018-03-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '22', 4, 0, '2018-03-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '23', 5, 0, '2018-03-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '24', 6, 1, '2018-03-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '25', 7, 1, '2018-03-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '26', 1, 0, '2018-03-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '27', 2, 0, '2018-03-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '28', 3, 0, '2018-03-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '29', 4, 0, '2018-03-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '30', 5, 0, '2018-03-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '03', '31', 6, 1, '2018-03-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '01', 7, 1, '2018-04-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '02', 1, 0, '2018-04-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '03', 2, 0, '2018-04-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '04', 3, 0, '2018-04-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '05', 4, 0, '2018-04-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '06', 5, 0, '2018-04-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '07', 6, 1, '2018-04-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '08', 7, 1, '2018-04-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '09', 1, 0, '2018-04-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '10', 2, 0, '2018-04-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '11', 3, 0, '2018-04-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '12', 4, 0, '2018-04-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '13', 5, 0, '2018-04-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '14', 6, 1, '2018-04-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '15', 7, 1, '2018-04-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '16', 1, 0, '2018-04-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '17', 2, 0, '2018-04-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '18', 3, 0, '2018-04-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '19', 4, 0, '2018-04-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '20', 5, 0, '2018-04-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '21', 6, 1, '2018-04-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '22', 7, 1, '2018-04-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '23', 1, 0, '2018-04-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '24', 2, 0, '2018-04-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '25', 3, 0, '2018-04-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '26', 4, 0, '2018-04-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '27', 5, 0, '2018-04-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '28', 6, 1, '2018-04-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '29', 7, 1, '2018-04-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '04', '30', 1, 0, '2018-04-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '01', 2, 0, '2018-05-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '02', 3, 0, '2018-05-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '03', 4, 0, '2018-05-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '04', 5, 0, '2018-05-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '05', 6, 1, '2018-05-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '06', 7, 1, '2018-05-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '07', 1, 0, '2018-05-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '08', 2, 0, '2018-05-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '09', 3, 0, '2018-05-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '10', 4, 0, '2018-05-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '11', 5, 0, '2018-05-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '12', 6, 1, '2018-05-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '13', 7, 1, '2018-05-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '14', 1, 0, '2018-05-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '15', 2, 0, '2018-05-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '16', 3, 0, '2018-05-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '17', 4, 0, '2018-05-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '18', 5, 0, '2018-05-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '19', 6, 1, '2018-05-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '20', 7, 1, '2018-05-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '21', 1, 0, '2018-05-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '22', 2, 0, '2018-05-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '23', 3, 0, '2018-05-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '24', 4, 0, '2018-05-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '25', 5, 0, '2018-05-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '26', 6, 1, '2018-05-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '27', 7, 1, '2018-05-27', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '28', 1, 0, '2018-05-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '29', 2, 0, '2018-05-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '30', 3, 0, '2018-05-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '05', '31', 4, 0, '2018-05-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '01', 5, 0, '2018-06-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '02', 6, 1, '2018-06-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '03', 7, 1, '2018-06-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '04', 1, 0, '2018-06-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '05', 2, 0, '2018-06-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '06', 3, 0, '2018-06-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '07', 4, 0, '2018-06-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '08', 5, 0, '2018-06-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '09', 6, 1, '2018-06-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '10', 7, 1, '2018-06-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '11', 1, 0, '2018-06-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '12', 2, 0, '2018-06-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '13', 3, 0, '2018-06-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '14', 4, 0, '2018-06-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '15', 5, 0, '2018-06-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '16', 6, 1, '2018-06-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '17', 7, 1, '2018-06-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '18', 1, 0, '2018-06-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '19', 2, 0, '2018-06-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '20', 3, 0, '2018-06-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '21', 4, 0, '2018-06-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '22', 5, 0, '2018-06-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '23', 6, 1, '2018-06-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '24', 7, 1, '2018-06-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '25', 1, 0, '2018-06-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '26', 2, 0, '2018-06-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '27', 3, 0, '2018-06-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '28', 4, 0, '2018-06-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '29', 5, 0, '2018-06-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '06', '30', 6, 1, '2018-06-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '01', 7, 1, '2018-07-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '02', 1, 0, '2018-07-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '03', 2, 0, '2018-07-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '04', 3, 0, '2018-07-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '05', 4, 0, '2018-07-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '06', 5, 0, '2018-07-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '07', 6, 1, '2018-07-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '08', 7, 1, '2018-07-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '09', 1, 0, '2018-07-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '10', 2, 0, '2018-07-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '11', 3, 0, '2018-07-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '12', 4, 0, '2018-07-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '13', 5, 0, '2018-07-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '14', 6, 1, '2018-07-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '15', 7, 1, '2018-07-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '16', 1, 0, '2018-07-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '17', 2, 0, '2018-07-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '18', 3, 0, '2018-07-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '19', 4, 0, '2018-07-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '20', 5, 0, '2018-07-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '21', 6, 1, '2018-07-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '22', 7, 1, '2018-07-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '23', 1, 0, '2018-07-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '24', 2, 0, '2018-07-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '25', 3, 0, '2018-07-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '26', 4, 0, '2018-07-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '27', 5, 0, '2018-07-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '28', 6, 1, '2018-07-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '29', 7, 1, '2018-07-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '30', 1, 0, '2018-07-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '07', '31', 2, 0, '2018-07-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '01', 3, 0, '2018-08-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '02', 4, 0, '2018-08-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '03', 5, 0, '2018-08-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '04', 6, 1, '2018-08-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '05', 7, 1, '2018-08-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '06', 1, 0, '2018-08-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '07', 2, 0, '2018-08-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '08', 3, 0, '2018-08-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '09', 4, 0, '2018-08-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '10', 5, 0, '2018-08-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '11', 6, 1, '2018-08-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '12', 7, 1, '2018-08-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '13', 1, 0, '2018-08-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '14', 2, 0, '2018-08-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '15', 3, 0, '2018-08-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '16', 4, 0, '2018-08-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '17', 5, 0, '2018-08-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '18', 6, 1, '2018-08-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '19', 7, 1, '2018-08-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '20', 1, 0, '2018-08-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '21', 2, 0, '2018-08-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '22', 3, 0, '2018-08-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '23', 4, 0, '2018-08-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '24', 5, 0, '2018-08-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '25', 6, 1, '2018-08-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '26', 7, 1, '2018-08-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '27', 1, 0, '2018-08-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '28', 2, 0, '2018-08-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '29', 3, 0, '2018-08-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '30', 4, 0, '2018-08-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '08', '31', 5, 0, '2018-08-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '01', 6, 1, '2018-09-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '02', 7, 1, '2018-09-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '03', 1, 0, '2018-09-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '04', 2, 0, '2018-09-04', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '05', 3, 0, '2018-09-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '06', 4, 0, '2018-09-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '07', 5, 0, '2018-09-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '08', 6, 1, '2018-09-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '09', 7, 1, '2018-09-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '10', 1, 0, '2018-09-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '11', 2, 0, '2018-09-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '12', 3, 0, '2018-09-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '13', 4, 0, '2018-09-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '14', 5, 0, '2018-09-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '15', 6, 1, '2018-09-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '16', 7, 1, '2018-09-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '17', 1, 0, '2018-09-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '18', 2, 0, '2018-09-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '19', 3, 0, '2018-09-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '20', 4, 0, '2018-09-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '21', 5, 0, '2018-09-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '22', 6, 1, '2018-09-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '23', 7, 1, '2018-09-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '24', 1, 0, '2018-09-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '25', 2, 0, '2018-09-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '26', 3, 0, '2018-09-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '27', 4, 0, '2018-09-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '28', 5, 0, '2018-09-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '29', 6, 1, '2018-09-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '09', '30', 7, 1, '2018-09-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '01', 1, 0, '2018-10-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '02', 2, 0, '2018-10-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '03', 3, 0, '2018-10-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '04', 4, 0, '2018-10-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '05', 5, 0, '2018-10-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '06', 6, 1, '2018-10-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '07', 7, 1, '2018-10-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '08', 1, 0, '2018-10-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '09', 2, 0, '2018-10-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '10', 3, 0, '2018-10-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '11', 4, 0, '2018-10-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '12', 5, 0, '2018-10-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '13', 6, 1, '2018-10-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '14', 7, 1, '2018-10-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '15', 1, 0, '2018-10-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '16', 2, 0, '2018-10-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '17', 3, 0, '2018-10-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '18', 4, 0, '2018-10-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '19', 5, 0, '2018-10-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '20', 6, 1, '2018-10-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '21', 7, 1, '2018-10-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '22', 1, 0, '2018-10-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '23', 2, 0, '2018-10-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '24', 3, 0, '2018-10-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '25', 4, 0, '2018-10-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '26', 5, 0, '2018-10-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '27', 6, 1, '2018-10-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '28', 7, 1, '2018-10-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '29', 1, 0, '2018-10-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '30', 2, 0, '2018-10-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '10', '31', 3, 0, '2018-10-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '01', 4, 0, '2018-11-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '02', 5, 0, '2018-11-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '03', 6, 1, '2018-11-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '04', 7, 1, '2018-11-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '05', 1, 0, '2018-11-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '06', 2, 0, '2018-11-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '07', 3, 0, '2018-11-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '08', 4, 0, '2018-11-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '09', 5, 0, '2018-11-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '10', 6, 1, '2018-11-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '11', 7, 1, '2018-11-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '12', 1, 0, '2018-11-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '13', 2, 0, '2018-11-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '14', 3, 0, '2018-11-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '15', 4, 0, '2018-11-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '16', 5, 0, '2018-11-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '17', 6, 1, '2018-11-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '18', 7, 1, '2018-11-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '19', 1, 0, '2018-11-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '20', 2, 0, '2018-11-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '21', 3, 0, '2018-11-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '22', 4, 0, '2018-11-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '23', 5, 0, '2018-11-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '24', 6, 1, '2018-11-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '25', 7, 1, '2018-11-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '26', 1, 0, '2018-11-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '27', 2, 0, '2018-11-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '28', 3, 0, '2018-11-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '29', 4, 0, '2018-11-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '11', '30', 5, 0, '2018-11-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '01', 6, 1, '2018-12-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '02', 7, 1, '2018-12-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '03', 1, 0, '2018-12-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '04', 2, 0, '2018-12-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '05', 3, 0, '2018-12-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '06', 4, 0, '2018-12-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '07', 5, 0, '2018-12-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '08', 6, 1, '2018-12-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '09', 7, 1, '2018-12-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '10', 1, 0, '2018-12-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '11', 2, 0, '2018-12-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '12', 3, 0, '2018-12-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '13', 4, 0, '2018-12-13', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '14', 5, 0, '2018-12-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '15', 6, 1, '2018-12-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '16', 7, 1, '2018-12-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '17', 1, 0, '2018-12-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '18', 2, 0, '2018-12-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '19', 3, 0, '2018-12-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '20', 4, 0, '2018-12-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '21', 5, 0, '2018-12-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '22', 6, 1, '2018-12-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '23', 7, 1, '2018-12-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '24', 1, 0, '2018-12-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '25', 2, 0, '2018-12-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '26', 3, 0, '2018-12-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '27', 4, 0, '2018-12-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '28', 5, 0, '2018-12-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '29', 6, 1, '2018-12-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '30', 7, 1, '2018-12-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2018, '12', '31', 1, 0, '2018-12-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '12', 3, 0, '2017-04-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '13', 4, 0, '2017-04-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '14', 5, 0, '2017-04-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '15', 6, 1, '2017-04-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '16', 7, 1, '2017-04-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '17', 1, 0, '2017-04-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '18', 2, 0, '2017-04-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '19', 3, 0, '2017-04-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '20', 4, 0, '2017-04-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '21', 5, 0, '2017-04-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '22', 6, 1, '2017-04-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '23', 7, 1, '2017-04-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '24', 1, 0, '2017-04-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '25', 2, 0, '2017-04-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '26', 3, 0, '2017-04-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '27', 4, 0, '2017-04-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '28', 5, 0, '2017-04-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '29', 6, 1, '2017-04-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '04', '30', 7, 1, '2017-04-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '01', 1, 0, '2017-05-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '02', 2, 0, '2017-05-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '03', 3, 0, '2017-05-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '04', 4, 0, '2017-05-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '05', 5, 0, '2017-05-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '06', 6, 1, '2017-05-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '07', 7, 1, '2017-05-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '08', 1, 0, '2017-05-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '09', 2, 0, '2017-05-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '10', 3, 0, '2017-05-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '11', 4, 0, '2017-05-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '12', 5, 0, '2017-05-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '13', 6, 1, '2017-05-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '14', 7, 1, '2017-05-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '15', 1, 0, '2017-05-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '16', 2, 0, '2017-05-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '17', 3, 0, '2017-05-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '18', 4, 0, '2017-05-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '19', 5, 0, '2017-05-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '20', 6, 1, '2017-05-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '21', 7, 1, '2017-05-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '22', 1, 0, '2017-05-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '23', 2, 0, '2017-05-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '24', 3, 0, '2017-05-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '25', 4, 0, '2017-05-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '26', 5, 0, '2017-05-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '27', 6, 1, '2017-05-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '28', 7, 1, '2017-05-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '29', 1, 0, '2017-05-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '30', 2, 0, '2017-05-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '05', '31', 3, 0, '2017-05-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '01', 4, 0, '2017-06-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '02', 5, 0, '2017-06-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '03', 6, 1, '2017-06-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '04', 7, 1, '2017-06-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '05', 1, 0, '2017-06-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '06', 2, 0, '2017-06-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '07', 3, 0, '2017-06-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '08', 4, 0, '2017-06-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '09', 5, 0, '2017-06-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '10', 6, 1, '2017-06-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '11', 7, 1, '2017-06-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '12', 1, 0, '2017-06-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '13', 2, 0, '2017-06-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '14', 3, 0, '2017-06-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '15', 4, 0, '2017-06-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '16', 5, 0, '2017-06-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '17', 6, 1, '2017-06-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '18', 7, 1, '2017-06-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '19', 1, 0, '2017-06-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '20', 2, 0, '2017-06-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '21', 3, 0, '2017-06-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '22', 4, 0, '2017-06-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '23', 5, 0, '2017-06-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '24', 6, 1, '2017-06-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '25', 7, 1, '2017-06-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '26', 1, 0, '2017-06-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '27', 2, 0, '2017-06-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '28', 3, 0, '2017-06-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '29', 4, 0, '2017-06-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '06', '30', 5, 0, '2017-06-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '01', 6, 1, '2017-07-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '02', 7, 1, '2017-07-02', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '03', 1, 0, '2017-07-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '04', 2, 0, '2017-07-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '05', 3, 0, '2017-07-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '06', 4, 0, '2017-07-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '07', 5, 0, '2017-07-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '08', 6, 1, '2017-07-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '09', 7, 1, '2017-07-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '10', 1, 0, '2017-07-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '11', 2, 0, '2017-07-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '12', 3, 0, '2017-07-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '13', 4, 0, '2017-07-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '14', 5, 0, '2017-07-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '15', 6, 1, '2017-07-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '16', 7, 1, '2017-07-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '17', 1, 0, '2017-07-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '18', 2, 0, '2017-07-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '19', 3, 0, '2017-07-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '20', 4, 0, '2017-07-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '21', 5, 0, '2017-07-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '22', 6, 1, '2017-07-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '23', 7, 1, '2017-07-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '24', 1, 0, '2017-07-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '25', 2, 0, '2017-07-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '26', 3, 0, '2017-07-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '27', 4, 0, '2017-07-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '28', 5, 0, '2017-07-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '29', 6, 1, '2017-07-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '30', 7, 1, '2017-07-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '07', '31', 1, 0, '2017-07-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '01', 2, 0, '2017-08-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '02', 3, 0, '2017-08-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '03', 4, 0, '2017-08-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '04', 5, 0, '2017-08-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '05', 6, 1, '2017-08-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '06', 7, 1, '2017-08-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '07', 1, 0, '2017-08-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '08', 2, 0, '2017-08-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '09', 3, 0, '2017-08-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '10', 4, 0, '2017-08-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '11', 5, 0, '2017-08-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '12', 6, 1, '2017-08-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '13', 7, 1, '2017-08-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '14', 1, 0, '2017-08-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '15', 2, 0, '2017-08-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '16', 3, 0, '2017-08-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '17', 4, 0, '2017-08-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '18', 5, 0, '2017-08-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '19', 6, 1, '2017-08-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '20', 7, 1, '2017-08-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '21', 1, 0, '2017-08-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '22', 2, 0, '2017-08-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '23', 3, 0, '2017-08-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '24', 4, 0, '2017-08-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '25', 5, 0, '2017-08-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '26', 6, 1, '2017-08-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '27', 7, 1, '2017-08-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '28', 1, 0, '2017-08-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '29', 2, 0, '2017-08-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '30', 3, 0, '2017-08-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '08', '31', 4, 0, '2017-08-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '01', 5, 0, '2017-09-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '02', 6, 1, '2017-09-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '03', 7, 1, '2017-09-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '04', 1, 0, '2017-09-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '05', 2, 0, '2017-09-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '06', 3, 0, '2017-09-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '07', 4, 0, '2017-09-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '08', 5, 0, '2017-09-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '09', 6, 1, '2017-09-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '10', 7, 1, '2017-09-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '11', 1, 0, '2017-09-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '12', 2, 0, '2017-09-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '13', 3, 0, '2017-09-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '14', 4, 0, '2017-09-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '15', 5, 0, '2017-09-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '16', 6, 1, '2017-09-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '17', 7, 1, '2017-09-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '18', 1, 0, '2017-09-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '19', 2, 0, '2017-09-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '20', 3, 0, '2017-09-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '21', 4, 0, '2017-09-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '22', 5, 0, '2017-09-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '23', 6, 1, '2017-09-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '24', 7, 1, '2017-09-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '25', 1, 0, '2017-09-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '26', 2, 0, '2017-09-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '27', 3, 0, '2017-09-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '28', 4, 0, '2017-09-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '29', 5, 0, '2017-09-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '09', '30', 6, 1, '2017-09-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '01', 7, 1, '2017-10-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '02', 1, 0, '2017-10-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '03', 2, 0, '2017-10-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '04', 3, 0, '2017-10-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '05', 4, 0, '2017-10-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '06', 5, 0, '2017-10-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '07', 6, 1, '2017-10-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '08', 7, 1, '2017-10-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '09', 1, 0, '2017-10-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '10', 2, 0, '2017-10-10', null);
+
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '11', 3, 0, '2017-10-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '12', 4, 0, '2017-10-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '13', 5, 0, '2017-10-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '14', 6, 1, '2017-10-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '15', 7, 1, '2017-10-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '16', 1, 0, '2017-10-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '17', 2, 0, '2017-10-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '18', 3, 0, '2017-10-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '19', 4, 0, '2017-10-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '20', 5, 0, '2017-10-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '21', 6, 1, '2017-10-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '22', 7, 1, '2017-10-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '23', 1, 0, '2017-10-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '24', 2, 0, '2017-10-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '25', 3, 0, '2017-10-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '26', 4, 0, '2017-10-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '27', 5, 0, '2017-10-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '28', 6, 1, '2017-10-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '29', 7, 1, '2017-10-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '30', 1, 0, '2017-10-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '10', '31', 2, 0, '2017-10-31', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '01', 3, 0, '2017-11-01', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '02', 4, 0, '2017-11-02', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '03', 5, 0, '2017-11-03', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '04', 6, 1, '2017-11-04', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '05', 7, 1, '2017-11-05', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '06', 1, 0, '2017-11-06', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '07', 2, 0, '2017-11-07', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '08', 3, 0, '2017-11-08', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '09', 4, 0, '2017-11-09', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '10', 5, 0, '2017-11-10', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '11', 6, 1, '2017-11-11', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '12', 7, 1, '2017-11-12', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '13', 1, 0, '2017-11-13', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '14', 2, 0, '2017-11-14', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '15', 3, 0, '2017-11-15', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '16', 4, 0, '2017-11-16', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '17', 5, 0, '2017-11-17', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '18', 6, 1, '2017-11-18', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '19', 7, 1, '2017-11-19', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '20', 1, 0, '2017-11-20', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '21', 2, 0, '2017-11-21', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '22', 3, 0, '2017-11-22', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '23', 4, 0, '2017-11-23', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '24', 5, 0, '2017-11-24', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '25', 6, 1, '2017-11-25', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '26', 7, 1, '2017-11-26', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '27', 1, 0, '2017-11-27', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '28', 2, 0, '2017-11-28', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '29', 3, 0, '2017-11-29', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '11', '30', 4, 0, '2017-11-30', null);
+insert into SYS_WORK_DAY (set_year, date_month, date_day, week, date_type, china_date, last_ver)
+values (2017, '12', '01', 5, 0, '2017-12-01', null);
+
+insert into SYS_YEAR (set_year, year_name, enabled, init_flag, start_date, end_date, last_ver, year_status)
+values (2009, '2009年', 1, 1, '2008-12-01', '2009-12-31', '2008-12-02 22:03:3', 1);
+insert into SYS_YEAR (set_year, year_name, enabled, init_flag, start_date, end_date, last_ver, year_status)
+values (2008, '2008年', 0, 1, '2008-01-01', '2008-12-31', '2008-01-02 22:03:32', 1);
+insert into SYS_YEAR (set_year, year_name, enabled, init_flag, start_date, end_date, last_ver, year_status)
+values (2017, '2017年', 1, 1, '2017-01-01', '2017-12-31', '2017-03-14 11:03:15', 1);
+insert into SYS_YEAR (set_year, year_name, enabled, init_flag, start_date, end_date, last_ver, year_status)
+values (2013, '2013年', 0, 1, '2013-01-01', '2013-12-31', null, 1);
+
+insert into SYS_YEAR_OP_CUR_STATUS (op_id, op_name, op_status, RG_CODE, set_year)
+values (1, '一键初始化导出导入库操作', 0, '000000', 2017);
+insert into SYS_YEAR_OP_CUR_STATUS (op_id, op_name, op_status, RG_CODE, set_year)
+values (2, '一键初始化执行脚本操作；（全部初始化）', 0, '000000', 2017);
+insert into SYS_YEAR_OP_CUR_STATUS (op_id, op_name, op_status, RG_CODE, set_year)
+values (3, '年结检验（在途计划及支付）', 0, '000000', 2017);
+insert into SYS_YEAR_OP_CUR_STATUS (op_id, op_name, op_status, RG_CODE, set_year)
+values (4, '编码对照', 0, '000000', 2017);
+insert into SYS_YEAR_OP_CUR_STATUS (op_id, op_name, op_status, RG_CODE, set_year)
+values (5, '计划结余、生效', 0, '000000', 2017);
+insert into SYS_YEAR_OP_CUR_STATUS (op_id, op_name, op_status, RG_CODE, set_year)
+values (6, '采购结余、生效', 0, '000000', 2017);
+insert into SYS_YEAR_OP_CUR_STATUS (op_id, op_name, op_status, RG_CODE, set_year)
+values (7, '工资结余', 0, '000000', 2017);
+insert into SYS_YEAR_OP_CUR_STATUS (op_id, op_name, op_status, RG_CODE, set_year)
+values (8, '指标结余、生效', 0, '000000', 2017);
+
+insert into TEMP_DATE (day)
+values (0);
+insert into TEMP_DATE (day)
+values (1);
+insert into TEMP_DATE (day)
+values (2);
+insert into TEMP_DATE (day)
+values (3);
+insert into TEMP_DATE (day)
+values (4);
+insert into TEMP_DATE (day)
+values (5);
+insert into TEMP_DATE (day)
+values (6);
+insert into TEMP_DATE (day)
+values (7);
+insert into TEMP_DATE (day)
+values (8);
+insert into TEMP_DATE (day)
+values (9);
+insert into TEMP_DATE (day)
+values (10);
+insert into TEMP_DATE (day)
+values (11);
+insert into TEMP_DATE (day)
+values (12);
+insert into TEMP_DATE (day)
+values (13);
+insert into TEMP_DATE (day)
+values (14);
+insert into TEMP_DATE (day)
+values (15);
+insert into TEMP_DATE (day)
+values (16);
+insert into TEMP_DATE (day)
+values (17);
+insert into TEMP_DATE (day)
+values (18);
+insert into TEMP_DATE (day)
+values (19);
+insert into TEMP_DATE (day)
+values (20);
+insert into TEMP_DATE (day)
+values (21);
+insert into TEMP_DATE (day)
+values (22);
+insert into TEMP_DATE (day)
+values (23);
+insert into TEMP_DATE (day)
+values (24);
+insert into TEMP_DATE (day)
+values (25);
+insert into TEMP_DATE (day)
+values (26);
+insert into TEMP_DATE (day)
+values (27);
+insert into TEMP_DATE (day)
+values (28);
+insert into TEMP_DATE (day)
+values (29);
+insert into TEMP_DATE (day)
+values (30);
+insert into TEMP_DATE (day)
+values (31);
+insert into TEMP_DATE (day)
+values (32);
+insert into TEMP_DATE (day)
+values (33);
+insert into TEMP_DATE (day)
+values (34);
+insert into TEMP_DATE (day)
+values (35);
+insert into TEMP_DATE (day)
+values (36);
+insert into TEMP_DATE (day)
+values (37);
+insert into TEMP_DATE (day)
+values (38);
+insert into TEMP_DATE (day)
+values (39);
+insert into TEMP_DATE (day)
+values (40);
+insert into TEMP_DATE (day)
+values (41);
+insert into TEMP_DATE (day)
+values (42);
+insert into TEMP_DATE (day)
+values (43);
+insert into TEMP_DATE (day)
+values (44);
+insert into TEMP_DATE (day)
+values (45);
+insert into TEMP_DATE (day)
+values (46);
+insert into TEMP_DATE (day)
+values (47);
+insert into TEMP_DATE (day)
+values (48);
+insert into TEMP_DATE (day)
+values (49);
+insert into TEMP_DATE (day)
+values (50);
+insert into TEMP_DATE (day)
+values (51);
+insert into TEMP_DATE (day)
+values (52);
+insert into TEMP_DATE (day)
+values (53);
+insert into TEMP_DATE (day)
+values (54);
+insert into TEMP_DATE (day)
+values (55);
+insert into TEMP_DATE (day)
+values (56);
+insert into TEMP_DATE (day)
+values (57);
+insert into TEMP_DATE (day)
+values (58);
+insert into TEMP_DATE (day)
+values (59);
+insert into TEMP_DATE (day)
+values (60);
+insert into TEMP_DATE (day)
+values (61);
+insert into TEMP_DATE (day)
+values (62);
+insert into TEMP_DATE (day)
+values (63);
+insert into TEMP_DATE (day)
+values (64);
+insert into TEMP_DATE (day)
+values (65);
+insert into TEMP_DATE (day)
+values (66);
+insert into TEMP_DATE (day)
+values (67);
+insert into TEMP_DATE (day)
+values (68);
+insert into TEMP_DATE (day)
+values (69);
+insert into TEMP_DATE (day)
+values (70);
+insert into TEMP_DATE (day)
+values (71);
+insert into TEMP_DATE (day)
+values (72);
+insert into TEMP_DATE (day)
+values (73);
+insert into TEMP_DATE (day)
+values (74);
+insert into TEMP_DATE (day)
+values (75);
+insert into TEMP_DATE (day)
+values (76);
+insert into TEMP_DATE (day)
+values (77);
+insert into TEMP_DATE (day)
+values (78);
+insert into TEMP_DATE (day)
+values (79);
+insert into TEMP_DATE (day)
+values (80);
+insert into TEMP_DATE (day)
+values (81);
+insert into TEMP_DATE (day)
+values (82);
+insert into TEMP_DATE (day)
+values (83);
+insert into TEMP_DATE (day)
+values (84);
+insert into TEMP_DATE (day)
+values (85);
+insert into TEMP_DATE (day)
+values (86);
+insert into TEMP_DATE (day)
+values (87);
+insert into TEMP_DATE (day)
+values (88);
+insert into TEMP_DATE (day)
+values (89);
+insert into TEMP_DATE (day)
+values (90);
+insert into TEMP_DATE (day)
+values (91);
+insert into TEMP_DATE (day)
+values (92);
+insert into TEMP_DATE (day)
+values (93);
+insert into TEMP_DATE (day)
+values (94);
+insert into TEMP_DATE (day)
+values (95);
+insert into TEMP_DATE (day)
+values (96);
+insert into TEMP_DATE (day)
+values (97);
+insert into TEMP_DATE (day)
+values (98);
+insert into TEMP_DATE (day)
+values (99);
+
+insert into TEMP_DATE (day)
+values (100);
+insert into TEMP_DATE (day)
+values (101);
+insert into TEMP_DATE (day)
+values (102);
+insert into TEMP_DATE (day)
+values (103);
+insert into TEMP_DATE (day)
+values (104);
+insert into TEMP_DATE (day)
+values (105);
+insert into TEMP_DATE (day)
+values (106);
+insert into TEMP_DATE (day)
+values (107);
+insert into TEMP_DATE (day)
+values (108);
+insert into TEMP_DATE (day)
+values (109);
+insert into TEMP_DATE (day)
+values (110);
+insert into TEMP_DATE (day)
+values (111);
+insert into TEMP_DATE (day)
+values (112);
+insert into TEMP_DATE (day)
+values (113);
+insert into TEMP_DATE (day)
+values (114);
+insert into TEMP_DATE (day)
+values (115);
+insert into TEMP_DATE (day)
+values (116);
+insert into TEMP_DATE (day)
+values (117);
+insert into TEMP_DATE (day)
+values (118);
+insert into TEMP_DATE (day)
+values (119);
+insert into TEMP_DATE (day)
+values (120);
+insert into TEMP_DATE (day)
+values (121);
+insert into TEMP_DATE (day)
+values (122);
+insert into TEMP_DATE (day)
+values (123);
+insert into TEMP_DATE (day)
+values (124);
+insert into TEMP_DATE (day)
+values (125);
+insert into TEMP_DATE (day)
+values (126);
+insert into TEMP_DATE (day)
+values (127);
+insert into TEMP_DATE (day)
+values (128);
+insert into TEMP_DATE (day)
+values (129);
+insert into TEMP_DATE (day)
+values (130);
+insert into TEMP_DATE (day)
+values (131);
+insert into TEMP_DATE (day)
+values (132);
+insert into TEMP_DATE (day)
+values (133);
+insert into TEMP_DATE (day)
+values (134);
+insert into TEMP_DATE (day)
+values (135);
+insert into TEMP_DATE (day)
+values (136);
+insert into TEMP_DATE (day)
+values (137);
+insert into TEMP_DATE (day)
+values (138);
+insert into TEMP_DATE (day)
+values (139);
+insert into TEMP_DATE (day)
+values (140);
+insert into TEMP_DATE (day)
+values (141);
+insert into TEMP_DATE (day)
+values (142);
+insert into TEMP_DATE (day)
+values (143);
+insert into TEMP_DATE (day)
+values (144);
+insert into TEMP_DATE (day)
+values (145);
+insert into TEMP_DATE (day)
+values (146);
+insert into TEMP_DATE (day)
+values (147);
+insert into TEMP_DATE (day)
+values (148);
+insert into TEMP_DATE (day)
+values (149);
+insert into TEMP_DATE (day)
+values (150);
+insert into TEMP_DATE (day)
+values (151);
+insert into TEMP_DATE (day)
+values (152);
+insert into TEMP_DATE (day)
+values (153);
+insert into TEMP_DATE (day)
+values (154);
+insert into TEMP_DATE (day)
+values (155);
+insert into TEMP_DATE (day)
+values (156);
+insert into TEMP_DATE (day)
+values (157);
+insert into TEMP_DATE (day)
+values (158);
+insert into TEMP_DATE (day)
+values (159);
+insert into TEMP_DATE (day)
+values (160);
+insert into TEMP_DATE (day)
+values (161);
+insert into TEMP_DATE (day)
+values (162);
+insert into TEMP_DATE (day)
+values (163);
+insert into TEMP_DATE (day)
+values (164);
+insert into TEMP_DATE (day)
+values (165);
+insert into TEMP_DATE (day)
+values (166);
+insert into TEMP_DATE (day)
+values (167);
+insert into TEMP_DATE (day)
+values (168);
+insert into TEMP_DATE (day)
+values (169);
+insert into TEMP_DATE (day)
+values (170);
+insert into TEMP_DATE (day)
+values (171);
+insert into TEMP_DATE (day)
+values (172);
+insert into TEMP_DATE (day)
+values (173);
+insert into TEMP_DATE (day)
+values (174);
+insert into TEMP_DATE (day)
+values (175);
+insert into TEMP_DATE (day)
+values (176);
+insert into TEMP_DATE (day)
+values (177);
+insert into TEMP_DATE (day)
+values (178);
+insert into TEMP_DATE (day)
+values (179);
+insert into TEMP_DATE (day)
+values (180);
+insert into TEMP_DATE (day)
+values (181);
+insert into TEMP_DATE (day)
+values (182);
+insert into TEMP_DATE (day)
+values (183);
+insert into TEMP_DATE (day)
+values (184);
+insert into TEMP_DATE (day)
+values (185);
+insert into TEMP_DATE (day)
+values (186);
+insert into TEMP_DATE (day)
+values (187);
+insert into TEMP_DATE (day)
+values (188);
+insert into TEMP_DATE (day)
+values (189);
+insert into TEMP_DATE (day)
+values (190);
+insert into TEMP_DATE (day)
+values (191);
+insert into TEMP_DATE (day)
+values (192);
+insert into TEMP_DATE (day)
+values (193);
+insert into TEMP_DATE (day)
+values (194);
+insert into TEMP_DATE (day)
+values (195);
+insert into TEMP_DATE (day)
+values (196);
+insert into TEMP_DATE (day)
+values (197);
+insert into TEMP_DATE (day)
+values (198);
+insert into TEMP_DATE (day)
+values (199);
+insert into TEMP_DATE (day)
+values (200);
+insert into TEMP_DATE (day)
+values (201);
+insert into TEMP_DATE (day)
+values (202);
+insert into TEMP_DATE (day)
+values (203);
+insert into TEMP_DATE (day)
+values (204);
+insert into TEMP_DATE (day)
+values (205);
+insert into TEMP_DATE (day)
+values (206);
+insert into TEMP_DATE (day)
+values (207);
+insert into TEMP_DATE (day)
+values (208);
+insert into TEMP_DATE (day)
+values (209);
+insert into TEMP_DATE (day)
+values (210);
+insert into TEMP_DATE (day)
+values (211);
+insert into TEMP_DATE (day)
+values (212);
+insert into TEMP_DATE (day)
+values (213);
+insert into TEMP_DATE (day)
+values (214);
+insert into TEMP_DATE (day)
+values (215);
+insert into TEMP_DATE (day)
+values (216);
+insert into TEMP_DATE (day)
+values (217);
+insert into TEMP_DATE (day)
+values (218);
+insert into TEMP_DATE (day)
+values (219);
+insert into TEMP_DATE (day)
+values (220);
+insert into TEMP_DATE (day)
+values (221);
+insert into TEMP_DATE (day)
+values (222);
+insert into TEMP_DATE (day)
+values (223);
+insert into TEMP_DATE (day)
+values (224);
+insert into TEMP_DATE (day)
+values (225);
+insert into TEMP_DATE (day)
+values (226);
+insert into TEMP_DATE (day)
+values (227);
+insert into TEMP_DATE (day)
+values (228);
+insert into TEMP_DATE (day)
+values (229);
+insert into TEMP_DATE (day)
+values (230);
+insert into TEMP_DATE (day)
+values (231);
+insert into TEMP_DATE (day)
+values (232);
+insert into TEMP_DATE (day)
+values (233);
+insert into TEMP_DATE (day)
+values (234);
+insert into TEMP_DATE (day)
+values (235);
+insert into TEMP_DATE (day)
+values (236);
+insert into TEMP_DATE (day)
+values (237);
+insert into TEMP_DATE (day)
+values (238);
+insert into TEMP_DATE (day)
+values (239);
+insert into TEMP_DATE (day)
+values (240);
+insert into TEMP_DATE (day)
+values (241);
+insert into TEMP_DATE (day)
+values (242);
+insert into TEMP_DATE (day)
+values (243);
+insert into TEMP_DATE (day)
+values (244);
+insert into TEMP_DATE (day)
+values (245);
+insert into TEMP_DATE (day)
+values (246);
+insert into TEMP_DATE (day)
+values (247);
+insert into TEMP_DATE (day)
+values (248);
+insert into TEMP_DATE (day)
+values (249);
+insert into TEMP_DATE (day)
+values (250);
+insert into TEMP_DATE (day)
+values (251);
+insert into TEMP_DATE (day)
+values (252);
+insert into TEMP_DATE (day)
+values (253);
+insert into TEMP_DATE (day)
+values (254);
+insert into TEMP_DATE (day)
+values (255);
+insert into TEMP_DATE (day)
+values (256);
+insert into TEMP_DATE (day)
+values (257);
+insert into TEMP_DATE (day)
+values (258);
+insert into TEMP_DATE (day)
+values (259);
+insert into TEMP_DATE (day)
+values (260);
+insert into TEMP_DATE (day)
+values (261);
+insert into TEMP_DATE (day)
+values (262);
+insert into TEMP_DATE (day)
+values (263);
+insert into TEMP_DATE (day)
+values (264);
+insert into TEMP_DATE (day)
+values (265);
+insert into TEMP_DATE (day)
+values (266);
+insert into TEMP_DATE (day)
+values (267);
+insert into TEMP_DATE (day)
+values (268);
+insert into TEMP_DATE (day)
+values (269);
+insert into TEMP_DATE (day)
+values (270);
+insert into TEMP_DATE (day)
+values (271);
+insert into TEMP_DATE (day)
+values (272);
+insert into TEMP_DATE (day)
+values (273);
+insert into TEMP_DATE (day)
+values (274);
+insert into TEMP_DATE (day)
+values (275);
+insert into TEMP_DATE (day)
+values (276);
+insert into TEMP_DATE (day)
+values (277);
+insert into TEMP_DATE (day)
+values (278);
+insert into TEMP_DATE (day)
+values (279);
+insert into TEMP_DATE (day)
+values (280);
+insert into TEMP_DATE (day)
+values (281);
+insert into TEMP_DATE (day)
+values (282);
+insert into TEMP_DATE (day)
+values (283);
+insert into TEMP_DATE (day)
+values (284);
+insert into TEMP_DATE (day)
+values (285);
+insert into TEMP_DATE (day)
+values (286);
+insert into TEMP_DATE (day)
+values (287);
+insert into TEMP_DATE (day)
+values (288);
+insert into TEMP_DATE (day)
+values (289);
+insert into TEMP_DATE (day)
+values (290);
+insert into TEMP_DATE (day)
+values (291);
+insert into TEMP_DATE (day)
+values (292);
+insert into TEMP_DATE (day)
+values (293);
+insert into TEMP_DATE (day)
+values (294);
+insert into TEMP_DATE (day)
+values (295);
+insert into TEMP_DATE (day)
+values (296);
+insert into TEMP_DATE (day)
+values (297);
+insert into TEMP_DATE (day)
+values (298);
+insert into TEMP_DATE (day)
+values (299);
+
+insert into TEMP_DATE (day)
+values (300);
+insert into TEMP_DATE (day)
+values (301);
+insert into TEMP_DATE (day)
+values (302);
+insert into TEMP_DATE (day)
+values (303);
+insert into TEMP_DATE (day)
+values (304);
+insert into TEMP_DATE (day)
+values (305);
+insert into TEMP_DATE (day)
+values (306);
+insert into TEMP_DATE (day)
+values (307);
+insert into TEMP_DATE (day)
+values (308);
+insert into TEMP_DATE (day)
+values (309);
+insert into TEMP_DATE (day)
+values (310);
+insert into TEMP_DATE (day)
+values (311);
+insert into TEMP_DATE (day)
+values (312);
+insert into TEMP_DATE (day)
+values (313);
+insert into TEMP_DATE (day)
+values (314);
+insert into TEMP_DATE (day)
+values (315);
+insert into TEMP_DATE (day)
+values (316);
+insert into TEMP_DATE (day)
+values (317);
+insert into TEMP_DATE (day)
+values (318);
+insert into TEMP_DATE (day)
+values (319);
+insert into TEMP_DATE (day)
+values (320);
+insert into TEMP_DATE (day)
+values (321);
+insert into TEMP_DATE (day)
+values (322);
+insert into TEMP_DATE (day)
+values (323);
+insert into TEMP_DATE (day)
+values (324);
+insert into TEMP_DATE (day)
+values (325);
+insert into TEMP_DATE (day)
+values (326);
+insert into TEMP_DATE (day)
+values (327);
+insert into TEMP_DATE (day)
+values (328);
+insert into TEMP_DATE (day)
+values (329);
+insert into TEMP_DATE (day)
+values (330);
+insert into TEMP_DATE (day)
+values (331);
+insert into TEMP_DATE (day)
+values (332);
+insert into TEMP_DATE (day)
+values (333);
+insert into TEMP_DATE (day)
+values (334);
+insert into TEMP_DATE (day)
+values (335);
+insert into TEMP_DATE (day)
+values (336);
+insert into TEMP_DATE (day)
+values (337);
+insert into TEMP_DATE (day)
+values (338);
+insert into TEMP_DATE (day)
+values (339);
+insert into TEMP_DATE (day)
+values (340);
+insert into TEMP_DATE (day)
+values (341);
+insert into TEMP_DATE (day)
+values (342);
+insert into TEMP_DATE (day)
+values (343);
+insert into TEMP_DATE (day)
+values (344);
+insert into TEMP_DATE (day)
+values (345);
+insert into TEMP_DATE (day)
+values (346);
+insert into TEMP_DATE (day)
+values (347);
+insert into TEMP_DATE (day)
+values (348);
+insert into TEMP_DATE (day)
+values (349);
+insert into TEMP_DATE (day)
+values (350);
+insert into TEMP_DATE (day)
+values (351);
+insert into TEMP_DATE (day)
+values (352);
+insert into TEMP_DATE (day)
+values (353);
+insert into TEMP_DATE (day)
+values (354);
+insert into TEMP_DATE (day)
+values (355);
+insert into TEMP_DATE (day)
+values (356);
+insert into TEMP_DATE (day)
+values (357);
+insert into TEMP_DATE (day)
+values (358);
+insert into TEMP_DATE (day)
+values (359);
+insert into TEMP_DATE (day)
+values (360);
+insert into TEMP_DATE (day)
+values (361);
+insert into TEMP_DATE (day)
+values (362);
+insert into TEMP_DATE (day)
+values (363);
+insert into TEMP_DATE (day)
+values (364);

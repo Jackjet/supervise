@@ -1,0 +1,9 @@
+/*右表标题*/
+.rightTable-title {
+    color: #169BD5;
+}
+.rightTable {
+    display: inline-block;
+    margin: 10px 25px 10px 15px;
+    width: 96%;
+}

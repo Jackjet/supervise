@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gov.df.supervise.service.view.CsofSupDataDao">
+  <resultMap id="BaseResultMap" type="gov.df.supervise.bean.view.CsofSupDataEntity">
+    <id column="DATA_ID" jdbcType="VARCHAR" property="dataId" />
+    <result column="VIEW_ID" jdbcType="VARCHAR" property="viewId" />
+    <result column="SHEET_ID" jdbcType="VARCHAR" property="sheetId" />
+    <result column="DATA_TABLE" jdbcType="VARCHAR" property="dataTable" />
+    <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+    <result column="LAST_VER" jdbcType="VARCHAR" property="lastVer" />
+    <result column="BILLTYPE_CODE" jdbcType="VARCHAR" property="billtypeCode" />
+    <result column="BILL_ID" jdbcType="VARCHAR" property="billId" />
+    <result column="OBJTYPE_ID" jdbcType="VARCHAR" property="objtypeId" />
+    <result column="OBJ_ID" jdbcType="VARCHAR" property="objId" />
+    <result column="SUP_CYCLE" jdbcType="DECIMAL" property="supCycle" />
+    <result column="SUP_DATE" jdbcType="VARCHAR" property="supDate" />
+    <result column="OID" jdbcType="VARCHAR" property="oid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    DATA_ID, VIEW_ID, SHEET_ID, DATA_TABLE, CREATE_DATE, LAST_VER, BILLTYPE_CODE, BILL_ID, 
+    OBJTYPE_ID, OBJ_ID, SUP_CYCLE, SUP_DATE, OID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CSOF_SUP_DATA
+    where DATA_ID = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from CSOF_SUP_DATA
+    where DATA_ID = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="gov.df.supervise.bean.view.CsofSupDataEntity">
+    insert into CSOF_SUP_DATA (DATA_ID, VIEW_ID, SHEET_ID, 
+      DATA_TABLE, CREATE_DATE, LAST_VER, 
+      BILLTYPE_CODE, BILL_ID, OBJTYPE_ID, 
+      OBJ_ID, SUP_CYCLE, SUP_DATE, 
+      OID)
+    values (#{dataId,jdbcType=VARCHAR}, #{viewId,jdbcType=VARCHAR}, #{sheetId,jdbcType=VARCHAR}, 
+      #{dataTable,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{lastVer,jdbcType=VARCHAR}, 
+      #{billtypeCode,jdbcType=VARCHAR}, #{billId,jdbcType=VARCHAR}, #{objtypeId,jdbcType=VARCHAR}, 
+      #{objId,jdbcType=VARCHAR}, #{supCycle,jdbcType=DECIMAL}, #{supDate,jdbcType=VARCHAR}, 
+      #{oid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="gov.df.supervise.bean.view.CsofSupDataEntity">
+    insert into CSOF_SUP_DATA
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        DATA_ID,
+      </if>
+      <if test="viewId != null">
+        VIEW_ID,
+      </if>
+      <if test="sheetId != null">
+        SHEET_ID,
+      </if>
+      <if test="dataTable != null">
+        DATA_TABLE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="lastVer != null">
+        LAST_VER,
+      </if>
+      <if test="billtypeCode != null">
+        BILLTYPE_CODE,
+      </if>
+      <if test="billId != null">
+        BILL_ID,
+      </if>
+      <if test="objtypeId != null">
+        OBJTYPE_ID,
+      </if>
+      <if test="objId != null">
+        OBJ_ID,
+      </if>
+      <if test="supCycle != null">
+        SUP_CYCLE,
+      </if>
+      <if test="supDate != null">
+        SUP_DATE,
+      </if>
+      <if test="oid != null">
+        OID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="viewId != null">
+        #{viewId,jdbcType=VARCHAR},
+      </if>
+      <if test="sheetId != null">
+        #{sheetId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataTable != null">
+        #{dataTable,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="lastVer != null">
+        #{lastVer,jdbcType=VARCHAR},
+      </if>
+      <if test="billtypeCode != null">
+        #{billtypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="billId != null">
+        #{billId,jdbcType=VARCHAR},
+      </if>
+      <if test="objtypeId != null">
+        #{objtypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="objId != null">
+        #{objId,jdbcType=VARCHAR},
+      </if>
+      <if test="supCycle != null">
+        #{supCycle,jdbcType=DECIMAL},
+      </if>
+      <if test="supDate != null">
+        #{supDate,jdbcType=VARCHAR},
+      </if>
+      <if test="oid != null">
+        #{oid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="gov.df.supervise.bean.view.CsofSupDataEntity">
+    update CSOF_SUP_DATA
+    <set>
+      <if test="viewId != null">
+        VIEW_ID = #{viewId,jdbcType=VARCHAR},
+      </if>
+      <if test="sheetId != null">
+        SHEET_ID = #{sheetId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataTable != null">
+        DATA_TABLE = #{dataTable,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="lastVer != null">
+        LAST_VER = #{lastVer,jdbcType=VARCHAR},
+      </if>
+      <if test="billtypeCode != null">
+        BILLTYPE_CODE = #{billtypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="billId != null">
+        BILL_ID = #{billId,jdbcType=VARCHAR},
+      </if>
+      <if test="objtypeId != null">
+        OBJTYPE_ID = #{objtypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="objId != null">
+        OBJ_ID = #{objId,jdbcType=VARCHAR},
+      </if>
+      <if test="supCycle != null">
+        SUP_CYCLE = #{supCycle,jdbcType=DECIMAL},
+      </if>
+      <if test="supDate != null">
+        SUP_DATE = #{supDate,jdbcType=VARCHAR},
+      </if>
+      <if test="oid != null">
+        OID = #{oid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DATA_ID = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="gov.df.supervise.bean.view.CsofSupDataEntity">
+    update CSOF_SUP_DATA
+    set VIEW_ID = #{viewId,jdbcType=VARCHAR},
+      SHEET_ID = #{sheetId,jdbcType=VARCHAR},
+      DATA_TABLE = #{dataTable,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      LAST_VER = #{lastVer,jdbcType=VARCHAR},
+      BILLTYPE_CODE = #{billtypeCode,jdbcType=VARCHAR},
+      BILL_ID = #{billId,jdbcType=VARCHAR},
+      OBJTYPE_ID = #{objtypeId,jdbcType=VARCHAR},
+      OBJ_ID = #{objId,jdbcType=VARCHAR},
+      SUP_CYCLE = #{supCycle,jdbcType=DECIMAL},
+      SUP_DATE = #{supDate,jdbcType=VARCHAR},
+      OID = #{oid,jdbcType=VARCHAR}
+    where DATA_ID = #{dataId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByViewId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CSOF_SUP_DATA
+    where VIEW_ID = #{viewId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getExcelData" parameterType="java.util.Map" resultType="java.util.Map">
+    	select c.*,d.sheet_id,d.view_id from csof_sup_data d, ${dataTable} c 
+    	where 1=1 and c.data_id=d.data_id and d.data_id = #{dataId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectCsofSupDataBySheetId" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CSOF_SUP_DATA
+    where SHEET_ID = #{sheetId,jdbcType=VARCHAR}
+    and BILL_ID = #{billId,jdbcType=VARCHAR}
+    
+  </select>
+  
+  <select id="getZDNamestr" parameterType="java.lang.String" resultType="java.lang.String">
+    select s.COLUMN_NAME
+	from user_tab_columns s
+	where s.Table_Name=#{dataTable,jdbcType=VARCHAR} and substr(COLUMN_NAME,0,1)='C'
+  </select>
+  
+  <insert id="insertSql" parameterType="java.lang.String">
+    ${sql}
+  </insert>
+  
+  <update id="updateSql" parameterType="java.lang.String">
+    ${sql}    
+  </update>
+  
+  <select id="selectSupData" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CSOF_SUP_DATA
+    where 1=1
+    <if test="viewId != null">
+        and VIEW_ID = #{viewId,jdbcType=VARCHAR},
+    </if>
+    <if test="billId != null">
+        and BILL_ID = #{billId,jdbcType=VARCHAR},
+    </if>
+    <if test="billtypeCode != null">
+        and BILLTYPE_CODE = #{billtypeCode,jdbcType=VARCHAR},
+    </if>
+    <if test="objId != null">
+        and OBJ_ID = #{objId,jdbcType=VARCHAR},
+    </if>
+    <if test="sheetId != null">
+        and SHEET_ID = #{sheetId,jdbcType=VARCHAR},
+    </if>
+    <if test="objtypeId != null">
+        and OBJTYPE_ID = #{objtypeId,jdbcType=VARCHAR},
+    </if>
+    <if test="supDate != null">
+        and SUP_DATE = #{supDate,jdbcType=VARCHAR},
+    </if>
+    <if test="oid != null">
+        and OID = #{oid,jdbcType=VARCHAR},
+    </if>
+  </select>
+</mapper>

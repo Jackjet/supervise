@@ -1,0 +1,246 @@
+package gov.df.supervise.service.attachment;
+
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.util.Tools;
+import gov.df.fap.util.xml.XMLData;
+import gov.df.supervise.api.attachment.AttachmentService;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.gov.df.supervice.util.ContinueFTP;
+import org.gov.df.supervice.util.ContinueFTP.UploadStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AttachmentBO implements AttachmentService {
+
+<<<<<<< .mine
+  @Autowired
+  @Qualifier("generalDAO")
+  GeneralDAO dao;
+
+  public List getAttachList(String condition, String pageInfo) throws Exception {
+    String sql = "select * from vw_attachment where 1=1 " + condition;
+    return dao.findByPageSql(pageInfo, sql);
+  }
+=======
+  @Autowired
+  @Qualifier("generalDAO")
+  GeneralDAO dao;
+
+  public List getAttachList(String condition, String pageInfo) throws Exception {
+    String sql = "select * from vw_attachment where 1=1 " + condition;
+    return dao.findByPageSql(pageInfo, sql);
+  }
+
+  public List getAttachByIds(String ids) {
+    String sql = "select * from csof_attachment where id in(" + ids + ")";
+    return dao.findBySql(sql);
+  }
+
+  public List getAttachById(String id) {
+    String sql = "select id, entity_name, entity_id, file_no, file_name, file_size, "
+      + "file_type, file_url, remark, latest_op_user, latest_op_date, create_user, "
+      + "create_date, set_year, status, org_code, rg_code from csof_attachment where id='" + id + "'";
+    return dao.findBySql(sql);
+  }
+>>>>>>> .r1077
+
+<<<<<<< .mine
+  public List getAttachByIds(String ids) {
+    String sql = "select * from csof_attachment where id in(" + ids + ")";
+    return dao.findBySql(sql);
+  }
+=======
+  public List getAllAttachments() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+>>>>>>> .r1077
+
+<<<<<<< .mine
+  public List getAttachById(String id) {
+    String sql = "select id, entity_name, entity_id, file_no, file_name, file_size, "
+      + "file_type, file_url, remark, latest_op_user, latest_op_date, create_user, "
+      + "create_date, set_year, status, org_code, rg_code from csof_attachment where id='" + id + "'";
+    return dao.findBySql(sql);
+  }
+=======
+  public int deleteAttachments(String ids) {
+    String sql = "delete from csof_attachment where id in (" + ids + ")";
+    return dao.executeBySql(sql);
+  }
+>>>>>>> .r1077
+
+<<<<<<< .mine
+  public List getAllAttachments() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+=======
+  public void saveAttachment(Map<String, String> attachMap) {
+    int i = dao.executeBySql(getInsertSql(attachMap, "csof_attachment"));
+  }
+>>>>>>> .r1077
+
+<<<<<<< .mine
+  public int deleteAttachments(String ids) {
+    String sql = "delete from csof_attachment where id in (" + ids + ")";
+    return dao.executeBySql(sql);
+  }
+=======
+  public String getInsertSql(Map<String, String> map, String tableName) {
+    String keyStr = "";
+    String valueStr = "";
+    for (String key : map.keySet()) {
+      keyStr += key + ",";
+      valueStr += "'" + map.get(key) + "',";
+    }
+    if (!("".equals(keyStr))) {
+      keyStr = keyStr.substring(0, keyStr.length() - 1);
+    }
+    if (!("".equals(valueStr))) {
+      valueStr = valueStr.substring(0, valueStr.length() - 1);
+    }
+    return "insert into " + tableName + "(" + keyStr + ") values (" + valueStr + ")";
+  }
+>>>>>>> .r1077
+
+<<<<<<< .mine
+  public void saveAttachment(Map<String, String> attachMap) {
+    int i = dao.executeBySql(getInsertSql(attachMap, "csof_attachment"));
+  }
+=======
+  public String getUploadRootPath() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_ROOT_PATH' ");
+    List list = dao.findBySql(strSQL.toString());
+    XMLData data = (XMLData) list.get(0);
+    return (String) data.get("chr_value");
+  }
+>>>>>>> .r1077
+
+<<<<<<< .mine
+  public String getInsertSql(Map<String, String> map, String tableName) {
+    String keyStr = "";
+    String valueStr = "";
+    for (String key : map.keySet()) {
+      keyStr += key + ",";
+      valueStr += "'" + map.get(key) + "',";
+    }
+    if (!("".equals(keyStr))) {
+      keyStr = keyStr.substring(0, keyStr.length() - 1);
+    }
+    if (!("".equals(valueStr))) {
+      valueStr = valueStr.substring(0, valueStr.length() - 1);
+    }
+    return "insert into " + tableName + "(" + keyStr + ") values (" + valueStr + ")";
+  }
+=======
+  public String getUploadMode() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_MODE' ");
+    List list = dao.findBySql(strSQL.toString());
+    XMLData data = (XMLData) list.get(0);
+    return (String) data.get("chr_value");
+  }
+>>>>>>> .r1077
+
+<<<<<<< .mine
+  public String getUploadRootPath() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_ROOT_PATH' ");
+    List list = dao.findBySql(strSQL.toString());
+    XMLData data = (XMLData) list.get(0);
+    return (String) data.get("chr_value");
+  }
+=======
+  public int getCount() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+>>>>>>> .r1077
+
+<<<<<<< .mine
+  public String getUploadMode() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_MODE' ");
+    List list = dao.findBySql(strSQL.toString());
+    XMLData data = (XMLData) list.get(0);
+    return (String) data.get("chr_value");
+  }
+=======
+  /**
+   * ftp附件上传
+   */
+  //  //获取ip地址  
+  //  @Value("${FTP_ADDRESS}")
+  //  private String FTP_ADDRESS;
+  //
+  //  //端口号  
+  //  @Value("${FTP_PORT}")
+  //  private String FTP_PORT;
+  //
+  //  //用户名  
+  //  @Value("${FTP_USERNAME}")
+  //  private String FTP_USERNAME;
+  //
+  //  //密码  
+  //  @Value("${FTP_PASSWORD}")
+  //  private String FTP_PASSWORD;
+  //
+  //  //基本路径  
+  //  @Value("${FTP_BASEPATH}")
+  //  private String FTP_BASEPATH;
+  //
+  //  //下载地址基础url  
+  //  @Value("${IMAGE_BASE_URL}")
+  //  private String IMAGE_BASE_URL;
+  String FTP_ADDRESS = "192.168.xx.xxx";
+>>>>>>> .r1077
+
+<<<<<<< .mine
+  public int getCount() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  public Map upload(String local) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+=======
+  String FTP_PORT = "21";
+
+  String FTP_USERNAME = "ftpuser";
+
+  String FTP_PASSWORD = "123456";
+
+  String FTP_BASEPATH = "/home/ftpuser/www/images";
+
+  public Map upload(String local) {
+    Map resultmMap = new HashMap<Object, Object>();
+    try {
+      int port = Integer.parseInt(FTP_PORT);
+      System.out.println(FTP_BASEPATH);
+      //连接ftp服务器
+      boolean result = ContinueFTP.connect(FTP_ADDRESS, port, FTP_USERNAME, FTP_PASSWORD);
+      //调用方法，上传文件  
+      UploadStatus data = ContinueFTP.upload(local, FTP_BASEPATH);
+      ContinueFTP.disconnect();
+      resultmMap.put("data", data);
+      return resultmMap;
+    } catch (IOException e) {
+      resultmMap.put("error", 1);
+      resultmMap.put("message", "上传发生异常");
+      return resultmMap;
+    }
+  }
+>>>>>>> .r1077
+
+}

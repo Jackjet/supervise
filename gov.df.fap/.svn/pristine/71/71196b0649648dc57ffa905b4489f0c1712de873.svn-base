@@ -1,0 +1,64 @@
+<!-- Created by wenben on 2017/10/18. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>附件上传</title>
+    <link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="./css/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="../../trd/datetimepicker/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/u.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/tree.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/changeTree/changeTree.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/grid.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/ip.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/bizSys.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/theme/blue.css" />
+    <link rel="stylesheet" href="css/upload.css">
+</head>
+<body>
+<div id="fileLoad" class="container padding-top-10">
+    <div class="">
+        <div class="col-md-2">
+            <span>附件列表：</span>
+        </div>
+        <div class="col-md-offset-7 col-md-3 ">
+            <input type="file" style="display: none" id="misFile">
+            <button id="pickUploadFile" class="btn btn-primary">上传</button>
+            <button id="pickFile" class="btn btn-default">下载</button>
+            <button id="deleteFiles" class="btn btn-danger">批量删除</button>
+        </div>
+    </div>
+    <div id="fileList" class="upload-list">
+
+    </div>
+</div>
+
+<div id="preShowModel" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">预览</h4>
+            </div>
+            <div class="modal-body preShow-body">
+                <div id="preShowCon"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+</body>
+</html>
+<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+<script src="../../trd/requirejs/require.js"></script>
+<script src="../../require.config.js"></script>
+<!--<script src="./js/webuploader.js"></script>-->
+<script src="js/upload.js"></script>

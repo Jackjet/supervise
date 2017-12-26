@@ -1,0 +1,1398 @@
+/**
+ * Created by wenben on 2017/8/30.
+ */
+require(['jquery','knockout', 'bootstrap','dateZH', 'uui','tree', 'grid', 'ip'], function($,ko) {
+    window.ko = ko;
+    //导入ip。js方法
+    var options = ip.getCommonOptions({}),
+        tokenid = ip.getTokenId();
+        //options['tokenid'] = tokenid;
+    options.tokenid = tokenid ; 
+    var _iframe = window.parent;
+    
+    
+
+    var url=window.location.href;
+    var menuId =  url.split("menuid=")[1].split("&")[0];
+    var billTypeCode =  url.split("billTypeCode=")[1].split("&")[0];
+    
+    btnFunEnter  = {
+    		addClick: function(){//新增
+    			$('#addModal').modal('show');
+                $('#infoAdd').html('');
+                ip.createArea('edit', viewData.viewList4.viewid, 'infoAdd');
+                pageData.getUUID();
+                //publicFileman();
+                //initData("edit", "infoAdd");
+                //重置modal页面的一些状态
+                viewModel.dataTableGrid1.clear();
+                viewModel.dataTableGrid2.clear();
+                viewModel.dataTableGrid3.clear();
+                viewModel.data.radio('0');
+                var eventNum = 0;
+               var arr = [];
+               postData.IS_ALLOBJ = '1';//默认选择全部
+               //postData.SID = '';
+               //postData.SID = pageData.SID;
+               postData.ACTION = 'ADD';
+               console.log(viewModel.data.radio());
+                if(num == 0){
+                    $('#btn1').hide();
+                    $('#btn3').hide();
+                }else{
+                    if(num == 3){
+                        $('#btn2').hide();
+                        $('#btn3').show();
+                    }else{
+                        $('#btn2').show();
+                        $('#btn3').hide();
+                    }
+                }
+    		},
+    		publicModify: function(){//修改
+    			var indeces = viewModel.listGridViewModel.gridData.getSelectedIndices();
+    			var datas = viewModel.listGridViewModel.gridData.getSimpleData();
+                if(indeces.length == 1){
+            		$('#addModal').modal('show');
+                    //$('#btn1').hide();
+                    //$('#btn3').hide();
+            		console.log(num);
+            		var index = indeces[0];
+                    $('#infoAdd').html('');
+                    var focusData = datas[index];
+                    console.log(focusData);
+                    treeState.treeId = focusData.sid;
+                    postData.SID = treeState.treeId;
+                    postData.ACTION = 'UPDATE';
+                    if(num == 0){
+                        $('#btn1').hide();
+                        $('#btn3').hide();
+                    }else{
+                        if(num == 3){
+                            $('#btn2').hide();
+                            $('#btn3').show();
+                        }else{
+                            $('#btn2').show();
+                            $('#btn3').hide();
+                        }
+                    }
+                	ip.createArea('edit', viewData.viewList4.viewid, 'infoAdd');
+                	publicFileman();
+                	var arr = viewData.viewList4.viewDetail;
+                	//console.log(pageData.treeDataUpdate[0]);
+                	console.log(arr);
+                	$.get( '/ItemSupervision/selectSupDepBySid.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'sid': treeState.treeId}, function(map){
+                		console.log(map);
+                		pageData.treeDataUpdate = map.dataDetail[0];
+                		$.each(arr,function(key, item){//这里修改保存的是       pageData.listData[0]，将此变量里修改的值保存即可
+            	    		console.log(item);
+            	    		$.each(pageData.treeDataUpdate, function(key2, value2){
+            	    			if(item.id == key2){
+            	    				$('#' + item.id + '-' + dealData.getIdLast(item.viewid)).val(value2);
+            	    			}
+            	    		});
+            	    	});
+                	});
+                	
+                	 $.post('/df/task/getSupReport.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'CHR_ID': treeState.treeId,'TYPE_CODE':'SID'}, function(map){//获取agencyList数据
+                		 console.log(map);
+                		 if(map.errorCode == '0'){
+                			 var list1 = [];
+                    		 var list2 = [];
+                    		 var list3 = [];
+                    		 $.each(map.dataDetail, function(index, item){
+                    			 if(item.billtype_code == '101'){
+                    				 var newItem = {};
+                    				 newItem.REPORT = '';
+                    				 $.each(item, function(key, value){
+                    					 if(key == 'billtype_code'){
+                    						 newItem.REPORT += value;
+                    					 }
+                    					 if(key == 'display_title'){
+                    						 newItem.REPORT += value;
+                    						 newItem.CHR_NAME = value;
+                    					 }
+                    					 if(key == 'report_id'){
+                    						 newItem.CHR_ID = value;
+                    					 }
+                    				 });
+                    				 list1.push(newItem);
+                    			 }
+                    			 if(item.billtype_code == '102'){
+                    				 var newItem = {};
+                    				 newItem.REPORT = '';
+                    				 $.each(item, function(key, value){
+                    					 if(key == 'billtype_code'){
+                    						 newItem.REPORT += value;
+                    					 }
+                    					 if(key == 'display_title'){
+                    						 newItem.REPORT += value;
+                    						 newItem.CHR_NAME = value;
+                    					 }
+                    					 if(key == 'report_id'){
+                    						 newItem.CHR_ID = value;
+                    					 }
+                    				 });
+                    				 list2.push(newItem);
+                    			 }
+                    			 if(item.billtype_code == '103'){
+                    				 var newItem = {};
+                    				 newItem.REPORT = '';
+                    				 $.each(item, function(key, value){
+                    					 if(key == 'billtype_code'){
+                    						 newItem.REPORT += value;
+                    					 }
+                    					 if(key == 'display_title'){
+                    						 newItem.REPORT += value;
+                    						 newItem.CHR_NAME = value;
+                    					 }
+                    					 if(key == 'report_id'){
+                    						 newItem.CHR_ID = value;
+                    					 }
+                    				 });
+                    				 list3.push(newItem);
+                    			 }
+                    		 });
+                    		 viewModel.dataTableGrid1.setSimpleData(list1);
+                    		 viewModel.dataTableGrid2.setSimpleData(list2);
+                    		 viewModel.dataTableGrid3.setSimpleData(list3);
+                		 }
+                	 });
+        	    	
+        	    	if(focusData.is_allobj == '0'){//agencyList数据,在这里数据获取存在问题，由于需求的改变，但是不知道数据时怎么样，所以暂时不改，标记！！(已改！！)
+        	    		viewModel.data.radio('1');
+        	    		viewModel.dataTable3.setSimpleData(pageData.allModalData.Objectlist);
+        	    		$("#tree3")[0]['u-meta'].tree.expandAll(true);
+                        $.post('/df/task/getTaskAgency.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'CHR_ID': treeState.treeId,'TYPE_CODE':'SID'}, function(map){//获取agencyList数据
+        	    			console.log(map);
+        	    			if(map.errorCode == '0'){
+        	    				pageData.shouldSelectList = map.dataDetail;
+        	    				var leafArr = [];
+        	    				var nodes = $("#tree3")[0]['u-meta'].tree.getNodes();
+        	    				
+        	    				$.each(pageData.shouldSelectList, function(index, item){
+                	    			$.each(pageData.allModalData.Objectlist, function(index2, item2){
+                	    				if(item.dep_id == item2.DEP_ID){
+                	    					item2.checked = true;
+                	    					
+                	    				}
+                	    			});
+                	    			if(item.is_leaf == '1'){
+                	    				leafArr.push(item);
+                	    			}
+                	    		});
+        	    				
+        	    				viewModel.dataTable3.setSimpleData(pageData.allModalData.Objectlist);
+        	    				
+            	    			/*$.each(pageData.shouldSelectList, function(index, item){
+                	    			$.each(nodes, function(index2, item2){
+                	    				if(item.dep_id == item2.DEP_ID){
+                	    					$("#tree3")[0]['u-meta'].tree.checkNode(item2, true, false);
+                	    					
+                	    				}
+                	    			});
+                	    			if(item.is_leaf == '1'){
+                	    				leafArr.push(item);
+                	    			}
+                	    		});*/
+            	    			viewModel.data.eventsNum('共'+leafArr.length +'家');
+        	    			}
+        	    			
+        	    		});
+        	    		
+        	    	}
+                    console.log(viewModel.gridData);
+            	}else{
+            		ip.ipInfoJump('请选择一个要修改的事项,勿多选或不选！', 'error');
+            	}
+    		},
+    		publicDelete: function(){//删除
+    			var indeces = viewModel.listGridViewModel.gridData.getSelectedIndices();
+    			var datas = viewModel.listGridViewModel.gridData.getSimpleData();
+    			if(indeces.length == 1){
+    				var index = indeces[0];
+                    var focusData = datas[index];
+    				treeState.treeId = focusData.sid;
+                	ip.warnJumpMsg('是否删除所选择事项',"delConfirmSureId","delConfirmCancelCla");
+                	$('#delConfirmSureId').on('click',function(){
+                		$('#config-modal').remove();
+                		$.post('/ItemSupervision/deleteBySid.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'sid':treeState.treeId}, function(map){//删除事项
+                			if(map.errorCode == '0'){
+                				//$("#tree1")[0]['u-meta'].tree.removeNode(pageData.tree1Node);
+                				viewEvents.initSupSelect2();
+                				$('#stateSelect').val('0');
+                				ip.setGrid(viewModel.listGridViewModel, '/df/task/getTaskSup.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'CHR_ID': '','TYPE_CODE':'','STATUS':'0'});
+                				//viewModel.listGridViewModel.gridData.clear();
+                				viewModel.detailGridViewModel.gridData.clear();
+                				
+                			}
+                    		
+                    	});
+                	});
+                	$('.delConfirmCancelCla').on('click',function(){
+                		$('#config-modal').remove();
+                	});
+                }else{
+                	ip.ipInfoJump('请选择你要删除的事项，请勿多选或不选！','info');
+                }
+    		},
+    		workFlowSup: function(){
+    			console.log('提交按钮暂时不开发！');
+    		},
+    		approveClick: function(){//下达
+    			var data = viewModel.listGridViewModel.gridData.getSelectedRows();
+    			console.log(data);
+    			var sidArr = [];
+    			$.each(data, function(index, item){
+    				sidArr.push("'"+item.data.sid.value+"'");
+    			});
+    			if(sidArr.length){//判断是否点击了listGrid
+    				var sidToString = sidArr.toString();
+    				$.post('/df/task/approveTask.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'SIDS': sidToString,}, function(map){
+    					if(map.errorCode == '0'){
+    						ip.ipInfoJump('下达成功！', 'info');
+    			    		ip.setGrid(viewModel.listGridViewModel, '/df/task/getTaskSup.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'CHR_ID': treeState.treeId,'TYPE_CODE':treeState.treeCode,'STATUS':'0'});
+    			    		viewModel.detailGridViewModel.gridData.clear();
+    					}else{
+    						ip.ipInfoJump(map.errorMsg, 'error');
+    					}
+    				});
+    			}else{
+    				ip.ipInfoJump('请选择你要下达的事项！', 'error');
+    			}
+    		},
+    		
+    		publicRefresh: function(){//刷新
+    			location.reload(); 
+    		}
+    		
+    };
+    
+    var pageData = {//通过交互获取数据
+        btnDatas : function(url,param){
+        	var getMap;
+        	$.get('/df/cs/getActionButton.do?tokenid=' + tokenid + '&ajax=noCache', {'menu_id':menuId}, function(map){
+        		console.log(map);
+        		getMap = map.data;
+        		pageData.btnMapDatas = getMap;
+        	}).then(function(){
+        		var mapData = [{DISPLAY_TITLE : '新  增'},{DISPLAY_TITLE : '修  改'},{DISPLAY_TITLE : '删  除'},{DISPLAY_TITLE : '提  交'},{DISPLAY_TITLE : '回  收'}];
+        		mapData = getMap;
+                var html = '';
+                $.each(mapData,function(index,item){
+                    html += '<button class="btn csof-btn" id="' +item.BUTTON_ID+ '" name="'+item.DISPLAY_TITLE +'" onclick="btnFunEnter.'+item.FUNC_NAME+'()">'+item.DISPLAY_TITLE +'</button>';
+                });
+                $('.bnt-list').html(html);
+                $.each(pageData.btnMapDatas, function(index, item){
+        			if(item.DISPLAY_STATUS == "9" || item.DISPLAY_STATUS == '0'){
+        				$("#"+item.BUTTON_ID).removeAttr("disabled","disabled");
+        			}else{
+        				$("#"+item.BUTTON_ID).attr("disabled","disabled");
+        			}
+        		});
+        	});
+        	
+        },
+        initTree1: function () {
+            $.post('/ItemSupervision/selectAllSup.do?tokenid='+ tokenid + '&ajax=' + 'noCache', options.svDepId, function(map){
+            	console.log(map);
+            	if(map.errorCode == '0'){
+            		viewModel.dataTable1.setSimpleData(map.data1);//实现第一课树的显示
+                	//viewModel.dataTable1.setSimpleData(map.data2);
+            	}
+            });
+        },
+        getModalTree: function(){//获取modal的树数据
+        	$.get('/ItemSupervision/selectObjectByDep.do?tokenid='+ tokenid + '&ajax=' + 'noCache',function(map){
+        		var obj = {
+        				"CHR_ID": "51",
+        				"PARENT_ID": "root",
+        				"CHR_NAME": options.svOfficeName
+        		};
+        		pageData.allModalData = map;
+        		map.deplist.push(obj);
+        		console.log(map);
+        		var eventNum = 0;
+        		//viewModel.dataTable3.setSimpleData(map.Objectlist);
+        		var arr = [];
+        		console.log(map.EReportlist);
+        		viewModel.dataTable7.setSimpleData(map.EReportlist);
+        		if(viewModel.data.radio() == '0'){
+             	   $.each(pageData.allModalData.Objectlist, function(index, item){
+                    	if(item.IS_LEAF == '1'){
+                    		eventNum++;
+                    		arr.push(item);
+                    	}
+                    });
+                    viewModel.data.eventsNum('共' +eventNum+ '家');
+                }
+                 postData.Objectlist = JSON.stringify(arr);
+        	});
+        },
+        getUUID: function(){
+        	//postData.SID = '-1';
+        	$.post('/df/task/getUUID.do?tokenid='+ tokenid + '&ajax=' + 'noCache',function(map){
+        		console.log(map);
+        		pageData.SID = map;
+        		postData.SID = map;
+        		publicFileman();
+        	});
+        }
+    };
+
+    var dealData = {//处理数据
+        showTreeColor: function (treeId, treeNode) {//显示非最终子节点的树节点为蓝色
+            return treeNode.level == 0 ? {color:"blue"} : {};
+        },
+        getIdLast: function(data){//将{***}的***提取出来
+        	var par = /[{}]/g;
+        	var text = data.replace(par,'');
+        	return text;
+        },
+        clearPage: function(){//清除所有的遗留数据
+        	//viewModel.dataTable1.clear();
+        	viewModel.listGridViewModel.gridData.clear();
+        	viewModel.detailGridViewModel.gridData.clear();
+        	viewModel.dataTableGrid1.clear();
+        	viewModel.dataTableGrid2.clear();
+        	viewModel.dataTableGrid3.clear();
+        }
+    };
+    
+    var viewData = {};//视图的数据
+    var postData = {};//通过post传到后台的数据
+    var treeState = {};//点击主树节点的状态
+    var flag = 0;//stateSelect选择标记
+    
+    var viewEvents = {//配置视图的事件处理
+    		initData: function(areaType,areaId,number){
+    	    	var current_url = location.search;
+    	    	$.get("/df/init/initMsg.do", options, function(map){
+    	    		viewData.viewList = map.viewlist;// 视图信息
+    	    		viewData.resList = map.reslist;// 资源信息
+    	    		viewData.coaId = map.coaId;// coaid
+    				viewData.coaDetails = map.coaDetail;// coa明细
+    				viewData.relations = map.relationlist;// 关联关系
+    				viewData.areaType = areaType;
+    				//viewModel.initGridData(); //调用初始化表格
+    				viewModel.initGridData(areaType, areaId); //调用初始化表格
+    				viewData.viewList4 = map.viewlist[4];
+    				//ip.setGrid(viewModel.listGridViewModel, '/df/task/getTaskSup.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'CHR_ID': '','TYPE_CODE':'','STATUS':'0'});
+    				//ip.setGrid(viewModel.detailGridViewModel, '/df/task/getTaskSup.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'CHR_ID': '','TYPE_CODE':'','STATUS':'-1'});
+    	    		console.log(map);
+    	    		console.log(options);
+    	    		console.log(viewData);
+    	    		//ip.createArea(areaType, map.viewlist[number].viewid, areaId);
+                	//ip.createGrid(viewData.viewList[2].viewid,'grid1','/ItemSupervision/selectSupDepBySid.do?tokenid='+ tokenid + '&ajax=' + 'noCache',{'sid': ''}, false, false, true, false);
+                	//ip.createGrid(viewData.viewList[3].viewid,'grid2','/ItemSupervision/selectAllSup.do?tokenid='+ tokenid + '&ajax=' + 'noCache',{'sid': ''}, false, false, true, false);
+ 	
+    	    	});
+    	    },
+    	    getViewData: function(number){//获取视图数据
+    	    	var arr = viewData.viewList[number].viewDetail;
+    	    	$.each(arr,function(key, item){
+    	    		//console.log(item);
+    	    		if(item.disp_mode == 'treeassist'){
+    	    			postData[item.id] = $('#' + item.id + '-' + dealData.getIdLast(item.viewid) + '-h').val();
+    	    		}else{
+    	    			postData[item.id] = $('#' + item.id + '-' + dealData.getIdLast(item.viewid)).val();
+    	    		}
+    	    	});
+    	    	console.log(postData);
+    	    },
+    	    initSupSelect: function(){//初始化事项下拉
+    	    	$('#supSelect').html('');
+    	    	var newOption = new Option("请选择监管类型", "-1"); //直接new一个option对象，然后把text和value值都赋上
+    	    	$('#supSelect')[0].options.add(newOption);
+    	    	 /*$.get('/df/tree/getElementData.do', {'ele_code': pageData.eleCode}, function(map){
+    	    		 console.log(map);
+    	    		 if(map.errorCode == '0'){
+    	    			 var data = map.data;
+    	    			 $.each(data, function(index, item){
+    	    				 var newOption = new Option(item.CHR_NAME, item.CHR_ID); //直接new一个option对象，然后把text和value值都赋上
+    	    				 $('#supSelect')[0].options.add(newOption);
+    	    			 });
+    	    		 }else{
+    	    			 ip.ipInfoJump(map.errorMsg, 'error');
+    	    		 }
+    	    	 })*/
+    	    },
+    	    initSupSelect2: function(){//初始化事项下拉
+    	    	//$('#treeView1').html('');
+    	    	//var newOption = new Option("请选择监管类型", "-1"); //直接new一个option对象，然后把text和value值都赋上
+    	    	//$('#treeView1')[0].options.add(newOption);
+    	    	//getTaskTree
+    	    	 $.get('/df/task/getTaskTree.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'ele_code': pageData.eleCode2}, function(map){
+    	    		 console.log(map);
+    	    		 if(map.errorCode == '0'){
+    	    			 var data = map.dataDetail;
+    	    			 var obj = {
+    	    					 chr_id : 'type',
+    	    					 PARENT_ID : 'root',
+    	    					 chr_name : '全部'
+    	    			 };
+    	    			 $.each(data, function(index, item){
+    	    				if(item.level_num == '1'){
+    	    					item.PARENT_ID = 'type';
+    	    				} 
+    	    			 });
+    	    			 data.push(obj);
+    	    			 viewModel.dataTable1.setSimpleData(data);
+    	    			 $("#tree1")[0]['u-meta'].tree.cancelSelectedNode();
+    	    			 /*$.each(data, function(index, item){
+    	    				 var newOption = new Option(item.CHR_NAME, item.CHR_ID); //直接new一个option对象，然后把text和value值都赋上
+    	    				 $('#treeView1')[0].options.add(newOption);
+    	    			 });*/
+    	    		 }else{
+    	    			 ip.ipInfoJump(map.errorMsg, 'error');
+    	    		 }
+    	    	 });
+    	    },
+    	    
+    	    //workgrid查询
+    	    workGridSearch: function(){
+    	    	ip.fuzzyQuery(viewModel.curGridData, "workGridSearchInput", viewModel.workGridViewModel);
+    	    },
+    	    
+    	    //回调函数，定义全局变量viewModel.curGridData并赋值
+    	    gridCallback: function(data){
+    	    	viewModel.curGridData = data;
+    	    },
+    	    
+    	    workAddGridViewModel: function(){
+    	    	ip.initGridWithCallBack(gridCallback,viewModel.tableViewDetail, areaId, "/df/test/btns.do",options, 1, true,false,false,false);
+    	    }
+    };
+    
+    
+    
+    
+    
+    
+    
+    var arrBtn = pageData.btnDatas();//不知道为什么删除这句话导致按钮组加载不出来
+    var num = 0;//根据页签的长度定值
+
+    var viewModel = {//ko数据绑定值
+
+        data: {//监控页面数据
+            eventsNum: ko.observable('共3家'),
+            radio: ko.observable('0')
+        },
+
+        btnEvents: function(data, events){//所有单击事件
+            var $this = $(events.target),
+                name = $this[0].name;
+            console.log(name);
+            if(name == '新增'){
+                $('#addModal').modal('show');
+                $('#infoAdd').html('');
+                ip.createArea('edit', viewData.viewList4.viewid, 'infoAdd');
+                pageData.getUUID();
+                publicFileman();
+                //initData("edit", "infoAdd");
+                var eventNum = 0;
+               var arr = [];
+               postData.IS_ALLOBJ = '1';//默认选择全部
+               //postData.SID = '';
+               //postData.SID = pageData.SID;
+               postData.ACTION = 'ADD';
+               console.log(viewModel.data.radio());
+                if(num == 0){
+                    $('#btn1').hide();
+                    $('#btn3').hide();
+                }else{
+                    if(num == 3){
+                        $('#btn2').hide();
+                        $('#btn3').show();
+                    }else{
+                        $('#btn2').show();
+                        $('#btn3').hide();
+                    }
+                }
+            }
+            
+            if(name == '修改'){
+            	if(!treeState.isParent){
+            		
+            		$('#addModal').modal('show');
+                    //$('#btn1').hide();
+                    //$('#btn3').hide();
+            		console.log(num);
+                    $('#infoAdd').html('');
+                    postData.SID = treeState.treeId;
+                    postData.ACTION = 'UPDATE';
+                    if(num == 0){
+                        $('#btn1').hide();
+                        $('#btn3').hide();
+                    }else{
+                        if(num == 3){
+                            $('#btn2').hide();
+                            $('#btn3').show();
+                        }else{
+                            $('#btn2').show();
+                            $('#btn3').hide();
+                        }
+                    }
+                	ip.createArea('edit', viewData.viewList4.viewid, 'infoAdd');
+                	publicFileman();
+                	var arr = viewData.viewList4.viewDetail;
+                	//console.log(pageData.treeDataUpdate[0]);
+                	console.log(arr);
+                	$.get( '/ItemSupervision/selectSupDepBySid.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'sid': treeState.treeId}, function(map){
+                		console.log(map);
+                		pageData.treeDataUpdate = map.dataDetail[0];
+                		$.each(arr,function(key, item){//这里修改保存的是       pageData.listData[0]，将此变量里修改的值保存即可
+            	    		console.log(item);
+            	    		$.each(pageData.treeDataUpdate, function(key2, value2){
+            	    			if(item.id == key2){
+            	    				$('#' + item.id + '-' + dealData.getIdLast(item.viewid)).val(value2);
+            	    			}
+            	    		});
+            	    	});
+                	});
+        	    	
+        	    	if(pageData.listData[0].IS_ALLOBJ == '0'){//agencyList数据
+        	    		viewModel.data.radio('1');
+        	    		viewModel.dataTable3.setSimpleData(pageData.allModalData.Objectlist);
+        	    		$.post('/df/task/getTaskAgency.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'CHR_ID': treeState.treeId,'TYPE_CODE':'SID'}, function(map){//获取agencyList数据
+        	    			
+        	    		});
+        	    		var nodes = $("#tree3")[0]['u-meta'].tree.getNodes();
+        	    		console.log(nodes);
+        	    		$.each(pageData.treeDataUpdate, function(index, item){
+        	    			$.each(pageData.allModalData.Objectlist, function(index2, item2){
+        	    				if(item.CHR_ID == item2.CHR_ID){
+        	    					$("#tree3")[0]['u-meta'].tree.checkNode(item, true, false);
+        	    				}
+        	    			});
+        	    		});
+        	    	}
+                    console.log(viewModel.gridData);
+            	}else{
+            		ip.ipInfoJump('请选择你要修改的事项！', 'error');
+            	}
+            	
+                
+            }
+            if(name == '高级'){//高级
+                console.log('111');
+            }
+            if(name == '删除'){//删除
+                if(!treeState.isParent){
+                	ip.warnJumpMsg('是否删除所选择事项',"delConfirmSureId","delConfirmCancelCla");
+                	$('#delConfirmSureId').on('click',function(){
+                		$('#config-modal').remove();
+                		$.post('/ItemSupervision/deleteBySid.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'sid':treeState.treeId}, function(map){//删除事项
+                			if(map.errorCode == '0'){
+                				$("#tree1")[0]['u-meta'].tree.removeNode(pageData.tree1Node);
+                				viewModel.listGridViewModel.gridData.clear();
+                			}
+                    		
+                    	});
+                	});
+                	$('.delConfirmCancelCla').on('click',function(){
+                		$('#config-modal').remove();
+                	});
+                }else{
+                	ip.ipInfoJump('请选择你要删除的事项！','info');
+                }
+            }
+            if(name == 'btn1'){//上一步
+                num--;
+                if(num == 0){
+                    $('#btn1').hide();
+                }
+                if(num < 3){
+                    $('#btn2').show();
+                    $('#btn3').hide();
+                }
+                eventsDeal.reduceStep();
+                eventsDeal.modalTab();
+            }
+            if(name == 'btn2'){//下一步
+                num++;
+                $('#btn1').show();
+                if(num == 1){
+                	viewEvents.getViewData(4);
+                	
+
+                }
+                if(num == 2 && viewModel.data.radio() == '1'){
+                	var nodes = $("#tree3")[0]['u-meta'].tree.getCheckedNodes(true);
+                	var arr = [];
+                	var arr2 = [];
+                	$.each(nodes, function(index, item){
+                		$.each(pageData.allModalData.Objectlist, function(index2, item2){
+                			if(item2.CHR_ID == item.CHR_ID){
+                				if(item2.TYPE == 'DEP'){
+                					arr.push(item2);
+                				}
+                			}
+                		});
+                	});
+                	/*$.each(nodes, function(index, item){
+                		$.each(pageData.allModalData.Objectlist, function(index2, item2){
+                			if(item2.CHR_ID == item.CHR_ID){
+                				if(item2.TYPE == 'DEP'||item2.TYPE == 'AGENCY'){
+                					arr2.push(item2);
+                				}
+                			}
+                		});
+                	});*/
+                	
+                	postData.Objectlist = JSON.stringify(arr);
+                	postData.agencyList = JSON.stringify(nodes);
+                }
+                
+                if(num == 3){
+                	var data = viewModel.dataTable7.getSimpleData();
+                	//publicFileman();
+                	//postData.EReportlist = JSON.stringify(data);
+                    $('#btn2').hide();
+                    $('#btn3').show();
+                }
+                eventsDeal.addStep();
+                eventsDeal.modalTab();
+            }
+            if(name == 'btn3'){//完成
+            	viewEvents.getViewData(4);
+            	if(postData.ACTION == 'UPDATE'){
+            		var newPost = pageData.treeDataUpdate;
+                    $.each(postData, function(key, value){
+                    	if(newPost[key] !='' && postData[key] == ''){
+                    		newPost[key] = newPost[key];
+                    	}else{
+                    		newPost[key] = value;
+                    	}
+                    });
+                    postData = newPost;
+            	}
+            	console.log(postData);
+            	postData.billtype_code = billTypeCode;
+            	var listData1 = viewModel.dataTableGrid1.getSimpleData();
+            	var listData = [];
+            	$.each(listData1, function(index, item){
+            		var obj = {};
+            		obj.BILLTYPE_CODE = '101';
+            		obj.SID = treeState.treeId ||pageData.SID;
+            		obj.REPORT_ID = item.CHR_ID;
+            		obj.DISPLAY_TITLE = item.CHR_NAME;
+            		obj.DISPLAY_ORDER = index + 1;
+            		listData.push(obj);
+            		
+            	});
+            	var listData2 = viewModel.dataTableGrid2.getSimpleData();
+            	$.each(listData2, function(index, item){
+            		var obj = {};
+            		obj.BILLTYPE_CODE = '102';
+            		obj.SID = treeState.treeId ||pageData.SID;
+            		obj.REPORT_ID = item.CHR_ID;
+            		obj.DISPLAY_TITLE = item.CHR_NAME;
+            		obj.DISPLAY_ORDER = index + 1;
+            		listData.push(obj);
+            		
+            	});
+            	var listData3 = viewModel.dataTableGrid3.getSimpleData();
+            	$.each(listData3, function(index, item){
+            		var obj = {};
+            		obj.BILLTYPE_CODE = '103';
+            		obj.SID = treeState.treeId ||pageData.SID;
+            		obj.REPORT_ID = item.CHR_ID;
+            		obj.DISPLAY_TITLE = item.CHR_NAME;
+            		obj.DISPLAY_ORDER = index + 1;
+            		listData.push(obj);
+            		
+            	});
+            	postData.EReportlist = JSON.stringify(listData);
+            	
+            	$.post('/df/task/saveTask.do?tokenid='+ tokenid + '&ajax=' + 'noCache', postData, function(map){//数据存进后台
+            		console.log(map);
+            		if(map.errorCode == '0'){
+            			ip.ipInfoJump('保存成功！', 'msg');
+            			//viewModel.dataTable1.setSimpleData([]);
+            			viewModel.dataTable3.setSimpleData([]);
+            			 viewModel.data.radio('0');
+            			 dealData.clearPage();
+            			 viewEvents.initSupSelect2();
+            			 btnFunEnter.publicRefresh();
+            		}else{
+            			ip.ipInfoJump(map.errorMsg, 'error');
+            		}
+            		
+            		//重新加载树
+            	});
+                num = 0;
+                eventsDeal.modalTab();
+                eventsDeal.reduceStep();
+                $('#addModal').modal('toggle');
+                $('#btn2').show();
+                $('#btn4').show();
+            }
+            if(name == 'btn4'){//返回
+            	
+            }
+
+        },
+        
+
+        treeSetting1:{//左树
+            view:{
+                showLine:false,
+                selectedMulti:false
+            },
+            callback:{
+                onClick:function(e,id,node){
+                    console.log(id);
+                    console.log(node);
+                    pageData.tree1Node = node;
+                    treeState.isLastNode = node.isLastNode;
+                    treeState.isParent = node.isParent;
+                    var listId = node.chr_id;//字段id不确定,根据后台传来的字段确定
+                    var listCode = node.type_code;
+                    treeState.treeId = listId;
+                    treeState.treeCode = listCode;
+                    if(node.name == '全部'){
+                        ip.setGrid(viewModel.listGridViewModel, '/df/task/getTaskSup.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'CHR_ID': '','TYPE_CODE':'','STATUS':pageData.status});                    	
+                    }else{
+                        ip.setGrid(viewModel.listGridViewModel, '/df/task/getTaskSup.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'CHR_ID': listId,'TYPE_CODE':listCode,'STATUS':pageData.status});                    	
+                    }
+                    pageData.listData = viewModel.listGridViewModel.gridData.getSimpleData();
+                    viewModel.detailGridViewModel.gridData.clear();
+                    viewModel.dataTableGrid1.clear();
+                    viewModel.dataTableGrid2.clear();
+                    viewModel.dataTableGrid3.clear();
+                }
+            }
+
+        },
+        dataTable1: new u.DataTable({
+            meta: {
+                'chr_id': {},
+                'PARENT_ID': {},
+                'chr_name':{}
+            }
+        }),
+        
+        treeSetting2:{//左树
+            view: {
+                showLine: false,
+                selectedMulti: false,
+                fontSize: dealData.showTreeColor
+            },
+            callback:{
+                onClick:function(e,id,node){
+                    console.log('2');
+                }
+
+            }
+
+        },
+        dataTable2: new u.DataTable({
+            meta: {
+                'id': {},
+                'pid': {},
+                'title':{}
+            }
+        }),
+        
+        treeSetting3:{//左树
+            view:{
+                showLine:false,
+                selectedMulti:false
+            },
+            check : {//设置checkbox
+            	enable: true,
+        		autoCheckTrigger: false,
+        		chkboxType: { "Y": "p", "N": "p" }
+            },
+            onAsyncSuccess: function(){
+            	pageData.tree3Nodes = $("#tree3")[0]['u-meta'].tree.getNodes();
+            },
+            callback:{
+                onClick:function(e,id,node){
+                    console.log('1');
+                },
+                onCheck: function(event, treeId, treeNode){
+                	
+                	var arr = [];
+                	var sumOfChecked;
+                	var pNode = treeNode.getParentNode();//获取父节点
+                	
+                	function filter(node){
+                		return (node.checked == true);
+                	}
+                	function filter2(node){
+                		return (node.checked == false);
+                	}
+                	function filter3(node){
+                		return (node.checked == true);
+                	}
+                	if(treeNode.isParent == true){
+                		if(treeNode.checked == false){
+                			var nodesFilter2 = $("#tree3")[0]['u-meta'].tree.getNodesByFilter(filter3,false,treeNode); // 查找节点集
+                		}else{
+                			var nodesFilter2 = $("#tree3")[0]['u-meta'].tree.getNodesByFilter(filter2,false,treeNode); // 查找节点集合
+                		}
+                		$.each(nodesFilter2, function(index, item){
+                			$("#tree3")[0]['u-meta'].tree.checkNode(item, '', false);
+                		});
+                	}
+                	while(!!pNode){
+                		treeNode = pNode;
+                		/*var div = '<label id="treeNodeDiv"></label>';
+                        $("#" + pNode.tId + "_span").after(div);//创建后续的数量显示
+*/                		//$("#tree3")[0]['u-meta'].tree.checkNode(pNode,true,false);//勾选父节点
+                		var nodesFilter = $("#tree3")[0]['u-meta'].tree.getNodesByFilter(filter,false,pNode); // 查找节点集合
+                		var leafArr = [];
+                		$.each(nodesFilter, function(index, item){
+                			if(item.IS_LEAF == '1'){
+                				leafArr.push(item);
+                			}
+                		});
+                		sumOfChecked = leafArr.length;
+                		console.log(pNode.tId);
+                		var value = pNode.CHR_NAME;
+                		if(sumOfChecked > 0){
+                  		  $("#tree3")[0]['u-meta'].tree.checkNode(pNode,true,false);
+                  		  var html = '<span>'+ value +'</span><div class="treeNode">'+ sumOfChecked +'</div>';
+                  		}else{
+                  			 $("#tree3")[0]['u-meta'].tree.checkNode(pNode,false,false);  
+                  			var html = '<span>'+ value +'</span>';
+                  		}
+                		
+                		
+                		$("#" + pNode.tId + "_span").html('');
+                		$("#" + pNode.tId + "_span").html(html);//创建后续的数量显示
+
+                 		arr.push(pNode);
+                		pNode = treeNode.getParentNode();
+                		
+                	}
+                	/*$.each(arr, function(index, item){
+                		$("#tree3")[0]['u-meta'].tree.checkNode(item,true,true);//勾选父节点
+                	});*/
+                	var showNum = 0;
+                	var nodes = $("#tree3")[0]['u-meta'].tree.getCheckedNodes(true);
+                	console.log(nodes);
+                	$.each(nodes, function(index, item){
+                		if(item.IS_LEAF == '1'){
+                			showNum++;
+                		}
+                	});
+                	viewModel.data.eventsNum('共' +showNum+ '家');
+                }
+
+            }
+
+        },
+        dataTable3: new u.DataTable({
+            meta: {
+                'CHR_ID': {},
+                'PARENT_ID': {},
+                'CHR_NAME':{}
+            }
+        }),
+        
+        treeSetting4:{//左树
+            view:{
+                showLine:false,
+                selectedMulti:false
+            },
+            check : {//设置checkbox
+            	enable: true,
+        		autoCheckTrigger: true
+            },
+            callback:{
+                onClick:function(e,id,node){
+                    console.log('1');
+                }
+
+            }
+
+        },
+        dataTable4: new u.DataTable({
+            meta: {
+                'CHR_ID': {},
+                'PARENT_ID': {},
+                'CHR_NAME':{}
+            }
+        }),
+        
+        treeSetting5:{//左树
+            view:{
+                showLine:false,
+                selectedMulti:false
+            },
+            check : {//设置checkbox
+            	enable: true,
+        		autoCheckTrigger: true
+            },
+            callback:{
+                onClick:function(e,id,node){
+                    console.log('1');
+                }
+
+            }
+
+        },
+        dataTable5: new u.DataTable({
+            meta: {
+                'CHR_ID': {},
+                'PARENT_ID': {},
+                'CHR_NAME':{}
+            }
+        }),
+        
+        treeSetting6:{//左树
+            view:{
+                showLine:false,
+                selectedMulti:false
+            },
+            check : {//设置checkbox
+            	enable: true,
+        		autoCheckTrigger: true
+            },
+            callback:{
+                onClick:function(e,id,node){
+                    console.log('1');
+                }
+
+            }
+
+        },
+        dataTable6: new u.DataTable({
+            meta: {
+                'CHR_ID': {},
+                'PARENT_ID': {},
+                'CHR_NAME':{}
+            }
+        }),
+        
+        treeSetting7:{//左树
+            view:{
+                showLine:false,
+                selectedMulti:false
+            },
+            callback:{
+                onClick:function(e,id,node){
+                    console.log('1');
+                }
+
+            }
+
+        },
+        dataTable7: new u.DataTable({
+            meta: {
+                'CHR_ID': {},
+                'PARENT_ID': {},
+                'CHR_NAME':{}
+            }
+        }),
+        dataTableGrid1 : new u.DataTable({
+            meta: {
+                'REPORT': {},
+                'CHR_NAME': {},
+                'REMAKE': {}
+            }
+        }),
+        dataTableGrid2 : new u.DataTable({
+            meta: {
+                'REPORT': {},
+                'CHR_NAME': {},
+                'REMAKE': {}
+            }
+        }),
+        dataTableGrid3 : new u.DataTable({
+            meta: {
+                'REPORT': {},
+                'CHR_NAME': {},
+                'REMAKE': {}
+            }
+        })
+
+    };
+    
+    
+    /**
+     * 初始化
+     * @param areaType
+     * @param areaId
+     */
+    viewModel.initGridData = function(areaType, areaId) {
+    	var queryViewId;
+        var tableViewDetail;
+        var queryViewDetail;
+        viewModel.listGridViewModel = ip.initGrid(viewData.viewList[2],'grid1', '/df/task/getTaskSup.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'CHR_ID': '','TYPE_CODE':'SID'}, 1, false,true,false,false);
+    	viewModel.detailGridViewModel = ip.initGrid(viewData.viewList[3],'grid2','/df/task/getTaskDep.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'CHR_ID': '','TYPE_CODE':'SID',"STATUS":'-1'}, 1,false, false, false, false);
+    };
+    grid1_onRowSelected = function(obj){//双击事件
+    	console.log(obj);
+    	var index = obj.rowIndex;
+    	var id = obj.rowObj.value.sid;
+    	pageData.listGridSid = id;
+    	console.log(id);
+    	ip.setGrid(viewModel.detailGridViewModel, '/df/task/getTaskDepDetail.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'CHR_ID': id,'TYPE_CODE':'SID'});
+    };
+    
+    
+    
+    
+
+    var eventsDeal = {
+        addStep: function () {//点击下一步切换step
+            $('.u-step:eq(' +num+ ')').addClass('current').siblings().removeClass('current');
+            $('.u-step:lt(' +num+ ')').addClass('done');
+            $('.step-doing').text(num+1);
+            $('.step-name').text($('.u-step:eq(' +num+ ') .u-step-title').text());
+        },
+        reduceStep: function () {//点击上一步切换step
+            $('.u-step:gt(' +num+ ')').removeClass('done');
+            $('.u-step:eq(' +num+ ')').removeClass('done');
+            $('.u-step:eq(' +num+ ')').addClass('current').siblings().removeClass('current');
+            $('.step-doing').text(num+1);
+            $('.step-name').text($('.u-step:eq(' +num+ ') .u-step-title').text());
+
+        },
+        modalTab: function () {//点击上一步、下一步切换modal页签
+            var arr = ['infoAdd', 'objectAdd', 'contentAdd', 'partAdd'];
+            $('#' + arr[num]).addClass('active').siblings().removeClass('active');
+        }
+    };
+    
+    //对页面的值进行监听
+    $('#supSelect').on('change', function(){//通过选取下拉值筛选第一颗树
+    	console.log($(this).val());
+    	viewEvents.initSupSelect2();
+    	pageData.supTypeId = $(this).val();
+    	/*if($(this).val() != '-1'){
+    		$.post('/ItemSupervision/selectAllSup.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'supTypeId':$(this).val()}, function(map){
+        		if(map.errorCode == 0){
+        			var obj = {
+        					DEP_ID: '1',
+        					PARENT_ID:'root',
+        					SUP_NAME: $('#supSelect option:selected').text().split('、')[1]
+        			};
+        			$.each(map.data, function(index, item){
+        				item.PARENT_ID = '1';
+        			});
+        			map.data.push(obj);
+        			console.log(map.data);
+        			pageData.tree1Data = map;
+        			viewModel.dataTable1.setSimpleData(map.data);
+        		}
+        	});
+    	}*/
+    	
+    });
+    
+    $('#stateSelect').on('change', function(){
+    	var value = $(this).val();
+    	var arr2 = [];//待送审
+    	var arr3 = [];//已送审
+    	console.log(pageData.listData);
+    	$.each(pageData.listData, function(index, item){
+    		if(item.STATUS == '待送审'){
+    			arr2.push(item);
+    		}
+    		if(item.STATUS == '已送审'){
+    			arr3.push(item);
+    		}
+    		
+    	});
+    	if(value == '0'){
+    		/*$('.bnt-list button').removeAttr("disabled","disabled");*/
+    		/*var btnData = pageData.btnMapDatas;
+    		  for(var i=0;i<btnData.length;i++){
+          		var btnId = btnData[i].BUTTON_ID;
+          		if(btnData[i].DISPLAY_STATUS == "9" || btnData[i].DISPLAY_STATUS == '0'){
+          			$("#"+btnId).removeAttr("disabled","disabled");
+          		}else{
+          			$("#"+btnId).attr("disabled","disabled");
+          		}
+          	}*/
+    		pageData.status = '0';
+    		$.each(pageData.btnMapDatas, function(index, item){
+    			if(item.DISPLAY_STATUS == "9" || item.DISPLAY_STATUS == '0'){
+    				$("#"+item.BUTTON_ID).removeAttr("disabled","disabled");
+    			}else{
+    				$("#"+item.BUTTON_ID).attr("disabled","disabled");
+    			}
+    		});
+    		ip.setGrid(viewModel.listGridViewModel, '/df/task/getTaskSup.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'CHR_ID': treeState.treeId,'TYPE_CODE':treeState.treeCode,'STATUS':'0'});
+    		viewModel.detailGridViewModel.gridData.clear();
+    	}
+    	if(value == '1'){
+    		pageData.status = '1';
+    		/*$('.bnt-list button').attr("disabled","disabled");
+    		$('#b005006').removeAttr("disabled","disabled");*/
+    		$.each(pageData.btnMapDatas, function(index, item){
+    			if(item.DISPLAY_STATUS == "9" || item.DISPLAY_STATUS == '1'){
+    				$("#"+item.BUTTON_ID).removeAttr("disabled","disabled");
+    			}else{
+    				$("#"+item.BUTTON_ID).attr("disabled","disabled");
+    			}
+    		});
+    		ip.setGrid(viewModel.listGridViewModel, '/df/task/getTaskSup.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'CHR_ID': treeState.treeId,'TYPE_CODE':treeState.treeCode,'STATUS':'1'});
+    		viewModel.detailGridViewModel.gridData.clear();
+    		
+    		//viewModel.listGridViewModel.gridData.setSimpleData(pageData.listData);
+    	}
+    	
+    });
+    
+    $('input:radio[name="inlineRadioOptions"]').on('click', function(){
+    	viewModel.data.radio($('input:radio[name="inlineRadioOptions"]:checked').val());
+    	if(viewModel.data.radio() == '0'){
+    		console.log('全部');
+    		var eventNum = 0;
+    		postData.IS_ALLOBJ = '1';
+    		viewModel.dataTable3.setSimpleData([]);
+    		$.each(pageData.allModalData.Objectlist, function(index, item){
+            	if(item.IS_LEAF == '1'){
+            		eventNum++;
+            	}
+            });
+            viewModel.data.eventsNum('共' +eventNum+ '家');
+    	}else{
+    		console.log('部分');
+    		postData.IS_ALLOBJ = '0';
+    		viewModel.data.eventsNum('共0家');
+    		viewModel.dataTable3.setSimpleData(pageData.allModalData.Objectlist);
+    	}
+    });
+    
+    $('#reportAddSure').click(function(){//报表保存
+    	var nodes = $("#tree5")[0]['u-meta'].tree.getCheckedNodes(true);
+    	$.each(nodes, function(index, item){
+    		item.REPORT = item.CHR_CODE + '' + item.CHR_NAME;
+    	});
+    	if(pageData.reportFlag == '1'){
+    		viewModel.dataTableGrid1.setSimpleData(nodes);
+    	}
+    	
+    	if(pageData.reportFlag == '2'){
+    		viewModel.dataTableGrid2.setSimpleData(nodes);
+    	}
+    	
+    	if(pageData.reportFlag == '3'){
+    		viewModel.dataTableGrid3.setSimpleData(nodes);
+    	}
+    	$('#reportModel').modal('toggle');
+    });
+    
+    $('#addReport1').click(function(){//新增报表
+    	$('#reportModel').modal('show');
+    	pageData.reportFlag = '1';
+    	//var arr = viewData.viewList4.viewDetail;
+//    	$.each(arr,function(key, item){
+//    		//console.log(item);
+//    		if(item.id == 'SUP_CYCLE'){
+//    			var sup_cycle = $('#' + item.id + '-' + dealData.getIdLast(item.viewid)).val();
+//    			if(sup_cycle == "1"){
+//    				$.each(pageData.allModalData.EReportlist, function(index, item){
+//    					$.each(item, function(key, value){
+//    		    			if(key == REPORT_CYCLE){
+//    		    			
+//    		    			}
+//    		    		});
+//    				});
+//    			}
+//    		}
+//    	});
+    	viewModel.dataTable5.setSimpleData(pageData.allModalData.EReportlist);
+    	var data = viewModel.dataTableGrid1.getSimpleData();
+    	var nodes = $("#tree5")[0]['u-meta'].tree.getNodes();
+    	$.each(nodes, function(index, item){
+    		$.each(data, function(index2, item2){
+    			if(item.CHR_ID == item2.CHR_ID){
+    				console.log(item);
+    				$("#tree5")[0]['u-meta'].tree.checkNode(item, true, false);
+    				//$("#tree5")[0]['u-meta'].tree.checkAllNodes(true);
+    			}
+    		});
+    	});
+    });    
+    
+    $('#deleteReport1').click(function(){
+    	var rowsIndex = viewModel.dataTableGrid1.getSelectedIndex();
+    	var data = viewModel.dataTableGrid1.getSimpleData();
+    	data.splice(rowsIndex,1);
+    	viewModel.dataTableGrid1.setSimpleData(data);
+    });
+    
+    $('#upReport1').click(function(){
+    	var rowsIndex = viewModel.dataTableGrid1.getSelectedIndex();
+    	var data = viewModel.dataTableGrid1.getSimpleData();
+    	if(rowsIndex == '0'){
+    		ip.ipInfoJump('您的选择无法上移！', 'info');
+    	}else{
+    		var value = data[rowsIndex - 1];
+    		data[rowsIndex - 1] = data[rowsIndex];
+    		data[rowsIndex] = value;
+    		viewModel.dataTableGrid1.setSimpleData(data);
+    	}
+    	
+    });
+    
+    $('#downReport1').click(function(){
+    	var rowsIndex = viewModel.dataTableGrid1.getSelectedIndex();
+    	var data = viewModel.dataTableGrid1.getSimpleData();
+    	if(rowsIndex == data.length){
+    		ip.ipInfoJump('您的选择无法下移！', 'info');
+    	}else{
+    		var value = data[rowsIndex + 1];
+    		data[rowsIndex + 1] = data[rowsIndex];
+    		data[rowsIndex] = value;
+    		viewModel.dataTableGrid1.setSimpleData(data);
+    	}
+    	
+    });
+    
+    
+    
+    
+    $('#addReport2').click(function(){//新增报表
+    	$('#reportModel').modal('show');
+    	pageData.reportFlag = '2';
+    	viewModel.dataTable5.setSimpleData(pageData.allModalData.EReportlist);
+    	var data = viewModel.dataTableGrid2.getSimpleData();
+    	var nodes = $("#tree5")[0]['u-meta'].tree.getNodes();
+    	$.each(nodes, function(index, item){
+    		$.each(data, function(index2, item2){
+    			if(item.CHR_ID == item2.CHR_ID){
+    				console.log(item);
+    				$("#tree5")[0]['u-meta'].tree.checkNode(item, true, false);
+    				//$("#tree5")[0]['u-meta'].tree.checkAllNodes(true);
+    			}
+    		});
+    	});
+    });    
+    
+    $('#deleteReport2').click(function(){
+    	var rowsIndex = viewModel.dataTableGrid2.getSelectedIndex();
+    	var data = viewModel.dataTableGrid2.getSimpleData();
+    	data.splice(rowsIndex,1);
+    	viewModel.dataTableGrid2.setSimpleData(data);
+    });
+    
+    $('#upReport2').click(function(){
+    	var rowsIndex = viewModel.dataTableGrid2.getSelectedIndex();
+    	var data = viewModel.dataTableGrid2.getSimpleData();
+    	if(rowsIndex == '0'){
+    		//ip.ipInfoJump('您的选择无法上移！', 'info')
+    	}else{
+    		var value = data[rowsIndex - 1];
+    		data[rowsIndex - 1] = data[rowsIndex];
+    		data[rowsIndex] = value;
+    		viewModel.dataTableGrid2.setSimpleData(data);
+    	}
+    	
+    });
+    
+    $('#downReport2').click(function(){
+    	var rowsIndex = viewModel.dataTableGrid2.getSelectedIndex();
+    	var data = viewModel.dataTableGrid2.getSimpleData();
+    	if(rowsIndex == data.length){
+    		//ip.ipInfoJump('您的选择无法下移！', 'info')
+    	}else{
+    		var value = data[rowsIndex + 1];
+    		data[rowsIndex + 1] = data[rowsIndex];
+    		data[rowsIndex] = value;
+    		viewModel.dataTableGrid2.setSimpleData(data);
+    	}
+    	
+    });
+    
+    
+    
+    
+    
+    $('#addReport3').click(function(){//新增报表
+    	$('#reportModel').modal('show');
+    	pageData.reportFlag = '3';
+    	viewModel.dataTable5.setSimpleData(pageData.allModalData.EReportlist);
+    	var data = viewModel.dataTableGrid3.getSimpleData();
+    	var nodes = $("#tree5")[0]['u-meta'].tree.getNodes();
+    	$.each(nodes, function(index, item){
+    		$.each(data, function(index2, item2){
+    			if(item.CHR_ID == item2.CHR_ID){
+    				console.log(item);
+    				$("#tree5")[0]['u-meta'].tree.checkNode(item, true, false);
+    				//$("#tree5")[0]['u-meta'].tree.checkAllNodes(true);
+    			}
+    		});
+    	});
+    });    
+    
+    $('#deleteReport3').click(function(){
+    	var rowsIndex = viewModel.dataTableGrid3.getSelectedIndex();
+    	var data = viewModel.dataTableGrid3.getSimpleData();
+    	data.splice(rowsIndex,1);
+    	viewModel.dataTableGrid3.setSimpleData(data);
+    });
+    
+    $('#upReport1').click(function(){
+    	var rowsIndex = viewModel.dataTableGrid3.getSelectedIndex();
+    	var data = viewModel.dataTableGrid3.getSimpleData();
+    	if(rowsIndex == '0'){
+    		ip.ipInfoJump('您的选择无法上移！', 'info');
+    	}else{
+    		var value = data[rowsIndex - 1];
+    		data[rowsIndex - 1] = data[rowsIndex];
+    		data[rowsIndex] = value;
+    		viewModel.dataTableGrid3.setSimpleData(data);
+    	}
+    	
+    });
+    
+    $('#downReport3').click(function(){
+    	var rowsIndex = viewModel.dataTableGrid3.getSelectedIndex();
+    	var data = viewModel.dataTableGrid3.getSimpleData();
+    	if(rowsIndex == data.length){
+    		ip.ipInfoJump('您的选择无法下移！', 'info');
+    	}else{
+    		var value = data[rowsIndex + 1];
+    		data[rowsIndex + 1] = data[rowsIndex];
+    		data[rowsIndex] = value;
+    		viewModel.dataTableGrid3.setSimpleData(data);
+    	}
+    	
+    });
+    
+    var publicFileman = function(obj) {
+		$("#filePage")[0].src = "";
+		var fileData = {
+				"entity_id":pageData.SID,
+				"oid":options.svOfficeId,
+				"dep_id":options.svDepId,
+				"dep_code":options.svDepCode,
+				"edit":'Y',
+		    };
+		//if(pageData.SID)
+			$("#filePage")[0].src = "/df/supervise/attachment/attachment.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId +
+	    	"&menuname=" + options.svMenuName+"&entityId="+fileData.entity_id+"&entityName=csof_sup_bill&oid="+fileData.oid+
+	    	"&dep_id="+fileData.dep_id+"&dep_code="+fileData.dep_code+"&modelFlag=0&admin="+fileData.edit;
+	};
+
+    function init(){
+        app = u.createApp({
+            el: 'body',
+            model: viewModel
+        });
+        pageData.initTree1();
+        pageData.getModalTree();
+        viewEvents.initData("edit","testGrid", 4);
+        console.log(url);
+        pageData.eleCode = 'CSOF_SUPTYPE';
+        pageData.eleCode2 = 'CSOF_SUP';
+        pageData.status = '0';
+        viewEvents.initSupSelect();
+        viewEvents.initSupSelect2();
+        //viewModel.detailGridViewModel.gridData.clear();
+        //pageData.getUUID();
+        //publicFileman();
+        
+    }
+    init();
+});

@@ -1,0 +1,323 @@
+<!--台账管理页面-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>台账管理</title>
+		<link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css"/>
+		<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/tree.css" />
+        <link rel="stylesheet" type="text/css" href="/df/trd/ip/changeTree/changeTree.css" />
+        <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/u.css" />
+        <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/grid.css" />
+        <link rel="stylesheet" type="text/css" href="/df/trd/ip/css/ip.css" />
+		<link rel="stylesheet" href="../common/common.css">
+		<link rel="stylesheet" href="css/csofAcc.css">
+		<link rel="stylesheet" href="../matters/css/mattersEnter.css">
+	</head>
+	<style>
+	    #testGrid > div{
+	        margin: 5px 0;
+	    }
+	</style>
+	<body class="csof-font" style="overflow:auto;">
+		<!-- 台账管理 -->
+		<div id="led-mana-page" style="background:#f4f4f4;">
+			<!--首页，流程，待办
+			<div class="col-md-12" style="margin-top:10px;">
+				<div style="float:left;">首页<span style="margin:0 5px;"> > </span>监管工作台账<span style="margin:0 5px;"> > </span>工作台账登记</div>
+				<div style="float:right;">
+					<button class="btn csof-btn">流程</button>
+					<button class="btn csof-btn">待办</button>
+					<button class="btn csof-btn">台账登记</button>
+				</div>
+			</div>-->
+			<!--事项-->
+			<div  class="col-md-12" style="height:50px;margin-top:10px;padding-top:10px;width: 98%;background:#ffffff;">
+				<div style="float:left;">
+					<button class="btn csof-btn" onclick="taskAdd()">事项新增</button>
+					<button class="btn csof-btn">事项修改</button>
+					<button class="btn csof-btn">事项作废</button>
+					<button class="btn csof-btn">事项办结</button>
+				</div>
+			</div>
+			<!--main-->
+			<div class="col-md-12" style="width:98%;margin-top:10px;">
+				<div class="col-md-3" style="padding-right:1%;border:1px solid #ccc;height:500px;padding-top: 10px;">
+					<div class="col-md-12" style="padding: 0;">
+						<div class="col-md-2" style="padding: 2px;">期 间：</div>
+						<div class="col-md-6" style="padding: 0 5px;"><select id="year" style="border: 1px solid #ccc;width: 100%;">
+							<option value="YAll">全部</option>
+							<option value="Y2017">2017</option>
+							<option value="Y2016">2016</option>
+							<option value="Y2015">2015</option>
+						</select></div>
+						<div class="col-md-4" style="padding: 0">
+						<select id="month" style="border: 1px solid #ccc;width: 100%;">
+							<option value="MAll">全部</option>
+							<option value="M7">7月</option>
+							<option value="M8">8月</option>
+							<option value="M9">9月</option>
+						</select></div>
+					</div>
+					<!-- 需从数据库取 -->
+					<select id="sup_type" style="margin-top:10px;width:100%;border: 1px solid #ccc;">
+						<option value="1">一、属地中央预算单位预算编制审核</option>
+						<option value="2">二、属地中央预算单位预算执行监控</option>
+						<option value="3">三、属地中央预算单位决算编制审核</option>
+						<option value="4">四、中央对地方转移支付申报审核</option>
+						<option value="5">五、中央对地方转移支付执行监控</option>
+						<option value="6">六、中央对地方转移支付绩效评价</option>
+						<option value="7">七、地方政府债务监管</option>
+						<option value="8">八、地方财政运行管理监控</option>
+						<option value="9">九、重点课题调研事项</option>
+						<option value="10">十、专项检查工作</option>
+						<option value="11">十一、中央预算收入执行监管</option>
+						<option value="12">十二、其他财政预算监管事项</option>
+					</select>
+					<div class="input-group" style="margin-top: 10px;">
+						<input type="text" id="SearchdepTree" class="form-control" placeholder="模糊查询...">
+					      <span class="input-group-btn">
+					        <button class="btn btn-default" type="button">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button>
+					      </span>
+					</div>
+					<!--树-->
+				</div>
+				<div class="col-md-9" style="border:1px solid #ccc;height:500px;padding: 0;border-left: 0;">
+					<ul class="nav nav-tabs" style="background-color: rgba(242, 242, 242, 1);">
+						<li id="exDetails-li" class="active">
+							<a data-toggle="tab" href="#panel-exDetails" id="list-li-a">事项详情</a>
+						</li>
+						<li id="workRecode-li">
+							<a data-toggle="tab" href="#panel-workRecode" id="workRecode-li-a">工作记录</a>
+						</li>
+						<li id="questionRecode-li">
+							<a data-toggle="tab" href="#panel-questionRecode" id="questionRecode-li-a">问题记录</a>
+						</li>
+						<li id="file-li">
+							<a data-toggle="tab" href="#panel-file" id="file-li-a">附录</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="panel-exDetails">
+                            <div id=testGrid class="tabbed-grid" style="padding-top:15px;margin-left:-43px;margin-right: 15px;"></div>
+						</div>
+						<div class="tab-pane rightTable" id="panel-workRecode">
+							<div>
+							     <span class="rightTable-title">工作记录：</span>
+							     <button class="u-button u-button-border addbtn" data-bind="click: beforeEdit.bind($data,2,-1)">+ 添加</button>							      
+							     <div class="pull-right">
+		                                <div class="">
+		                                    <form class="form-search form-inline">
+		                                    <div class="input-group">
+							                      <input type="text" id="workGridSearchInput" class="form-control">
+							                      <span class="input-group-btn">
+								                      <button class="btn btn-default" type="button"  data-bind="click:workGridSearch">
+								        	             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+								                       </button>
+							                       </span>
+							                </div>    
+							                <button type="button" class="btn" onclick="hignSearch()">高级</button>                                    
+		                                    </form>
+		                                </div>
+                                 </div>							
+                            </div>
+							<div id="workRecodeGrid" style="margin-top: 15px;"></div>
+						</div>
+						<div class="tab-pane rightTable" id="panel-questionRecode">
+							<span class="rightTable-title">问题记录列表：</span>
+							<button class="u-button u-button-border addbtn" data-bind="click: beforeEdit.bind($data,3,-1)" style="float: right;">+ 添加</button>							      						
+							<div id="questionRecodeGrid" style="margin-top: 28px;"></div>
+						</div>
+						<div class="tab-pane rightTable" id="panel-file">
+							<span class="rightTable-title">附件上传：</span>
+							<iframe id="fileUploadPage" style="width:100%;height:100%;border: 0;"></iframe>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 新增Modal1 -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">新增</h4>
+            </div>
+            <div class="modal-body add-Modal">
+                <nav class="step-box">
+                    <div class="u-pearls  u-row">
+                        <div class="u-step current u-col-xs-2 newWid">
+                            <span class="u-step-number">1</span>
+                            <span class="u-step-title">基本信息</span>
+                        </div>
+                        <div class="u-step  u-col-xs-2 newWid">
+                            <span class="u-step-number">2</span>
+                            <span class="u-step-title">工作记录</span>
+                        </div>
+                        <div class="u-step u-col-xs-2 newWid">
+                            <span class="u-step-number">3</span>
+                            <span class="u-step-title">问题记录</span>
+                        </div>
+
+                        <div class="u-step u-col-xs-2 newWid">
+                            <span class="u-step-number">4</span>
+                            <span class="u-step-title">附件</span>
+                        </div>
+                        <!--<div class="u-step u-col-xs-2">-->
+                            <!--<span class="u-step-number">6</span>-->
+                            <!--<span class="u-step-title">处室分解</span>-->
+                        <!--</div>-->
+                    </div>
+                    <div class="show-step">
+                        <span class="step-doing">1</span>
+                        <span class="step-num">/</span>
+                        <span>4</span>
+                        <span class="step-name">基本信息</span>
+                    </div>
+                </nav>
+                <div class="tab-content tab-pad">
+                    <!-- 基本信息 -->
+                    <div role="tabpanel" class="tab-pane active" id="infoAdd">
+                    </div>
+
+                    <!-- 工作记录 -->
+                    <div role="tabpanel" class="tab-pane" id="workAdd">
+                        <div style="height: 20px;"><button class="u-button u-button-border addbtn" data-bind="click: beforeEdit.bind($data,0,-1)" style="float: right;">+ 添加</button></div>
+                        <div id=workGrid style="margin-top: 20px;"></div>
+                    </div>
+                    <!-- 问题记录 -->
+                    <div role="tabpanel" class="tab-pane" id="questionAdd">
+                        <input type="radio" name="IS_QUESTION" value="未发现问题" checked="checked" />未发现问题
+                        <input type="radio" name="IS_QUESTION" value="存在问题" />存在问题
+                        <button class="u-button u-button-border addbtn" data-bind="click: beforeEdit.bind($data,1,-1)" style="float: right;">+ 添加</button>
+                        <div id=questionGrid style="margin-top: 20px;"></div>
+                    </div>
+                    <!-- 附件 -->
+                    <div role="tabpanel" class="tab-pane" id="partAdd">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn1" name="btn1" type="button" class="btn btn-default" data-bind="click:btnEvents">上一步</button>
+                <button id="btn2" name="btn2" type="button" class="btn btn-prima" data-bind="click:btnEvents">下一步</button>
+                <button id="btn3" name="btn3" type="button" class="btn btn-prima" data-bind="click:btnEvents">完成</button>
+                <button id="btn4" name="btn4" type="button" class="btn btn-default" data-dismiss="modal" data-bind="click:btnEvents">返回</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 工作记录新增模态框（Modal） -->
+<div class="modal fade" id="workAddModal" tabindex="-1" role="dialog" aria-labelledby="workAddModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="workAddModalLabel">工作记录新增</h4>
+            </div>
+            <div class="modal-body" style="overflow: auto;">
+               <div class="col-md-12 style="padding: 0px;">
+	                        <label for="EXECUTOR" class="text-right" style="width: 20%;font-size: 12px; font-weight: normal;">执行人：</label>
+	                        <div style="width: 49.5%;padding: 0px;display: inline-block;" u-meta='{"id":"EXECUTOR","type":"u-text","data":"workFormDataTable","field":"EXECUTOR"}'>
+                                 <input type="text" class="u-form-control padding-left-20">
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding: 0px;">
+	                        <label for="SUP_MONEY" class="text-right" style="width: 21.5%;font-size: 12px; font-weight: normal;">资金规模（万元）：</label>
+	                        <div style="width: 47%;padding: 0px;display: inline-block;" u-meta='{"id":"SUP_MONEY","type":"u-text","data":"workFormDataTable","field":"SUP_MONEY"}'>
+                                 <input type="text" class="u-form-control padding-left-20">
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding: 0px;">
+	                        <label for="WORK_PROGRESS" class="text-right" style="width: 21.5%;font-size: 12px; font-weight: normal;">工作进展：</label>
+	                        <div style="width: 47%;padding: 0px;display: inline-block;" u-meta='{"id":"WORK_PROGRESS","type":"u-text","data":"workFormDataTable","field":"WORK_PROGRESS"}'>
+                                 <input type="text" class="u-form-control padding-left-20">
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding: 0px;">
+	                        <label for="WORKLOAD" class="text-right" style="width: 21.5%;font-size: 12px; font-weight: normal;">工作量（人天）：</label>
+	                        <div style="width: 47%;padding: 0px;display: inline-block;" u-meta='{"id":"WORKLOAD","type":"u-text","data":"workFormDataTable","field":"WORKLOAD"}'>
+                                 <input type="text" class="u-form-control padding-left-20">
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding: 0px;">
+	                        <label for="REMARK" class="text-right" style="width: 21.5%;font-size: 12px; font-weight: normal;">备注：</label>
+	                        <div style="width: 47%;padding: 0px;display: inline-block;" u-meta='{"id":"REMARK","type":"u-text","data":"workFormDataTable","field":"REMARK"}'>
+                                 <input type="text" class="u-form-control padding-left-20">
+                            </div>
+                        </div>            
+            </div>
+            <div class="modal-footer">
+                 <!--  <button class="u-msg-ok u-button primary">保存<span class="u-button-container"><span class="u-ripple"></span></span></button>
+                 <button class="u-msg-cancel u-button  u-grey">取消<span class="u-button-container"><span class="u-ripple"></span></span></button>-->
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-bind="click:workModelClose">关闭</button>
+                <button type="button" id="saveWorkBtn" class="btn btn-primary" data-bind="click:saveWork">保存</button>
+                <button type="button" id="saveAddWorkBtn" class="btn btn-primary" data-bind="click:saveAddWork">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!-- 问题记录新增模态框（Modal） -->
+<div class="modal fade" id="questionAddModal" tabindex="-1" role="dialog" aria-labelledby="questionAddModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="questionAddModalLabel">问题记录新增</h4>
+            </div>
+            <div class="modal-body" style="overflow: auto;">
+                <div class="col-md-12" style="padding: 0px;">
+                       <label for="OBJ_TYPE_NAME" class="text-right" style="width: 21.5%;font-size: 12px; font-weight: normal;">监管对象</label>
+	                   <div style="width: 47%;padding: 0px;display: inline-block;" u-meta='{"id":"OBJ_TYPE_NAME","type":"u-text","data":"formDataTable","field":"OBJ_TYPE_NAME"}'>
+                            <input type="text" class="u-form-control padding-left-20">
+                       </div>
+                </div>  
+                <div class="col-md-12" style="padding: 0px;">
+                       <label for="DISPLAY_TITLE" class="text-right" style="width: 21.5%;font-size: 12px; font-weight: normal;">发现问题</label>
+	                   <div style="width: 47%;padding: 0px;display: inline-block;" u-meta='{"id":"DISPLAY_TITLE","type":"u-text","data":"formDataTable","field":"DISPLAY_TITLE"}'>
+                            <input type="text" class="u-form-control padding-left-20">
+                       </div>
+                 </div> 
+                 <div class="col-md-12" style="padding: 0px;">
+                       <label for="AUDIT_BASIS" class="text-right" style="width: 21.5%;font-size: 12px; font-weight: normal;">审核依据</label>
+	                   <div style="width: 47%;padding: 0px;display: inline-block;" u-meta='{"id":"AUDIT_BASIS","type":"u-text","data":"formDataTable","field":"AUDIT_BASIS"}'>
+                            <input type="text" class="u-form-control padding-left-20">
+                       </div>
+                 </div> 
+                 <div class="col-md-12" style="padding: 0px;">
+                       <label for="AUDIT_OPINION" class="text-right" style="width: 21.5%;font-size: 12px; font-weight: normal;">审核意见</label>
+	                   <div style="width: 47%;padding: 0px;display: inline-block;" u-meta='{"id":"AUDIT_OPINION","type":"u-text","data":"formDataTable","field":"AUDIT_OPINION"}'>
+                            <input type="text" class="u-form-control padding-left-20">
+                       </div>
+                 </div> 
+                 <div class="col-md-12" style="padding: 0px;">
+                       <label for="REMARK" class="text-right" style="width: 21.5%;font-size: 12px; font-weight: normal;">备注</label>
+	                   <div style="width: 47%;padding: 0px;display: inline-block;" u-meta='{"id":"REMARK","type":"u-text","data":"formDataTable","field":"REMARK"}'>
+                            <input type="text" class="u-form-control padding-left-20">
+                       </div>
+                 </div>       
+            </div>
+            <div class="modal-footer">
+                 <!--  <button class="u-msg-ok u-button primary">保存<span class="u-button-container"><span class="u-ripple"></span></span></button>
+                 <button class="u-msg-cancel u-button  u-grey">取消<span class="u-button-container"><span class="u-ripple"></span></span></button>-->
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-bind="click:modelClose">关闭</button>
+                <button type="button" id="saveQuestionBtn" class="btn btn-primary" data-bind="click:saveQuestion">保存</button>
+                <button type="button" id="saveAddQuestionBtn" class="btn btn-primary" data-bind="click:saveAddQuestion">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+		<!-- 引入js-->
+		<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+        <script src="../../trd/requirejs/require.js"></script>
+        <script src="../../require.config.js"></script>
+		<script src="csofAcc.js" type="text/javascript"></script>
+	</body>
+</html>

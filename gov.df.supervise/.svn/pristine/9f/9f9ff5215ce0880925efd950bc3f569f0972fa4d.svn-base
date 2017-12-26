@@ -1,0 +1,556 @@
+package gov.df.supervise.bean.csofacc;
+
+import java.io.Serializable;
+
+public class csofAccWorkEntity implements Serializable {
+  /**
+  * 
+  */
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * 工作记录唯一id（主键）
+   */
+  private String id;
+
+  /**
+   * 工作记录编号
+   */
+  private String workNo;
+
+  /**
+   * 监管事项唯一id
+   */
+  private String sid;
+
+  /**
+   * 事项编号
+   */
+  private String supNo;
+
+  /**
+   * 事项名称
+   */
+  private String supName;
+
+  /**
+   * 是否有效
+   */
+  private Short isValid;
+
+  /**
+   * 是否流程结束 0：在途 1：结束  
+   */
+  private Short isEnd;
+
+  /**
+   * 负责司局ID(CSOF_E_MOFDEP)
+   */
+  private String mofdepId;
+
+  /**
+   * 负责司局编码
+   */
+  private String mofdepCode;
+
+  /**
+   * 负责司局名称
+   */
+  private String mofdepName;
+
+  /**
+   * 专员办机构id
+   */
+  private String oid;
+
+  /**
+   * 监管对象id
+   */
+  private String objTypeId;
+
+  /**
+   * 监管对象编码
+   */
+  private String objTypeCode;
+
+  /**
+   * 监管对象名称
+   */
+  private String objTypeName;
+
+  /**
+   * 工作性质
+   */
+  private String workType;
+
+  /**
+   * 工作进度
+   */
+  private String workProgress;
+
+  /**
+   * 工作量
+   */
+  private String workload;
+
+  /**
+   * 资金规模
+   */
+  private String fundScale;
+
+  /**
+   * 登记时间
+   */
+  private String registrationTime;
+
+  /**
+   * 备注说明
+   */
+  private String remark;
+
+  /**
+   * 创建人
+   */
+  private String createUser;
+
+  /**
+   * 创建时间
+   */
+  private String createDate;
+
+  /**
+   * 最后操作人
+   */
+  private String latestOpUser;
+
+  /**
+   * 最后操作时间
+   */
+  private String latestOpDate;
+
+  /**
+   * 年度
+   */
+  private String setYear;
+
+  /**
+   * 区划
+   */
+  private String rgCode;
+
+  /**
+   * 工作记录唯一id（主键）
+   * @return ID 工作记录唯一id（主键）
+   */
+  public String getId() {
+    return id;
+  }
+
+  /**
+   * 工作记录唯一id（主键）
+   * @param id 工作记录唯一id（主键）
+   */
+  public void setId(String id) {
+    this.id = id == null ? null : id.trim();
+  }
+
+  /**
+   * 工作记录唯一id（主键）
+   * @return WORK_NO 工作记录唯一id（主键）
+   */
+  public String getWorkNo() {
+    return workNo;
+  }
+
+  /**
+   * 工作记录唯一id（主键）
+   * @param workNo 工作记录唯一id（主键）
+   */
+  public void setWorkNo(String workNo) {
+    this.workNo = workNo == null ? null : workNo.trim();
+  }
+
+  /**
+   * 监管事项唯一id
+   * @return SID 监管事项唯一id
+   */
+  public String getSid() {
+    return sid;
+  }
+
+  /**
+   * 监管事项唯一id
+   * @param sid 监管事项唯一id
+   */
+  public void setSid(String sid) {
+    this.sid = sid == null ? null : sid.trim();
+  }
+
+  /**
+   * 事项编号
+   * @return SUP_NO 事项编号
+   */
+  public String getSupNo() {
+    return supNo;
+  }
+
+  /**
+   * 事项编号
+   * @param supNo 事项编号
+   */
+  public void setSupNo(String supNo) {
+    this.supNo = supNo == null ? null : supNo.trim();
+  }
+
+  /**
+   * 事项名称
+   * @return SUP_NAME 事项名称
+   */
+  public String getSupName() {
+    return supName;
+  }
+
+  /**
+   * 事项名称
+   * @param supName 事项名称
+   */
+  public void setSupName(String supName) {
+    this.supName = supName == null ? null : supName.trim();
+  }
+
+  /**
+   * 是否有效
+   * @return IS_VALID 是否有效
+   */
+  public Short getIsValid() {
+    return isValid;
+  }
+
+  /**
+   * 是否有效
+   * @param isValid 是否有效
+   */
+  public void setIsValid(Short isValid) {
+    this.isValid = isValid;
+  }
+
+  /**
+   * 是否流程结束 0：在途 1：结束  
+   * @return IS_END 是否流程结束 0：在途 1：结束  
+   */
+  public Short getIsEnd() {
+    return isEnd;
+  }
+
+  /**
+   * 是否流程结束 0：在途 1：结束  
+   * @param isEnd 是否流程结束 0：在途 1：结束  
+   */
+  public void setIsEnd(Short isEnd) {
+    this.isEnd = isEnd;
+  }
+
+  /**
+   * 负责司局ID(CSOF_E_MOFDEP)
+   * @return MOFDEP_ID 负责司局ID(CSOF_E_MOFDEP)
+   */
+  public String getMofdepId() {
+    return mofdepId;
+  }
+
+  /**
+   * 负责司局ID(CSOF_E_MOFDEP)
+   * @param mofdepId 负责司局ID(CSOF_E_MOFDEP)
+   */
+  public void setMofdepId(String mofdepId) {
+    this.mofdepId = mofdepId == null ? null : mofdepId.trim();
+  }
+
+  /**
+   * 负责司局编码
+   * @return MOFDEP_CODE 负责司局编码
+   */
+  public String getMofdepCode() {
+    return mofdepCode;
+  }
+
+  /**
+   * 负责司局编码
+   * @param mofdepCode 负责司局编码
+   */
+  public void setMofdepCode(String mofdepCode) {
+    this.mofdepCode = mofdepCode == null ? null : mofdepCode.trim();
+  }
+
+  /**
+   * 负责司局名称
+   * @return MOFDEP_NAME 负责司局名称
+   */
+  public String getMofdepName() {
+    return mofdepName;
+  }
+
+  /**
+   * 负责司局名称
+   * @param mofdepName 负责司局名称
+   */
+  public void setMofdepName(String mofdepName) {
+    this.mofdepName = mofdepName == null ? null : mofdepName.trim();
+  }
+
+  /**
+   * 专员办机构id
+   * @return OID 专员办机构id
+   */
+  public String getOid() {
+    return oid;
+  }
+
+  /**
+   * 专员办机构id
+   * @param oid 专员办机构id
+   */
+  public void setOid(String oid) {
+    this.oid = oid == null ? null : oid.trim();
+  }
+
+  /**
+   * 监管对象id
+   * @return OBJ_TYPE_ID 监管对象id
+   */
+  public String getObjTypeId() {
+    return objTypeId;
+  }
+
+  /**
+   * 监管对象id
+   * @param objTypeId 监管对象id
+   */
+  public void setObjTypeId(String objTypeId) {
+    this.objTypeId = objTypeId == null ? null : objTypeId.trim();
+  }
+
+  /**
+   * 监管对象编码
+   * @return OBJ_TYPE_CODE 监管对象编码
+   */
+  public String getObjTypeCode() {
+    return objTypeCode;
+  }
+
+  /**
+   * 监管对象编码
+   * @param objTypeCode 监管对象编码
+   */
+  public void setObjTypeCode(String objTypeCode) {
+    this.objTypeCode = objTypeCode == null ? null : objTypeCode.trim();
+  }
+
+  /**
+   * 监管对象名称
+   * @return OBJ_TYPE_NAME 监管对象名称
+   */
+  public String getObjTypeName() {
+    return objTypeName;
+  }
+
+  /**
+   * 监管对象名称
+   * @param objTypeName 监管对象名称
+   */
+  public void setObjTypeName(String objTypeName) {
+    this.objTypeName = objTypeName == null ? null : objTypeName.trim();
+  }
+
+  /**
+   * 工作性质
+   * @return WORK_TYPE 工作性质
+   */
+  public String getWorkType() {
+    return workType;
+  }
+
+  /**
+   * 工作性质
+   * @param workType 工作性质
+   */
+  public void setWorkType(String workType) {
+    this.workType = workType == null ? null : workType.trim();
+  }
+
+  /**
+   * 工作进度
+   * @return WORK_PROGRESS 工作进度
+   */
+  public String getWorkProgress() {
+    return workProgress;
+  }
+
+  /**
+   * 工作进度
+   * @param workProgress 工作进度
+   */
+  public void setWorkProgress(String workProgress) {
+    this.workProgress = workProgress == null ? null : workProgress.trim();
+  }
+
+  /**
+   * 工作量
+   * @return WORKLOAD 工作量
+   */
+  public String getWorkload() {
+    return workload;
+  }
+
+  /**
+   * 工作量
+   * @param workload 工作量
+   */
+  public void setWorkload(String workload) {
+    this.workload = workload == null ? null : workload.trim();
+  }
+
+  /**
+   * 资金规模
+   * @return FUND_SCALE 资金规模
+   */
+  public String getFundScale() {
+    return fundScale;
+  }
+
+  /**
+   * 资金规模
+   * @param fundScale 资金规模
+   */
+  public void setFundScale(String fundScale) {
+    this.fundScale = fundScale == null ? null : fundScale.trim();
+  }
+
+  /**
+   * 登记时间
+   * @return REGISTRATION_TIME 登记时间
+   */
+  public String getRegistrationTime() {
+    return registrationTime;
+  }
+
+  /**
+   * 登记时间
+   * @param registrationTime 登记时间
+   */
+  public void setRegistrationTime(String registrationTime) {
+    this.registrationTime = registrationTime == null ? null : registrationTime.trim();
+  }
+
+  /**
+   * 备注说明
+   * @return REMARK 备注说明
+   */
+  public String getRemark() {
+    return remark;
+  }
+
+  /**
+   * 备注说明
+   * @param remark 备注说明
+   */
+  public void setRemark(String remark) {
+    this.remark = remark == null ? null : remark.trim();
+  }
+
+  /**
+   * 创建人
+   * @return CREATE_USER 创建人
+   */
+  public String getCreateUser() {
+    return createUser;
+  }
+
+  /**
+   * 创建人
+   * @param createUser 创建人
+   */
+  public void setCreateUser(String createUser) {
+    this.createUser = createUser == null ? null : createUser.trim();
+  }
+
+  /**
+   * 创建时间
+   * @return CREATE_DATE 创建时间
+   */
+  public String getCreateDate() {
+    return createDate;
+  }
+
+  /**
+   * 创建时间
+   * @param createDate 创建时间
+   */
+  public void setCreateDate(String createDate) {
+    this.createDate = createDate == null ? null : createDate.trim();
+  }
+
+  /**
+   * 最后操作人
+   * @return LATEST_OP_USER 最后操作人
+   */
+  public String getLatestOpUser() {
+    return latestOpUser;
+  }
+
+  /**
+   * 最后操作人
+   * @param latestOpUser 最后操作人
+   */
+  public void setLatestOpUser(String latestOpUser) {
+    this.latestOpUser = latestOpUser == null ? null : latestOpUser.trim();
+  }
+
+  /**
+   * 最后操作时间
+   * @return LATEST_OP_DATE 最后操作时间
+   */
+  public String getLatestOpDate() {
+    return latestOpDate;
+  }
+
+  /**
+   * 最后操作时间
+   * @param latestOpDate 最后操作时间
+   */
+  public void setLatestOpDate(String latestOpDate) {
+    this.latestOpDate = latestOpDate == null ? null : latestOpDate.trim();
+  }
+
+  /**
+   * 年度
+   * @return SET_YEAR 年度
+   */
+  public String getSetYear() {
+    return setYear;
+  }
+
+  /**
+   * 年度
+   * @param setYear 年度
+   */
+  public void setSetYear(String setYear) {
+    this.setYear = setYear == null ? null : setYear.trim();
+  }
+
+  /**
+   * 区划
+   * @return RG_CODE 区划
+   */
+  public String getRgCode() {
+    return rgCode;
+  }
+
+  /**
+   * 区划
+   * @param rgCode 区划
+   */
+  public void setRgCode(String rgCode) {
+    this.rgCode = rgCode == null ? null : rgCode.trim();
+  }
+}

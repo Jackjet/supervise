@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gov.df.supervise.service.Tree.elementTreeDao">
+<select id="findEleSource" parameterType="java.lang.String" resultType="java.lang.String">
+SELECT ELE_SOURCE FROM SYS_ELEMENT WHERE ELE_CODE = #{ele_code}
+</select>
+ <select id="findTree" parameterType="java.util.Map" resultType="java.util.Map" >
+select * from ${ele_source} a  where a.oid = #{oid}
+  and (a.type != 'MOFDEP' or exists (select 1 from sys_user_org o where o.org_id=a.dep_id and o.user_id= #{user_id}))
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code=　#{ele_code}　 and (d.ele_value='#' or d.ele_value=a.chr_code)))   
+     and r.user_id= #{user_id} 
+) order by level_num,chr_code
+
+</select>
+</mapper>

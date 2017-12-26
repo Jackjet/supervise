@@ -1,0 +1,421 @@
+require(['jquery','knockout', '/df/supervise/ncrd.js','bootstrap','dateZH', 'uui','tree', 'grid', 'ip','csof'], function($,ko, ncrd) {
+        window.ko = ko;
+        var GET_DOCUMENTTREE_URL = '/df/csofdocument/getdocumentTree.do';//查询法规类型
+        var GET_DOCUMENTBYID_URL = '/df/csofdocument/getdocumentById.do'; //通过法规类型查询政策法规
+        var GET_DOCUMENT_URL = '/df/csofdocument/getdocument.do'; //查询政策法规
+        var SAVE_DOCUMENT_URL = '/df/csofdocument/savedocument.do';//新增政策法规
+        var DELETE_DOCUMENT_URL = '/df/csofdocument/deleteDocument.do';//删除政策法规	
+        var UPDATE_DOCUMENT_URL = '/df/csofdocument/updatedocument.do';//编辑政策法规	
+        /* 请求链接 */
+        var requireUrl = {
+            OPEN_ATTACH : '/df/cs/previewFile.do?tokenid='+ ip.getTokenId() + '&ajax=noCache',  //附件预览
+        };
+
+        var nodeSelected;//左侧树被选中节点
+        var uuid;
+        var tokenid,
+            options,
+            elecode,
+            menuId,
+            menuName,
+            elecode,
+            billTypeCode,
+            num = 0;//根据页签的长度定值
+
+        var pViewType = {
+            VIEWTYPE_INPUT : "001",// 录入视图
+            VIEWTYPE_LIST : "002",// 列表视图
+            VIEWTYPE_QUERY : "003"// 查询视图
+        };
+        var viewData = {};//视图的数据
+        var postData = {};//通过post传到后台的数据
+        var treeState = {};//点击主树节点的状态
+        var postAction;
+        var pageData  = {
+        		getUUID: function(){
+                    $.post('/df/task/getUUID.do?tokenid='+ tokenid + '&ajax=' + 'noCache',function(map){
+                        pageData.ID = map;
+                        publicFileman();
+                    });
+                }
+        }
+        
+        var publicFileman = function() {
+            $("#filePage")[0].src = "";
+            console.log(pageData.ID);
+            var fileData = {
+            	"modular": "INFO",
+                "entity_id":pageData.ID,
+                "oid":options.svOfficeId,
+                "dep_id":options.svDepId,
+                "dep_code":options.svDepCode,
+                "edit":'Y',
+            };
+            $("#filePage")[0].src = "/df/supervise/fileUpload/upload.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId +
+                "&menuname=" + options.svMenuName+"&entityId="+fileData.entity_id+"&modular="+fileData.modular+"&entityName=csof_info_document&oid="+fileData.oid+
+                "&dep_id="+fileData.dep_id+"&dep_code="+fileData.dep_code+"&modelFlag=0&admin="+fileData.edit;
+        };
+
+        var dealData = {//处理数据
+            showTreeColor: function (treeId, treeNode) {//显示非最终子节点的树节点为蓝色
+                return treeNode.level == 0 ? {color:"blue"} : {};
+            },
+            getIdLast: function(data){//将{***}的***提取出来
+                var par = /[{}]/g;
+                var text = data.replace(par,'');
+                return text;
+            },
+        };
+
+        var viewModel = {
+        		//政策法规库列表
+        		gridDataTable: new u.DataTable({
+                    meta: {
+                    	
+                    }
+                }),
+                //左树（法规分类树）
+                treeDataTable: new u.DataTable({
+                    meta: {
+                    	'CHR_ID': {},
+                        'PARENT_ID': {},
+                        'CHR_NAME':{}
+                    }
+                }),
+                treeSetting:{
+                    view:{
+                        showLine: false,
+                        selectedMulti: false,
+                        showIcon: false,
+                        showTitle: true
+                    },
+                    callback:{
+                    	 onClick: zTreeOnClick
+                    }
+                }
+        };
+
+
+        //以下为政策法规库(新)的方法
+        /**
+         * @method addFr 添加
+         * @method releaseFr 确定 @param reflag: 0为新增 1为修改
+         * @method cancelAddFr 取消添加操作 
+         */
+        var reflag;
+        addFr = function() {
+        	var treeObj = $.fn.zTree.getZTreeObj("tree1");
+			var node = treeObj.getSelectedNodes()[0];
+        	if( node ) {
+        		if(node.CHR_ID == 'type') {
+        			ip.ipInfoJump("请选择具体分类！！", 'info');
+        		}
+        		else {
+        			$("#addFrModal").modal('show');
+            		$("#groupName").val(node.CHR_NAME);
+            		pageData.getUUID();
+            		reflag = 0;
+        		}
+        	}
+        	else {
+        		ip.ipInfoJump("请先选择一个分类！！", 'info');
+        	}
+        	$("#frTitle").val('');
+   		 	$("#kWord").val('');
+        }
+        
+        viewModel.releaseFr = function () {
+        	if(reflag == 0) {
+        		var title = $("#frTitle").val();
+            	var summary = $("#kWord").val();
+            	if(title) {
+	            	var treeObj = $.fn.zTree.getZTreeObj("tree1");
+	    			var node = treeObj.getSelectedNodes()[0];
+	            	var save_data = {
+	            			"id":pageData.ID,
+	            			"doctype_id": node.CHR_ID,
+	            			"title": title,
+	            			"summary":summary 
+	            	}
+	            	$.ajax({
+	                    type: 'GET',
+	                    url: SAVE_DOCUMENT_URL + "?tokenid=" + ip.getTokenId() + "&ajax=noCache",
+	                    data: save_data,
+	                    dataType: 'JSON',
+	                    async: false,
+	                    success: function (result) {
+	                    	console.log(result);
+	                    	if(result.errorCode == 0) {
+	                    		ip.ipInfoJump("新增成功！！", 'success');
+	                    		zTreeOnClick(event,node.CHR_ID,node);
+	                    	}
+	                    	else {
+	                    		ip.ipInfoJump("新增失败！请检查文件是否上传成功！", 'error');
+	                    	}
+	                    },
+	            	 	error: function (result) {
+	            	 		ip.ipInfoJump("新增失败！！！", 'error');
+	            	 	}
+	                });
+            	}
+            	else {
+            		ip.ipInfoJump("新增失败，请将信息填写完整！", 'error');
+            	}
+            	$("#frTitle").val('');
+        		$("#kWord").val('');
+            	$("#addFrModal").modal('hide');
+        	}
+        	if(reflag == 1) {
+        		var treeObj = $.fn.zTree.getZTreeObj("tree1");
+    			var node = treeObj.getSelectedNodes()[0];
+        		var title = $("#frTitle").val();
+            	var summary = $("#kWord").val();
+            	if( title ) {
+            		var modify_list =  viewModel.gridDataTable.getSelectedRows()[0];
+                	var modify_data = {
+                			"id":modify_list.data.ID.value,
+                			"doctype_id": modify_list.data.DOCTYPE_ID.value,
+                			"summary":summary,
+                			"title": title
+                	}
+                	$.ajax({
+                        type: 'GET',
+                        url: UPDATE_DOCUMENT_URL + "?tokenid=" + ip.getTokenId() + "&ajax=noCache",
+                        data: modify_data,
+                        dataType: 'JSON',
+                        async: false,
+                        success: function (result) {
+                        	if(result.errorCode == 0) {
+                        		ip.ipInfoJump("修改成功！！", 'success');
+                        		zTreeOnClick(event,node.CHR_ID,node);
+                        	}
+                        	else {
+                        		ip.ipInfoJump("修改失败！！", 'error');
+                        	}
+                        },
+                        error: function (result) {
+                	 		ip.ipInfoJump("修改失败！！！", 'error');
+                	 	}
+                    });
+            	}
+            	else {
+            		ip.ipInfoJump("修改失败，请将信息填写完整！", 'error');
+            	}
+            	$("#frTitle").val('');
+        		$("#kWord").val('');
+        		$("#addFrModal").modal('hide');
+        	}
+        }
+        viewModel.cancelAddFr = function() {
+        	//TODO 之前输入的数据进行清除
+        	$("#frTitle").val('');
+   		 	$("#kWord").val('');
+        	$("#addFrModal").modal('hide');
+        }
+        
+       
+        /**
+         * 修改
+         * @method modifyFr 点击修改按钮
+         * @method delConfirmSureId 确认删除所选中的法规
+         * @method delConfirmCancelCla 取消删除所选中的法规
+         * 首先需要获取要删除的法规的信息
+         */
+        modifyFr = function() {
+        	var modify_list =  viewModel.gridDataTable.getSelectedRows()[0];
+        	if( modify_list ) {
+        		$("#addFrModal").modal('show');
+        		$("#groupName").val(modify_list.data.CHR_NAME.value);
+        		$("#frTitle").val(modify_list.data.TITLE.value);
+       		 	$("#kWord").val(modify_list.data.SUMMARY.value);
+       		 	pageData.ID = modify_list.data.ID.value;
+       		 	publicFileman();
+       		 	reflag = 1;
+        	}
+        	else {
+        		ip.ipInfoJump("请先选择一条法规！！", 'info');
+        	}
+        }
+        
+        
+        /**
+         * @method delFr 点击删除按钮
+         * @method delConfirmSureId 确认删除所选中的法规
+         * @method delConfirmCancelCla 取消删除所选中的法规
+         * 首先需要获取要删除的法规的信息
+         */
+        delFr = function() {
+        	var del_list = viewModel.gridDataTable.getSelectedRows();
+        	var treeObj = $.fn.zTree.getZTreeObj("tree1");
+			var node = treeObj.getSelectedNodes()[0];
+        	if( del_list ){
+        		if(del_list.length > 1)  {
+        			ip.ipInfoJump("只能选择一条数据进行操作！", "info");
+        		}
+        		else {
+		        		ip.warnJumpMsg('是否删除所选法规!',"delConfirmSureId","delConfirmCancelCla");
+		        		 $('#delConfirmSureId').on('click',function(){
+		                     $('#config-modal').remove();
+		                     $.ajax({
+		                         type: 'GET',
+		                         url: DELETE_DOCUMENT_URL + "?tokenid=" + ip.getTokenId() + "&ajax=noCache",
+		                         data: {
+			             				"file_id" : "'" + del_list[0].data.FILE_ID.value + "'",
+			            				"id" : del_list[0].data.ID.value
+		                         } ,
+		                         dataType: 'JSON',
+		                         async: false,
+		                         success: function (result) {
+		                         	if(result.errorCode == 0) {
+		                         		ip.ipInfoJump("删除成功！", "success");
+		                         		zTreeOnClick(event,node.CHR_ID,node);
+		                         	 }
+		                         	else{
+		                         		ip.ipInfoJump("删除失败！", "error");
+		                         	}	
+		                         }
+		                     });
+		                    
+		                 });
+		                 $('.delConfirmCancelCla').on('click',function(){
+		                     $('#config-modal').remove();
+		                 });
+		        	}
+        	}
+        	else{
+        		ip.ipInfoJump("您没有选择任何需要删除的公告！", 'info');
+        	}
+        }
+        /*
+         * @method previewFr 预览
+         * 
+         * 
+         * */
+        previewFr = function () {
+        	$("#previewModal").modal('show');
+        	$('#preview').html('');
+        	var pre_list =  viewModel.gridDataTable.getSelectedRows()[0];
+        	if( pre_list ) {
+        		 $.get(requireUrl.OPEN_ATTACH, {attach_id : pre_list.data.FILE_ID.value}, function (map) {
+                  	if(map.errorCode == '0'){
+                  		$('#preview').html(map.data.htmlString);
+                  	} else {
+                  		$('#preview').html('文件加载失败！');
+                  	}
+                  });
+        	}
+        	else {
+        		ip.ipInfoJump("请选择一条法规预览！", 'info');
+        	}
+        }
+        
+        //获取左侧要素树
+        viewModel.getDocumentTree = function (treeElecode) {
+        	$.ajax({
+                type: 'GET',
+                url: GET_DOCUMENTTREE_URL + "?tokenid=" + ip.getTokenId() + "&ajax=noCache",
+                data: {"ele_code": treeElecode},
+                dataType: 'JSON',
+                async: false,
+                success: function (result) {
+                	if(result.errorCode == 0) {
+                		var data = result.data;
+                        var obj = {
+                            CHR_ID : 'type',
+                            PARENT_ID : 'root',
+                            CHR_NAME : '全部'
+                        };
+                        $.each(data, function(index, item){
+                            if(item.LEVEL_NUM == '1'){
+                                item.PARENT_ID = 'type';
+                            }
+                        });
+                        data.push(obj);
+   						viewModel.treeDataTable.setSimpleData(data,{unSelect:true});
+   						var treeObj = $.fn.zTree.getZTreeObj("tree1");
+   						treeObj.expandAll(true);
+   					 }
+   					 else{
+   						 ip.ipInfoJump("左侧数据加载失败！", "info");
+   					 }
+                }
+            });
+        }
+        
+        //左侧树点击事件
+        function zTreeOnClick(event, treeId, treeNode){
+        	nodeSelected = treeNode;
+            var treeObj = $.fn.zTree.getZTreeObj("tree1");
+            var node = treeObj.getNodes();
+            var nodes = treeObj.transformToArray(node);
+            var data;
+            var url;
+        	if(nodeSelected.CHR_ID == "type") {
+        		url = GET_DOCUMENT_URL;
+        		data = { };
+        	}
+        	else {
+        		url = GET_DOCUMENTBYID_URL;
+        		data = {  
+        				"id": nodeSelected.CHR_ID  
+        		};
+        	}
+        	$.ajax({
+                    type: 'GET',
+                    url: url + "?tokenid=" + ip.getTokenId() + "&ajax=noCache",
+                    data: data,
+                    dataType: 'JSON',
+                    async: false,
+                    success: function (result) {
+                    	if(result.errorCode == 0) {
+                    		if( result.data ) {
+                    			var data = result.data;
+                    			var b = [];
+                    			for( var i = 0; i < data.length; i++) {
+                    					var obj ={};
+                    					obj.DOCTYPE_ID = data[i].DOCTYPE_ID;
+                    					for(var j = 0; j < nodes.length; j++) {
+                    						if( obj.DOCTYPE_ID == nodes[j].CHR_ID) {
+                    							obj.CHR_NAME = nodes[j].CHR_NAME;
+                    						}
+                    					}
+                						obj.TITLE = data[i].TITLE;
+                						obj.CREATE_DATE = data[i].CREATE_DATE;
+                						obj.SUMMARY = data[i].SUMMARY;
+                						obj.CREATE_USER = data[i].CREATE_USER;
+                						obj.CREATE_USER = data[i].CREATE_USER;
+                						obj.DEP_ID = data[i].DEP_ID;
+                						obj.FILE_ID = data[i].FILE_ID;
+                						obj.ID = data[i].ID;
+                						obj.IS_PRIVATE = data[i].IS_PRIVATE;
+                						obj.OID = data[i].OID;
+                						obj.PUBLISH_DATE = data[i].PUBLISH_DATE;
+                						obj.PUBLISH_USER = data[i].PUBLISH_USER;
+                						b.push(obj);
+                    			}
+                    			viewModel.gridDataTable.setSimpleData(b,{unSelect:true});	
+                    		}
+                    	}
+                    	else {
+                    		 ip.ipInfoJump("获取数据失败！", "error");
+                    	}
+                    }
+                });
+        	} 
+        //初始化
+        function init() {
+            app = u.createApp({
+                el: document.body,
+                model: viewModel
+            });
+            tokenid = ip.getTokenId();
+            options = ip.getCommonOptions({});
+            options['tokenid'] = tokenid;
+            var url=window.location.href;
+            elecode = url.split("elecode=")[1].split("&")[0];
+            menuId = url.split("menuid=")[1].split("&")[0];
+            viewModel.getDocumentTree(elecode);
+        };
+        init();
+    }
+);

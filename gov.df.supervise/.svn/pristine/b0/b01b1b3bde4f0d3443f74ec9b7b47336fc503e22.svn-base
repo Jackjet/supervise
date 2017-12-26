@@ -1,0 +1,83 @@
+package gov.df.supervise.bean.examine;
+
+import java.io.Serializable;
+
+public class FSUPVoucherDTO implements Serializable {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
+  private String billno;
+
+  private String exname;
+
+  //警告信息
+  private String warning = "";
+
+  private String depid;
+
+  private String depname;
+
+  private String recorder;
+
+  private String id;
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public String getbillno() {
+    return billno;
+  }
+
+  public void setbillno(String billno) {
+    this.billno = billno;
+  }
+
+  public String getexname() {
+    return exname;
+  }
+
+  public void setexname(String exname) {
+    this.exname = exname;
+  }
+
+  public String getWarning() {
+    return warning;
+  }
+
+  public void setWarning(String warning) {
+    this.warning = warning;
+  }
+
+  public String getdepid() {
+    return depid;
+  }
+
+  public void setdepid(String depid) {
+    this.depid = depid;
+  }
+
+  public String getdepname() {
+    return depname;
+  }
+
+  public void setdepname(String depname) {
+    this.depname = depname;
+  }
+
+  public String getRecorder() {
+    return recorder;
+  }
+
+  public void setRecorder(String recorder) {
+    this.recorder = recorder;
+  }
+
+}

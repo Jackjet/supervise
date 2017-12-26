@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow: hidden;">
+<head >
+    <meta charset="UTF-8">
+    <title>审</title>
+    <link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../../trd/uui/css/tree.css" />
+    <link rel="stylesheet" href="../../trd/ip/changeTree/changeTree.css" />
+    <link rel="stylesheet" href="../../trd/uui/css/grid.css" />
+    <link rel="stylesheet" href="../../trd/ip/css/ip.css" />
+    <link rel="stylesheet" href="../../trd/uui/css/u.css" />
+    <link rel="stylesheet" href="css/csofSup.css">
+    <link rel="stylesheet" href="../common/common.css">
+</head>
+<body>
+<div class="csof-sup">
+    <!--按钮组-->
+    <div id="csof-sup-btns" class="csof-sup-btns btns-underline">
+        <!-- 录入模态框（Modal） -->
+		<div class="modal fade" id="inputModal" tabindex="-1" role="dialog" aria-labelledby="inputModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		            </div>
+		            <div class="modal-body">
+					     <iframe id="input-irpt-iframe" style="width: 100%;min-height: 500px;border: 0;"></iframe>
+		            </div>
+		            <div class="modal-footer">
+		                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		                <button type="button" class="btn btn-primary">提交更改</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+        <!--  <button class="btn sup-btns sup-input" type="button" id="modify">修改</button>
+        <button class="btn sup-btns sup-input" type="button" id="delete" onclick="csofSupDelete()">删除</button>                        
+        <button class="btn sup-btns sup-first-trial" type="button" id="ft-approval" onclick="csofSupSubmit()">审核通过</button>
+        <button class="btn sup-btns sup-first-trial" type="button" id="ft-return" onclick="inputReturn()">退回</button>
+        <button class="btn sup-btns sup-first-trial" disabled="disabled" type="button" id="ft-cancel" onclick="inputBack()">撤销审核</button>
+        <button class="btn sup-btns sup-review" type="button" id="review-approval" onclick="csofSupSubmit()">审核通过</button>
+        <button class="btn sup-btns sup-review" type="button" id="review-return" onclick="inputReturn()">退回</button>
+        <button class="btn sup-btns sup-review" disabled="disabled" type="button" id="review-cancel" onclick="inputBack()">撤销审核</button>-->
+    </div>
+    <!--内容-->
+    <div class="col-md-12" style="width:98%;margin-top:10px;">
+        <!--左树-->
+        <div class="col-md-3" style="padding-right:1%;border:1px solid #ccc;height:521px;padding-top: 10px;">
+                <!-- <ul id="depTreeTab" class="nav nav-tabs">
+                    <li class="active">
+                        <a data-toggle="tab" href="#panel-now" id="tree-now">当前</a>
+                    </li>
+                     <li>
+                        <a data-toggle="tab" href="#panel-no" id="tree-no-conclude">未办结</a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#panel-has" id="tree-has-conclude">已办结</a>
+                    </li>
+                </ul>-->
+                <!--<div class="tab-content">
+                    <div class="tab-pane active" id="panel-now">-->
+                        <!--  <div class="depSearch">
+                            <span id="searchTreeIcon" class="glyphicon glyphicon-search form-control-feedback searchTree"></span>
+                            <input type="text" class="form-control" id="SearchdepTree" name="SearchdepTree" placeholder="模糊查询...">
+                        </div>-->
+                        
+                        <div class="input-group" style="margin-top: 10px;">
+					      <input type="text" id="SearchdepTree" class="form-control" data-bind="value: SearchdepTreeKEY" placeholder="模糊查询...">
+					      <span class="input-group-btn">
+					        <button class="btn btn-default" type="button"  data-bind="click:searchDepTree">
+					        	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					        </button>
+					      </span>
+					    </div>
+                        
+                        <div id="depTree" class="ztree" style="width: 100%;height: 465px;overflow: auto;padding: 9px 0 0 0;margin: 0 -9px;" u-meta='{
+                                "id":"depTree",
+                                "data":"depTreeDataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"NAME",
+                                "setting":"depTreeSetting"
+                            }'>
+                        </div>
+                    <!--</div>
+                    <div class="tab-pane" id="panel-no">
+                        <div class="input-group">
+					      <input type="text" id="SearchdepTree2" data-bind="value: SearchdepTreeKEY2" class="form-control" placeholder="模糊查询...">
+					      <span class="input-group-btn">
+					        <button class="btn btn-default" type="button"  data-bind="click:searchDepTree2">
+					        	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					        </button>
+					      </span>
+					    </div>
+                        <div id="depTree2" class="ztree" style="width: 100%;height: 425px;overflow: auto;" u-meta='{
+                                "id":"depTree2",
+                                "data":"depTreeDataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"NAME",
+                                "setting":"depTreeSetting"
+                            }'>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="panel-has">
+                        <div class="input-group">
+					      <input type="text" id="SearchdepTree3" data-bind="value: SearchdepTreeKEY3" class="form-control" placeholder="模糊查询...">
+					      <span class="input-group-btn">
+					        <button class="btn btn-default" type="button"  data-bind="click:searchDepTree3">
+					        	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					        </button>
+					      </span>
+					    </div>
+                        <div id="depTree3" class="ztree" style="width: 100%;height: 425px;overflow: auto;" u-meta='{
+                                "id":"depTree3",
+                                "data":"depTreeDataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"NAME",
+                                "setting":"depTreeSetting"
+                            }'>
+                        </div>
+                    </div>
+                </div>-->
+        </div>
+        <!--右表-->
+        <div class="col-md-9" style="border:1px solid #ccc;height:521px;padding: 0;border-left: 0;">
+            <div class="tabbable" id="tabs-list">
+                <ul class="nav nav-tabs" style="background-color: rgba(242, 242, 242, 1);">
+                    <li id="list-li" class="active">
+                        <a data-toggle="tab" style="height: 33px;line-height: 33px;padding-top: 0;padding-bottom: 0;" href="#panel-list" id="list-li-a">列表</a>
+                    </li>
+                    <li id="details-li">
+                        <a data-toggle="tab" style="height: 33px;line-height: 33px;padding-top: 0;padding-bottom: 0;" href="#panel-details" id="details-li-a">详情</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="panel-list">
+                        <div style="margin: 10px 20px 15px 15px;">
+                            <div class="pull-left">
+                              状态：<select id = "submitStatus" data-bind="event{change:submitStatusChange}">
+                                        
+                                    </select>
+                            </div>
+                            <div class="pull-right">
+                                <div class="">
+                                    <form class="form-search form-inline">
+                                    <div class="input-group">
+					                      <input type="text" id="gridSearchInput" class="form-control">
+					                      <span class="input-group-btn">
+						                      <button class="btn btn-default" type="button"  data-bind="click:gridSearch">
+						        	             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						                       </button>
+					                       </span>
+					                </div>    
+					                <button type="button" class="btn" onclick="hignSearch()">高级</button>                                    
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ex-list">
+                            <span class="ex-list-title">监管内容列表：</span>
+                            <!-- <div class="tab-pane" id="ex-data-list">
+                                <div class="exDataGrid" u-meta='{"id":"exDataGrid","data":"exDataTable","type":"grid","multiSelect":true,"showNumCol": true,"editType":"default","onDblClickFun":"viewModel.onDblClickFun","canDrag":true,"canSwap":true,"columnMenu":false}'>
+                                    <div options='{"field":"status","dataType":"String","title":"状态","editType":"string","width": 80}'></div>
+                                    <div options='{"field":"billNo","dataType":"String","title":"单号","editType":"string","width": 120}'></div>
+                                    <div options='{"field":"exName","dataType":"String","title":"事项","editType":"string","width": 120}'></div>
+                                    <div options='{"field":"depName","dataType":"String","title":"监管对象","editType":"string","width": 120}'></div>
+                                    <div options='{"field":"fundScale","dataType":"String","title":"资金规模(万元)","editType":"string","width": 100}'></div>
+                                    <div options='{"field":"recorder","dataType":"String","title":"记录人","editType":"string","width": 100}'></div>
+                                    <div options='{"field":"recoderDate","dataType":"String","title":"记录日期","editType":"string","width": 120}'></div>
+                                    <div options='{"field":"operate","dataType":"String","title":"操  作","editType":"string","width": 50}'></div>
+                                </div>
+                            </div> -->
+                            <!--表格按钮区域-->
+							<div class="btn-grid-group flex-1 grid-container-sm">
+								<div id="planInfoToolbarArea" >
+									<!-- <div class="btn-grid-group-btn ip-content-btn-area">
+									</div> -->
+								</div>
+								<div id=testGrid class="tabbed-grid"></div>
+							</div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="panel-details">
+                        <div id="ipot-url">
+                        </div>
+                        <div id="irptShow" style="width: 100%;height: 445px;overflow: auto;" class="tab-content detailNavShowStyle">
+                           <div class="tab-pane" style="height:100%;" id="panel-fileUpload">
+                              <iframe id="fileUploadPage" style="width:100%;height:100%;border: 0;"></iframe>
+                           </div>
+
+                        </div>
+                        <div id="detailNav" class="detailNavStyle">
+                            <ul id="detailIrptNav" class="nav nav-tabs" style="background-color: rgba(242, 242, 242, 1);">
+				                    <li id="fileUplode_li">
+				                        <a data-toggle="tab" href="#panel-fileUpload" id="fileUplode">附件上传</a>
+				                    </li>
+                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--引入js-->
+<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+<script src="../../trd/requirejs/require.js"></script>
+<script src="../../require.config.js"></script>
+<script src="data.js"></script>
+<script src="csofSup.js"></script>
+</body>
+</html>

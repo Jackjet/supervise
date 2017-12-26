@@ -1,0 +1,21 @@
+/*右表标题*/
+.rightTable-title {
+    color: #169BD5;
+}
+.rightTable {
+    display: inline-block;
+    margin: 10px 25px 10px 15px;
+    width: 96%;
+}
+.addWorkTitle {
+	color :#1871C1;
+    text-align: center;
+    line-height: normal;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 16px;
+    border-bottom: 1px solid #1871C1;
+}
+.p5 {
+	padding: 5px;
+}

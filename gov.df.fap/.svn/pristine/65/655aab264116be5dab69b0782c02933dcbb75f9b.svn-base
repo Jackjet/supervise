@@ -1,0 +1,188 @@
+<!--台账管理页面-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>台账办汇总</title>
+<link rel="stylesheet" type="text/css"
+	href="../../trd/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/tree.css" />
+<link rel="stylesheet" type="text/css"
+	href="/df/trd/ip/changeTree/changeTree.css" />
+<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/u.css" />
+<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/grid.css" />
+<link rel="stylesheet" type="text/css" href="/df/trd/ip/css/ip.css" />
+<link rel="stylesheet" type="text/css"
+	href="../../trd/ip/css/bizSys.css" />
+<link rel="stylesheet" href="css/csofAcc.css">
+<link rel="stylesheet" href="../matters/css/common.css">
+<link rel="stylesheet" href="../matters/css/mattersEnter.css">
+<link rel="stylesheet" href="../sup/css/csofSup.css">
+<link rel="stylesheet" href="/df/trd/splitter/jqx.base.css">
+<link rel="stylesheet" href="../common/common.css">
+<script type="text/javascript"
+	src="/df/trd/splitter/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/df/trd/splitter/jqxcore.js"></script>
+<script type="text/javascript" src="/df/trd/splitter/jqxsplitter.js"></script>
+<script type="text/javascript">
+	        $(document).ready(function () {
+                   $('#main-content').jqxSplitter({ width: '98.3%', height: '87.5%', panels: [{ size: '23.2%', min: 200 }, { min: 800, size: '76.8%' }] });
+	               $('#right-top-bottom-content').jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', panels: [{ size: '60%',  min: 72 , collapsible: false },{ size: '40%',  min: 40 }] });
+	        });
+	    </script>
+</head>
+<style>
+#testGrid>div {
+	margin: 5px 0;
+}
+</style>
+<body class="csof-font" style="overflow: hidden;">
+	<!--按钮组-->
+	<div class="col-md-12" id="btn-line"
+		style="background:#fff;margin-top: 10px;margin-left: 5px;padding: 0;">
+		<div style="float:left;" id="btns-group"></div>
+		<div class="pull-right" style="margin-right: 15px;">
+			<div id="gridSearchDiv">
+				<form class="form-search form-inline">
+					<div class="input-group">
+						<input type="text" id="gridSearchInput" class="form-control">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button"
+								data-bind="click:gridSearch">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button> </span>
+					</div>
+					<button type="button" class="btn" onclick="hignSearch()">高级</button>
+				</form>
+			</div>
+			<div id="workGridSearchDiv" style="display:none;">
+				<form class="form-search form-inline">
+					<div class="input-group">
+						<input type="text" id="workgridSearchInput" class="form-control">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button"
+								data-bind="click:workgridSearch">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button> </span>
+					</div>
+					<button type="button" class="btn" onclick="hignSearch()">高级</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!--main-->
+	<div class="col-md-12" id="main-content"
+		style="padding: 0;margin: 10px;">
+		<div class="pull-left" id="left-main-content"
+			style="width:296px;height:530px;padding: 0;">
+			<!--树-->
+			<div class="input-group" style="margin:5px;width:97%;">
+				<input type="text" id="SearchBookSumTree" class="form-control"
+					data-bind="value: SearchBookSumTreeKEY" placeholder="模糊查询...">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button"
+						data-bind="click:searchBookSumTree">
+						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					</button> </span>
+			</div>
+			<div id="bookSumTree" class="ztree"
+				style="width: 100%;height: 490px;overflow: auto;padding:0;margin: 0;"
+				u-meta='{
+                                "id":"bookSumTree",
+                                "data":"bookSumTreeDataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"NAME",
+                                "setting":"bookSumTreeSetting"
+                            }'>
+			</div>
+		</div>
+		<div class="pull-left" id="right-main-content"
+			style="width: 980px;height:530px;padding: 0;border-left: 0;">
+			<ul class="nav nav-tabs"
+				style="background-color: rgba(242, 242, 242, 1);">
+				<li id="sumTable-li" class="active"><a
+					style="height: 33px;line-height: 33px;padding-top: 0;padding-bottom: 0;"
+					data-toggle="tab" href="#panel-sumTable" id="sumTable-li-a">汇总表</a>
+				</li>
+				<li id="detailTable-li"><a
+					style="height: 33px;line-height: 33px;padding-top: 0;padding-bottom: 0;"
+					data-toggle="tab" href="#panel-detailTable" id="detailTable-li-a">明细表</a>
+				</li>
+			</ul>
+			<div class="tab-content" style="padding: 0;">
+				<div class="tab-pane active" id="panel-sumTable"
+					style="height: 492px;">
+					<div id="right-top-bottom-content" style="border-bottom: 0;">
+						<div style="padding: 10px 0 5px 0;overflow: auto;">
+							<div style="height: 30px;padding: 0 5px;">
+								<span class="rightTable-title" style="float:left;">汇总台账记录：</span>
+								<span class="rightTable-recodeNum"
+									style="float:right;margin-right: 5px;letter-spacing: 3px;">共<span
+									id="sumGridSumNum" style="letter-spacing: 0;"> </span>笔</span>
+							</div>
+							<div id="sumGrid" style="padding: 0 5px;"></div>
+						</div>
+						<div style="padding: 10px 0 5px 0;overflow: auto;">
+							<div style="height: 30px;padding: 0 5px;">
+								<span class="rightTable-title" style="float:left;">明细台账记录：</span>
+								<span class="rightTable-recodeNum"
+									style="float:right;margin-right: 5px;letter-spacing: 3px;">共<span
+									id="detailGridSumNum" style="letter-spacing: 0;"> </span>笔</span>
+							</div>
+							<div id="detailGrid" style="padding: 0 5px;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="panel-detailTable">
+					<div style="padding: 10px 0 5px 0;width: 99%;">
+						<div style="height: 30px;padding: 0 5px;">
+							<span class="rightTable-title" style="float:left;">明细台账记录：</span>
+							<span class="rightTable-recodeNum"
+								style="float:right;margin-right: 5px;letter-spacing: 3px;">共<span
+								id="workGridSumNum" style="letter-spacing: 0;"> </span>笔</span>
+						</div>
+						<div id="workGrid"
+							style="padding: 0 5px;height: 451px;overflow: auto;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 修改汇总事项模态框 -->
+	<div class="modal fade" id="modifySumModal" tabindex="-1" role="dialog"
+		aria-labelledby="modifySumModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="modifySumModalLabel">汇总台账修改</h4>
+				</div>
+				<div class="modal-body" style="overflow: auto;">
+					<div class="tab-content tab-pad">
+						<!-- 基本信息 -->
+						<div role="tabpanel" class="tab-pane active" id="modifySum"></div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="savebtn" type="button" class="btn btn-prima"
+						data-bind="click:modifySum">完成</button>
+					<button name="btn4" type="button" class="btn btn-default"
+						data-dismiss="modal">返回</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 引入js-->
+	<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+	<script src="../../trd/requirejs/require.js"></script>
+	<script src="../../require.config.js"></script>
+	<script src="js/csofAccOfficeSum.js" type="text/javascript"></script>
+</body>
+</html>

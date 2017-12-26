@@ -1,0 +1,894 @@
+package gov.df.fap.service.portal;
+
+import gov.df.fap.api.dictionary.interfaces.IDictionary;
+import gov.df.fap.api.fapcommon.IMenuDfService;
+import gov.df.fap.api.fapcommon.IRoleDfCommonService;
+import gov.df.fap.api.fapcommon.IUserSync;
+import gov.df.fap.api.login.IUsersLogin;
+import gov.df.fap.api.portal.IPortalService;
+import gov.df.fap.api.role.IRoleDfService;
+import gov.df.fap.api.workflow.message.IMessage;
+import gov.df.fap.bean.portal.PublicParam;
+import gov.df.fap.bean.portal.UserInfoDFCommon;
+import gov.df.fap.bean.user.SysUserRoleRule;
+import gov.df.fap.service.login.AbstractComponentService;
+import gov.df.fap.service.portal.filter.HttpServletRequestWrapper2;
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.datasource.TypeOfDB;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.fap.util.factory.ServiceFactory;
+import gov.df.supervise.api.user.user;
+import gov.df.supervise.bean.user.depDTO;
+import gov.df.supervise.bean.user.officeDTO;
+import gov.mof.fasp2.ca.user.dto.UserDTO;
+import gov.mof.fasp2.ca.user.service.IUserService;
+import gov.mof.fasp2.sec.syncuserinfo.UserInfo;
+import gov.mof.fasp2.sec.syncuserinfo.manager.IUserSyncManager;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.axis.client.Call;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.web.context.support.AbstractRefreshableWebApplicationContext;
+
+import com.longtu.framework.cache.exceptions.NoPrivilegeException;
+import com.longtu.framework.exception.AppException;
+
+@Service
+public class PortalService extends AbstractComponentService implements IPortalService {
+
+  private IUserSyncManager iUserSyncManager;
+
+  private IUserService userservice;
+
+  @Autowired
+  private IMenuDfService iMenuService;
+
+  @Autowired
+  private IRoleDfService roleDfService;
+
+  @Autowired
+  private user userBO;
+
+  @Autowired
+  private IMessage messageClient;
+
+  private IUsersLogin userLogin = (IUsersLogin) ServiceFactory.getBean("df.fap.userLogin");
+
+  @Autowired
+  @Qualifier("generalDAO")
+  private GeneralDAO generalDAO;
+
+  @Autowired
+  @Qualifier("RoleService")
+  private IRoleDfCommonService RoleService;
+
+  @Autowired
+  @Qualifier("sys.dictionaryService")
+  private IDictionary iDictionary;
+
+  @Autowired
+  private IUserSync iUserSync;
+
+  @Autowired
+  private AbstractRefreshableWebApplicationContext abstractRefreshableWebApplicationContext;
+
+  private static String starttype = "df";
+
+  /**
+   * 用户分类
+   */
+  private static final Map<String, String> USER_TYPE = new HashMap<String, String>();
+
+  /**
+   * 角色分类（暂时）
+   */
+  private static final Map<String, String> ROLE_ID_TYPE = new HashMap<String, String>();
+
+  static {
+    // 用户分类
+    USER_TYPE.put("0", "单位用户");
+    USER_TYPE.put("0_code_800801001", "/df/portal/admin/index/dashboardJB.html"); // 经办角色
+    USER_TYPE.put("0_id_00000000000000000000000000007979", "/df/portal/admin/index/dashboardJB.html"); // 经办角色
+    USER_TYPE.put("0_code_800801004", "/df/portal/admin/index/dashboardSH.html"); // 审核角色
+    USER_TYPE.put("0_id_00000000000000000000000000008102", "/df/portal/admin/index/dashboardSH.html"); // 审核角色
+    USER_TYPE.put("1", "业务处室用户");
+    USER_TYPE.put("1_", "/df/portal/admin/index/dashboardYWCS.html");
+    USER_TYPE.put("2", "");
+    USER_TYPE.put("3", "银行用户");
+    USER_TYPE.put("-1", "");
+    USER_TYPE.put("-2", "");
+    USER_TYPE.put("-3", "");
+  }
+
+  // 获取数据源bean
+  //private static MultiDataSource multiDataSource = (MultiDataSource) ServiceFactory.getBean("multiDataSource");
+
+  // 获取登录类型
+  public String getStarttype() {
+    return abstractRefreshableWebApplicationContext.getServletContext().getInitParameter("startup");
+  }
+
+  /**
+   * 获取角色对应的dashboard url
+   */
+  String getDashboardUrl(String usertype, String roleid) {
+    if (StringUtils.isBlank(usertype) && StringUtils.isBlank(roleid)) {
+      return "";
+    }
+    // 业务处室
+    if ("1".equals(usertype)) {
+      return USER_TYPE.get("1_");
+    }
+    if ("0".equals(usertype)) {
+      return USER_TYPE.get(usertype + "_id_" + roleid);
+    }
+    return "";
+  }
+
+  @Override
+  public Map<String, Object> getYearRgcode(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+
+    // 原始数据（区划，年度）
+    Map<String, Object> sourceMap = new HashMap<String, Object>();
+    // 去重区划
+    List<String> rgcodeList = new ArrayList<String>();
+    // 去重年度
+    List<String> setYearList = new ArrayList<String>();
+    // List<String> orgcodeList = new ArrayList<String>();
+
+    // old 全部年度区划
+    //Map dataSources = multiDataSource.getDataSources();
+    // 全部年度区划
+    Map dataSources = SessionUtil.getAllDataSources();
+    // ?? 全部区划
+    //Map egcodeSources = SessionUtil.getAllRgCodes();
+
+    // 遍历key，split # -> 区划#年度
+    Iterator it = dataSources.keySet().iterator();
+    String[] strs = new String[] {};
+    while (it.hasNext()) {
+      strs = ((String) (it.next())).split("#");
+      sourceMap.put(strs[0], strs[1]);
+      rgcodeList.add(strs[0]);
+      setYearList.add(strs[1]);
+
+    }
+
+    // 去重
+    for (int i = 0; i < rgcodeList.size() - 1; i++) {
+      for (int j = i + 1; j < rgcodeList.size(); j++) {
+        if (rgcodeList.get(i).equals(rgcodeList.get(j))) {
+          rgcodeList.remove(j);
+          j--;
+        }
+      }
+    }
+    for (int i = 0; i < setYearList.size() - 1; i++) {
+      for (int j = i + 1; j < setYearList.size(); j++) {
+        if (setYearList.get(i).equals(setYearList.get(j))) {
+          setYearList.remove(j);
+          j--;
+        }
+      }
+    }
+    //    for (int i = 0; i < orgcodeList.size() - 1; i++) {
+    //      for (int j = i + 1; j < orgcodeList.size(); j++) {
+    //        if (orgcodeList.get(i).equals(orgcodeList.get(j))) {
+    //          orgcodeList.remove(j);
+    //          j--;
+    //        }
+    //      }
+    //    }
+
+    map.put("rgset_relation", sourceMap);
+    map.put("rg_code", rgcodeList);
+    map.put("set_year", setYearList);
+    // map.put("org_code", setYearList);
+    return map;
+  }
+
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  @Override
+  public Map<String, Object> initIndex(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    HttpServletRequestWrapper2 req2 = new HttpServletRequestWrapper2(req);
+    Map<String, Object> map = new HashMap<String, Object>();
+    String tokenId = req.getParameter("tokenid");
+
+    if (!UserInfoDFCommon.isTokenidValid(tokenId)) {
+      map.put("msg", "tokenid_passed");
+      return map;
+    }
+
+    String caroleGuid = req2.getParameter("caroleguid");
+    SysUserRoleRule roleDto = null;
+    PublicParam publicParam = null;
+    String roleGuid = "";
+    // 后台公共参数
+    HashMap user_context = new HashMap();
+    // 当前用户转换后的角色
+    List<SysUserRoleRule> _roleList = new ArrayList<SysUserRoleRule>();
+    starttype = getStarttype();
+    try {
+      if ("fasp2.0".equals(starttype)) {
+        iUserSyncManager = (IUserSyncManager) ServiceFactory.getBean("fasp.ca.UserSyncManager");
+        UserInfo uinfo = iUserSyncManager.getUser(tokenId);
+        UserDTO userdto = uinfo.getUser();
+        // 获取当前用户角色
+        List roleList = roleDfService.queryRolesByUserId(userdto.getGuid());
+        for (Object r : roleList) {
+          roleDto = (SysUserRoleRule) r;
+          _roleList.add(roleDto);
+        }
+        // 转换后的角色，{link gov.df.fap.bean.user.SysUserRoleRule}
+        map.put("roleList", _roleList);
+        // 用户当前角色判定
+        if ("".equals(caroleGuid) || null == caroleGuid) { // init index.html
+          if (_roleList != null && _roleList.size() > 0) {
+            roleGuid = _roleList.get(0).getROLE_ID();
+          }
+        } else {
+          roleGuid = caroleGuid;
+          for (SysUserRoleRule _r : _roleList) {
+            if (roleGuid.equals(_r.getROLE_ID())) {
+              roleDto = _r;
+              break;
+            }
+          }
+        }
+
+        // 不同用户角色对应的工作台路径
+        map.put("dashboardUrl", getDashboardUrl(String.valueOf(userdto.getUsertype()), roleDto.getROLE_ID()));
+
+        // 获取用户单位
+        String agencyName = "";
+        String agencyCode = "";
+        if (StringUtils.isNotBlank(userdto.getAgency())) {
+          StringBuilder agencySql = new StringBuilder("and chr_id ='" + userdto.getAgency() + "' ");
+          List agencyList = iDictionary.findEleValues("AGENCY", null, null, true, null, null, agencySql.toString());
+          agencyName = agencyList.size() > 0 ? ((Map) (agencyList.get(0))).get("chr_name").toString() : "";
+          agencyCode = agencyList.size() > 0 ? ((Map) (agencyList.get(0))).get("chr_code").toString() : "";
+        }
+
+        user_context.put("svFiscalPeriod", "");
+        user_context.put("svMenuId", "");
+        user_context.put("svRgCode", userdto.getProvince());
+        user_context.put("svRgName", "");
+
+        // TODO ?? roleDto.getROLE_CODE()
+        user_context.put("svRoleCode", "");
+        user_context.put("svRoleId", roleDto.getROLE_ID());
+        user_context.put("svRoleName", roleDto.getROLE_NAME());
+        user_context.put("svSetYear", String.valueOf(userdto.getYear()));
+        user_context.put("svTransDate", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        user_context.put("svUserCode", userdto.getCode());
+        user_context.put("svUserId", userdto.getGuid());
+        user_context.put("svUserName", userdto.getName());
+        user_context.put("svAgencyCode", agencyCode);
+        user_context.put("svAgencyName", agencyName);
+        user_context.put("svAgencyId", userdto.getAgency());
+        System.out.println(user_context);
+        // 页面公共参数
+        publicParam = new PublicParam(user_context);
+
+        user_context.put("user_id", userdto.getGuid());
+        user_context.put("user_name", userdto.getName());
+        user_context.put("user_code", userdto.getCode());
+        user_context.put("rg_code", userdto.getProvince());
+        user_context.put("sys_id", "df");
+        user_context.put("set_year", String.valueOf(userdto.getYear()));
+      } else if ("df".equals(starttype)) {
+        gov.df.fap.bean.user.UserDTO userdto = UserInfoDFCommon.getUser(tokenId);
+        officeDTO officedto = null;
+        depDTO depdto = null;
+        if (userdto.getOrg_type().equals("106")) {
+          officedto = userBO.queryOfficeByOrgCode(userdto.getOrg_code());
+          depdto = userBO.queryDepByBelongOrg(userdto.getBelong_org());
+        }
+        List roleList = roleDfService.queryRolesByUserId(userdto.getUser_id());
+       
+        // 首次登录
+        if ("".equals(caroleGuid) || null == caroleGuid || "select".equals(caroleGuid)) { // init index.html
+          if (roleList != null && roleList.size() > 0) {
+            roleDto = (SysUserRoleRule) roleList.get(0);
+            roleGuid = roleDto.getROLE_ID();
+          }
+        } else {
+          roleGuid = caroleGuid;
+          int i=0;
+          for (Object r : roleList) {
+            roleDto = (SysUserRoleRule) r;
+            if (roleGuid.equals(roleDto.getROLE_ID())) {
+              i=1;
+              break;
+            }
+            roleDto = null;            
+          }
+          
+          //不同用户切换登录    caroleGuid值变成userid   导致roleGuid不为空且无法匹配到具体角色   修正  默认取第一个角色   2017-08-30  
+          if (i==0&&roleList != null && roleList.size() > 0) {
+              roleDto = (SysUserRoleRule) roleList.get(0);
+              roleGuid = roleDto.getROLE_ID();
+          }
+          
+        }
+
+        // 转换后的角色，{link gov.df.fap.bean.user.SysUserRoleRule}
+        map.put("roleList", _roleList);
+
+        // 获取用户单位
+        //        StringBuilder agencySql = new StringBuilder("and chr_id ='" + userdto.getAgency() + "' " );
+        //        List agencyList = iDictionary.findEleValues("AGENCY", null, null, true, null, null, agencySql.toString());
+        //        String agencyName = agencyList.size()>0?((Map)(agencyList.get(0))).get("chr_name").toString():"";
+
+        user_context.put("svFiscalPeriod", "");
+        user_context.put("svMenuId", "");
+        user_context.put("svRgCode", userdto.getSet_year());
+        user_context.put("svRgName", "");
+        // TODO ?? roleDto.getROLE_CODE()
+        user_context.put("svRoleCode", "");
+        user_context.put("svRoleId", roleDto.getROLE_ID());
+        user_context.put("svRoleName", roleDto.getROLE_NAME());
+        user_context.put("svSetYear", String.valueOf(userdto.getSet_year()));
+        user_context.put("svTransDate", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        user_context.put("svUserId", userdto.getUser_id());
+        user_context.put("svUserCode", userdto.getUser_code());
+        user_context.put("svUserName", userdto.getUser_name());
+        if (userdto.getOrg_type().equals("106")) {
+          user_context.put("svOfficeId", userdto.getOrg_code());
+          user_context.put("svOfficeName", officedto.getChr_name());
+          user_context.put("svOfficeCode", officedto.getChr_code());
+          user_context.put("svDepId", userdto.getBelong_org());
+          user_context.put("svDepName", depdto.getChr_name());
+          user_context.put("svDepCode", depdto.getChr_code());
+        }
+        // 页面公共参数
+        publicParam = new PublicParam(user_context);
+        // System.out.println(publicParam.toString());
+
+        user_context.put("user_id", userdto.getUser_id());
+        user_context.put("user_code", userdto.getUser_code());
+        user_context.put("user_name", userdto.getUser_name());
+        user_context.put("rg_code", userdto.getRg_code());
+        user_context.put("sys_id", "df");
+        user_context.put("set_year", String.valueOf(userdto.getSet_year()));
+        user_context.put("org_code", userdto.getOrg_code());//csof监管项目专员办id(oid用org_code代替)
+        user_context.put("belong_org", userdto.getBelong_org());//csof监管项目处室id(dep_id用belong_org代替)
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      map.put("msg", "tokenid_passed");
+      return map;
+    }
+    SessionUtil.getUserInfoContext().setContext(user_context);
+    map.put("publicParam", publicParam);
+    return map;
+  }
+
+  @SuppressWarnings("rawtypes")
+  @Override
+  public Map<String, Object> getMenuByRole(HttpServletRequest req, HttpServletResponse resp) {
+    HttpServletRequestWrapper2 req2 = new HttpServletRequestWrapper2(req);
+    String tokenId = req.getParameter("tokenid");
+    String caroleGuid = req2.getParameter("caroleguid"); // role.guid
+    Map<String, Object> map = new HashMap<String, Object>();
+    List menulist = null;
+    SysUserRoleRule roleDto = null;
+    String roleGuid = "";
+    starttype = getStarttype();
+    if ("fasp2.0".equals(starttype)) {
+      UserDTO userdto = null;
+      try {
+        iUserSyncManager = (IUserSyncManager) ServiceFactory.getBean("fasp.ca.UserSyncManager");
+        UserInfo uinfo = iUserSyncManager.getUser(tokenId);
+        userdto = uinfo.getUser();
+        List roleList = roleDfService.queryRolesByUserId(userdto.getGuid());
+
+        if ("".equals(caroleGuid) || null == caroleGuid || "select".equals(caroleGuid)) { // init index.html
+          if (roleList != null && roleList.size() > 0) {
+            roleDto = (SysUserRoleRule) roleList.get(0);
+            roleGuid = roleDto.getROLE_ID();
+          }
+        } else {
+          roleGuid = caroleGuid;
+        }
+
+        // 查询用户当前角色对应的菜单
+        StringBuilder getMenuSql = new StringBuilder("");
+        getMenuSql.append(" guid in ");
+        getMenuSql.append(" (select rm.menuguid from FASP_T_CAUSERROLE um ");
+        getMenuSql.append(" left join FASP_T_CAROLEMENU rm ");
+        getMenuSql.append(" on um.roleguid= '" + roleGuid + "' ");
+        getMenuSql.append(" where rm.roleguid= '" + roleGuid + "' ");
+        getMenuSql.append(" and um.userguid='" + userdto.getGuid() + "') ");
+        getMenuSql.append(" order by menuorder");
+        menulist = iMenuService.getMenusTreeByWhereSql(getMenuSql.toString()); //getMenusByWhereSql -> select * from fasp_t_pubmenu where ..
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    } else if ("df".equals(starttype)) {
+      try {
+        gov.df.fap.bean.user.UserDTO userdtoDF = UserInfoDFCommon.getUser(tokenId);
+        List roleList = roleDfService.queryRolesByUserId(userdtoDF.getUser_id());
+
+        if ("".equals(caroleGuid) || null == caroleGuid || "select".equals(caroleGuid)) { // init index.html
+          if (roleList != null && roleList.size() > 0) {
+            roleDto = (SysUserRoleRule) roleList.get(0);
+            roleGuid = roleDto.getROLE_ID();
+          }
+        } else {
+          roleGuid = caroleGuid;
+        }
+        menulist = RoleService.getMenus(roleGuid);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+
+    map.put("mapMenu", menulist);
+    return map;
+  }
+
+  @Override
+  public Map<String, Object> registerPwd(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String tokenId = req.getParameter("tokenid");
+    String password = req.getParameter("password");
+    try {
+      starttype = getStarttype();
+      if ("fasp2.0".equals(starttype)) {
+        iUserSyncManager = (IUserSyncManager) ServiceFactory.getBean("fasp.ca.UserSyncManager");
+        UserInfo uinfo = iUserSyncManager.getUser(tokenId);
+        UserDTO userdto = uinfo.getUser();
+        userdto.getGuid();
+
+        //获取原始密码并比对
+        String oldPwdBack = userdto.getPassword();
+        if (!oldPwdBack.equals("")) {
+          // 用户密码不匹配
+          map.put("flag", "0");
+          map.put("msg", "原始密码输入错误");
+          return map;
+        }
+
+        // TODO 修改用户密码?? 表、service
+      } else if ("df".equals(starttype)) {
+
+      }
+
+    } catch (NoPrivilegeException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  @Override
+  public Map<String, Object> registerPwdWrongRecord(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String tokenId = req.getParameter("tokenid");
+
+    // TODO 信息表创建 ??
+
+    // TODO 修改密码错误表相应字段加一
+
+    return null;
+  }
+
+  // TODO 以下未修改
+
+  @Override
+  public Map<String, Object> switchRole(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String tokenId = req.getParameter("tokenid");
+    String indexNum = req.getParameter("index"); // TODO 暂时用于区分年度区划
+    StringBuilder html = new StringBuilder("");
+    List roleList = null;
+    try {
+      starttype = getStarttype();
+      if ("fasp2.0".equals(starttype)) {
+        iUserSyncManager = (IUserSyncManager) ServiceFactory.getBean("fasp.ca.UserSyncManager");
+        UserInfo uinfo = iUserSyncManager.getUser(tokenId);
+        UserDTO userdto = uinfo.getUser();
+        String guid = userdto.getGuid();
+        roleList = roleDfService.queryRolesByUserId(guid);
+      } else if ("df".equals(starttype)) {
+        gov.df.fap.bean.user.UserDTO userdtoDF = UserInfoDFCommon.getUser(tokenId);
+        String guid = userdtoDF.getUser_id();
+        roleList = roleDfService.queryRolesByUserId(guid);
+      }
+
+      // 区分页面
+      if (null != indexNum && indexNum.equals("2")) {
+        html.append("<option value='select' selected='selected'>请选择要切换的角色</option>");
+        for (Object obj : roleList) {
+          SysUserRoleRule sysUserRoleRule = (SysUserRoleRule) obj;
+          html.append("<option value='" + sysUserRoleRule.getROLE_ID() + "'>" + sysUserRoleRule.getROLE_NAME()
+            + "</option>");
+        }
+        map.put("html", html.toString());
+      } else {
+        List rlist = new ArrayList();
+        for (Object obj : roleList) {
+          SysUserRoleRule sysUserRoleRule = (SysUserRoleRule) obj;
+          //html.append("<li><a href='javascript:switchRoleConfirm(&quot;" + sysUserRoleRule.getROLE_ID() + "&quot;,&quot;switchRole&quot;);'>" + sysUserRoleRule.getROLE_NAME() + "</a></li>");
+          rlist.add(sysUserRoleRule);
+        }
+        map.put("rlist", rlist);
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return map;
+  }
+
+  @Override
+  public Map<String, Object> switchRoleConfirm(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String tokenId = req.getParameter("tokenid");
+    String roleid = req.getParameter("roleid");
+    try {
+      starttype = getStarttype();
+      if ("fasp2.0".equals(starttype)) {
+        UserDTO userdto = null;
+        iUserSyncManager = (IUserSyncManager) ServiceFactory.getBean("fasp.ca.UserSyncManager");
+        UserInfo uinfo = iUserSyncManager.getUser(tokenId);
+        UserDTO userdtoFromSession = uinfo.getUser();
+        userservice = (IUserService) ServiceFactory.getBean("fasp2.ca.user.service");
+        userdto = userservice.login(userdtoFromSession.getCode(), userdtoFromSession.getPassword(), 0, null);
+        String province = userdto.getProvince();
+        int year = userdto.getYear();
+        UserInfoDFCommon.removeUser(tokenId);
+        tokenId = iUserSyncManager.doLogin(userdto, year, province);
+        UserInfoDFCommon.setUser(tokenId, "fasp2.0");
+        //map.put("url", getDashboardUrl(roleid));
+      } else if ("df".equals(starttype)) {
+        gov.df.fap.bean.user.UserDTO userdtoDFFromSession = UserInfoDFCommon.getUser(tokenId);
+        UserInfoDFCommon.removeUser(tokenId);
+        String provinceDF = userdtoDFFromSession.getRg_code();
+        String yearDF = userdtoDFFromSession.getSet_year();
+        String oidDF = userdtoDFFromSession.getOrg_code();//专员办机构id
+        tokenId = userLogin.doLogin(userdtoDFFromSession, yearDF, provinceDF, oidDF, req, resp);
+        UserInfoDFCommon.setUser(tokenId, userdtoDFFromSession);
+        //map.put("url", getDashboardUrl(roleid));
+      }
+
+    } catch (AppException e) {
+      e.printStackTrace();
+    }
+    map.put("tokenid", tokenId);
+    return map;
+  }
+
+  @Override
+  public Map<String, Object> getCommonOperation(HttpServletRequest req, HttpServletResponse resp) {
+    HttpServletRequestWrapper2 req2 = new HttpServletRequestWrapper2(req);
+    Map<String, Object> map = new HashMap<String, Object>();
+    String userId = req2.getParameter("userid");
+    String roleId = req2.getParameter("roleid");
+
+    //频道ID
+    //String pgPletId = req2.getParameter("");
+    //授权单位ID
+    //String coCode = req2.getParameter("");
+    String coCode = "";
+
+    //TODO 加入用户角色正常菜单查询并对比，将常用操作中的菜单与有权限的菜单对比，只显示当前有权限操作的菜单，AP_LINK服从MENU
+    StringBuilder sql = new StringBuilder();
+    sql.append("select * from AP_LINK al where al.guid in ");
+    sql.append("(select alp.link_guid from AP_LINK_PORTLET alp ");
+    sql.append("where (alp.emp_code = '*' OR alp.emp_code = ?) ");
+    sql.append("and (alp.role_id = '*' OR alp.role_id = ?) ");
+    sql.append("and (alp.co_code = '*' OR alp.co_code = ?)) ORDER BY al.ord_index ");
+
+    List ApLinkBeanList = generalDAO.findBySql(sql.toString(), new String[] { userId, roleId, coCode });
+
+    map.put("commonOperation", ApLinkBeanList);
+    return map;
+  }
+
+  @Override
+  public Map<String, Object> getAllCommonOperation(HttpServletRequest req, HttpServletResponse resp) {
+    HttpServletRequestWrapper2 req2 = new HttpServletRequestWrapper2(req);
+    Map<String, Object> map = new HashMap<String, Object>();
+    String userId = req2.getParameter("userid");
+    String roleId = req2.getParameter("roleid");
+
+    StringBuilder sqlFindAllCommonOperation = new StringBuilder();
+    sqlFindAllCommonOperation.append("");
+    List allCommonOperation = generalDAO.findBySql(sqlFindAllCommonOperation.toString());
+
+    map.put("commonOperation", allCommonOperation);
+
+    return map;
+  }
+
+  @Override
+  public Map<String, Object> addToCommonOperation(HttpServletRequest req, HttpServletResponse resp) {
+    HttpServletRequestWrapper2 req2 = new HttpServletRequestWrapper2(req);
+    Map<String, Object> map = new HashMap<String, Object>();
+
+    String link_title = req.getParameter("link_title");
+    String link_url = req2.getParameter("link_url");
+    String menu_guid = req2.getParameter("menu_guid");
+    String link_img = req2.getParameter("link_img");
+    String user_guid = req2.getParameter("user_guid");
+    String role_guid = req2.getParameter("role_guid");
+
+    // 插入当前菜单
+    StringBuilder sqlInsertApLink = new StringBuilder();
+    sqlInsertApLink.append("insert into AP_LINK ");
+    sqlInsertApLink.append("(LINK_TITLE,LINK_URL,MENU_ID,LINK_IMG,ORD_INDEX,LINK_TYPE,CREATE_USER,CREATE_TIME) ");
+    sqlInsertApLink.append("values (?,?,?,?,?,?,?," + (TypeOfDB.isOracle() ? "sysdate" : "sysdate()") + ") ");
+    Object[] sqlInsertApLinkParams = new Object[7];
+    sqlInsertApLinkParams[0] = link_title;
+    // 设置时间戳参数，为了后续查询
+    String currentTimeMillis = String.valueOf(System.currentTimeMillis());
+    // 判断link_url中有没有参数
+    if ("".equals(link_url) || null == link_url) {
+      sqlInsertApLinkParams[1] = "";
+    } else {
+      if (link_url.contains("?")) {
+        sqlInsertApLinkParams[1] = link_url + "&oraclesymple=" + currentTimeMillis;
+      } else {
+        sqlInsertApLinkParams[1] = link_url + "?oraclesymple=" + currentTimeMillis;
+      }
+    }
+    sqlInsertApLinkParams[2] = menu_guid;
+    sqlInsertApLinkParams[3] = link_img;
+    sqlInsertApLinkParams[4] = 0;
+    sqlInsertApLinkParams[5] = 0;
+    sqlInsertApLinkParams[6] = user_guid;
+
+    try {
+      int executeBySql = 0;
+      executeBySql = generalDAO.executeBySql(sqlInsertApLink.toString(), sqlInsertApLinkParams);
+      if (1 == executeBySql) { // AP_LINK插入成功
+        // 获取最新插入的AP_LINK.guid
+        StringBuilder sqlFindGuidFromApLink = new StringBuilder();
+        sqlFindGuidFromApLink.append("select guid from AP_LINK where LINK_URL LIKE '%oraclesymple=" + currentTimeMillis
+          + "%' AND MENU_ID='" + menu_guid + "' ");
+        List sqlFindGuidFromApLinkGuid = generalDAO.findBySql(sqlFindGuidFromApLink.toString());
+        String guidFromApLink = "";
+
+        //TODO ?? 偶然出现得不到guid的情况
+        for (Object guid : sqlFindGuidFromApLinkGuid) {
+          guidFromApLink = (String) ((Map) guid).get("guid");
+          break;
+        }
+
+        // 插入AP_LINK_PORTLET关系数据
+        StringBuilder sqlInsertApLinkPortlet = new StringBuilder();
+        sqlInsertApLinkPortlet.append("insert into AP_LINK_PORTLET ");
+        sqlInsertApLinkPortlet.append("(PG_PLET_ID,LINK_GUID,MENU_ID,EMP_CODE,ROLE_ID,CO_CODE,PUB_USER,PUB_TIME) ");
+        sqlInsertApLinkPortlet
+          .append("values (?,?,?,?,?,?,?," + (TypeOfDB.isOracle() ? "sysdate" : "sysdate()") + ") ");
+        Object[] sqlInsertApLinkPortletParams = new Object[7];
+        sqlInsertApLinkPortletParams[0] = "CZB2.0";
+        sqlInsertApLinkPortletParams[1] = guidFromApLink;
+        sqlInsertApLinkPortletParams[2] = menu_guid;
+        sqlInsertApLinkPortletParams[3] = user_guid;
+        sqlInsertApLinkPortletParams[4] = role_guid;
+        sqlInsertApLinkPortletParams[5] = "*";
+        sqlInsertApLinkPortletParams[6] = user_guid;
+        generalDAO.executeBySql(sqlInsertApLinkPortlet.toString(), sqlInsertApLinkPortletParams);
+        map.put("guidFromApLink", guidFromApLink);
+      }
+      map.put("executeBySql", executeBySql);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return map;
+  }
+
+  protected void setParams(PreparedStatement ps, Object[] params) throws SQLException {
+    if (params == null || params.length == 0)
+      return;
+    for (int i = 1; i <= params.length; i++)
+      ps.setObject(i, params[i - 1]);
+  }
+
+  @Override
+  public Map<String, Object> removeCommonOperation(HttpServletRequest req, HttpServletResponse resp) {
+    HttpServletRequestWrapper2 req2 = new HttpServletRequestWrapper2(req);
+    Map<String, Object> map = new HashMap<String, Object>();
+    String guidFromApLink = req2.getParameter("guidFromApLink");
+
+    StringBuilder sqlDeleteApLink = new StringBuilder();
+    sqlDeleteApLink.append("delete AP_LINK where guid=? ");
+    StringBuilder sqlDeleteApLinkPortlet = new StringBuilder();
+    sqlDeleteApLinkPortlet.append("delete AP_LINK_PORTLET where link_guid=? ");
+    try {
+      generalDAO.executeBySql(sqlDeleteApLink.toString(), new String[] { guidFromApLink });
+      generalDAO.executeBySql(sqlDeleteApLinkPortlet.toString(), new String[] { guidFromApLink });
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return map;
+  }
+
+  @Override
+  public Map<String, Object> getDealingThing(HttpServletRequest req, HttpServletResponse resp) {
+    HttpServletRequestWrapper2 req2 = new HttpServletRequestWrapper2(req);
+    Map<String, Object> map = new HashMap<String, Object>();
+    String tokenId = req2.getParameter("tokenid");
+    // 用户ID
+    String UserId = req2.getParameter("userid");
+    // 角色ID
+    String RoleId = req2.getParameter("roleid");
+    // 区划编码
+    String Region = req2.getParameter("region");
+    // 年度
+    String setYear = req2.getParameter("year");
+
+    try {
+      List list = messageClient.findAllTasks(UserId, RoleId, Region, setYear).toDataList();
+      map.put("dealingThing", list);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return map;
+  }
+
+  @Override
+  public Map<String, Object> getUserSetyear(HttpServletRequest req, HttpServletResponse resp) {
+    String tokenId = req.getParameter("tokenid");
+    Map<String, Object> map = new HashMap<String, Object>();
+    gov.df.fap.bean.user.UserDTO userdto = UserInfoDFCommon.getUser(tokenId);
+
+    // TODO quhua 
+
+    StringBuilder html = new StringBuilder();
+    html.append("<li><a href='javascript:switchRoleConfirm(&quot;" + "setyear guid"
+      + "&quot;,&quot;switchSetyear&quot;);'>" + "2016" + "</a></li>");
+    html.append("<li><a href='javascript:switchRoleConfirm(&quot;" + "setyear guid"
+      + "&quot;,&quot;switchSetyear&quot;);'>" + "2017" + "</a></li>");
+
+    map.put("html", html);
+    return map;
+  }
+
+  @Override
+  public Map<String, Object> getUserRgcode(HttpServletRequest req, HttpServletResponse resp) {
+    String tokenId = req.getParameter("tokenid");
+    Map<String, Object> map = new HashMap<String, Object>();
+    gov.df.fap.bean.user.UserDTO userdto = UserInfoDFCommon.getUser(tokenId);
+
+    // TODO quhua 
+
+    StringBuilder html = new StringBuilder();
+    html.append("<li><a href='javascript:switchRoleConfirm(&quot;" + "rgcode guid"
+      + "&quot;,&quot;switchRgcode&quot;);'>" + "山东" + "</a></li>");
+
+    map.put("html", html);
+    return map;
+  }
+
+  @Override
+  public Map<String, Object> switchRgcodeConfirm(HttpServletRequest req, HttpServletResponse resp) {
+    String tokenId = req.getParameter("tokenid");
+    Map<String, Object> map = new HashMap<String, Object>();
+    gov.df.fap.bean.user.UserDTO userdto = UserInfoDFCommon.getUser(tokenId);
+
+    // TODO 确认切换区划
+
+    return map;
+  }
+
+  @Override
+  public Map<String, Object> getPayProgress(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+
+    // TODO 调用dubbo服务
+
+    return map;
+  }
+
+  @Override
+  public Map<String, Object> getBudget(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+
+    // TODO 调用dubbo服务
+
+    return map;
+  }
+
+  @Override
+  public Map<String, Object> getFundmonitor(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+
+    // TODO 调用dubbo服务
+
+    return map;
+  }
+
+  @Override
+  public Map<String, Object> getAllCompony(HttpServletRequest req, HttpServletResponse resp) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    HttpServletRequestWrapper2 req2 = new HttpServletRequestWrapper2(req);
+    String tokenId = req.getParameter("tokenid");
+    String userId = req2.getParameter("userid");
+    starttype = getStarttype();
+    List componyList = new ArrayList();
+    try {
+      if ("fasp2.0".equals(starttype)) {
+        iUserSyncManager = (IUserSyncManager) ServiceFactory.getBean("fasp.ca.UserSyncManager");
+        UserInfo uinfo = iUserSyncManager.getUser(tokenId);
+        UserDTO userdto = uinfo.getUser();
+        componyList = iUserSync.getUserOrg(userId);
+      } else if ("df".equals(starttype)) {
+        //gov.df.fap.bean.user.UserDTO userdto = UserInfoDFCommon.getUser(tokenId);
+        //List roleList = roleDfService.queryRolesByUserId(userdto.getUser_id());
+
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      return map;
+    }
+
+    map.put("componyList", componyList);
+    return map;
+
+  }
+
+  @Override
+  public List getBudgetTask(HttpServletRequest req, HttpServletResponse resp) {
+    HttpServletRequestWrapper2 req2 = new HttpServletRequestWrapper2(req);
+
+    String tokenId = req2.getParameter("tokenid");
+    // 用户ID
+    String UserId = req2.getParameter("userid");
+    // 角色ID
+    String RoleId = req2.getParameter("roleid");
+    // 区划编码
+    String Region = req2.getParameter("region");
+    // 年度
+    String setYear = req2.getParameter("year");
+
+    //List budgetList = new ArrayList<String>();
+    List<Map<String, Object>> budgetList = new ArrayList<Map<String, Object>>();
+    Object rtnXml = null;
+    try {
+      String endpoint = "";  //清空，禁止使用地址，非本工程使用代码
+      Call call = (Call) service1.createCall();
+      call.setTargetEndpointAddress(new java.net.URL(endpoint));
+      call.setOperationName("findAllTaskStrByUserCodeRegion");
+      //rtnXml = call.invoke(new String[] { "zb01", "370000" });
+      rtnXml = call.invoke(new String[] { "999115", "420000" });
+      String rtnXmlsplit = (String) rtnXml;
+      String[] rs = rtnXmlsplit.split("<MENU>");
+      for (int i = 1; i < rs.length; i++) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        String name = rs[i].substring(rs[i].indexOf("<NAME>") + 6, rs[i].indexOf("————"));
+        String url = rs[i].substring(rs[i].indexOf("null") + 10, rs[i].indexOf("</URL>"));
+        System.out.println(name + url);
+        map.put("name", name);
+        map.put("url", url);
+        budgetList.add(map);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return budgetList;
+  }
+
+}

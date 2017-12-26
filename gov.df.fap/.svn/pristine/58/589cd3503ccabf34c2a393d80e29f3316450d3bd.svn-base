@@ -1,0 +1,5 @@
+common={domainip:"127.0.0.1",domainport:"1000",domainmark:"FASP_TONGYAdomain",islocal:"1",appname:"common"}
+portal={domainip:"127.0.0.1",domainport:"1000",domainmark:"FASP_TONGYAdomain",islocal:"1",appname:"portal"}
+fasp={domainip:"127.0.0.1",domainport:"1000",domainmark:"FASP_TONGYAdomain",islocal:"1",appname:"fasp"}
+hqreport={domainip:"127.0.0.1",domainport:"1000",domainmark:"FASP_TONGYAdomain",islocal:"0",appname:"hqreport"}
+df={domainip\:"127.0.0.1",domainport\:"1001",domainmark\:"FASP_TONGYA2domain",islocal\:"0",appname\:"df"}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="target/classes" path="src/main/java"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="src" path="/gov.df.supervise.api"/>
+	<classpathentry kind="lib" path="D:/maven3.2.5/local/repository_fap/org/springframework/spring-context/3.2.6.RELEASE/spring-context-3.2.6.RELEASE.jar" sourcepath="D:/maven3.2.5/local/repository_fap/org/springframework/spring-context/3.2.6.RELEASE/spring-context-3.2.6.RELEASE-sources.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="org.springframework"/>
+			<attribute name="maven.artifactId" value="spring-context"/>
+			<attribute name="maven.version" value="3.2.6.RELEASE"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="D:/maven3.2.5/local/repository_fap/org/springframework/spring-beans/3.2.6.RELEASE/spring-beans-3.2.6.RELEASE.jar" sourcepath="D:/maven3.2.5/local/repository_fap/org/springframework/spring-beans/3.2.6.RELEASE/spring-beans-3.2.6.RELEASE-sources.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="org.springframework"/>
+			<attribute name="maven.artifactId" value="spring-beans"/>
+			<attribute name="maven.version" value="3.2.6.RELEASE"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="/gov.df.fap.service.util"/>
+	<classpathentry kind="src" path="/gov.df.fap.bean"/>
+	<classpathentry kind="src" path="/gov.df.fap.util"/>
+	<classpathentry kind="src" path="/gov.df.supervise.bean"/>
+	<classpathentry kind="src" path="/gov.df.fap.api"/>
+	<classpathentry kind="src" path="/gov.df.supervise.util"/>
+	<classpathentry kind="lib" path="D:/maven3.2.5/local/repository_fap/com/bd/dss-api/1.0.0/dss-api-1.0.0.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="com.bd"/>
+			<attribute name="maven.artifactId" value="dss-api"/>
+			<attribute name="maven.version" value="1.0.0"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

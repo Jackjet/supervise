@@ -1,0 +1,133 @@
+package gov.df.supervise.service.bill;
+
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.gl.core.CommonUtil;
+import gov.df.fap.util.xml.XMLData;
+import gov.df.supervise.api.bill.BillService;
+import gov.df.supervise.api.common.CommonService;
+import gov.df.supervise.api.workflow.WorkFlow;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ufgov.ip.apiUtils.UUIDTools;
+
+@Service
+public class BillBo implements BillService {
+
+	@Autowired
+	@Qualifier("generalDAO")
+	GeneralDAO dao;
+	
+	@Autowired
+	private CommonService commonService; // 监管事项服务
+	
+	@Autowired
+	private WorkFlow workflow;
+
+	public int deleteMofBill(String ids, String key) {
+		String condition = "" ;
+		if(!ids.equals("")){
+			condition = " and " + key + " in (" + ids +")" ;
+		}
+		return commonService.deleteDataList("CSOF_MOF_BILL", condition);
+	}
+
+	/**
+	 * 总任务单保存方法
+	 */
+	@Transactional(readOnly = false)
+	public int saveMofBill(List officeList,List supList, String billtype_code,Map workMap) {
+	    List sqlList = new ArrayList<String>();
+
+	    String ids = "";
+		for(int i=0;i<supList.size();i++){
+			Map supData = (Map)supList.get(i);
+			
+			for(int j=0;j<officeList.size();j++){
+				Map officeData = (Map)officeList.get(j);
+
+				String rg_code = CommonUtil.getRgCode();
+			    String set_year = CommonUtil.getSetYear();
+			    String create_user = CommonUtil.getUserCode();
+			    String date =  CommonUtil.getDate("yyyy-MM-dd");
+				Map<String,String> mofData = new HashMap <String,String> ();
+                String id = UUIDTools.uuidRandom();
+                ids += id+",";
+				mofData.put("id", id);
+				mofData.put("sid", supData.get("chr_id").toString());
+				mofData.put("oid", officeData.get("chr_id").toString());
+			    mofData.put("rg_code", rg_code);
+			    mofData.put("set_year", set_year);
+			    mofData.put("create_date", date);
+			    mofData.put("latest_op_date", date);
+			    mofData.put("create_user", create_user);
+			    mofData.put("latest_op_user", create_user);
+			    
+				Map billInfo = commonService.getBillInfo(billtype_code, mofData);
+				if(!billInfo.isEmpty()){
+					mofData.put("bill_no", billInfo.get("bill_no").toString());
+					mofData.put("billtype_code", billInfo.get("billtype_code").toString());
+					mofData.put("billtype_name", billInfo.get("billtype_name").toString());
+				}
+			    String sql = commonService.getInsertSql(mofData, "csof_mof_bill");
+			    sqlList.add(sql);
+				
+			}
+			
+		}
+	    
+	    int [] result = dao.executeBatchBySql(sqlList);
+	    if (!ids.equals("")) {
+	    	ids = ids.substring(0,ids.length()-1);
+	    	workMap.put("billtype_code", billtype_code);
+	    	boolean workFlag=commonService.saveWorkFlow(workMap, ids.split(","));
+	    }
+		return result.length;
+	}
+
+	public int updateMofBill(Map mofBillData, String billtype_code) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/**
+	   * 任务下达
+	   * @param ids  本方法适应   批量
+	   * @return
+	   */
+	public int approveTask(String ids,Map workMap) {
+	    String approve_user = CommonUtil.getUserCode();
+	    String approve_date = CommonUtil.getDate("yyyy-MM-dd HH:mm:ss");
+	 
+	    String sql = "UPDATE CSOF_MOF_BILL SET APPROVE_USER = '" + approve_user + "' , APPROVE_DATE = '" + approve_date
+	      + "' WHERE ID IN ( " + ids + ")";
+
+	    boolean workFlag=commonService.saveWorkFlow(workMap, ids.split(","));
+	    return  dao.executeBySql(sql);
+	}
+	
+	/**
+	   * 任务登记
+	   * @param ids  本方法适应   批量
+	   * @return
+	   */
+	public int receiveTask(String ids,Map workMap) {
+	    String approve_user = CommonUtil.getUserCode();
+	    String approve_date = CommonUtil.getDate("yyyy-MM-dd HH:mm:ss");
+	 
+	    String sql = "UPDATE CSOF_MOF_BILL SET RECEIVE_USER = '" + approve_user + "' , RECEIVE_DATE = '" + approve_date
+	      + "' WHERE ID IN ( " + ids + ")";
+
+	    boolean workFlag=commonService.saveWorkFlow(workMap, ids.split(","));
+	    return  dao.executeBySql(sql);
+	}
+
+}

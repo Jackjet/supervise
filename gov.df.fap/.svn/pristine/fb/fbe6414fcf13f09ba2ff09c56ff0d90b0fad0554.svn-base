@@ -1,0 +1,49 @@
+.groupAdd-header{
+    margin-bottom: 10px;
+}
+.groupAdd-content-group{
+    height:30px;
+    margin-bottom: 10px;
+}
+.groupAdd-content-tree{
+    margin: 5px 0;
+}
+
+/* 监管对象分解 */
+.tab-play-box2{
+    margin-right: 40px;
+}
+.group-list{
+    height: 200px;
+    margin: 0 -15px 0 15px;
+}
+
+/* commom类 */
+.solidBorder{
+    border: 1px solid #ccc;
+}
+
+.modal-height{
+	height: 400px;
+}
+
+/* 用户分组授权 */
+.class-list,.class-tree{
+    border: 1px solid #666;
+}
+
+.useTime{
+    margin-bottom: 6px;
+}
+.useTime,.planTime{
+    font-size: 12px;
+}
+/* 计划时间input */
+.planTime input{
+    height: 27px;
+}
+
+.liClick{
+    background-color: dodgerblue;
+    color: #fff;
+}

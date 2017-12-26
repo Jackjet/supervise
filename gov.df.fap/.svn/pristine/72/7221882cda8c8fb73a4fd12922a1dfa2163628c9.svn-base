@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>我的工作台</title>
+		<link rel="stylesheet" href="/df/portal/login/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../common/common.css">
+	</head>
+	<body class="csof-font" >
+		<!-- 简化版本 -->
+		<div id="hp-content" class="col-md-12" style="width:100%;margin-top:10px;">
+			<!-- 我的待办事项 -->
+			<div id="hp-event-content" class="col-md-5" style="height: 565px;border:1px solid #ccc;padding-top: 10px;">
+						<span style="float:left;">我的待办事项</span>
+						<span style="float:right;"><a id="" href="javascript:void(0);" data-bind="click:moreEvent">更多</a></span>
+						<hr style="width:100%;height:1px;border:none;border-top:1px solid #ccc;margin-top: 22px;" />
+						<ul id="hp-my-todolist">
+						
+						</ul>
+			</div>
+			<div class="col-md-7">
+				<!-- 最新公告 -->
+				<div id="hp-notice-content" class="col-md-12" style="height:300px;border:1px solid #ccc;padding-top: 10px;">
+						<span style="float:left;">最新公告</span>
+						<span style="float:right;"><a href="javascript:void(0);" data-bind="click:moreNotice">更多</a></span>
+						<hr style="width:100%;height:1px;border:none;border-top:1px solid #ccc;margin-top: 22px;" />
+						<ul id="hp-latest-announce">
+							
+						</ul>
+				</div>
+				<div class="col-md-12" style="margin-top:10px;padding:0;">
+					<!-- 我的消息通知 -->
+					<div id="hp-news-content" class="col-md-6" style="width:49%;height: 255px;border:1px solid #ccc;padding-top: 10px;">
+						<span style="float:left;">我的消息通知</span>
+						<span style="float:right;"><a href="javascript:void(0);" data-bind="click:moreNews">更多</a></span>
+						<hr style="width:100%;height:1px;border:none;border-top:1px solid #ccc;margin-top: 22px;" />
+						<ul id="hp-my-mes-notice">
+							
+						</ul>
+					</div>
+					<!-- 政策法规 -->
+					<div id="hp-policy-content" class="col-md-6"  style="width:49%;margin-left:2%;height: 255px;border:1px solid #ccc;padding-top: 10px;">
+						<span style="float:left;">政策法规</span>
+						<span style="float:right;"><a href="javascript:void(0);" data-bind="click:morePolicy">更多</a></span>
+						<hr style="width:100%;height:1px;border:none;border-top:1px solid #ccc;margin-top: 22px;" />
+						<ul id="hp-policies-regula">
+							
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 待办事项更多modal -->
+		<div class="modal fade" id="moreEventModal" tabindex="-1" role="dialog" aria-labelledby="moreEventLabel">
+	        <div class="modal-dialog" role="document">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                    <h4 class="modal-title" id="subModalLabel">当前位置:更多事项</h4>
+	                </div>
+	                <div class="modal-body" style="height: 360px;overflow: auto;">
+	                    <ul id="moreEvent-ul">
+						
+						</ul>
+	                </div>
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-primary">确定</button>
+	                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	                </div>
+	            </div>
+	        </div>
+    	</div>
+    	<!-- 最新公告更多modal -->
+		<div class="modal fade" id="moreNoticeModal" tabindex="-1" role="dialog" aria-labelledby="moreNoticeLabel">
+	        <div class="modal-dialog" role="document">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                    <h4 class="modal-title" id="subModalLabel">当前位置:最新公告</h4>
+	                </div>
+	                <div class="modal-body" style="height: 360px;overflow: auto;">
+	                    <ul id="moreNotice-ul">
+						
+						</ul>
+	                </div>
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-primary">确定</button>
+	                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	                </div>
+	            </div>
+	        </div>
+    	</div>
+    	<!-- 消息通知更多modal -->
+		<div class="modal fade" id="moreNewsModal" tabindex="-1" role="dialog" aria-labelledby="moreNewsLabel">
+	        <div class="modal-dialog" role="document">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                    <h4 class="modal-title" id="subModalLabel">当前位置:消息通知</h4>
+	                </div>
+	                <div class="modal-body" style="height: 360px;overflow: auto;">
+	                    
+	                </div>
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-primary">确定</button>
+	                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	                </div>
+	            </div>
+	        </div>
+    	</div>
+    	<!-- 政策法规更多modal -->
+		<div class="modal fade" id="morePolicyModal" tabindex="-1" role="dialog" aria-labelledby="morePolicyLabel">
+	        <div class="modal-dialog" role="document">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                    <h4 class="modal-title" id="subModalLabel">当前位置:政策法规</h4>
+	                </div>
+	                <div class="modal-body" style="height: 360px;overflow: auto;">
+	                    
+	                </div>
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-primary">确定</button>
+	                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	                </div>
+	            </div>
+	        </div>
+    	</div>
+		<!-- 引入js-->
+		<script src="../../trd/requirejs/require.debug.js"></script>
+		<script src="../../require.config.js"></script>
+		<script src="/df/trd/jquery/jquery-1.12.3.min.js"></script>
+		<script src="/df/supervise/homepage/homepage1.js" type="text/javascript"></script>
+	</body>
+</html>

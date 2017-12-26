@@ -1,0 +1,42 @@
+package gov.df.supervise.api.csofacc;
+
+import java.util.List;
+
+public interface csofAccService {
+  public void saveAccSup(String data);
+
+  public List getAccSup(String sid);
+
+  public void updateAccSup(String data);
+
+  public void deleteAccSup(String sid);
+
+  /**
+   * 工作记录
+   */
+  public void saveAccWork(String data);
+
+  public List getAccWork(String sid);
+
+  public void updateAccWork(String data);
+
+  public void deleteAllAccWork(String sid);
+
+  public void deleteAccWork(String sid, String id);
+
+  /**
+   * 
+   * 问题记录
+   */
+  public void saveAccProblem(String data);
+
+  public List getAccProblem(String sid);
+
+  public void updateAccProblem(String data);
+
+  public void deleteAllAccProblem(String sid);
+
+  public void deleteAccProblem(String sid, String id);
+
+  public List getSupData(String ele_code);
+}

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="dfdatasource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="dfdatasource"/>
+	</bean>
+	<bean autowire="default" class="gov.df.fap.service.util.datasource.MultiDataSource" dependency-check="default" id="multiDataSource" lazy-init="default">
+		<property name="defaultDataSource">
+			<ref bean="dfdatasource"/>
+		</property>
+		<property name="dataSources">
+			<map>
+			    <entry key="3700#2017"><ref bean="dfdatasource"/></entry>
+			    <entry key="3700#2017#read"><ref bean="dfdatasource"/></entry>
+				<entry key="3700#2016"><ref bean="dfdatasource"/></entry>
+				<entry key="87#2016"><ref bean="dfdatasource"/></entry>
+				<entry key="8700#2016"><ref bean="dfdatasource"/></entry>
+				<entry key="130000#2016"><ref bean="dfdatasource"/></entry>
+				<entry key="110000#2016"><ref bean="dfdatasource"/></entry>
+				<entry key="370000#2016"><ref bean="dfdatasource"/></entry>
+	 		</map>
+		</property>
+	</bean>
+</beans>

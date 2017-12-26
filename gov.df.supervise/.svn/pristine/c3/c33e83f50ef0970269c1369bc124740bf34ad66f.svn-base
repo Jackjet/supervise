@@ -1,0 +1,46 @@
+/**
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2017 北京用友政务软件有限公司
+ * </p>
+ * <p>
+ * Company: 北京用友政务软件有限公司
+ * </p>
+ * <p>
+ * CreateData: 2017-8-27下午2:59:56
+ * </p>
+ * 
+ * @author songlr3
+ * @version 1.0
+ */
+package gov.df.supervise.service.reportform;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import gov.df.supervise.api.reportfprm.ReportFormService;
+import gov.df.supervise.bean.report.CsofEReportEntity;
+
+@Service
+public class ReportFormServiceImpl implements ReportFormService{
+	
+	@Autowired
+	private ReportFormDao reportFormDao;
+
+	public List<?> selectSupReportBySidBillcode(Map<String, Object> param) {
+		return reportFormDao.selectSupReportBySidBillcode(param);
+	}
+
+	public CsofEReportEntity selectEReportByChrId(String chrId) {
+		return reportFormDao.selectEReportByChrId(chrId);
+	}
+
+}

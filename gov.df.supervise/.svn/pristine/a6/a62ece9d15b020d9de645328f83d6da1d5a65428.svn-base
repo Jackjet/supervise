@@ -1,0 +1,93 @@
+package gov.df.supervise.service.common;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.gl.core.CommonUtil;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.supervise.api.common.CommonService;
+
+@Service
+public class CommonBo implements CommonService {
+
+	@Autowired
+	@Qualifier("generalDAO")
+	GeneralDAO dao;
+    
+	public static String user_id = CommonUtil.getUserId();						//当前登录用户 user_id
+	
+	public static String oid = SessionUtil.getUserInfoContext().getOrgCode();   //当前登录用户机构编号 oid
+	
+	
+	/**
+	 * 根据条件查询单表数据
+	 * 
+	 * @param tableName	单表查询表名
+	 * @param condition 查询条件
+	 * @param proFlag   是否带权限查询
+	 * @param pageInfo  分页信息
+	 * @return 返回查询结果集List
+	 */
+	public List getDataList(String tableName, String condition,
+			boolean proFlag, String pageInfo) {
+
+		String proCondition = "";	//数据权限过滤条件 
+		
+		if (proFlag) {
+			proCondition = " and exists ( "
+							+ "select ele_value "
+							+ "from sys_right_group_detail d,sys_right_group g,sys_user_rule r "
+							+ "where 1=1 "
+							+ "and r.user_id='"+ user_id + "'"
+							+ "and d.right_group_id=g.right_group_id "
+							+ "and g.rule_id=r.rule_id "
+							+ "and (d.ele_code='CSOF_SUPTYPE' and (d.ele_value='#' or d.ele_value=u.SUP_TYPE_CODE)))"
+							+ "and (u.dep_id='#' or exists (select 1 from sys_user_org o where o.org_id=u.dep_id and o.user_id='" + user_id + "'))" 
+							+ "and u.oid = '" + oid + "'";
+		}
+		String sql = "select * from " + tableName + " where 1=1 " + condition + proCondition;
+
+		return dao.findByPageSql(pageInfo, sql);
+	}
+
+
+	/**
+	 * 单表通用删除方法
+	 * 
+	 * @param tableName  删除表名
+	 * @param condition  删除数据过滤条件
+	 * @return 数据执行条目数
+	 */
+	public int deleteDataList(String tableName, String condition) {
+		String sql = "delete from  " + tableName + " where 1=1 " + condition;
+		return dao.executeBySql(sql);
+	}
+	
+	/**
+	   * 通用插入sql生成
+	   * @param map 插入数据Map  key:字段名  value:字段值
+	   * @param tableName 插入数据表名
+	   * @return
+	   */
+	  public String getInsertSql(Map<String, String> map, String tableName) {
+	    String keyStr = "";
+	    String valueStr = "";
+	    for (String key : map.keySet()) {
+	      keyStr += key + ",";
+	      valueStr += "'" + map.get(key) + "',";
+	    }
+	    if (!("".equals(keyStr))) {
+	      keyStr = keyStr.substring(0, keyStr.length() - 1);
+	    }
+	    if (!("".equals(valueStr))) {
+	      valueStr = valueStr.substring(0, valueStr.length() - 1);
+	    }
+	    return "insert into " + tableName + "(" + keyStr + ") values (" + valueStr + ")";
+	  }
+
+}

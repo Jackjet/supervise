@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gov.df.supervise.service.workbench.HomePageDao">	
+<!-- 待办事项查询 -->
+<select id="selectToDo" parameterType="java.util.Map" resultType="java.util.Map">
+select * from (
+select 
+  tt.group_code,
+  tt.group_name,
+  tt.type_code,
+  tt.type_name,
+  tt.task_id,
+  tt.task_name,
+  tt.menu_id,
+  (select s.menu_code from sys_menu s where s.menu_id=tt.menu_id) as menu_code, 
+  (select s.menu_name from sys_menu s where s.menu_id=tt.menu_id) as menu_name,
+  (select s.url from sys_menu s where s.menu_id=tt.menu_id) as url, 
+  tt.menu_param_add,
+  tt.billtype_code,
+  tt.sup_date,
+  tt.group_code||tt.type_code||task_code||(select s.menu_code from sys_menu s where s.menu_id=tt.menu_id) as order_code,
+  count(*) as num
+from
+(
+select 
+   '01' as group_code,
+   '监管事项审核' as group_name,
+   m.menu_id,
+   i.billtype_code,
+   (select b.task_id from CSOF_SUP_BILL b where b.id = i.entity_id) as task_id, 
+   (select b.task_no from CSOF_SUP_BILL b where b.id = i.entity_id) as task_code, 
+   (select b.task_name from CSOF_SUP_BILL b where b.id = i.entity_id) as task_name, 
+   (select b.sup_date from CSOF_SUP_BILL b where b.id = i.entity_id) as sup_date, 
+   (select 'sid='||b.sid from CSOF_SUP_BILL b where b.id = i.entity_id) as menu_param_add,
+   (select b.sup_no from CSOF_SUP_BILL b where b.id = i.entity_id) as type_code,
+   (select b.sup_name from CSOF_SUP_BILL b where b.id = i.entity_id) as type_name 
+  from csof_wf_item_cur i,csof_wf_menu_node m 
+  where 1=1
+    and i.wf_id=m.wf_id 
+    and ((i.node_id=m.from_node_id and i.status_code=1) or (i.node_id=m.cur_node_id and i.status_code=0))
+    AND i.table_name='CSOF_SUP_BILL'  --监管审核模块
+    and exists (select 1 from CSOF_SUP_BILL b where b.id = i.entity_id and b.is_valid=1)
+    and exists (select 1 from sys_menu sm where sm.enabled=1 and sm.menu_id=m.menu_id)
+    and exists (select 1 from sys_role_menu rm,sys_user_role_rule rr where rm.role_id=rr.role_id and rm.menu_id=m.menu_id and rr.user_id=#{userId})
+
+union all
+;
+select 
+   '02' as group_code,
+   '监管工作台账' as group_name,
+   m.menu_id,
+   i.billtype_code,
+   (select b.book_id from CSOF_ACC_BOOK_SET b where b.id = i.entity_id) as task_id, 
+   (select o.book_code from csof_acc_book o where o.book_id=(select b.book_id from CSOF_ACC_BOOK_SET b where b.id = i.entity_id)) as task_code, 
+   (select o.book_name from csof_acc_book o where o.book_id=(select b.book_id from CSOF_ACC_BOOK_SET b where b.id = i.entity_id))||(select '['||b.set_month||'月]' from CSOF_ACC_BOOK_SET b where b.id = i.entity_id) as task_name, 
+   '' as sup_date, 
+   'SET_ID='||i.entity_id as menu_param_add,
+   '' as type_code,
+   '' as type_name 
+  from csof_wf_item_cur i,csof_wf_menu_node m
+  where 1=1
+    and i.wf_id=m.wf_id 
+    and ((i.node_id=m.from_node_id and i.status_code=1) or (i.node_id=m.cur_node_id and i.status_code=0))
+    AND i.table_name='CSOF_ACC_BOOK_SET'  --工作台账模块
+    and exists (select 1 from CSOF_ACC_BOOK_SET b where b.id = i.entity_id and b.is_open=1)
+    and exists (select 1 from sys_menu sm where sm.enabled=1 and sm.menu_id=m.menu_id)
+    and exists (select 1 from sys_role_menu rm,sys_user_role_rule rr where rm.role_id=rr.role_id and rm.menu_id=m.menu_id and rr.user_id=#{userId})
+
+) tt
+group by 
+  tt.group_code,
+  tt.group_name,
+  tt.task_id,
+  tt.task_name,
+  tt.sup_date,
+  tt.menu_id,
+  tt.billtype_code,
+  tt.type_code,
+  tt.type_name,
+  menu_param_add
+) 
+order by order_code
+</select>
+<select id="selectGongaoTitle" parameterType="java.util.Map" resultType="java.util.Map">
+select ID_,TITLE_
+from vw_csof_re_bulletin t
+</select>
+<select id="selectGongaoById" parameterType="java.util.Map" resultType="java.util.Map">
+select CONTENT_,CONTENTNOSTYLE_
+from vw_csof_re_bulletin t
+where t.ID_= #{Id}
+</select>
+</mapper>

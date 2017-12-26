@@ -1,0 +1,53 @@
+require(['jquery', 'knockout','bootstrap', 'uui', 'tree', 'grid', 'ip'], function ($, ko) {
+	window.ko = ko;
+	var viewModel={
+			
+	};
+	//库列表
+	viewModel.getAllLibrary = function(){
+		$.ajax({
+			url:"getLibrary.do",
+			type: 'GET',
+			data:{},
+			dataType: 'json',
+			success: function (result){
+				var libraryData = result.data;
+				var libraryHtml = "";
+				for(var i in libraryData){
+					libraryHtml += '<option value="'+libraryData[i]+'">'+libraryData[i]+'</option>';
+				}
+				$("#library").html(libraryHtml);
+			}
+		});
+	};
+	//获取期间，默认显示当前年度
+	viewModel.getALLPeriod = function(){
+		$.ajax({
+			url:"getPeriod.do",
+			type: 'GET',
+			data:{},
+			dataType: 'json',
+			success: function (result){
+				var periodData = result.data;
+				var periodHtml = "";
+				for(var i in periodData){
+					periodHtml += '<option value="'+periodData[i]+'">'+periodData[i]+'</option>';
+				}
+				$("#dataPeriod").html(periodHtml);
+			}
+		});
+	}
+	
+	 function init(){
+			var app = u.createApp(
+					{
+						el: document.body,
+						model: viewModel
+					}
+			);
+			
+	    };
+
+	    init();
+
+});

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gov.df.supervise.service.upgrade.csofUpgradeDao">
+<insert id="saveDocument" parameterType="java.util.Map" >
+insert into csof_bug_sql (ID,SYS_ID,APP_VERSION,SQL_ID,ISCOMMIT,REMARK,MODULAR,CREATE_DATE,CREATE_USER,LATEST_OP_USER,LATEST_OP_DATE,IS_NOW)
+ values (#{id}, #{sys_id},#{app_version}, #{sql_id}, #{iscommit}, #{remark},#{modular}, #{create_date}, #{create_user},#{latest_op_user},#{latest_op_date},#{is_now})
+</insert>
+<select id="getUpgradeByIscommit" parameterType="java.lang.String" resultType="java.util.Map">
+select * from csof_bug_sql where ISCOMMIT = #{iscommit}
+</select>
+<delete id="deleteUpgrade" parameterType="java.lang.String">
+delete from csof_bug_sql where ID = #{id}
+</delete>
+<select id="getUpgrade" resultType="java.util.Map">
+select * from csof_bug_sql 
+</select>
+<update id="doUpgrade" parameterType="java.util.Map">
+update  csof_bug_sql set ISCOMMIT = #{iscommit} where id = #{id}
+</update>
+</mapper>

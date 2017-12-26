@@ -1,0 +1,39 @@
+require([ 'jquery', 'knockout','bootstrap', 'uui', 'tree', 'grid', 'ip'],
+    function ( $, ko,_) {
+        window.ko = ko;
+        var tokenid;
+    	var options;
+        var viewModel = {
+
+
+        };
+        
+        skipFlow = function(id) {
+        	var id=id;
+        	if(id == "input") {
+        		location.href="csofSup.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId +"&menuname=" + options.svMenuName+"&elecode=CSOF_AGENCY&pageId=m1";
+        	}else if(id == "first-trial") {
+        		location.href="csofSup.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId +"&menuname=" + options.svMenuName+"&elecode=CSOF_AGENCY&pageId=m2";
+        	}else if(id == "review") {
+        		location.href="csofSup.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId +"&menuname=" + options.svMenuName+"&elecode=CSOF_AGENCY&pageId=m3";
+        	}else if(id == "summary") {
+        		location.href="summary.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId +"&menuname=" + options.svMenuName+"&elecode=CSOF_AGENCY&pageId=m4";
+        	}else if(id == "office-summary") {
+        		location.href="sum-office.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId +"&menuname=" + options.svMenuName+"&elecode=CSOF_AGENCY&pageId=m5";
+        	}else if(id == "office-sum") {
+        		location.href="sum-office.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId +"&menuname=" + options.svMenuName+"&elecode=CSOF_AGENCY&pageId=m6";
+        	}
+        }
+
+        function init(){
+        	tokenid = ip.getTokenId();
+        	options = ip.getCommonOptions({});
+            var app = u.createApp(
+                {
+                    el: document.body,
+                    model: viewModel
+                }
+            );
+        }
+        init();
+    });

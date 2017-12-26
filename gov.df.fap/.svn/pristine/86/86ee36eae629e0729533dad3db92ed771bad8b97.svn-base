@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="gov.df.fap.web"
+  id="myeclipse.1487322768888"
+  context-root="/gov.df.fap.web"
+  j2ee-spec="6.0"
+  archive="gov.df.fap.web.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp" />
+  </attributes>
+</project-module>
+

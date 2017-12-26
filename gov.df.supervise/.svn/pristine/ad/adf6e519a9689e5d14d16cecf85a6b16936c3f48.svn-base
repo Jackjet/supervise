@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gov.df.supervise.service.reportform.ReportFormDao">	
+  <resultMap id="BaseResultMap" type="gov.df.supervise.bean.report.CsofEReportEntity" >
+    <result column="CHR_ID" property="chrId" jdbcType="VARCHAR" />
+    <result column="CHR_CODE" property="chrCode" jdbcType="VARCHAR" />
+    <result column="DISP_CODE" property="dispCode" jdbcType="VARCHAR" />
+    <result column="CHR_NAME" property="chrName" jdbcType="VARCHAR" />
+    <result column="PARENT_ID" property="parentId" jdbcType="VARCHAR" />
+    <result column="REPORT_TYPE" property="reportType" jdbcType="VARCHAR" />
+    <result column="REPORT_FILE" property="reportFile" jdbcType="VARCHAR" />
+    <result column="REPORT_PARAM" property="reportParam" jdbcType="VARCHAR" />
+    <result column="REPORT_CYCLE" property="reportCycle" jdbcType="DECIMAL" />
+    <result column="REPORT_HOLDER" property="reportHolder" jdbcType="VARCHAR" />
+    <result column="IS_PUB" property="isPub" jdbcType="DECIMAL" />
+    <result column="OWNER_OID" property="ownerOid" jdbcType="VARCHAR" />
+    <result column="LEVEL_NUM" property="levelNum" jdbcType="DECIMAL" />
+    <result column="IS_LEAF" property="isLeaf" jdbcType="DECIMAL" />
+    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+    <result column="ENABLED" property="enabled" jdbcType="DECIMAL" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="LATEST_OP_DATE" property="latestOpDate" jdbcType="VARCHAR" />
+    <result column="LATEST_OP_USER" property="latestOpUser" jdbcType="VARCHAR" />
+    <result column="LAST_VER" property="lastVer" jdbcType="VARCHAR" />
+    <result column="SET_YEAR" property="setYear" jdbcType="DECIMAL" />
+    <result column="RG_CODE" property="rgCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CHR_ID, CHR_CODE, DISP_CODE, 
+      CHR_NAME, PARENT_ID, REPORT_TYPE, 
+      REPORT_FILE, REPORT_PARAM, REPORT_CYCLE, 
+      REPORT_HOLDER, IS_PUB, OWNER_OID, 
+      LEVEL_NUM, IS_LEAF, IS_DELETED, 
+      ENABLED, CREATE_DATE, CREATE_USER, 
+      LATEST_OP_DATE, LATEST_OP_USER, LAST_VER, 
+      SET_YEAR, RG_CODE
+  </sql>
+<!-- 查询审报表 -->
+<select id="selectSupReportBySidBillcode" parameterType="java.util.Map" resultType="java.util.Map">
+select * 
+from csof_sup_report
+where SID = #{sid,jdbcType=VARCHAR} and BILLTYPE_CODE = {#billtypeCode,jdbcType=VARCHAR}
+</select>
+
+<!-- 查询报表file -->
+<select id="selectEReportByChrId" parameterType="java.util.Map" resultMap="BaseResultMap">
+select 
+<include refid="Base_Column_List" /> 
+from csof_e_report
+where CHR_ID = #{chrId,jdbcType=VARCHAR}
+</select>
+</mapper>

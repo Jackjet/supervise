@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gov.df.supervise.service.workflow.workFlowDao">
+<select id="SelectMenuNode" parameterType="java.util.Map" resultType="java.util.Map">
+select * from csof_wf_menu_node where MENU_ID = #{menu_id} and BILLTYPE_CODE = #{billtype_code}
+</select>
+<insert id="InsertWorkFlow" parameterType="java.util.Map" >
+insert into csof_wf_item_cur (ID,WF_ID,BILLTYPE_CODE,TABLE_NAME,ENTITY_ID,NODE_ID,STATUS_CODE,OP_USER,OP_DATE,COUNTER)
+ values (#{id}, #{wf_id},  #{billtype_code}, #{table_name}, #{entity_id}, #{node_id},#{status_code}, #{op_user}, #{op_date},#{counter})
+</insert>
+<insert id="InsertWorkFlowEnd" parameterType="java.util.Map" >
+insert into csof_wf_item_end (ID,WF_ID,BILLTYPE_CODE,TABLE_NAME,ENTITY_ID,NODE_ID,STATUS_CODE,OP_USER,OP_DATE,COUNTER)
+ values (#{id}, #{wf_id},  #{billtype_code}, #{table_name}, #{entity_id}, #{node_id},#{status_code}, #{op_user}, #{op_date},#{counter})
+</insert>
+<insert id="InsertWorkTrace" parameterType="java.util.Map" >
+insert into csof_wf_trace (ID,WF_ID,BILLTYPE_CODE,BILLTYPE_NAME,TABLE_NAME,ENTITY_ID,PRE_NODE_ID,PRE_NODE_STATUS,CUR_NODE_ID,CUR_NODE_STATUS,MENU_ID,OP_TYPE,OP_NAME,OP_USER,OP_DATE,COUNTER)
+ values (#{id}, #{wf_id},  #{billtype_code},#{billtype_name},#{table_name}, #{entity_id}, #{pre_node_id},#{pre_node_status},#{cur_node_id},#{cur_node_status},#{menu_id},#{op_type},#{op_name},#{op_user}, #{op_date},#{counter})
+</insert>
+<update id="updateWorkFlow" parameterType="java.util.Map">
+update csof_wf_item_cur set NODE_ID = #{node_id},STATUS_CODE = #{status_code},OP_USER = #{op_user},OP_DATE = #{op_date},COUNTER = #{counter}+1 where ENTITY_ID = #{entity_id}
+</update>
+<update id="updateStatus1" parameterType="java.lang.String">
+update ${table_name} set STATUS = (select status from ${table_name} where ID =#{entity_id})+ 1 where ID = #{entity_id}
+</update>
+<update id="updateStatus2" parameterType="java.lang.String">
+update ${table_name} set STATUS = (select status from ${table_name} where ID =#{entity_id})-1 where ID = #{entity_id}
+</update>
+<select id="selectTableName" parameterType="java.lang.String" resultType="java.util.Map">
+select * from sys_billtype where BILLTYPE_CODE = #{billtype_code}
+</select>
+<select id="getWFCurItem" parameterType="java.lang.String" resultType="java.util.Map">
+select * from csof_wf_item_cur where ENTITY_ID = #{entity_id}
+</select>
+<update id="updateIsEnd" parameterType="java.lang.String">
+update ${table_name} set IS_END = #{is_end} where ID =#{entity_id}
+</update>
+<delete id="deleteWFCurItem" parameterType="java.lang.String">
+delete csof_wf_item_cur where ENTITY_ID = #{entity_id}
+</delete>
+<select id="SelectNode" parameterType="java.lang.String" resultType="java.util.Map">
+select * from csof_wf_nodes where NODE_ID = #{cur_node_id}
+</select>
+<select id="getWFEndItem" parameterType="java.lang.String" resultType="java.util.Map">
+select * from csof_wf_item_end where ENTITY_ID = #{entity_id}
+</select>
+<delete id="deleteWFEndItem" parameterType="java.lang.String">
+delete csof_wf_item_end where ENTITY_ID = #{entity_id}
+</delete>
+<select id="getCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+select count(*) from csof_wf_item_cur where ENTITY_ID = #{entity_id}
+</select>
+<select id="getCountEnd" parameterType="java.lang.String" resultType="java.lang.Integer">
+select count(*) from csof_wf_item_end where ENTITY_ID = #{entity_id}
+</select>
+</mapper>

@@ -1,0 +1,151 @@
+/**
+ * Created by wenben on 2017/9/4.
+ */
+require(['jquery','knockout', 'bootstrap', 'uui','tree', 'grid', 'ip'], function($,ko) {
+    window.ko = ko;
+    var pageData = {//通过交互获取数据
+        btnDatas : function(url,param){
+            var mapData = [{DISPLAY_TITLE : '总结录入'},{DISPLAY_TITLE : '总结修改'},{DISPLAY_TITLE : '总结撤销'}];
+            var html = '';
+            $.each(mapData,function(index,item){
+                html += '<button class="btn btn-default" name="'+item.DISPLAY_TITLE +'" data-bind="click:btnEvents">'+item.DISPLAY_TITLE +'</button>';
+            });
+
+            $('.bnt-list').html(html);
+            /*$.get(url, param ,function(map){{DISPLAY_TITLE : 111},{DISPLAY_TITLE : 33}
+             //console.log(map);
+             //mapData = map.data;
+             });*/
+            return mapData;
+        },
+        initTree1: function () {
+            console.log(data.tree1);
+            viewModel.dataTable1.setSimpleData(data1);
+            viewModel.dataTable2.setSimpleData(data1);
+        }
+    };
+
+    var dealData = {//处理数据
+        showTreeColor: function (treeId, treeNode) {//显示非最终子节点的树节点为蓝色
+            return treeNode.level == 0 ? {color:"blue"} : {};
+        }
+    };
+    var arr = pageData.btnDatas();//不知道为什么删除这句话导致按钮组加载不出来
+
+    var viewModel = {//ko数据绑定值
+
+        btnEvents: function(data, events){//所有单击事件
+            var $this = $(events.target),
+                name = $this[0].name;
+            console.log(name);
+            if(name == '总结录入'){
+                $('#addModal').modal('show');
+            }
+            if(name == '总结录入'){
+
+            }
+            if(name == '总结撤销'){
+
+            }
+            if(name == '高级'){//高级
+                console.log('111');
+            }
+            if(name == 'btn1'){//获取明细意见
+
+            }
+            if(name == 'btn2'){//保存
+
+            }
+            if(name == 'btn3'){//返回
+
+            }
+
+
+        },
+
+        treeSetting1:{//左树
+            view:{
+                showLine:false,
+                selectedMulti:false
+            },
+            callback:{
+                onClick:function(e,id,node){
+                    console.log('1');
+                }
+
+            }
+
+        },
+        dataTable1: new u.DataTable({
+            meta: {
+                'id': {},
+                'pid': {},
+                'title':{}
+            }
+        }),
+        treeSetting2:{//左树
+            view: {
+                showLine: false,
+                selectedMulti: false,
+                fontSize: dealData.showTreeColor
+            },
+            callback:{
+                onClick:function(e,id,node){
+                    console.log('2');
+                }
+
+            }
+
+        },
+        dataTable2: new u.DataTable({
+            meta: {
+                'id': {},
+                'pid': {},
+                'title':{}
+            }
+        }),
+        dataTableGrid1 : new u.DataTable({
+            meta: {
+                'STATUS': {},
+                'SUP_NO': {},
+                'SUP_NAME':{},
+                'SUP_CONTENT': {},
+                'OBJ_TYPE_NAME': {},
+                'SUP_NUM': {},
+                'DEP_NAME': {},
+                'CREATE_DATE': {},
+                'REMAKE': {}
+            }
+        }),
+        dataTableGrid2 : new u.DataTable({
+            meta: {
+                'BILLTYPE_CODE': {},
+                'BILLTYPE_NAME': {},
+                'DEP_NAME':{},
+                'SUP_NUM': {},
+                'CONTENT': {},
+                'PLAN_END_DATE': {},
+                'REMAKE': {}
+            }
+        })
+
+    };
+
+    var eventsDeal = {
+
+    };
+
+
+
+
+
+
+    function init(){
+        app = u.createApp({
+            el: 'body',
+            model: viewModel
+        });
+        pageData.initTree1();
+    }
+    init();
+});

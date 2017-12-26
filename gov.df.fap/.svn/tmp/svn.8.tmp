@@ -1,0 +1,143 @@
+package gov.df.fap.service.fapcommon;
+
+import gov.df.fap.api.fapcommon.IRoleDfCommonService;
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.fap.util.factory.ServiceFactory;
+import gov.mof.fasp2.ca.role.service.IRoleService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.AbstractRefreshableWebApplicationContext;
+
+@Component("RoleService")
+public class RoleCommonService implements IRoleDfCommonService {
+
+  private IRoleService iRoleService = null;
+
+  @Autowired
+  @Qualifier("generalDAO")
+  private GeneralDAO generalDAO;
+
+  @Autowired
+  private AbstractRefreshableWebApplicationContext abstractRefreshableWebApplicationContext;
+
+  private static String starttype = "df";
+
+  public RoleCommonService() {
+  }
+
+  @Override
+  public List getMenus(String roleguid) {
+    // TODO Auto-generated method stub
+    List list = new ArrayList();
+    starttype = abstractRefreshableWebApplicationContext.getServletContext().getInitParameter("startup");
+    if ("fasp2.0".equals(starttype)) {
+      iRoleService = (IRoleService) ServiceFactory.getBean("fasp2.ca.role.service");
+    }
+
+    if ("df".equals(starttype)) {
+      StringBuffer sql = new StringBuffer();
+      sql
+        .append("select t.menu_id guid, t.menu_code code,t.screentype screentype, t.menu_name name, t.level_num levelno, t.is_leaf isleaf, t.parent_id parentid,t.url ,t.disp_order menuorder ");
+      sql
+        .append(" from sys_menu t where exists (select 1 from sys_role_menu a where a.menu_id = t.menu_id and a.role_id = ? ) order by t.menu_code ");
+      list = generalDAO.findBySql(sql.toString(), new Object[] { roleguid });
+    } else if ("fasp2.0".equals(starttype)) {
+      try {
+        list = iRoleService.getMenus(roleguid);
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+    return list;
+  }
+
+  public List queryRolesBySql(String whereSql) {
+    List list = new ArrayList();
+    starttype = abstractRefreshableWebApplicationContext.getServletContext().getInitParameter("startup");
+    if ("fasp2.0".equals(starttype)) {
+      iRoleService = (IRoleService) ServiceFactory.getBean("fasp2.ca.role.service");
+    }
+    if ("df".equals(starttype)) {
+      StringBuffer sql = new StringBuffer();
+      sql.append(" select * from ( ");
+      sql
+        .append(" select a.role_id guid, a.role_code code, a.role_name name,a.enabled status, a.user_sys_id , a.rg_code province, a.set_year year , 'df' remark1 from sys_role a ");
+      sql.append(" ) fasp_t_carole");
+      if (whereSql != null && !"".equals(whereSql.trim())) {
+        sql.append(" where ");
+        sql.append(whereSql);
+      }
+      list = generalDAO.findBySql(sql.toString());
+    } else if ("fasp2.0".equals(starttype)) {
+      try {
+        list = iRoleService.queryRolesBySql(whereSql);
+        if (list != null) {
+          Map map2 = new HashMap();
+          map2.put("guid", "-1");
+          map2.put("name", "管理类角色");
+          map2.put("roletype", 0);
+          list.add(map2);
+
+          Map map3 = new HashMap();
+          map3.put("guid", "1");
+          map3.put("name", "财政角色");
+          map3.put("roletype", 0);
+          list.add(map3);
+
+          Map map4 = new HashMap();
+          map4.put("guid", "2");
+          map4.put("name", "单位角色");
+          map4.put("roletype", 0);
+          list.add(map4);
+
+          Map map5 = new HashMap();
+          map5.put("guid", "4");
+          map5.put("name", "银行角色");
+          map5.put("roletype", 0);
+          list.add(map5);
+        }
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+    return list;
+  }
+
+  public List queryRolesByUser(String guid) {
+    List list = new ArrayList();
+    starttype = abstractRefreshableWebApplicationContext.getServletContext().getInitParameter("startup");
+    if ("fasp2.0".equals(starttype)) {
+      iRoleService = (IRoleService) ServiceFactory.getBean("fasp2.ca.role.service");
+    }
+    String year = SessionUtil.getLoginYear();
+    String rg_code = SessionUtil.getRgCode();
+    if ("df".equals(starttype)) {
+      StringBuffer sql = new StringBuffer();
+      sql
+        .append("select a.role_id guid, a.role_code code, a.role_name name,a.enabled , a.user_sys_id , a.rg_code province, a.set_year year from sys_role a where exists( ");
+      sql
+        .append("select t.role_id from sys_user_role_rule t where a.role_id = t.role_id and t.user_id = ? and t.set_year = ? and t.rg_code = ? )");
+      list = generalDAO.findBySql(sql.toString(), new Object[] { guid, rg_code, year });
+    } else if ("fasp2.0".equals(starttype)) {
+      String sql = " exists (select 1 from fasp_t_causerrole t where t.userguid = '" + guid
+        + "' and t.roleguid = fasp_t_carole.guid  ) and fasp_t_carole.status = '1' order by fasp_t_carole.code asc";
+      try {
+        list = iRoleService.queryRolesBySql(sql);
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
+    return list;
+  }
+}

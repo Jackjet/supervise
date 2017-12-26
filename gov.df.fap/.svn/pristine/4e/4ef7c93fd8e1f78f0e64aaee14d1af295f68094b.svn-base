@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>国库处首页</title>
+		<link rel="stylesheet" href="css/foundation-datepicker.css" />
+		<link rel="stylesheet" href="/df/trd/uui/css/u.css" type="text/css">
+		<link rel="stylesheet" href="css/GKLeader/subpage5.css" />
+		<script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
+		<script type="text/javascript" src="js/highcharts.js"></script>
+		<script type="text/javascript" src="js/highcharts-more.js"></script>
+		<script type="text/javascript" src="js/highcharts-zh_CN.js"></script>
+		<script type="text/javascript" src="js/foundation-datepicker.js"></script>
+		<script type="text/javascript" src="js/foundation-datepicker.zh-CN.js"></script>
+		
+	</head>
+	<body>
+		<div id="right">
+			<div id="search">
+				<div id="text">
+					<input type="text" name="" id="" value="" placeholder="请输入关键词"/>
+					<div id="pic"><img src="img/GKLeader/search1.png"/></div>
+				</div>
+			</div>
+			<div class="cen1">
+				<div class="head-r11" id="head-r" style="cursor: move;">
+					<span class="ac">本日</span>
+					<span class="">本月</span>
+					<span class="">本年</span>
+				</div>
+				<!--本日-->
+				<div class="biao tab2">
+					<table border="0" cellspacing="0" cellpadding="0">
+						<tr ><td width="100px"align="center">状态</td><td width="70px"align="center">笔数</td><td width="160px"align="center">金额（万元）</td></tr>
+						<tr><td>已支付</td><td>20笔</td><td align="right"class="c">2,000,00</td></tr>
+						<tr><td>已发送</td><td>10笔</td><td align="right"class="c">322,000,00</td></tr>
+						<tr><td>被退回</td><td>1笔</td><td align="right"class="c">2,000,00</td></tr>
+						<tr><td>已退回</td><td>2笔</td><td align="right"class="c">3,000,00</td></tr>
+						<tr><td>在途</td><td>10笔</td><td align="right"class="c">2,000,00</td></tr>
+						<tr><td>监控</td><td></td><td align="right"class="c"></td></tr>
+					</table>
+				</div>
+				<!--本月-->
+				<div class="biao tab2 hidden" style="width: 356px;height: 241px;background: #FFFFFF;">
+					<table border="0" cellspacing="0" cellpadding="0">
+						<tr ><td width="100px"align="center">状态</td><td width="70px"align="center">笔数</td><td width="160px"align="center">金额（万元）</td></tr>
+						<tr><td>已支付</td><td>20笔</td><td align="right"class="c">3,000,00</td></tr>
+						<tr><td>已发送</td><td>10笔</td><td align="right"class="c">322,000,00</td></tr>
+						<tr><td>被退回</td><td>1笔</td><td align="right"class="c">2,000,00</td></tr>
+						<tr><td>已退回</td><td>2笔</td><td align="right"class="c">3,000,00</td></tr>
+						<tr><td>在途</td><td>10笔</td><td align="right"class="c">2,000,00</td></tr>
+						<tr><td>监控</td><td></td><td align="right"class="c"></td></tr>
+					</table>
+				</div>
+				<!--本年-->
+				<div class="biao tab2 hidden" style="width: 356px;height: 241px;background: #FFFFFF;">
+					<table border="0" cellspacing="0" cellpadding="0">
+						<tr ><td width="100px"align="center">状态</td><td width="70px"align="center">笔数</td><td width="160px"align="center">金额（万元）</td></tr>
+						<tr><td>已支付</td><td>20笔</td><td align="right"class="c">4,000,00</td></tr>
+						<tr><td>已发送</td><td>10笔</td><td align="right"class="c">322,000,00</td></tr>
+						<tr><td>被退回</td><td>1笔</td><td align="right"class="c">2,000,00</td></tr>
+						<tr><td>已退回</td><td>2笔</td><td align="right"class="c">3,000,00</td></tr>
+						<tr><td>在途</td><td>10笔</td><td align="right"class="c">2,000,00</td></tr>
+						<tr><td>监控</td><td></td><td align="right"class="c"></td></tr>
+					</table>
+				</div>
+			</div>
+			<div class="cen2">
+				<div class="head-r" id="head-r1">
+					<span class="ac">支出进度前五</span>
+					<span class="">支出进度后五</span>
+				</div>
+				<!--支出进度前五-->
+				<div class="biao tab1">
+					<table border="0" cellspacing="0" cellpadding="0">
+						<tr ><td width="60px"align="center">序号</td><td width="146px"align="center">业务处室</td><td width="130px"align="center">进度情况</td></tr>
+						<tr><td>1</td><td>行政政法处</td><td align="right"class="c">65.67%</td></tr>
+						<tr><td>2</td><td>教科文处</td><td align="right"class="c">56.32%</td></tr>
+						<tr><td>3</td><td>农业处</td><td align="right"class="c">45.12%</td></tr>
+						<tr><td>4</td><td>社会保障处</td><td align="right"class="c">43.54%</td></tr>
+						<tr><td>5</td><td>经济建设处</td><td align="right"class="c">34.56%</td></tr>
+					</table>
+				</div>
+				<!--支出进度后五-->
+				<div class="biao tab1 hidden" >
+					<table border="0" cellspacing="0" cellpadding="0">
+						<tr ><td width="60px"align="center">序号</td><td width="146px"align="center">业务处室</td><td width="130px"align="center">进度情况</td></tr>
+						<tr><td>1</td><td>1行政政法处</td><td align="right"class="c">65.67%</td></tr>
+						<tr><td>2</td><td>1教科文处</td><td align="right"class="c">56.32%</td></tr>
+						<tr><td>3</td><td>1农业处</td><td align="right"class="c">45.12%</td></tr>
+						<tr><td>4</td><td>1社会保障处</td><td align="right"class="c">43.54%</td></tr>
+						<tr><td>5</td><td>1经济建设处</td><td align="right"class="c">34.56%</td></tr>
+					</table>
+				</div>
+				
+			</div>
+			<div class="cen3" style="margin-bottom: 10px;">
+				<div class="head-r2">
+					<span>公告信息</span>
+					<img src="img/GKLeader/notice.png"/>
+				</div>
+				<div id="m-content">
+					<ul>
+						<li><span class="icon1"></span><a href="">关于提醒自行纳税申报的函20161229</a></li>
+						<li><span class="icon1"></span><a href="">关于做好2017年集中支付系统升级相关工作</a></li>
+						<li><span class="icon1"></span><a href="">关于提醒自行纳税申报的函20161229</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="left">
+			<div class="cen-1">
+				<div class="headl-1" id="headl-1">
+					<span class="ac">快慢车道监控</span>
+					<span class="">收支进度总览</span>
+					<span class="" style="width: 98px;">库款预测</span>
+					<span class="">国库动态监控</span>
+				</div>
+				<!--快慢车道监控-->
+				<div class="tab3">
+					快慢车道监控
+				</div>
+				<!--收支进度总览-->
+				<div class="tab3 hidden" >
+					收支进度总览
+				</div>
+				<!--库款预测-->
+				<div class="tab3 hidden" >
+					<div id="kkyc" style="width:700px;height:350px;margin: 30px auto 0;"></div>
+				</div>
+				<!--国库动态监控-->
+				<div class="tab3 hidden" >
+					<div class="content-pa1">
+						<div class="content-pa1h">
+							<span>总体情况</span>
+							<p id="datetime">统计截止日期:<span>2017年7月18日</span></p>
+							<div id="sec1">
+								<p class="sec1">累计支付笔数 :&nbsp;&nbsp;&nbsp;&nbsp;<span>51,054笔</span></p>
+								<p class="sec1">累计支付金额:&nbsp;&nbsp;&nbsp;&nbsp;<span>351,054万元</span></p>
+							</div>
+							<div id="sec2">
+								<p class="sec2">预警支付笔数: &nbsp;&nbsp;&nbsp;&nbsp;<span>1,436笔</span></p>
+								<p class="sec2">预警支付金额:&nbsp;&nbsp;&nbsp;&nbsp;<span>1,858.21万元</span></p>
+							</div>
+							<div id="sec3">
+								<p class="sec3">预警比例: &nbsp;&nbsp;&nbsp;&nbsp;<span>2.81%</span></p>
+								<p class="sec3">预警比例:&nbsp;&nbsp;&nbsp;&nbsp;<span>0.25%</span></p>
+							</div>
+						</div>
+						
+						<div id="yjqs" style="width:700px;height:200px;margin: 0 auto;"></div>
+					</div>
+				</div>
+			</div>
+			<div class="cen-2">
+				<div class="head-l">
+					<span>
+						支出进度情况
+					</span>
+					<!--时间-->
+					<div class="selectDiv">
+						<span class="timespan">时间:</span>
+						<input id="budgetTime" type="text" class="form-control budgetTime" readonly="readonly"  data-bind="click:onFocus">
+						<span><i class="icon-calendar"></i></span>
+					</div>
+					<!--支出类型-->
+					<div class="selectDiv">
+						<span class="zcspan">支出类型:</span>
+						<select id="dwdwzcSelect" class="dwdwzcSelect">
+							<option value="1">基本支出</option>
+							<option value="2">项目支出</option>
+							<option value="3">政府采购</option>
+							<option value="4">公务卡</option>
+						</select>
+					</div>
+					<!--预算类别-->
+					<div class="selectDiv">
+						<span class="budgetSpan">预算类别:</span>
+						<select id="budgetSelect" class="budgetSelect">
+							<option value="1">一般预算</option>
+							<option value="2">项目支出</option>
+							<option value="3">政府采购</option>
+							<option value="4">公务卡</option>
+						</select>
+					</div>
+				</div>
+				<div style="position: relative;">
+					<div class="zhibiao">
+						<span class="zbje">指标金额：<span class="zbjenum" id="_portal_zhichu_text_zbje_span">30,000.00</span></span>
+						<span class="zfje">支付金额：<span class="zfjenum" id="_portal_zhichu_text_zfje_span">10,000.00</span></span>
+						<span class="zbye">指标余额：<span class="zbyenum" id="_portal_zhichu_text_zbye_span">20,000.00</span></span>
+					</div>
+					<span style="position: absolute;float: right;right: 200px;top: 14px;font-size: 13px;z-index: 5; margin-right:3%;"><span style="color:blue;">▼</span><span> 序时进度</span></span>
+					<div class="danweiType">
+						<span class="zbje">单位:</span>
+						<label><input name="Fruit" type="radio" value="" checked="true" />元 </label>
+						<label><input name="Fruit" type="radio" value="" />万元 </label>
+					</div>
+					<div id="dwzc" style="width:700px;height:130px;margin:0 auto;"></div>
+				</div>
+			
+			</div>
+		
+		</div>
+		
+		<div id="payprogressXSJD">
+			<ul class="u-list-group u-list-group-bordered">
+				<li class="u-list-group-item">序时进度：<span></span></li>
+			</ul>
+		</div>
+		
+		<script charset="utf-8" type="text/javascript" src="js/Base64.js"></script>
+		<script charset="utf-8" type="text/javascript" src="js/md5.min.js"></script>
+		<script charset="utf-8" type="text/javascript" src="/df/trd/ip/js/ip.js"></script>
+		<script type="text/javascript" src="js/dashboardFiscal.js" charset="utf-8"></script>
+		<script type="text/javascript" src="js/dashboardGKLeader.js" charset="utf-8"></script>	
+	</body>
+</html>
+

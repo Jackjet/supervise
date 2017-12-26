@@ -1,0 +1,310 @@
+package gov.df.supervise.service.csofacc;
+
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.fap.util.Tools;
+import gov.df.supervise.api.csofacc.csofAccService;
+import gov.df.supervise.bean.csofacc.csofAccProblemEntity;
+import gov.df.supervise.bean.csofacc.csofAccSupEntity;
+import gov.df.supervise.bean.csofacc.csofAccWorkEntity;
+import gov.df.supervise.service.Tree.elementTreeDao;
+import gov.df.supervise.service.common.SessionUtilEx;
+
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONObject;
+import com.ufgov.ip.apiUtils.UUIDTools;
+
+@Service
+public class csofAccBO implements csofAccService {
+  @Autowired
+  private csofAccDao csofAccDao;
+
+  @Autowired
+  private elementTreeDao elementTreedao;
+
+  public void saveAccSup(String data) throws IOException {
+    Map<String, Object> param = new HashMap<String, Object>();
+    csofAccSupEntity Data = JSONObject.parseObject(data, csofAccSupEntity.class);
+    String id = UUIDTools.uuidRandom(); // 自动生成id
+    String user_id = (String) SessionUtil.getUserInfoContext().getUserID();
+    String org_code = (String) SessionUtil.getUserInfoContext().getOrgCode();//获取org_code作为专员办id(oid)
+    String date = Tools.getCurrDate();
+    String mofdep_id = Data.getMofdep_name().split("@")[0];
+    String mofdep_code = Data.getMofdep_name().split("@")[2];
+    String mofdep_name1 = Data.getMofdep_name().split("@")[1];
+    String mofdep_name = URLDecoder.decode(mofdep_name1, "UTF-8");
+    param.put("sid", id);
+    param.put("sup_no", Data.getSup_no());
+    param.put("sup_name", Data.getSup_name());
+    param.put("status", 0);
+    param.put("is_valid", 1);
+    param.put("is_end", 0);
+    param.put("mofdep_id", mofdep_id);
+    param.put("mofdep_code", mofdep_code);
+    param.put("mofdep_name", mofdep_name);
+    param.put("oid", org_code);
+    param.put("dep_id", Data.getDep_name().split("@")[0]);
+    param.put("dep_code", Data.getDep_name().split("@")[2]);
+    param.put("dep_name", URLDecoder.decode(Data.getDep_name().split("@")[1], "UTF-8"));
+    param.put("sup_type_id", Data.getSup_type_name().split("@")[0]);
+    param.put("sup_type_code", Data.getSup_type_name().split("@")[2]);
+    param.put("sup_type_name", URLDecoder.decode(Data.getSup_type_name().split("@")[1], "UTF-8"));
+    param.put("obj_type_id", Data.getObj_type_name().split("@")[0]);
+    param.put("obj_type_code", Data.getObj_type_name().split("@")[2]);
+    param.put("obj_type_name", URLDecoder.decode(Data.getObj_type_name().split("@")[1], "UTF-8"));
+    param.put("is_allobj", Data.getIs_allobj());
+    param.put("sup_num", Data.getSup_num());
+    param.put("is_union", Data.getIs_union());
+    param.put("union_orgs", Data.getUnion_orgs());
+    param.put("work_type", Data.getWork_type());
+    param.put("sup_mode", Data.getSup_mode());
+    param.put("sup_cycle", Data.getSup_cycle());
+    param.put("start_date", Data.getStart_date());
+    param.put("end_date", Data.getEnd_date());
+    param.put("sup_content", Data.getSup_content());
+    param.put("remark", Data.getRemark());
+    param.put("create_user", user_id);
+    param.put("create_date", date);
+    param.put("latest_op_user", user_id);
+    param.put("latest_op_date", date);
+    param.put("set_year", SessionUtilEx.getLoginYear());
+    param.put("rg_code", SessionUtilEx.getRgCode());
+    csofAccDao.saveAccSup(param);
+  }
+
+  public List getAccSup(String sid) {
+    List data = csofAccDao.getAccSup(sid);
+    return data;
+  }
+
+  public void updateAccSup(String data) {
+    Map<String, Object> param = new HashMap<String, Object>();
+    csofAccSupEntity Data = JSONObject.parseObject(data, csofAccSupEntity.class);
+    param.put("sid", Data.getSid());
+    param.put("sup_no", Data.getSup_no());
+    param.put("sup_name", Data.getSup_name());
+    param.put("status", Data.getStatus());
+    param.put("is_valid", Data.getIs_valid());
+    param.put("is_end", Data.getIs_end());
+    param.put("mofdep_id", Data.getMofdep_id());
+    param.put("mofdep_code", Data.getMofdep_code());
+    param.put("mofdep_name", Data.getMofdep_name());
+    param.put("oid", Data.getOid());
+    param.put("dep_id", Data.getDep_id());
+    param.put("dep_code", Data.getDep_code());
+    param.put("dep_name", Data.getDep_name());
+    param.put("sup_type_id", Data.getSup_type_id());
+    param.put("sup_type_code", Data.getSup_type_code());
+    param.put("sup_type_name", Data.getSup_type_name());
+    param.put("obj_type_id", Data.getObj_type_id());
+    param.put("obj_type_code", Data.getObj_type_code());
+    param.put("obj_type_name", Data.getObj_type_name());
+    param.put("is_allobj", Data.getIs_allobj());
+    param.put("sup_num", Data.getSup_num());
+    param.put("is_union", Data.getIs_union());
+    param.put("union_orgs", Data.getUnion_orgs());
+    param.put("work_type", Data.getWork_type());
+    param.put("sup_mode", Data.getSup_mode());
+    param.put("sup_cycle", Data.getSup_cycle());
+    param.put("start_date", Data.getStart_date());
+    param.put("end_date", Data.getEnd_date());
+    param.put("sup_content", Data.getSup_content());
+    param.put("remark", Data.getRemark());
+    param.put("create_user", Data.getCreate_user());
+    param.put("create_date", Data.getCreate_date());
+    param.put("latest_op_user", Data.getLatest_op_user());
+    param.put("latest_op_date", Data.getLatest_op_date());
+    param.put("set_year", Data.getSet_year());
+    param.put("rg_code", Data.getRg_code());
+    csofAccDao.updateAccSup(param);
+  }
+
+  public void deleteAccSup(String sid) {
+    csofAccDao.deleteAccSup(sid);
+  }
+
+  /**
+   * 工作记录
+   */
+  public void saveAccWork(String data) {
+    Map<String, Object> param = new HashMap<String, Object>();
+    csofAccWorkEntity Data = JSONObject.parseObject(data, csofAccWorkEntity.class);
+    String id = UUIDTools.uuidRandom(); // 自动生成id
+    String user_id = (String) SessionUtil.getUserInfoContext().getUserID();
+    String org_code = (String) SessionUtil.getUserInfoContext().getOrgCode();//获取org_code作为专员办id(oid)
+    String date = Tools.getCurrDate();
+    param.put("id", id);
+    param.put("work_no", Data.getWorkNo());
+    param.put("sid", Data.getSid());
+    param.put("sup_no", Data.getSupNo());
+    param.put("sup_name", Data.getSupName());
+    param.put("is_valid", 1);
+    param.put("is_end", 0);
+    param.put("mofdep_id", Data.getMofdepId());
+    param.put("mofdep_code", Data.getMofdepCode());
+    param.put("mofdep_name", Data.getMofdepName());
+    param.put("oid", org_code);
+    param.put("obj_type_id", Data.getObjTypeId());
+    param.put("obj_type_code", Data.getObjTypeCode());
+    param.put("obj_type_name", Data.getObjTypeName());
+    param.put("work_type", Data.getWorkType());
+    param.put("work_progress", Data.getWorkProgress());
+    param.put("workload", Data.getWorkload());
+    param.put("fund_scale", Data.getFundScale());
+    param.put("registration_time", Data.getRegistrationTime());
+    param.put("remark", Data.getRemark());
+    param.put("create_user", user_id);
+    param.put("create_date", date);
+    param.put("latest_op_user", user_id);
+    param.put("latest_op_date", date);
+    param.put("set_year", SessionUtilEx.getLoginYear());
+    param.put("rg_code", SessionUtilEx.getRgCode());
+    csofAccDao.saveAccWork(param);
+  }
+
+  public List getAccWork(String sid) {
+    List data = csofAccDao.getAccWork(sid);
+    return data;
+  }
+
+  public void updateAccWork(String data) {
+    Map<String, Object> param = new HashMap<String, Object>();
+    csofAccWorkEntity Data = JSONObject.parseObject(data, csofAccWorkEntity.class);
+    param.put("id", Data.getId());
+    param.put("work_no", Data.getWorkNo());
+    param.put("sid", Data.getSid());
+    param.put("sup_no", Data.getSupNo());
+    param.put("sup_name", Data.getSupName());
+    param.put("is_valid", 1);
+    param.put("is_end", 0);
+    param.put("mofdep_id", Data.getMofdepId());
+    param.put("mofdep_code", Data.getMofdepCode());
+    param.put("mofdep_name", Data.getMofdepName());
+    param.put("oid", Data.getOid());
+    param.put("obj_type_id", Data.getObjTypeId());
+    param.put("obj_type_code", Data.getObjTypeCode());
+    param.put("obj_type_name", Data.getObjTypeName());
+    param.put("work_type", Data.getWorkType());
+    param.put("work_progress", Data.getWorkProgress());
+    param.put("workload", Data.getWorkload());
+    param.put("fund_scale", Data.getFundScale());
+    param.put("registration_time", Data.getRegistrationTime());
+    param.put("remark", Data.getRemark());
+    param.put("create_user", Data.getCreateUser());
+    param.put("create_date", Data.getCreateDate());
+    param.put("latest_op_user", Data.getLatestOpUser());
+    param.put("latest_op_date", Data.getLatestOpDate());
+    param.put("set_year", SessionUtilEx.getLoginYear());
+    param.put("rg_code", SessionUtilEx.getRgCode());
+    csofAccDao.updateAccWork(param);
+  }
+
+  public void deleteAllAccWork(String sid) {
+    csofAccDao.deleteAllAccWork(sid);
+  }
+
+  public void deleteAccWork(String sid, String id) {
+    Map<String, Object> param = new HashMap<String, Object>();
+    param.put("sid", sid);
+    param.put("id", id);
+    csofAccDao.deleteAccWork(param);
+  }
+
+  /**
+   * 问题记录
+   */
+  public void saveAccProblem(String data) {
+    Map<String, Object> param = new HashMap<String, Object>();
+    csofAccProblemEntity Data = JSONObject.parseObject(data, csofAccProblemEntity.class);
+    String id = UUIDTools.uuidRandom(); // 自动生成id
+    String user_id = (String) SessionUtil.getUserInfoContext().getUserID();
+    String org_code = (String) SessionUtil.getUserInfoContext().getOrgCode();//获取org_code作为专员办id(oid)
+    String date = Tools.getCurrDate();
+    param.put("id", id);
+    param.put("sid", Data.getSid());
+    param.put("sup_no", Data.getSupNo());
+    param.put("sup_name", Data.getSupName());
+    param.put("is_valid", 1);
+    param.put("is_end", 0);
+    param.put("oid", org_code);
+    param.put("obj_type_id", Data.getObjTypeId());
+    param.put("obj_type_code", Data.getObjTypeCode());
+    param.put("obj_type_name", Data.getObjTypeName());
+    param.put("discover_problems", Data.getDiscoverProblems());
+    param.put("audit_basis", Data.getAuditBasis());
+    param.put("audit_opinion", Data.getAuditOpinion());
+    param.put("handle", Data.getHandle());
+    param.put("grouping_name", Data.getGroupingName());
+    param.put("recording_name", Data.getRecordingUser());
+    param.put("recording_time", Data.getRecordingTime());
+    param.put("remark", Data.getRemark());
+    param.put("create_user", user_id);
+    param.put("create_date", date);
+    param.put("latest_op_user", user_id);
+    param.put("latest_op_date", date);
+    param.put("set_year", SessionUtilEx.getLoginYear());
+    param.put("rg_code", SessionUtilEx.getRgCode());
+    csofAccDao.saveAccProblem(param);
+  }
+
+  public List getAccProblem(String sid) {
+    List data = csofAccDao.getAccProblem(sid);
+    return data;
+  }
+
+  public void updateAccProblem(String data) {
+    Map<String, Object> param = new HashMap<String, Object>();
+    csofAccProblemEntity Data = JSONObject.parseObject(data, csofAccProblemEntity.class);
+    param.put("id", Data.getId());
+    param.put("sid", Data.getSid());
+    param.put("sup_no", Data.getSupNo());
+    param.put("sup_name", Data.getSupName());
+    param.put("is_valid", 1);
+    param.put("is_end", 0);
+    param.put("oid", Data.getOid());
+    param.put("obj_type_id", Data.getObjTypeId());
+    param.put("obj_type_code", Data.getObjTypeCode());
+    param.put("obj_type_name", Data.getObjTypeName());
+    param.put("discover_problems", Data.getDiscoverProblems());
+    param.put("audit_basis", Data.getAuditBasis());
+    param.put("audit_opinion", Data.getAuditOpinion());
+    param.put("handle", Data.getHandle());
+    param.put("grouping_name", Data.getGroupingName());
+    param.put("recording_name", Data.getRecordingUser());
+    param.put("recording_time", Data.getRecordingTime());
+    param.put("remark", Data.getRemark());
+    param.put("create_user", Data.getCreateUser());
+    param.put("create_date", Data.getCreateDate());
+    param.put("latest_op_user", Data.getLatestOpUser());
+    param.put("latest_op_date", Data.getLatestOpDate());
+    param.put("set_year", SessionUtilEx.getLoginYear());
+    param.put("rg_code", SessionUtilEx.getRgCode());
+    csofAccDao.updateAccProblem(param);
+  }
+
+  public void deleteAllAccProblem(String sid) {
+    csofAccDao.deleteAllAccProblem(sid);
+  }
+
+  public void deleteAccProblem(String sid, String id) {
+    Map<String, Object> param = new HashMap<String, Object>();
+    param.put("sid", sid);
+    param.put("id", id);
+    csofAccDao.deleteAccProblem(param);
+  }
+
+  public List getSupData(String ele_code) {
+    String ele_source = elementTreedao.findEleSource(ele_code);
+    Map<String, Object> param = new HashMap<String, Object>();
+    param.put("ele_source", ele_source);
+    return csofAccDao.getSupData(param);
+  }
+
+}

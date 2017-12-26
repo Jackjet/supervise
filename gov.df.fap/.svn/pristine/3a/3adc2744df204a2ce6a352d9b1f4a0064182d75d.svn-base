@@ -1,0 +1,68 @@
+
+/**
+ * Created by yanqiong on 2017/8/8.
+ */
+require(['jquery', 'knockout','/df/supervise/ncrd.js','bootstrap','dateZH', 'uui', 'tree', 'grid', 'ip'],
+    function ($, ko,ncrd, _) {
+        window.ko = ko;
+        var tokenid;
+        var options;
+		var pViewType = {
+        		VIEWTYPE_INPUT : "001",// 录入视图
+        		VIEWTYPE_LIST : "002",// 列表视图
+        		VIEWTYPE_QUERY : "003"// 查询视图
+        };
+		var fileData;
+        
+        //URL
+        var testURL = '/df/cs/test.do';
+        var viewModel = {
+        		SearchdepTreeKEY: ko.observable(""),
+        		//模糊查询单位树
+                searchDepTree : function () {
+                	 ncrd.findTreeNode($.fn.zTree.getZTreeObj("depTree"), viewModel.SearchdepTreeKEY());    
+                },  
+            exDataTable:new u.DataTable({
+                meta: {
+
+                }
+            }),
+        };
+        
+      //生成表头
+     	viewModel.initData = function() {
+     		var current_url = location.search;
+    		$.ajax({
+    			url : "/df/init/initMsg.do",
+    			type : "GET",
+    			dataType : "json",
+    			async : true,
+    			data : options,
+    			success : function(datas) {
+    				viewModel.viewList = datas.viewlist;// 视图信息
+    				viewModel.resList = datas.reslist;// 资源信息
+    				viewModel.coaId = datas.coaId;// coaid
+    				viewModel.coaDetails = datas.coaDetail;// coa明细
+    				viewModel.relations = datas.relationlist;// 关联关系
+    				//viewModel.initGridData(); //调用初始化表格
+    				ip.createArea("edit", datas.viewlist[0].viewid, "testGrid")
+    			}
+    		});
+     	};
+
+        
+        //初始化
+        function init() {
+            u.createApp({
+                el: document.body,
+                model: viewModel
+            });
+            tokenid = ip.getTokenId();
+            options = ip.getCommonOptions({});
+            options['tokenid'] = tokenid;
+            viewModel.initData("","","","","9");  
+			//初始化grid
+        }
+        init();
+    }
+)

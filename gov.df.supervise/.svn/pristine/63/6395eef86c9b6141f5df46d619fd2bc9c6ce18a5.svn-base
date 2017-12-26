@@ -1,0 +1,65 @@
+/**
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2017 北京用友政务软件有限公司
+ * </p>
+ * <p>
+ * Company: 北京用友政务软件有限公司
+ * </p>
+ * <p>
+ * CreateData: 2017-8-25上午9:48:15
+ * </p>
+ * 
+ * @author songlr3
+ * @version 1.0
+ */
+package gov.df.supervise.controller.workbench;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import gov.df.supervise.api.workbench.HomePageService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+@RequestMapping(value = "/HomePage")
+public class HomePageController {
+	
+	@Autowired
+	private HomePageService homePageService;
+	
+	/**
+	 * 待办事项
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/getDpByDpId")
+	public @ResponseBody Map<String, Object> selectToDo(HttpServletRequest request,HttpServletResponse response){
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<?> data = new ArrayList<Object>();
+		String userId = request.getParameter("userId");
+		try{
+			data = homePageService.selectToDo(userId);
+			result.put("data", data);
+			result.put("errorCode", 0);
+		}catch(Exception e){
+			result.put("errorCode", -1);
+		    result.put("errorMsg", "查询要素树失败");
+		    result.put("message", e.getMessage());
+		}
+		return result;
+	}
+}

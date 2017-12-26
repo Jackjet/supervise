@@ -1,0 +1,70 @@
+package gov.df.supervise.api.csofacc;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+public interface csofAccService {
+  public void saveAccSup(String data, String sup_no, String set_id) throws IOException;
+
+  public Map<String, Object> getAccSup(String sid);
+
+  public void updateAccSup(String data) throws IOException;
+
+  public void deleteAccSup(String sid);
+
+  /**
+   * 工作记录
+   */
+  public void saveAccWork(String data, String work_no, String set_month);
+
+  public List getAccWork(String sid);
+
+  public void updateAccWork(String data);
+
+  public void deleteAllAccWork(String sid);
+
+  public void deleteAccWork(String sid, String id);
+
+  /**
+   * 
+   * 问题记录
+   */
+  public void saveAccProblem(String data);
+
+  public List getAccProblem(String sid);
+
+  public void updateAccProblem(String data);
+
+  public void deleteAllAccProblem(String sid);
+
+  public void deleteAccProblem(String sid, String id);
+
+  public List getSupData(String ele_code);
+
+  /**
+   * 通过监管类型来过树
+   */
+  public List getSupDataById(String ele_code, String chr_id);
+
+  public List getAccBook();
+
+  /**
+   * 获取某个账簿信息
+   */
+  public List getAccBookById(String book_id);
+
+  /**
+   * 获取树信息
+   */
+  public List getBookSetById(String book_id);
+
+  /**
+   * 通过点击树获取工作记录
+   */
+  public List getAccWorkByMonth(String set_month);
+
+  //月结
+  public void updateAccBookBySetid(String set_id, String sid, String set_month);
+
+}

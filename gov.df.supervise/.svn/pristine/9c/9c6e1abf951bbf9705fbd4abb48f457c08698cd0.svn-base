@@ -1,0 +1,301 @@
+package gov.df.supervise.controller.task;
+
+import gov.df.supervise.api.task.TaskService;
+
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSONObject;
+import com.ufgov.ip.apiUtils.UUIDTools;
+
+@Controller
+@RequestMapping(value = "/df/task")
+public class TaskController {
+
+	@Autowired
+	private TaskService taskService; 
+	
+	/**
+	 * 获取处室任务列表
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/getTaskDep.do")
+	public @ResponseBody Map<String, Object> getTaskDep(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> map = new HashMap<String, Object>();
+	    try {
+	    	List resultList = new ArrayList();
+	    	String chr_id = null!= request.getParameter("CHR_ID")?request.getParameter("CHR_ID"):"";
+	    	String type_code = null!= request.getParameter("TYPE_CODE")?request.getParameter("TYPE_CODE"):"";
+	    	resultList = taskService.getData("VW_CSOF_SUP_DEP","AND "+type_code+"='"+chr_id+"'");
+	    	
+	    	//String sid = null != request.getParameter("SID")?request.getParameter("SID"):""; //查询过滤条件
+	    	//resultList = taskService.getData("CSOF_TASK_DEP","AND SID='"+sid+"'");
+	    	map.put("errorCode", "0");
+	    	map.put("flag", true);
+	    	map.put("dataDetail", resultList);
+	    	map.put("totalElements", resultList.size());
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	map.put("errorCode", "1");
+	    	map.put("errorMsg", "获取数据出现异常");
+	    }
+	    
+	    return map;
+	
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/getTaskSup.do")
+	public @ResponseBody Map<String, Object> getTaskSup(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> map = new HashMap<String, Object>();
+	    try {
+	    	List resultList = new ArrayList();
+	    	String chr_id = null!= request.getParameter("CHR_ID")?request.getParameter("CHR_ID"):"";
+	    	String type_code = null!= request.getParameter("TYPE_CODE")?request.getParameter("TYPE_CODE"):"";
+	    	resultList = taskService.getData("CSOF_TASK_SUP","AND "+type_code+"='"+chr_id+"'");
+	    	
+	    	map.put("errorCode", "0");
+	    	map.put("flag", true);
+	    	map.put("dataDetail", resultList);
+	    	map.put("totalElements", resultList.size());
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	map.put("errorCode", "1");
+	    	map.put("errorMsg", "获取数据出现异常");
+	    }
+	    
+	    return map;
+	
+	}
+	
+	
+	/**
+	 * 保存监管事项、处室任务
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/saveTask.do")
+	public @ResponseBody Map<String, Object> saveTask(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> map = new HashMap<String, Object>();
+	    try {
+	    	
+	    	Map<String,String> supMap=new HashMap<String,String>();
+	    	Enumeration em = request.getParameterNames();
+	    	List objList=new ArrayList();
+	    	List reportList=new ArrayList();
+	    	List agencyList=new ArrayList();
+	    	 while (em.hasMoreElements()) {
+	    	    String name = (String) em.nextElement();
+	    	    String value = request.getParameter(name);
+	    	    if(name.equals("Objectlist")){
+	    			 objList = JSONObject.parseArray(request.getParameter("Objectlist"),Map.class);
+	    	    }else if(name.equals("EReportlist")){
+	    	    	 reportList = JSONObject.parseArray(request.getParameter("EReportlist"),Map.class);
+	    	    }else if(name.equals("agencyList")){
+	    	    	 agencyList = JSONObject.parseArray(request.getParameter("agencyList"),Map.class);
+	    	    }else if(!name.equals("tokenid")&&!name.equals("ajax")){
+	    	    	if(value.contains("@")){
+	    	    		supMap.put(name.substring(0,name.lastIndexOf("_"))+"_ID", value.split("@")[0]);
+	    	    		supMap.put(name.substring(0,name.lastIndexOf("_"))+"_NAME",URLDecoder.decode(value.split("@")[1], "UTF-8"));
+	    	    		supMap.put(name.substring(0,name.lastIndexOf("_"))+"_CODE", value.split("@")[2]);
+	    	    	}else{
+		    	    	supMap.put(name, value);
+	    	    	}
+	    	    }
+
+	    	}
+	    	taskService.saveReport(reportList);
+	    	int snum=taskService.saveTask(supMap, objList,agencyList);
+	    
+	    	map.put("errorCode", "0");
+	    	map.put("totalElements", snum);
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	map.put("errorCode", "1");
+	    	map.put("errorMsg", "获取数据出现异常");
+	    }
+	    
+	    return map;
+	
+	}
+
+	/**
+	 * 获取事项监管单位
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/getTaskAgency.do")
+	public @ResponseBody Map<String, Object> getAgecny(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> map = new HashMap<String, Object>();
+	    try {
+	    	List resultList  =new ArrayList();
+	    	String chr_id = null!= request.getParameter("CHR_ID")?request.getParameter("CHR_ID"):"";
+	    	String type_code = null!= request.getParameter("TYPE_CODE")?request.getParameter("TYPE_CODE"):"";
+	    	resultList = taskService.getData("CSOF_TASK_DEP_AGENCY","AND "+type_code+"='"+chr_id+"'");
+	    	
+            map.put("flag", true);
+	    	map.put("dataDetail", resultList);	    	
+	    	map.put("errorCode", "0");
+	    	map.put("totalElements", resultList.size());
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	map.put("errorCode", "1");
+	    	map.put("errorMsg", "获取数据出现异常");
+	    }
+	    
+	    return map;
+	
+	}
+	
+	/**
+	 * 获取监管事项报表
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/getSupReport.do")
+	public @ResponseBody Map<String, Object> getSupReport(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> map = new HashMap<String, Object>();
+	    try {
+	    	List resultList  =new ArrayList();
+	    	String chr_id = null!= request.getParameter("CHR_ID")?request.getParameter("CHR_ID"):"";
+	    	String type_code = null!= request.getParameter("TYPE_CODE")?request.getParameter("TYPE_CODE"):"";
+	    	resultList = taskService.getData("CSOF_SUP_REPORT","AND "+type_code+"='"+chr_id+"'");
+	    	
+            map.put("flag", true);
+	    	map.put("dataDetail", resultList);	    	
+	    	map.put("errorCode", "0");
+	    	map.put("totalElements", resultList.size());
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	map.put("errorCode", "1");
+	    	map.put("errorMsg", "获取数据出现异常");
+	    }
+	    
+	    return map;
+	
+	}
+
+	/**
+	 * 监管事项分解
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/newTaskUser.do")
+	public @ResponseBody Map<String, Object> newTaskUser(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> map = new HashMap<String, Object>();
+	    try {
+	    	
+	    	String data = request.getParameter("postData");
+	    	
+            int userNum = taskService.saveTaskUser(data);
+	    	
+            map.put("flag", true);
+	    	map.put("errorCode", "0");
+	    	map.put("totalElements", userNum);
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	map.put("errorCode", "1");
+	    	map.put("errorMsg", "获取数据出现异常");
+	    }
+	    
+	    return map;
+	
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/getTaskUser.do")
+	public @ResponseBody Map<String, Object> getTaskUser(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> map = new HashMap<String, Object>();
+	    try {
+	    	List resultList = new ArrayList();
+	    	String chr_id = null!= request.getParameter("CHR_ID")?request.getParameter("CHR_ID"):"";
+	    	String type_code = null!= request.getParameter("TYPE_CODE")?request.getParameter("TYPE_CODE"):"";
+	    	resultList = taskService.getData("CSOF_TASK_USER","AND "+type_code+"='"+chr_id+"'");
+
+	    	map.put("errorCode", "0");
+	    	map.put("flag", true);
+	    	map.put("dataDetail", resultList);
+	    	map.put("totalElements", resultList.size());
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	map.put("errorCode", "1");
+	    	map.put("errorMsg", "获取数据出现异常");
+	    }
+	    
+	    return map;
+	
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/deleteTaskUser.do")
+	public @ResponseBody Map<String, Object> deleteTaskUser(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> map = new HashMap<String, Object>();
+	    try {
+	    	String chr_id = null!= request.getParameter("CHR_ID")?request.getParameter("CHR_ID"):"";
+	    	String type_code = null!= request.getParameter("TYPE_CODE")?request.getParameter("TYPE_CODE"):"";
+	    	int delNum= taskService.deleteData("CSOF_TASK_USER","AND "+type_code+"='"+chr_id+"'");
+	    	
+            map.put("flag", true);
+	    	map.put("errorCode", "0");
+	    	map.put("totalElements", delNum);
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	map.put("errorCode", "1");
+	    	map.put("errorMsg", "获取数据出现异常");
+	    }
+	    
+	    return map;
+	
+	}
+	
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/updateDepTask.do")
+	public @ResponseBody Map<String, Object> updateDepTask(HttpServletRequest request, HttpServletResponse response) {
+		Map<String, Object> map = new HashMap<String, Object>();
+	    try {
+	    	
+	    	Map<String,String> supMap=new HashMap<String,String>();
+	    	String data = request.getParameter("updateData");
+	        int resNum=taskService.updateTaskDep(data);
+	    	map.put("errorCode", "0");
+	    	map.put("totalElements", resNum);
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	map.put("errorCode", "1");
+	    	map.put("errorMsg", "获取数据出现异常");
+	    }
+	    
+	    return map;
+	
+	}
+
+	
+	
+	/**
+	 * 获取UUID
+	 * @param request
+	 * @param response
+	 * @return UUID
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/getUUID.do")
+	public @ResponseBody String getUUID(HttpServletRequest request, HttpServletResponse response) {		
+		return UUIDTools.uuidRandom();
+	}
+
+}

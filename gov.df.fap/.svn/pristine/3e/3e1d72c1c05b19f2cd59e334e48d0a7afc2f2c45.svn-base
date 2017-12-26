@@ -1,0 +1,13 @@
+.csof-btn {
+	background: #EDF5FF;
+    border: 1px solid #99BCEB;
+    border-radius: 5px;
+    font-size: 12px;
+    color: #4383DD;
+}
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn{
+	background: #F9F9F9;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+    color: #B3B3B3;
+}

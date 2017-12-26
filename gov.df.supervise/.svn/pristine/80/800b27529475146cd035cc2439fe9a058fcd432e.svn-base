@@ -1,0 +1,440 @@
+package gov.df.supervise.service.attachment;
+
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.util.Tools;
+import gov.df.fap.util.file2html.Excel2HtmlUtil;
+import gov.df.fap.util.file2html.PPT2HtmlUtil;
+import gov.df.fap.util.file2html.Txt2HtmlUtil;
+import gov.df.fap.util.file2html.Word2HtmlUtil;
+import gov.df.fap.util.xml.XMLData;
+import gov.df.supervise.api.attachment.AttachmentService;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.gov.df.supervice.util.ContinueFTP;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.jiuqi.util.zip.ZipEntry;
+import com.jiuqi.util.zip.ZipFile;
+
+@Service
+public class AttachmentBO implements AttachmentService {
+
+  @Autowired
+  @Qualifier("generalDAO")
+  GeneralDAO dao;
+
+  /**GBK编码方式 */
+  public static final String CHINESE_CHARSET = "GBK";
+
+  public static final String[] IMG_FILE_TYPE = new String[] { "jpg", "jpeg", "bmp", "png", "gif", "tiff" };
+
+  public static final String[] COMPRESS_FILE_TYPE = new String[] { "zip", "7z", "rar" };
+
+  public List getAttachList(String condition, String pageInfo) throws Exception {
+    String sql = "select * from vw_attachment where 1=1 " + condition;
+    return dao.findByPageSql(pageInfo, sql);
+  }
+
+  public List getAttachByIds(String ids) {
+    String sql = "select * from csof_attachment where id in(" + ids + ")";
+    return dao.findBySql(sql);
+  }
+
+  public List getAttachById(String id) {
+    String sql = "select id, entity_name, entity_id, file_no, file_name, file_size, "
+      + "file_type, file_url, remark, latest_op_user, latest_op_date, create_user, "
+      + "create_date, set_year, status, org_code, rg_code from csof_attachment where id='" + id + "'";
+    return dao.findBySql(sql);
+  }
+
+  public List getAllAttachments() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public int deleteAttachments(String ids) {
+    String sql = "delete from csof_attachment where id in (" + ids + ")";
+    return dao.executeBySql(sql);
+  }
+
+  public void saveAttachment(Map<String, String> attachMap) {
+    int i = dao.executeBySql(getInsertSql(attachMap, "csof_attachment"));
+  }
+
+  public String getInsertSql(Map<String, String> map, String tableName) {
+    String keyStr = "";
+    String valueStr = "";
+    for (String key : map.keySet()) {
+      keyStr += key + ",";
+      valueStr += "'" + map.get(key) + "',";
+    }
+    if (!("".equals(keyStr))) {
+      keyStr = keyStr.substring(0, keyStr.length() - 1);
+    }
+    if (!("".equals(valueStr))) {
+      valueStr = valueStr.substring(0, valueStr.length() - 1);
+    }
+    return "insert into " + tableName + "(" + keyStr + ") values (" + valueStr + ")";
+  }
+
+  public String getUploadRootPath() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_ROOT_PATH' ");
+    List list = dao.findBySql(strSQL.toString());
+    XMLData data = (XMLData) list.get(0);
+    return (String) data.get("chr_value");
+  }
+
+  public String getUploadMode() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_MODE' ");
+    List list = dao.findBySql(strSQL.toString());
+    XMLData data = (XMLData) list.get(0);
+    return (String) data.get("chr_value");
+  }
+
+  //获取ftp服务器地址
+  public String getUploadFtpIp() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_FTP_IP' ");
+    List list = dao.findBySql(strSQL.toString());
+    XMLData data = (XMLData) list.get(0);
+    return (String) data.get("chr_value");
+  }
+
+  //获取ftp服务器端口
+  public String getUploadFtpPort() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_FTP_PORT' ");
+    List list = dao.findBySql(strSQL.toString());
+    XMLData data = (XMLData) list.get(0);
+    return (String) data.get("chr_value");
+  }
+
+  //获取ftp服务器用户名
+  public String getUploadFtpUser() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_FTP_USER' ");
+    List list = dao.findBySql(strSQL.toString());
+    XMLData data = (XMLData) list.get(0);
+    return (String) data.get("chr_value");
+  }
+
+  //获取ftp服务器密码
+  public String getUploadFtpPassword() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPLOAD_FTP_PASSWORD' ");
+    List list = dao.findBySql(strSQL.toString());
+    XMLData data = (XMLData) list.get(0);
+    return (String) data.get("chr_value");
+  }
+
+  public int getCount() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  /**
+   * ftp附件上传
+   */
+  //  String FTP_ADDRESS = "10.92.193.186";
+  //
+  //  String FTP_PORT = "22";
+  //
+  //  String FTP_USERNAME = "test";
+  //
+  //  String FTP_PASSWORD = "123456";
+
+  //String FTP_BASEPATH = "";
+
+  public Map upload(MultipartFile file, String pathFile, String FTP_ADDRESS, String FTP_PORT, String FTP_USERNAME,
+    String FTP_PASSWORD) {
+    Map resultmMap = new HashMap<Object, Object>();
+    try {
+      int port = Integer.parseInt(FTP_PORT);
+      //System.out.println(FTP_BASEPATH);
+      // FTP_BASEPATH = local.split("/")[1];
+      String FTP_BASEPATH = file.getOriginalFilename();
+      //连接ftp服务器
+      boolean result = ContinueFTP.connect(FTP_ADDRESS, port, FTP_USERNAME, FTP_PASSWORD);
+      //调用方法，上传文件  
+      Map<String, Object> data = ContinueFTP.upload(file, pathFile);
+      ContinueFTP.disconnect();
+      resultmMap.put("data", data);
+      resultmMap.put("error", 0);
+      return resultmMap;
+    } catch (IOException e) {
+      e.printStackTrace();
+      resultmMap.put("error", 1);
+      resultmMap.put("message", "上传发生异常");
+      return resultmMap;
+    }
+  }
+
+  //ftp下载
+  public Map download(String filePath, String filename, String FTP_ADDRESS, String FTP_PORT, String FTP_USERNAME,
+    String FTP_PASSWORD) {
+    Map resultmMap = new HashMap<Object, Object>();
+    try {
+      int port = Integer.parseInt(FTP_PORT);
+      //System.out.println(FTP_BASEPATH);
+      String FTP_BASEPATH = filePath.split("FTP上传")[1];
+      String local = "D:" + File.separator + "FTP下载" + File.separator + filename;
+      //连接ftp服务器
+      boolean result = ContinueFTP.connect(FTP_ADDRESS, port, FTP_USERNAME, FTP_PASSWORD);
+      //调用方法，上传文件  
+      Map<String, Object> data = ContinueFTP.download(FTP_BASEPATH, local);
+      ContinueFTP.disconnect();
+      resultmMap.put("data", data);
+      return resultmMap;
+    } catch (IOException e) {
+      e.printStackTrace();
+      resultmMap.put("error", 1);
+      resultmMap.put("message", "下载发生异常");
+      return resultmMap;
+    }
+  }
+
+  /**
+   * 预览
+   */
+  public Map<String, String> previewFile(String filePath, String fileType, String rootPath, HttpServletResponse response)
+    throws Exception {
+    Map<String, String> htmlMap = null;
+    String delFilePath = null;
+    List<String> typeList = new ArrayList<String>(Arrays.asList(IMG_FILE_TYPE));
+    List<String> compressList = new ArrayList<String>(Arrays.asList(COMPRESS_FILE_TYPE));
+    if (compressList.contains(fileType)) { //如果原文件就是压缩文件，则无法预览
+      throw new Exception("暂不支持预览压缩文件");
+    }
+    if (filePath.endsWith(".zip") || filePath.endsWith(".ZIP")) { // 如果为压缩文件 ，需要解压缩处理
+      filePath = unzip(filePath, rootPath);
+      delFilePath = filePath;
+    }
+    //文件后缀
+    String suffix = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length());
+    suffix = (suffix == null ? null : suffix.toLowerCase());
+    //    if (typeList.contains(suffix)) { // 处理图片附件
+    //      response.setContentType("image/jpeg");
+    //      response.setCharacterEncoding("UTF-8");
+    //      BufferedInputStream bis = null; // 输入流
+    //      OutputStream ops = response.getOutputStream(); // 返回数据流
+    //      try {
+    //        bis = new BufferedInputStream(new FileInputStream(filePath));
+    //        byte[] b = new byte[bis.available()]; // 最大只能处理64M
+    //        bis.read(b);
+    //        ops.write(b);
+    //        ops.flush();
+    //        bis.close();
+    //      } finally {
+    //        if (bis != null) {
+    //          bis.close();
+    //        }
+    //      }
+    //      new File(delFilePath).delete();
+    //      htmlMap = new HashMap<String, String>();
+    //    }
+    Map<String, Integer> map = new HashMap<String, Integer>();
+    map.put("doc", 0);
+    map.put("docx", 1);
+    map.put("xls", 2);
+    map.put("xlsx", 2);
+    map.put("ppt", 3);
+    map.put("pptx", 4);
+    map.put("txt", 5);
+    map.put("pdf", 6);
+    map.put("sql", 5);
+    Integer suffixFlag = map.get(suffix);
+    if (typeList.contains(suffix)) { // 处理图片附件
+      suffixFlag = 7;
+    }
+    //java 1.6不支持String比较, 这里通过map实现比较
+    switch (suffixFlag) {
+    case 0:
+      htmlMap = Word2HtmlUtil.doc2Html(filePath, rootPath);
+      break;
+    case 1:
+      htmlMap = Word2HtmlUtil.docx2Html(filePath, rootPath);
+      break;
+    case 2:
+      htmlMap = Excel2HtmlUtil.readExcelToHtml(filePath, true);
+      break;
+    case 3:
+      htmlMap = PPT2HtmlUtil.ppt2Html(filePath, rootPath, "png");
+      break;
+    case 4:
+      htmlMap = PPT2HtmlUtil.pptx2Html(filePath, rootPath, "png");
+      break;
+    case 5:
+      htmlMap = Txt2HtmlUtil.txt2Html(filePath, rootPath);
+      break;
+    case 6:
+      htmlMap = previewPdfAndImg(filePath, rootPath, 0);
+      break;
+    case 7:
+      htmlMap = previewPdfAndImg(filePath, rootPath, 1);
+    }
+    if (delFilePath != null) {
+      new File(delFilePath).delete();
+    }
+    return htmlMap;
+  }
+
+  public Map<String, String> previewPdfAndImg(String filePath, String rootPath, Integer flag) throws Exception {
+    Map<String, String> map = new HashMap<String, String>();
+    final long timeStamp = System.currentTimeMillis();
+    File root = new File(rootPath);
+    if (!root.exists()) {
+      root.mkdirs();
+    }
+    //源文件
+    File srcfile = new File(filePath);
+    //输出文件名,添加时间戳，防止多人同时写一个文件
+    String fileName = rootPath + timeStamp + srcfile.getName();
+    BufferedInputStream bis = null;
+    BufferedOutputStream bos = null;
+    try {
+      bis = new BufferedInputStream(new FileInputStream(srcfile));
+      bos = new BufferedOutputStream(new FileOutputStream(fileName));
+      byte[] buffer = new byte[2 * 1024 * 1024];
+      int index;
+      while ((index = bis.read(buffer, 0, buffer.length)) != -1) {
+        bos.write(buffer, 0, index);
+        bos.flush();
+      }
+    } catch (Exception e) {
+      throw new Exception("pdf读取失败：" + e.getMessage());
+    } finally {
+      if (bis != null) {
+        bis.close();
+      }
+      if (bos != null) {
+        bos.close();
+      }
+    }
+    if (0 == flag) { //pdf
+      map.put("typeFlag", "0");
+    }
+    if (1 == flag) { //图片
+      map.put("typeFlag", "1");
+    }
+    map.put("htmlString", "/html/" + timeStamp + srcfile.getName());
+    map.put("srcPath", fileName);
+    return map;
+  }
+
+  /**
+   * 解压缩文件
+   * @param filePath
+   *          压缩文件的路径
+   * @param targetPath
+   *          项目根路径
+   * @return 解压缩文件的全路径
+   */
+  @SuppressWarnings("unchecked")
+  public String unzip(String filePath, String targetPath) {
+    //解压缩流
+    ZipFile zipFile = null;
+    BufferedInputStream bis = null;
+    BufferedOutputStream bos = null;
+    //解压缩文件路径
+    String fileName = null;
+    try {
+      File src = new File(filePath);
+      if (!src.exists()) {//判断文件目录是否存在  
+        throw new Exception("文件:" + filePath + "不存在");
+      }
+      zipFile = new ZipFile(filePath, CHINESE_CHARSET);
+      Enumeration<ZipEntry> zipEntries = zipFile.getEntries();
+      ZipEntry entry = null;
+      while (zipEntries.hasMoreElements()) {
+        entry = zipEntries.nextElement();
+        fileName = targetPath + System.currentTimeMillis() + entry.getName();
+        File target = new File(fileName);
+        if (!target.getParentFile().exists()) { // 父级目录不存在，创建文件父目录
+          target.getParentFile().mkdirs();
+        }
+        //缓冲输入流，读入文件
+        bis = new BufferedInputStream(zipFile.getInputStream(entry));
+        //缓冲输出流，写入文件
+        bos = new BufferedOutputStream(new FileOutputStream(target));
+        int index;
+        byte[] buffer = new byte[1 * 1024 * 1024]; //byte数组接收文件的数据,最大流为1M
+        while ((index = bis.read(buffer, 0, buffer.length)) != -1) {
+          bos.write(buffer, 0, index);
+          bos.flush();
+        }
+      }
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    } finally {
+      try {
+        if (zipFile != null) {
+          zipFile.close();
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      closeQuietly(bis, bos);
+    }
+    return fileName;
+  }
+
+  /**
+   * 关闭一个或多个流对象
+   * 
+   * @param closeables
+   *            可关闭的流对象列表
+   */
+  public void closeQuietly(Closeable... closeables) {
+    try {
+      close(closeables);
+    } catch (IOException e) {
+      e.printStackTrace();
+      // do nothing
+    }
+  }
+
+  /**
+   * 关闭一个或多个流对象
+   * 
+   * @param closeables
+   *            可关闭的流对象列表
+   * @throws IOException
+   */
+  public void close(Closeable... closeables) throws IOException {
+    if (closeables != null) {
+      for (Closeable closeable : closeables) {
+        if (closeable != null) {
+          closeable.close();
+        }
+      }
+    }
+  }
+
+  /**
+   * 查询上传的文件名
+   */
+  public List getNameById(String id) {
+    String sql = "select file_name from csof_attachment where entity_id in(" + id + ")";
+    return dao.findBySql(sql);
+  }
+}

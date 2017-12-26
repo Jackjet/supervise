@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>山东省国库集中支付系统-门户</title>
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+		<script src="/df/trd/knockout/knockout-3.2.0.debug.js"></script>
+		<script src="/df/trd/jquery/jquery-1.12.3.min.js"></script>
+		<!-- <script src="/df/trd/requirejs/require.js"></script> -->
+		<!-- <script src="/df/require.config.js"></script> -->
+		<script src="/df/portal/index/js/echarts.min.js" charset="utf-8"></script>
+		<script src="/df/portal/index/js/index.js"></script>
+	</head>
+	<body>
+		<div id="head">
+			<div id="head-in">
+				<div id="h-logo"><div id="text">山东省国库集中支付系统</div></div>
+				<div id="h-nav">
+
+				</div>
+				<div id="h-time"><img src="img/time.png"/><span id="time"><!--2017年2月28日 星期二--></span></div>
+				<div id="h-btn"><img src="img/person.png"/><span>超级支付</span><span id="pic"></span></div>
+				<div id="hid-btn">
+					 <a href="javascript:switchRole();">切换角色</a>
+					 <a href="javascript:registerPwd();">修改密码</a>
+					 <a href="javascript:loginout();">退出</a>
+				</div>
+			</div>
+				
+		</div>
+		<!--以下是隐藏部分-->
+		<div class="menulist" id ="menuList" >
+			
+		</div>
+		<div id="wrap">
+			<div id="main">
+				<div id="left">
+					<div id="hd">
+						<p>我的常用操作</p>
+						<a href="" id="set"><img src="img/set.png"/></a>
+						<!--<a href="" id="ss"><img src="img/ss.png"/></a>-->
+						<div id="ss"><img src="img/ss.png"/></div>
+					</div>
+					<div id="list-l">
+						<ul>
+							<li><a href=""><img src="img/zhibiao.png" alt="" /><p>指标审阅</p></a><span id="count">1</span></li>
+							<li><a href=""><img src="img/pay.png"/><p>我要支付</p></a></li>
+							<li><a href=""><img src="img/zhibiao.png" alt="" /><p>指标审阅</p></a></li>
+							<li><a href=""><img src="img/pay.png"/><p>我要支付</p></a></li>
+						</ul>
+					</div>
+				</div>
+				<div id="center">
+					<div id="set1" class="hid"></div>
+					<div id="cen-1"></div>
+				</div>
+				<div id="right">
+					<div class="part" id="part1">
+						<div id="hd-r1">
+							<p>公告信息</p>
+							<a href="">更多>></a>
+						</div>
+						<ul id="list-r1">
+							<li><span class="icon"></span><a href="">关于提醒自行纳税申报的函数</a></li>
+							<li><span class="icon"></span><a href="">关于提醒自行纳税申报的函数</a></li>
+							<li><span class="icon"></span><a href="">关于提醒自行纳税申报的函数</a></li>
+							<li><span class="icon"></span><a href="">关于提醒自行纳税申报的函数</a></li>
+							<li><span class="icon"></span><a href="">关于提醒自行纳税申报的函数</a></li>
+							<li><span class="icon"></span><a href="">关于提醒自行纳税申报的函数</a></li>
+						</ul>
+					</div>
+					<div class="part" id="part2">
+						<div id="hd-r2">
+							<p>日常事务</p>
+							<a href="">更多>></a>
+						</div>
+						<ul id="list-r2">
+							<li><span class="icon"></span><a href="">专项指标录入 &nbsp; &nbsp;<span class="c-red">未送审1条</span></a></li>
+							<li><span class="icon"></span><a href="">专项指标录入 &nbsp; &nbsp;<span class="c-red">未送审1条</span></a></li>
+							<li><span class="icon"></span><a href="">专项指标录入 &nbsp; &nbsp;<span class="c-red">未送审1条</span></a></li>
+							<li><span class="icon"></span><a href="">专项指标录入 &nbsp; &nbsp;<span class="c-red">未送审1条</span></a></li>
+							<li><span class="icon"></span><a href="">专项指标录入 &nbsp; &nbsp;<span class="c-red">未送审1条</span></a></li>
+							<li><span class="icon"></span><a href="">专项指标录入 &nbsp; &nbsp;<span class="c-red">未送审1条</span></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="footer">
+			<div id="f-ctn"></div>
+		</div>
+		<div class="fix">
+			<p id="work" class="f-bg"><a href=""><img src="img/work.png"/></a></p>
+			<p id="search" class="f-bg"><a href=""><img src="img/search.png"/></a></p>
+			<p id="mes" class="f-bg"><a href=""><img src="img/mes.png"/></a></p>
+		</div>
+		<div id="hidden_label">
+			<input type="hidden" id="guid" value=""/>
+			
+		</div>
+	</body>
+</html>

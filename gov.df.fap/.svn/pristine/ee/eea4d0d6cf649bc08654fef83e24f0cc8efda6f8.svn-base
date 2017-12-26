@@ -1,0 +1,466 @@
+/**
+ * Created by yanqiong on 2017/11/6.
+ */
+require(['jquery','knockout', '/df/supervise/ncrd.js', 'bootstrap','dateZH', 'uui','tree', 'grid', 'ip','csof'], function($,ko, ncrd) {
+        window.ko = ko;
+        var tokenid,
+            options,
+            elecode,
+            menuId,
+            menuName,
+            billTypeCode,
+            num = 0;//根据页签的长度定值
+
+        var pViewType = {
+            VIEWTYPE_INPUT : "001",// 录入视图
+            VIEWTYPE_LIST : "002",// 列表视图
+            VIEWTYPE_QUERY : "003"// 查询视图
+        };
+        var viewData = {};//视图的数据
+        var postData = {};//通过post传到后台的数据
+        var treeState = {};//点击主树节点的状态
+        var postAction;
+
+        var dealData = {//处理数据
+            showTreeColor: function (treeId, treeNode) {//显示非最终子节点的树节点为蓝色
+                return treeNode.level == 0 ? {color:"blue"} : {};
+            },
+            getIdLast: function(data){//将{***}的***提取出来
+                var par = /[{}]/g;
+                var text = data.replace(par,'');
+                return text;
+            },
+        };
+
+        var viewModel = {
+            SearchTreeKEY: ko.observable(""),
+            //模糊查询单位树
+            searchTree : function () {
+                ncrd.findTreeNode($.fn.zTree.getZTreeObj("tree1"), viewModel.SearchTreeKEY());
+            },
+            SearchOfficeTreeKEY: ko.observable(""),
+            //模糊查询单位树
+            searchOfficeTree : function () {
+                ncrd.findTreeNode($.fn.zTree.getZTreeObj("officeTree"), viewModel.SearchOfficeTreeKEY());
+            },
+            //按钮
+            btnDataTable: new u.DataTable({
+                meta: {
+
+                }
+            }),
+            treeDataTable: new u.DataTable({
+                meta: {
+                    'chr_id': {},
+                    'PARENT_ID': {},
+                    'chr_name':{}
+                }
+            }),//监管类型事项树
+            treeSetting:{
+                view:{
+                    showLine: false,
+                    selectedMulti: false,
+                    showIcon: false,
+                    showTitle: true
+                },
+                callback:{
+                    onClick:function(e,id,node){
+                    	var btnData = viewModel.btnDataTable.getSimpleData();
+                    	treeState = node;
+                    	//pageData.tree1Node = node;
+                        treeState.isLastNode = node.isLastNode;
+                        treeState.isParent = node.isParent;
+                        var listId = node.chr_id || node.CHR_ID;//字段id不确定,根据后台传来的字段确定
+                        var listCode = "SUP_TYPE_ID";
+                        treeState.treeId = listId;
+                        treeState.treeCode = listCode;
+                    	if(node.CHR_NAME == '全部' || node.chr_name == '全部'){
+                            viewModel.gridRefresh("","","");
+                        }else{
+                            viewModel.gridRefresh(node.chr_id || node.CHR_ID,"OID","");
+                        }
+                    	if(node.level_num == '1'){
+                        	for(var i=0;i<btnData.length;i++){
+                        		var btnId = btnData[i].BUTTON_ID;
+                        		if(btnData[i].DISPLAY_STATUS == "9" || btnData[i].DISPLAY_STATUS == node.STATUS_CODE){
+                        			$("#"+btnId).removeAttr("disabled","disabled");
+                        		}else{
+                        			$("#"+btnId).attr("disabled","disabled");
+                        		}
+                        	}
+                    	}else{
+                    		for(var i=0;i<btnData.length;i++){
+                        		var btnId = btnData[i].BUTTON_ID;
+                        		if(btnData[i].DISPLAY_STATUS == "9"){
+                        			$("#"+btnId).removeAttr("disabled","disabled");
+                        		}else{
+                        			$("#"+btnId).attr("disabled","disabled");
+                        		}
+                        	}
+                    	} 
+                    }
+                }
+            },
+            officeTreeDataTable: new u.DataTable({
+                meta: {
+                    'chr_id': {},
+                    'PARENT_ID': {},
+                    'chr_name':{}
+                }
+            }),//专员办树
+            officeTreeSetting:{
+                view:{
+                    showLine: false,
+                    selectedMulti: false,
+                    showIcon: false,
+                    showTitle: true,
+                },
+                check: {
+            		enable: true,
+            		chkStyle: "checkbox",
+            	},
+                callback:{
+                    onClick:function(e,id,node){
+                    	
+                    }
+                }
+            },
+        };
+        
+        viewModel.initTree = function() {
+            $.get('/df/tree/getElementData.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'ele_code': elecode}, function(map){
+                if(map.errorCode == '0'){
+                    var data = map.dataDetail || map.data;
+                    var obj = {
+                        CHR_ID : 'type',
+                        PARENT_ID : 'root',
+                        CHR_NAME : '全部',
+                        chr_id : 'type',
+                        parent_id : 'root',
+                        chr_name : '全部'
+                    };
+                    $.each(data, function(index, item){
+                        if(item.level_num == '1' || item.LEVEL_NUM == '1'){
+                            item.PARENT_ID = 'type';
+                            item.parent_id = 'type';
+                        }
+                    });
+                    data.push(obj);
+                    viewModel.treeDataTable.setSimpleData(data);
+                    var treeObj = $.fn.zTree.getZTreeObj("tree1");
+                    treeObj.expandAll(true);
+                    treeObj.cancelSelectedNode();
+                }else{
+                    ip.ipInfoJump(map.errorMsg, 'error');
+                }
+            });
+        };
+        
+      //生成表头
+        viewModel.initData = function(areaType,areaId) {
+            var current_url = location.search;
+            $.ajax({
+                url : "/df/init/initMsg.do",
+                type : "GET",
+                dataType : "json",
+                async : true,
+                data : options,
+                success : function(datas) {
+                    viewModel.viewList = datas.viewlist;// 视图信息
+                    viewModel.resList = datas.reslist;// 资源信息
+                    viewModel.coaId = datas.coaId;// coaid
+                    viewModel.coaDetails = datas.coaDetail;// coa明细
+                    viewModel.relations = datas.relationlist;// 关联关系
+                    viewModel.inputViewList = []; 
+                    viewModel.listViewList = []; 
+                    for(var i=0;i<datas.viewlist.length;i++) {
+                    	if(datas.viewlist[i].viewtype == pViewType.VIEWTYPE_INPUT){
+                    		viewModel.inputViewList.push(datas.viewlist[i]);
+                    	}else if(datas.viewlist[i].viewtype == pViewType.VIEWTYPE_LIST){
+                    		viewModel.listViewList.push(datas.viewlist[i]);
+                    	}
+                    }
+                    viewModel.initGridData(); //调用初始化查询表格
+                    //初始化录入视图
+                    if(viewModel.inputViewList.length>0){
+                        viewModel.vailData = ip.initArea(viewModel.inputViewList[0].viewDetail,areaType,dealData.getIdLast(viewModel.inputViewList[0].viewid), areaId);
+                    }
+                }
+            });
+        };
+        
+        viewModel.initGridData = function() {
+            var queryViewId;
+            var tableViewDetail;
+            var queryViewDetail;
+            for ( var n = 0; n < viewModel.listViewList.length; n++) {
+                var view = viewModel.listViewList[n];
+                if (view.orders == '1') {
+                	viewModel.detailGridViewModel = ip.initGrid(viewModel.listViewList[n],'detailGrid', viewModel.listViewList[n].remark + '?', options, 1, false,true,false,false);
+                    if(viewModel.detailGridViewModel.gridData.getSimpleData()){
+                        $("#detailGridSumNum").html(viewModel.detailGridViewModel.gridData.getSimpleData().length);
+                    }
+                }else if(view.orders == '0'){
+                	viewModel.listGridViewModel = ip.initGridWithCallBack(gridCallback,viewModel.listViewList[n],'mainGrid', viewModel.listViewList[n].remark + '?', options, 1, false,true,false,false);
+                    if(viewModel.listGridViewModel.gridData.getSimpleData()){
+                        $("#mainGridSumNum").html(viewModel.listGridViewModel.gridData.getSimpleData().length);
+                    }
+                }    
+            }
+        };
+        
+        //grid查询
+        viewModel.gridSearch = function () {
+            ip.fuzzyQuery(viewModel.curGridData, "gridSearchInput", viewModel.listGridViewModel);
+        };
+
+        //回调函数，定义全局变量viewModel.curGridData并赋值
+        gridCallback = function(data){
+            viewModel.curGridData = data;
+        };
+
+        //刷新Grid表格数据
+        viewModel.gridRefresh = function(chr_id,type_code,status) {
+            ip.setGridWithCallBack(gridCallback,viewModel.listGridViewModel, viewModel.listViewList[0].remark + '?tokenid='+ tokenid + '&ajax=' + 'noCache', {'CHR_ID': chr_id,'TYPE_CODE':type_code,'STATUS':status});
+            $("#mainGridSumNum").html(viewModel.listGridViewModel.gridData.getSimpleData().length);
+        };
+        
+        //工作流提交
+        workFlowSubmit = function(id) {
+        	var btnData = viewModel.btnDataTable.getSimpleData();
+        	var btn = getBtnMsgById(btnData,id);
+        	var selectRow = viewModel.listGridViewModel.gridData.getSelectedRows();
+        	if(selectRow.length > 0) { 
+        		for(var i=0;i<selectRow.length;i++){
+        			workFlow(selectRow[i].chr_id,billtype_code,btn.DISPLAY_TITLE,btn.ACTION_TYPE);
+        		}
+        	}
+        }
+        //工作流审核
+        workFlowSup = function(id) {
+        	workFlow(id);
+        }
+      //工作流提交
+        workFlowUndo = function(id) {
+        	workFlow(id);
+        }
+      //工作流提交
+        workFlowReturn = function(id) {
+        	workFlow(id);
+        }
+        
+        workFlowEnd = function(id) {
+        	workFlow(id);
+        }
+
+        //工作流/df/workflow/work.do
+        workFlow = function(id) {
+        	var btnData = viewModel.btnDataTable.getSimpleData();
+        	var btn = getBtnMsgById(btnData,id);
+        	var selectRow = viewModel.listGridViewModel.gridData.getSelectedRows();
+        	if(selectRow.length > 0) { 
+        		for(var i=0;i<selectRow.length;i++){
+        			var data = {
+                			"menu_id":menuId,
+                			"entity_id":selectRow[i].data.id.value,
+                			"billtype_code":billtype_code,
+                			"op_type":btn.DISPLAY_TITLE,
+                			"op_name":btn.ACTION_TYPE,
+                	};
+            		$.ajax({
+                        type: 'get',
+                        url: "/df/workflow/work.do?tokenid=" + tokenid + "&ajax=noCache",
+                        data: data,
+                        dataType: 'JSON',
+                        async: false,
+                        success: function (result) {
+                        	if(result.data == false) {
+                        		ip.ipInfoJump("第"+ i+1 + "条数据"+btn.ACTION_TYPE+"失败", 'info');
+                        		flag = -1;
+                        		viewModel.initTree();
+                        		viewModel.gridRefresh("","","");
+                        	}else {
+                        		viewModel.initTree();
+                        		viewModel.gridRefresh("","","");
+                            	ip.ipInfoJump(btn.ACTION_TYPE+'成功！', 'success');
+                        	}
+                        }, error: function () {
+                        	ip.ipInfoJump("第"+ i+1 + "条数据"+btn.ACTION_TYPE+"失败", 'info');
+                    		flag = -1;
+                        }
+                    });  
+            		if(flag == -1) {
+            			break;
+            		}
+        		}
+        	}else {
+        		ip.ipInfoJump("请勾选需要操作的事项内容", 'info');
+        	}
+        };
+        
+        //选择是否默认下达专员办
+        setOfficeChange = function() {
+        	var radio =document.getElementsByName("office");
+        	var OS = null;
+        	for(var i =0;i < radio.length;i++){
+	        	 if(radio[i].checked){
+	        		 OS = radio[i].value;
+	        	 }
+        	}
+        	if(OS == "0"){
+        		$("#issuedTree").hide();
+        	}else if(OS == "1"){
+        		$("#issuedTree").show();
+        	}
+        }
+        
+        //issuedAdd下达单录入
+        issuedAdd = function(id) {
+        	var selectRow = viewModel.detailGridViewModel.gridData.getSelectedRows();
+        	if(selectRow.length > 0) { 
+        		$.get('/df/tree/getElementData.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'ele_code': elecode}, function(map){
+                    if(map.errorCode == '0'){
+                        var data = map.dataDetail || map.data;
+                        viewModel.officeTreeDataTable.setSimpleData(data);
+                        var treeObj = $.fn.zTree.getZTreeObj("officeTree");
+                        treeObj.expandAll(true);
+                        treeObj.cancelSelectedNode();
+                        $('#addModal').modal({
+                        	show : true,
+                        	backdrop : 'static'
+                        });
+                    }else{
+                        ip.ipInfoJump(map.errorMsg, 'error');
+                    }
+                });
+        	}else{
+        		ip.ipInfoJump("请勾选需要操作的事项内容", 'info');
+        	}
+        	$("#savebtn").attr("btnId",id);
+        };
+        
+        //下达单录入完成
+        $('#savebtn').on('click' , function(e) { 
+        	var id = $("#savebtn").attr("btnId");
+        	var btnData = viewModel.btnDataTable.getSimpleData();
+        	var btn = getBtnMsgById(btnData,id);
+        	var op_type = btn.DISPLAY_TITLE;
+            var op_name = btn.ACTION_TYPE;
+        	var radio =document.getElementsByName("office");
+        	var treeObj = $.fn.zTree.getZTreeObj("officeTree");
+        	var OS = null;
+        	var flag = true;
+        	for(var i =0;i < radio.length;i++){
+	        	 if(radio[i].checked){
+	        		 OS = radio[i].value;
+	        	 }
+        	}
+        	if(OS == "0"){
+        		var nodes = treeObj.getNodes();
+        		var officeList = nodes;
+        	}else if(OS == "1"){
+        		var nodes = treeObj.getNodes();
+        		var selectNodes = [];
+        		for(var i = 0;i<nodes.length;i++){
+        			if(nodes[i].checked){
+        				selectNodes.push(nodes[i]); 
+        			}
+        		}
+            	if(selectNodes.length > 0) {
+            		var officeList = selectNodes;
+            	}else{
+            		flag = false;
+            		ip.ipInfoJump("请选择需要下达专员办！", 'info');
+            	}
+        	}
+			if(flag){
+				var taskList = viewModel.detailGridViewModel.gridData.getSelectedRows();
+				var taskAllList = viewModel.detailGridViewModel.gridData.getSimpleData();
+				var taskGetList = [];
+				for(var i = 0;i<taskList.length;i++){
+					for(var j=0;j<taskAllList.length;j++){
+						if(taskList[i].data.chr_id.value == taskAllList[j].chr_id){
+							taskGetList.push(taskAllList[j]);
+						}
+					}
+				}
+				var workFlowMap = {
+						"menu_id":menuId,
+						"billtype_code":billtype_code,
+						"op_type":op_type,
+						"op_name":op_name,
+				};
+       		    var data = {
+       		    	"officeList":JSON.stringify(officeList),
+       		    	"supList":JSON.stringify(taskGetList),
+       		    	"billtype_code":billtype_code,
+       		    	"workFlowMap":JSON.stringify(workFlowMap),
+       		    };
+       		    $.post('/df/bill/saveMofBill.do?tokenid='+ tokenid + '&ajax=' + 'noCache', data, function(map){
+                     if(map.errorCode == '0'){
+                         $('#addModal').modal('toggle');
+                         viewModel.gridRefresh("","","");
+                         viewModel.initTree();
+                     }else{
+                         ip.ipInfoJump(map.errorMsg, 'error');
+                     }
+                 });
+			}
+		});
+                
+        //删除
+        publicDelete = function(){
+        	var selectRow = viewModel.listGridViewModel.gridData.getSelectedRows();
+        	if(selectRow.length > 0) { 
+        		ip.warnJumpMsg('是否确认删除所选择事项，后续重新录入',"delConfirmSureId","delConfirmCancelCla");
+                $('#delConfirmSureId').on('click',function(){
+                    $('#config-modal').remove();
+                    var ids = "'" + selectRow[0].data.id.value +"'";;
+        			for(var i = 1;i<selectRow.length;i++){
+        				ids = ids + ","+ "'" + selectRow[i].data.id.value +"'";
+        			}
+        			$.post('/df/bill/deleteMofBill.do?tokenid='+ tokenid + '&ajax=' + 'noCache', {'ids': ids}, function(map){
+                        if(map.errorCode == '0'){
+                        	viewModel.gridRefresh("","","");
+                            viewModel.initTree();
+                        }else{
+                            ip.ipInfoJump(map.errorMsg, 'error');
+                        }
+                    });
+                });
+                $('.delConfirmCancelCla').on('click',function(){
+                    $('#config-modal').remove();
+                });
+        		
+        	}else{
+        		ip.ipInfoJump("请勾选需要删除的下达单", 'info');
+        	}
+        }
+        
+        //初始化
+        function init() {
+            app = u.createApp({
+                el: document.body,
+                model: viewModel
+            });
+            tokenid = ip.getTokenId();
+            options = ip.getCommonOptions({});
+            options['tokenid'] = tokenid;
+            var url=window.location.href;
+            menuId = url.split("menuid=")[1].split("&")[0];
+            menuName = decodeURI(url.split("menuname=")[1].split("&")[0]);
+            elecode = url.split("elecode=")[1].split("&")[0];
+            billtype_code = url.split("billTypeCode=")[1].split("&")[0];
+            //初始化按钮
+            var data = initBtns(menuId);
+            if(data == false){
+                ip.ipInfoJump("加载按钮出错", 'error');
+            }else{
+                viewModel.btnDataTable.setSimpleData(data);
+            }
+            viewModel.initTree();
+            viewModel.initData();
+        };
+        init();
+    }
+);

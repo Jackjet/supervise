@@ -1,0 +1,171 @@
+package gov.df.supervise.bean.task;
+
+public class CsofTaskDepAgency {
+    /**
+     * 唯一标识
+     */
+    private String daid;
+
+    /**
+     * 单位id
+     */
+    private String agencyId;
+
+    /**
+     * 单位父级id
+     */
+    private String parentId;
+
+    /**
+     * 单位名字
+     */
+    private String agencyName;
+
+    /**
+     * 事项管理id
+     */
+    private String sid;
+
+    /**
+     * 处室id
+     */
+    private String depId;
+
+    /**
+     * 处室名字
+     */
+    private String depName;
+
+    /**
+     * 机构id
+     */
+    private String oid;
+
+    /**
+     * 唯一标识
+     * @return DAID 唯一标识
+     */
+    public String getDaid() {
+        return daid;
+    }
+
+    /**
+     * 唯一标识
+     * @param daid 唯一标识
+     */
+    public void setDaid(String daid) {
+        this.daid = daid == null ? null : daid.trim();
+    }
+
+    /**
+     * 单位id
+     * @return AGENCY_ID 单位id
+     */
+    public String getAgencyId() {
+        return agencyId;
+    }
+
+    /**
+     * 单位id
+     * @param agencyId 单位id
+     */
+    public void setAgencyId(String agencyId) {
+        this.agencyId = agencyId == null ? null : agencyId.trim();
+    }
+
+    /**
+     * 单位父级id
+     * @return PARENT_ID 单位父级id
+     */
+    public String getParentId() {
+        return parentId;
+    }
+
+    /**
+     * 单位父级id
+     * @param parentId 单位父级id
+     */
+    public void setParentId(String parentId) {
+        this.parentId = parentId == null ? null : parentId.trim();
+    }
+
+    /**
+     * 单位名字
+     * @return AGENCY_NAME 单位名字
+     */
+    public String getAgencyName() {
+        return agencyName;
+    }
+
+    /**
+     * 单位名字
+     * @param agencyName 单位名字
+     */
+    public void setAgencyName(String agencyName) {
+        this.agencyName = agencyName == null ? null : agencyName.trim();
+    }
+
+    /**
+     * 事项管理id
+     * @return SID 事项管理id
+     */
+    public String getSid() {
+        return sid;
+    }
+
+    /**
+     * 事项管理id
+     * @param sid 事项管理id
+     */
+    public void setSid(String sid) {
+        this.sid = sid == null ? null : sid.trim();
+    }
+
+    /**
+     * 处室id
+     * @return DEP_ID 处室id
+     */
+    public String getDepId() {
+        return depId;
+    }
+
+    /**
+     * 处室id
+     * @param depId 处室id
+     */
+    public void setDepId(String depId) {
+        this.depId = depId == null ? null : depId.trim();
+    }
+
+    /**
+     * 处室名字
+     * @return DEP_NAME 处室名字
+     */
+    public String getDepName() {
+        return depName;
+    }
+
+    /**
+     * 处室名字
+     * @param depName 处室名字
+     */
+    public void setDepName(String depName) {
+        this.depName = depName == null ? null : depName.trim();
+    }
+
+    /**
+     * 机构id
+     * @return OID 机构id
+     */
+    public String getOid() {
+        return oid;
+    }
+
+    /**
+     * 机构id
+     * @param oid 机构id
+     */
+    public void setOid(String oid) {
+        this.oid = oid == null ? null : oid.trim();
+    }
+}

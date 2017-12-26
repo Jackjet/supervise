@@ -1,0 +1,103 @@
+package gov.df.supervise.service.sup;
+
+import gov.df.fap.api.workflow.IBillTypeServices;
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.gl.core.CommonUtil;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.fap.util.xml.XMLData;
+import gov.df.supervise.api.common.CommonService;
+import gov.df.supervise.api.sup.SupService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.ufgov.ip.apiUtils.UUIDTools;
+
+@Service
+public class SupBo implements SupService {
+
+	@Autowired
+	@Qualifier("generalDAO")
+	GeneralDAO dao;
+    
+	@Autowired
+	private CommonService commonService; // 监管事项服务
+	
+	@Autowired
+	private IBillTypeServices billTypeService;
+	
+	public static String tableName = "csof_e_sup";
+	public static String user_id = CommonUtil.getUserId();						//当前登录用户 user_id
+	public static String oid = SessionUtil.getUserInfoContext().getOrgCode();   //当前登录用户机构编号 oid
+	public static String create_user = CommonUtil.getUserCode();
+    public static String create_date = CommonUtil.getDate("yyyy-MM-dd");
+	
+	public List getSup(List dataList,String pageInfo){
+		String condition = "" ;
+		return commonService.getDataList(tableName, condition, false, pageInfo);
+	}
+
+	public int deleteSup(List dataList , String key) {
+		String condition = "" ;
+		if(null != dataList && dataList.size()==1){
+			Map dataMap = (Map) dataList.get(0);
+			String ids = dataMap.get("ids").toString();
+			condition = " and " + key + " in (" + ids +")" ;
+		}
+		return commonService.deleteDataList(tableName, condition);
+	}
+
+	/**
+	 * 监管事项 新增、修改方法
+	 */
+	@Transactional(readOnly = false)
+	public int saveSup(List dataList, String action) {
+		int resultNum = 0;
+		 try {
+				
+				Map <String,String> supMap = new HashMap<String,String>();
+				for (int i = 0 ;i<dataList.size(); i++){
+					XMLData data = (XMLData) dataList.get(i);
+					String chr_id = null!=data.get("chr_id")?data.get("chr_id").toString():UUIDTools.uuidRandom();
+					String billtype_code = data.get("billtype_code")!=null?data.get("billtype_code").toString():"";
+				   
+					supMap.put("chr_id", chr_id);
+					supMap.put("chr_name", null!=data.get("chr_name")?data.get("chr_name").toString():"");
+					supMap.put("oid", oid);
+					String rg_code = CommonUtil.getRgCode();
+				    String set_year = CommonUtil.getSetYear();
+				    supMap.put("RG_CODE", rg_code);
+				    supMap.put("SET_YEAR", set_year);
+					supMap.put("create_date", create_date);
+					supMap.put("create_user", create_user);
+					supMap.put("latest_op_user", create_user);
+					supMap.put("latest_op_date", create_date);
+					
+					if(action.equals("update")){
+						List oldDataList = commonService.getDataList(tableName, " and chr_id = '"+chr_id+"'", false, "");
+						if(oldDataList.size() == 1){
+							XMLData oldData = (XMLData)oldDataList.get(0);
+							supMap.put("create_date", oldData.get("create_date") !=null? oldData.get("create_date").toString():"");
+							supMap.put("create_user", oldData.get("create_user") !=null? oldData.get("create_user").toString():"");
+						}
+						
+						commonService.deleteDataList(tableName, " and chr_id = '"+chr_id+"'");
+					}
+					String chr_code = billTypeService.getBillNo(billtype_code, supMap);
+					supMap.put("chr_code", chr_code);
+				    resultNum = dao.executeBySql(commonService.getInsertSql(supMap, tableName)) +resultNum;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+		return resultNum;
+	}
+
+}

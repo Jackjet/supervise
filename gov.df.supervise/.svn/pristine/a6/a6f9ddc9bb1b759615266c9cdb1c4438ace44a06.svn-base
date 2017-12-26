@@ -1,0 +1,118 @@
+package gov.df.supervise.service.upgrade;
+
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.fap.util.Tools;
+import gov.df.fap.util.xml.XMLData;
+import gov.df.supervise.api.upgrade.csofUpgradeService;
+import gov.df.supervise.service.document.csofDocumentDao;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+/**
+ * 补丁升级
+ * @author tongya
+ *
+ */
+@Service
+public class csofUpgradeBO implements csofUpgradeService {
+  @Autowired
+  private csofUpgradeDao csofUpgradeDao;
+
+  @Autowired
+  private csofDocumentDao csofDocumentDao;
+
+  @Autowired
+  @Qualifier("generalDAO")
+  GeneralDAO dao;
+
+  private final Logger logger = LoggerFactory.getLogger(getClass());
+
+  /**
+   * 查询补丁升级密码
+   * @return
+   */
+  public String getUpdatePswd() {
+    StringBuffer strSQL = new StringBuffer("select chr_value from sys_userpara" + Tools.addDbLink()
+      + " where  chr_code = 'UPDATE_PSWD' ");
+    List list = dao.findBySql(strSQL.toString());
+    XMLData data = (XMLData) list.get(0);
+    return (String) data.get("chr_value");
+  }
+
+  /**
+   * 查询补丁列表
+   */
+  public List getUpgrade() {
+    return csofUpgradeDao.getUpgrade();
+  }
+
+  /**
+   * 通过条件查询补丁列表
+   */
+  public List getUpgradeByIscommit(int iscommit) {
+    return csofUpgradeDao.getUpgradeByIscommit(iscommit);
+  }
+
+  /**
+   * 删除待升级的补丁
+   */
+  public void deleteUpgrade(String id) {
+    csofUpgradeDao.deleteUpgrade(id);
+  }
+
+  /**
+   * 执行升级补丁
+   * @throws Exception 
+   * 
+   */
+  public void doUpgrade(String id, String filePath) {
+    Map resultMap = new HashMap<Object, Object>();
+    Map param = new HashMap<Object, Object>();
+    try {
+      dao.execSqlFile(filePath);
+      param.put("id", id);
+      param.put("iscommit", 1);
+      param.put("is_now", 1);
+      csofUpgradeDao.doUpgrade(param);
+    } catch (Exception e) {
+      e.printStackTrace();
+      resultMap.put("message", "异常"); // zfn 未来改成标准消息异常
+      resultMap.put("error", 1);
+      resultMap.put("message", "执行发生异常");
+    }
+  }
+
+  /**
+   * 上传
+   */
+  public void saveUpgrade(String id, String remark) {
+    Map<String, Object> param = new HashMap<String, Object>();
+    String user_id = (String) SessionUtil.getUserInfoContext().getUserID();
+    String date = Tools.getCurrDate();
+    String sql_id = csofDocumentDao.getFileId(id);
+    String app_version = csofUpgradeDao.getNameById(id);
+    param.put("id", id);
+    param.put("app_version", app_version);
+    param.put("sql_id", sql_id);
+    param.put("iscommit", 0);
+    param.put("remark", remark);
+    param.put("modular", "SYS");
+    param.put("create_user", user_id);
+    param.put("create_date", date);
+    param.put("latest_op_user", user_id);
+    param.put("latest_op_date", date);
+    param.put("is_now", 0);
+    param.put("sys_id", 105);
+    csofUpgradeDao.saveUpgrade(param);
+  }
+
+}

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gov.df.supervise.service.csofacc.csofAccDao">
+<!-- 监管事项 -->
+<insert id="saveAccSup" parameterType="java.util.Map">
+insert into CSOF_ACC_SUP(SID,SUP_NO,SUP_NAME,STATUS,IS_VALID,IS_END,MOFDEP_ID,MOFDEP_CODE,MOFDEP_NAME,OID,DEP_ID,DEP_CODE,DEP_NAME,SUP_TYPE_ID,SUP_TYPE_CODE,SUP_TYPE_NAME,OBJ_TYPE_ID,OBJ_TYPE_CODE,OBJ_TYPE_NAME,IS_ALLOBJ,SUP_NUM,WORK_TYPE,SUP_MODE,SUP_CYCLE,START_DATE,END_DATE,SUP_CONTENT,REMARK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE,SET_YEAR,RG_CODE,BOOK_ID,SET_ID,SET_MONTH,YEAR,WORKLOAD,FUND_SCALE)
+ values (#{sid},#{sup_no},#{sup_name},#{status},#{is_valid},#{is_end},#{mofdep_id},#{mofdep_code},#{mofdep_name},#{oid},#{dep_id},#{dep_code},#{dep_name},#{sup_type_id},#{sup_type_code},#{sup_type_name},#{obj_type_id},#{obj_type_code},#{obj_type_name},#{is_allobj},#{sup_num},#{work_type},#{sup_mode},#{sup_cycle},#{start_date},#{end_date},#{sup_content},#{remark},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date},#{set_year},#{rg_code},#{book_id},#{set_id},#{set_month},#{year},#{workload},#{fund_scale})
+</insert>
+<select id="getAccSup" parameterType="java.lang.String" resultType="java.util.Map">
+select * from CSOF_ACC_SUP where SID = #{sid}
+</select>
+<update id="updateAccSup" parameterType="java.util.Map">
+ update CSOF_ACC_SUP set SUP_NO = #{sup_no},SUP_NAME = #{sup_name},STATUS = #{status},IS_VALID = #{is_valid},
+      IS_END = #{is_end},
+      <if test="mofdep_id != null and mofdep_id !=''">
+      MOFDEP_ID = #{mofdep_id},
+     </if>
+     <if test="mofdep_name != null and mofdep_name !=''">
+      MOFDEP_NAME = #{mofdep_name},
+     </if>
+     <if test="mofdep_code != null and mofdep_code !=''">
+    MOFDEP_CODE =  #{mofdep_code},
+     </if>
+      OID = #{oid},
+        <if test="dep_id != null and dep_id !=''">
+   DEP_ID = #{dep_id},
+     </if>
+           <if test="dep_code != null and dep_code !=''">
+   DEP_CODE = #{dep_code},
+     </if>
+           <if test="dep_name != null and dep_name !=''">
+  DEP_NAME = #{dep_name},
+     </if>
+              <if test="sup_type_id != null and sup_type_id !=''">
+ SUP_TYPE_ID = #{sup_type_id},
+     </if>
+               <if test="sup_type_code != null and sup_type_code !=''">
+  SUP_TYPE_CODE = #{sup_type_code},
+     </if>
+               <if test="sup_type_name != null and sup_type_name !=''">
+  SUP_TYPE_NAME = #{sup_type_name},
+     </if> 
+                  <if test="obj_type_id != null and obj_type_id !=''">
+ OBJ_TYPE_ID = #{obj_type_id},
+     </if> 
+                  <if test="obj_type_code != null and obj_type_code !=''">
+ OBJ_TYPE_CODE = #{obj_type_code},
+     </if> 
+                  <if test="obj_type_name != null and obj_type_name !=''">
+  OBJ_TYPE_NAME = #{obj_type_name},
+     </if> 
+       IS_ALLOBJ = #{is_allobj},SUP_NUM = #{sup_num},WORK_TYPE = #{work_type},SUP_MODE = #{sup_mode},SUP_CYCLE = #{sup_cycle},
+      START_DATE = #{start_date},END_DATE = #{end_date},SUP_CONTENT = #{sup_content}, REMARK = #{remark},CREATE_USER = #{create_user},CREATE_DATE = #{create_date},LATEST_OP_USER = #{latest_op_user},LATEST_OP_DATE = #{latest_op_date},SET_YEAR = #{set_year},RG_CODE = #{rg_code}
+    where SID = #{sid}
+</update>
+<delete id="deleteAccSup" parameterType="java.lang.String">
+delete from CSOF_ACC_SUP where SID = #{sid}
+</delete>
+
+<!-- 工作记录 -->
+<insert id="saveAccWork" parameterType="java.util.Map">
+insert into CSOF_ACC_WORK(ID,WORK_NO,SID,SUP_NO,SUP_NAME,IS_VALID,IS_END,MOFDEP_ID,MOFDEP_CODE,MOFDEP_NAME,OID,OBJ_TYPE_ID,OBJ_TYPE_CODE,OBJ_TYPE_NAME,WORK_TYPE,WORK_PROGRESS,WORKLOAD,FUND_SCALE,REGISTRATION_TIME,REMARK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE,EXECUTOR,SET_YEAR,RG_CODE,SET_MONTH,BOOK_ID,YEAR,SET_ID)
+ values (#{id},#{work_no},#{sid},#{sup_no},#{sup_name},#{is_valid},#{is_end},#{mofdep_id},#{mofdep_code},#{mofdep_name},#{oid},#{obj_type_id},#{obj_type_code},#{obj_type_name},#{work_type},#{work_progress},#{workload},#{fund_scale},#{registration_time},#{remark},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date},#{executor},#{set_year},#{rg_code},#{set_month},#{book_id},#{year},#{set_id})
+</insert>
+<select id="getAccWork" parameterType="java.lang.String" resultType="java.util.Map">
+select * from CSOF_ACC_WORK where SID = #{sid}
+</select>
+<update id="updateAccWork" parameterType="java.util.Map">
+ update CSOF_ACC_WORK set SUP_NO = #{sup_no},SUP_NAME = #{sup_name},IS_VALID = #{is_valid},
+      IS_END = #{is_end},MOFDEP_ID = #{mofdep_id}, MOFDEP_CODE = #{mofdep_code},MOFDEP_NAME = #{mofdep_name},OID = #{oid}, OBJ_TYPE_ID = #{obj_type_id},
+      OBJ_TYPE_CODE = #{obj_type_code},OBJ_TYPE_NAME = #{obj_type_name}, WORK_TYPE = #{work_type},WORK_PROGRESS = #{work_progress},WORKLOAD = #{workload},
+      FUND_SCALE = #{fund_scale},REGISTRATION_TIME = #{registration_time},REMARK = #{remark},CREATE_USER = #{create_user},CREATE_DATE = #{create_date},LATEST_OP_USER = #{latest_op_user},LATEST_OP_DATE = #{latest_op_date},EXECUTOR = #{executor},SET_YEAR = #{set_year},RG_CODE = #{rg_code}
+    where SID = #{sid} and ID = #{id}
+</update>
+<delete id="deleteAllAccWork" parameterType="java.lang.String">
+delete from CSOF_ACC_WORK where SID = #{sid}
+</delete>
+<delete id="deleteAccWork" parameterType="java.util.Map">
+delete from CSOF_ACC_WORK where SID = #{sid} and ID = #{id}
+</delete>
+<!-- 通过新增工作记录时sid查询事项表的工作量和资金规模 -->
+<select id="findAccSupBySid"  parameterType="java.lang.String"  resultType="gov.df.supervise.bean.csofacc.csofAccSupEntity">
+select * from csof_acc_sup where sid = #{sid}
+</select>
+<!-- 回写资金规模和工作量到事项表里 -->
+<update id="updateAccSupByWorkload" parameterType="java.util.Map">
+update csof_acc_sup set WORKLOAD = #{workload},FUND_SCALE = #{fund_scale} where SID = #{sid}
+</update>
+
+
+<!-- 问题记录 -->
+<insert id="saveAccProblem" parameterType="java.util.Map">
+insert into CSOF_ACC_PROBLEM (ID,SID,SUP_NO,SUP_NAME,IS_VALID,IS_END,OID,OBJ_TYPE_ID,OBJ_TYPE_CODE,OBJ_TYPE_NAME,DISCOVER_PROBLEMS,AUDIT_BASIS,AUDIT_OPINION,HANDLE,GROUPING_NAME,RECORDING_USER,RECORDING_TIME,REMARK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE,SET_YEAR,RG_CODE)
+ values (#{id},#{sid},#{sup_no},#{sup_name},#{is_valid},#{is_end},#{oid},#{obj_type_id},#{obj_type_code},#{obj_type_name},#{discover_problems},#{audit_basis},#{audit_opinion},#{handle},#{grouping_name},#{recording_user},#{recording_time},#{remark},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date},#{set_year},#{rg_code})
+</insert>
+<select id="getAccProblem" parameterType="java.lang.String" resultType="java.util.Map">
+select * from CSOF_ACC_PROBLEM where SID = #{sid}
+</select>
+<update id="updateAccProblem" parameterType="java.util.Map">
+ update CSOF_ACC_PROBLEM set SUP_NO = #{sup_no},SUP_NAME = #{sup_name},IS_VALID = #{is_valid},
+      IS_END = #{is_end},OID = #{oid}, OBJ_TYPE_ID = #{obj_type_id},
+      OBJ_TYPE_CODE = #{obj_type_code},OBJ_TYPE_NAME = #{obj_type_name}, DISCOVER_PROBLEMS = #{discover_problems},AUDIT_BASIS = #{audit_basis},AUDIT_OPINION = #{audit_opinion},
+      HANDLE = #{handle},GROUPING_NAME = #{grouping_name},RECORDING_USER = #{recording_user},RECORDING_TIME = #{recording_time},REMARK = #{remark},CREATE_USER = #{create_user},CREATE_DATE = #{create_date},LATEST_OP_USER = #{latest_op_user},LATEST_OP_DATE = #{latest_op_date},SET_YEAR = #{set_year},RG_CODE = #{rg_code}
+    where SID = #{sid} and ID = #{id}
+</update>
+<delete id="deleteAllAccProblem" parameterType="java.lang.String">
+delete from CSOF_ACC_PROBLEM where SID = #{sid}
+</delete>
+<delete id="deleteAccProblem" parameterType="java.util.Map">
+delete from CSOF_ACC_PROBLEM where SID = #{sid} and ID = #{id}
+</delete>
+<select id="getSupData"  parameterType="java.util.Map" resultType="java.util.Map">
+select t.chr_id,
+       t.chr_code,
+       t.chr_name,
+       '' as parent_id,
+       '1' as level_num,
+       '0' as is_leaf,
+       'TYPE' as type_code
+  from ${ele_source} t
+ where t.enabled = 1 
+union all
+select s.sid as chr_id,
+       s.sup_no as chr_code,
+       s.sup_name as chr_name,
+       s.sup_type_id as parent_id,
+       '2' as level_num,
+       '1' as is_leaf,
+       'SUP' as type_code
+  from csof_acc_sup s
+ where s.is_valid = 1 
+</select>
+<select id="getSupDataById"  parameterType="java.util.Map" resultType="java.util.Map">
+select t.chr_id,
+       t.chr_code,
+       t.chr_name,
+       '' as parent_id,
+       '1' as level_num,
+       '0' as is_leaf,
+       'TYPE' as type_code
+  from ${ele_source} t
+ where t.enabled = 1 and t.chr_id = #{chr_id}
+union all
+select s.sid as chr_id,
+       s.sup_no as chr_code,
+       s.sup_name as chr_name,
+       s.sup_type_id as parent_id,
+       '2' as level_num,
+       '1' as is_leaf,
+       'SUP' as type_code
+  from csof_acc_sup s
+ where s.is_valid = 1 and s.sup_type_id = #{chr_id}
+</select>
+<update id="updateSupStatus" parameterType="java.util.Map">
+update  csof_acc_sup set STATUS = #{status} where SID = #{sid}
+</update>
+<select id="getAccBook"  resultType="java.util.Map">
+ select * from csof_e_acc g ,csof_acc_book b where g.chr_id = b.group_id order by g.chr_code,b.level_num,b.dep_code
+</select>
+<select id="getBookSetById" parameterType="java.lang.String" resultType="java.util.Map">
+select * from vw_csof_acc_book_set where book_id = #{book_id}
+</select>
+<select id="getAccSupByBookId" parameterType="java.lang.String" resultType="java.util.Map">
+select * from csof_acc_book_set where book_id = #{book_id} and is_open = 1 and is_end = 0
+</select>
+<select id="getAccWorkByMonth" parameterType="java.util.Map" resultType="java.util.Map">
+select * from csof_acc_sup where book_id = #{book_id} and year =#{set_year} and set_month = #{set_month} order by sup_no
+</select>
+
+<!-- 月结 -->
+<select id="getYear" parameterType="java.lang.String" resultType="java.lang.String">
+select chr_code from vw_csof_acc_book_set where chr_id = #{parent_id}
+</select>
+<select id="getSetId" parameterType="java.util.Map" resultType="java.lang.String">
+select set_id from csof_acc_book_set where set_month = #{set_month} and set_year = #{set_year} and set_id like concat(#{book_id},'%')
+</select>
+<update id="updateAccBookBySetid"  parameterType="java.util.Map">
+update csof_acc_book_set set is_end = #{is_end} where set_id = #{set_id}
+</update>
+<update id="updateAccBookSet"  parameterType="java.util.Map">
+update csof_acc_book_set set is_open = #{is_open} where set_id = #{setId}
+</update>
+<update id="updateAccSupBySid" parameterType="java.util.Map">
+update CSOF_ACC_SUP set set_id = #{setId},set_month = #{set_month},year = #{set_year} where sid = #{sid} and status =(select status from CSOF_ACC_SUP where sid = #{sid} and status != '100%')
+</update>
+<insert id="saveAccSupEnd" parameterType="java.util.Map">
+insert into CSOF_ACC_SUP_END (SID,SUP_NO,SUP_NAME,STATUS,IS_VALID,IS_END,MOFDEP_ID,MOFDEP_CODE,MOFDEP_NAME,OID,DEP_ID,DEP_CODE,DEP_NAME,SUP_TYPE_ID,SUP_TYPE_CODE,SUP_TYPE_NAME,OBJ_TYPE_ID,OBJ_TYPE_CODE,OBJ_TYPE_NAME,IS_ALLOBJ,SUP_NUM,WORK_TYPE,SUP_MODE,SUP_CYCLE,START_DATE,END_DATE,SUP_CONTENT,REMARK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE,SET_YEAR,RG_CODE,BOOK_ID,SET_ID,SET_MONTH,YEAR,WORKLOAD,FUND_SCALE)
+ values (#{sid},#{sup_no},#{sup_name},#{status},#{is_valid},#{is_end},#{mofdep_id},#{mofdep_code},#{mofdep_name},#{oid},#{dep_id},#{dep_code},#{dep_name},#{sup_type_id},#{sup_type_code},#{sup_type_name},#{obj_type_id},#{obj_type_code},#{obj_type_name},#{is_allobj},#{sup_num},#{work_type},#{sup_mode},#{sup_cycle},#{start_date},#{end_date},#{sup_content},#{remark},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date},#{set_year},#{rg_code},#{book_id},#{set_id},#{set_month},#{year},#{workload},#{fund_scale})
+</insert>
+<select id="getCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+select count(*) from CSOF_ACC_SUP_END where SID = #{sid} and status = '100%'
+</select>
+
+<!-- 反月结 -->
+<delete id="deleteAccSupEnd" parameterType="java.lang.String">
+delete from CSOF_ACC_SUP_END where sid = #{sid} and set_id = #{set_id}
+</delete>
+<select id="getCountEnd" parameterType="java.util.Map" resultType="java.lang.Integer">
+select count(*) from CSOF_ACC_SUP_END where SID = #{sid} and set_id = #{set_id}
+</select>
+<update id="modityAccSupBysid" parameterType="java.util.Map">
+update CSOF_ACC_SUP set set_id = #{set_id},set_month = #{set_month},year = #{set_year} where sid = #{sid} and status =(select status from CSOF_ACC_SUP where sid = #{sid} and status != '100%')
+</update>
+<select id="getAccMenu" parameterType="java.lang.String" resultType="java.util.Map">
+ select m.menu_id,m.menu_name,m.menu_code,m.disp_order,m.step_shortcut,m.tips,m.icon,m.url,m.menu_parameter,m.enabled
+  from sys_menu m where m.parent_id= #{menu_id} order by m.disp_order
+</select>
+<!-- 台账处汇总 -->
+<!-- 得到处汇总左侧树 -->
+<select id="getBookDepById"  parameterType="java.lang.String" resultType="java.util.Map">
+select * from vw_csof_acc_book_dep where BOOK_ID = #{book_id}
+</select>
+<!-- 点击树显示详细信息 -->
+<select id="getAccSupEndByBook" parameterType="java.util.Map" resultType="java.util.Map">
+select * from csof_acc_sup_end where SET_MONTH = #{set_month} and YEAR = #{year} and BOOK_ID like concat(#{dep_code},'%')
+</select>
+<!-- 通过 sid,set_id查询事项 -->
+<select id="FindAccSup" parameterType="java.util.Map" resultType="gov.df.supervise.bean.csofacc.csofAccSupEndEntity">
+select * from csof_acc_sup_end where SID = #{sid} and SET_ID = #{set_id}
+</select>
+<!-- 通过sup_name,sup_type_id查询事项名字和监管类型相同的事项数量 -->
+<select id="getAccCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+select count(*) from CSOF_ACC_SUP_DEP where SUP_NAME = #{sup_name} and SUP_TYPE_ID = #{sup_type_id} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</select>
+<!-- 通过sup_name,sup_type_id查询事项名字和监管类型相同的汇总表信息 -->
+<select id="getAccSupDep" parameterType="java.util.Map" resultType="java.util.Map">
+select * from CSOF_ACC_SUP_DEP where  SUP_NAME = #{sup_name} and SUP_TYPE_ID = #{sup_type_id} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</select>
+<!--  通过sup_name,sup_type_id修改汇总表里的值 -->
+<update id="updateAccSupDep" parameterType="java.util.Map">
+update CSOF_ACC_SUP_DEP set OBJ_TYPE_NAME = #{obj_type_name},SUP_CONTENT = #{sup_content},FUND_SCALE = #{fund_scale},
+TIME_REQUIREMENT = #{time_requirement},WORKLOAD = #{workload},REMARK = #{remark} where SUP_NAME = #{sup_name} and SUP_TYPE_ID = #{sup_type_id} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</update>
+<!-- 插入数据到处汇总表中 -->
+<insert id="saveAccSupDep" parameterType="java.util.Map">
+insert into CSOF_ACC_SUP_DEP (ID,SUP_NAME,IS_VALID,IS_END,OID,DEP_ID,DEP_CODE,DEP_NAME,SUP_TYPE_ID,SUP_TYPE_CODE,SUP_TYPE_NAME,REGULATORY_AREA,STATUS,WORK_TYPE,REGULATORY_RESULTS,FEEDBACK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE,SET_YEAR,RG_CODE,OBJ_TYPE_NAME,SUP_CONTENT,FUND_SCALE,TIME_REQUIREMENT,WORKLOAD,REMARK,SET_MONTH,YEAR,BOOK_ID,SET_ID)
+ values (#{id},#{sup_name},#{is_valid},#{is_end},#{oid},#{dep_id},#{dep_code},#{dep_name},#{sup_type_id},#{sup_type_code},#{sup_type_name},#{regulatory_area},#{status},#{work_type},#{regulatory_results},#{feedback},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date},#{set_year},#{rg_code},#{obj_type_name},#{sup_content},#{fund_scale},#{time_requirement},#{workload},#{remark},#{set_month},#{year},#{book_id},#{set_id})
+</insert>
+<!-- 汇总成功后回写汇总表id到月结表里 -->
+<update id="updateAccSupEnd" parameterType="java.util.Map">
+update CSOF_ACC_SUP_END set ACC_SUP_DEP_ID = #{id} where SID = #{sid} and set_id = #{set_id}
+</update>
+<!-- 通过父级id查询父级的chr_code -->
+<select id="getChrCode" parameterType="java.lang.String"  resultType="java.lang.String">
+select chr_code from vw_csof_acc_book_dep where chr_id = #{parent_id}
+</select>
+
+<!-- 处撤销汇总 -->
+<!-- 撤销汇总，通过sup_name,sup_type_id,set_month,year等条件删除数据 -->
+<delete id="deleteAccSupDep" parameterType="java.util.Map">
+delete from csof_acc_sup_dep where sup_name = #{sup_name} and sup_type_id = #{sup_type_id} and set_month = #{set_month} and year = #{year} and SET_ID = #{set_id}
+</delete>
+<!-- 台账办汇总 -->
+<!-- 台账办汇总树 -->
+<select id="getAccSupOfficeById" parameterType="java.lang.String"  resultType="java.util.Map">
+select * from vw_csof_acc_book_office where book_id = #{book_id}
+</select>
+<!-- 点击树显示详细信息 -->
+<select id="getAccSupDepByBook" parameterType="java.util.Map"  resultType="java.util.Map">
+select * from csof_acc_sup_dep where SET_MONTH = #{set_month} and YEAR = #{year} and BOOK_ID like concat(#{oid},'%') 
+</select>
+<!-- 通过 id,book_id查询事项 -->
+<select id="FindAccSupOffice" parameterType="java.util.Map" resultType="gov.df.supervise.bean.csofacc.csofAccSupEndEntity">
+select * from csof_acc_sup_dep where  acc_sup_dep_id = #{acc_sup_dep_id} and BOOK_ID = #{book_id} 
+</select>
+<!-- 通过sup_name,sup_type_id查询事项名字和监管类型相同的事项数量 -->
+<select id="getAccOfficeCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+select count(*) from CSOF_ACC_SUP_OFFICE where SUP_NAME = #{sup_name} and SUP_TYPE_ID = #{sup_type_id} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</select>
+<!-- 通过sup_name,sup_type_id查询事项名字和监管类型相同的办汇总表信息 -->
+<select id="getAccSupOffice" parameterType="java.util.Map" resultType="java.util.Map">
+select * from CSOF_ACC_SUP_OFFICE where  SUP_NAME = #{sup_name} and SUP_TYPE_ID = #{sup_type_id} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</select>
+<!--  通过sup_name,sup_type_id修改办汇总表里的值 -->
+<update id="updateAccSupOffice" parameterType="java.util.Map">
+update CSOF_ACC_SUP_OFFICE set OBJ_TYPE_NAME = #{obj_type_name},SUP_CONTENT = #{sup_content},FUND_SCALE = #{fund_scale},
+TIME_REQUIREMENT = #{time_requirement},WORKLOAD = #{workload},REMARK = #{remark} where SUP_NAME = #{sup_name} and SUP_TYPE_ID = #{sup_type_id} and SET_MONTH = #{set_month} and YEAR = #{year} and SET_ID = #{set_id}
+</update>
+<!-- 插入数据到办汇总表中 -->
+<insert id="saveAccSupOffice" parameterType="java.util.Map">
+insert into CSOF_ACC_SUP_OffICE (ID,SUP_NAME,IS_VALID,IS_END,OID,DEP_ID,DEP_CODE,DEP_NAME,SUP_TYPE_ID,SUP_TYPE_CODE,SUP_TYPE_NAME,REGULATORY_AREA,STATUS,WORK_TYPE,REGULATORY_RESULTS,FEEDBACK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE,SET_YEAR,RG_CODE,OBJ_TYPE_NAME,SUP_CONTENT,FUND_SCALE,TIME_REQUIREMENT,WORKLOAD,REMARK,SET_MONTH,YEAR,BOOK_ID)
+ values (#{id},#{sup_name},#{is_valid},#{is_end},#{oid},#{dep_id},#{dep_code},#{dep_name},#{sup_type_id},#{sup_type_code},#{sup_type_name},#{regulatory_area},#{status},#{work_type},#{regulatory_results},#{feedback},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date},#{set_year},#{rg_code},#{obj_type_name},#{sup_content},#{fund_scale},#{time_requirement},#{workload},#{remark},#{set_month},#{year},#{book_id})
+</insert>
+<!-- 汇总成功后回写办汇总表id到处汇总表里 -->
+<update id="motityAccSupDep" parameterType="java.util.Map">
+update CSOF_ACC_SUP_DEP set ACC_SUP_OFFICE_ID = #{id} where ACC_SUP_DEP_ID = #{acc_sup_dep_id} and SET_ID = #{set_id} 
+</update>
+
+<!-- 办撤销汇总 -->
+<!-- 撤销汇总，通过sup_name,sup_type_id,set_month,year等条件删除数据 -->
+<delete id="deleteAccSupOffice" parameterType="java.util.Map">
+delete from csof_acc_sup_office where sup_name = #{sup_name} and sup_type_id = #{sup_type_id} and set_month = #{set_month} and year = #{year} and SET_ID = #{set_id}
+</delete>
+
+</mapper>

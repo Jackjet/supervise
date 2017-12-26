@@ -1,0 +1,164 @@
+<!--台账管理页面-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>台账上报</title>
+<link rel="stylesheet" type="text/css"
+	href="../../trd/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/tree.css" />
+<link rel="stylesheet" type="text/css"
+	href="/df/trd/ip/changeTree/changeTree.css" />
+<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/u.css" />
+<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/grid.css" />
+<link rel="stylesheet" type="text/css" href="/df/trd/ip/css/ip.css" />
+<link rel="stylesheet" type="text/css"
+	href="../../trd/ip/css/bizSys.css" />
+<link rel="stylesheet" href="../matters/css/common.css">
+<link rel="stylesheet" href="../matters/css/mattersEnter.css">
+<link rel="stylesheet" href="../sup/css/csofSup.css">
+<link rel="stylesheet" href="/df/trd/splitter/jqx.base.css">
+<link rel="stylesheet" href="../common/common.css">
+</head>
+<style>
+#testGrid>div {
+	margin: 5px 0;
+}
+</style>
+<body class="csof-font" style="overflow: hidden;">
+	<!--按钮组-->
+	<div class="col-md-12 csof-btns-content" id="btn-line">
+		<div class="pull-left" id="btns-group"></div>
+		<div class="pull-right right-search">
+			<div id="gridSearchDiv">
+				<form class="form-search form-inline">
+					<div class="input-group">
+						<input type="text" id="gridSearchInput" class="form-control">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button"
+								data-bind="click:gridSearch">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button> </span>
+					</div>
+					<button type="button" class="btn" onclick="hignSearch()">高级</button>
+				</form>
+			</div>
+			<div id="workGridSearchDiv" style="display:none;">
+				<form class="form-search form-inline">
+					<div class="input-group">
+						<input type="text" id="workgridSearchInput" class="form-control">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button"
+								data-bind="click:workgridSearch">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button> </span>
+					</div>
+					<button type="button" class="btn" onclick="hignSearch()">高级</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!--main-->
+	<div class="col-md-12" id="main-content">
+		<div class="pull-left" id="left-main-content">
+			<!--树-->
+			<div class="input-group tree-search-div">
+				<input type="text" id="SearchBookSumTree" class="form-control"
+					data-bind="value: SearchBookSumTreeKEY" placeholder="模糊查询...">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button"
+						data-bind="click:searchBookSumTree">
+						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					</button> </span>
+			</div>
+			<div id="bookSumTree" class="ztree treeDiv"
+				u-meta='{
+                                "id":"bookSumTree",
+                                "data":"bookSumTreeDataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"NAME",
+                                "setting":"bookSumTreeSetting"
+                            }'>
+			</div>
+		</div>
+		<div class="pull-left" id="right-main-content">
+			<ul class="nav nav-tabs" id="righ-tab-ul">
+				<li id="sumTable-li" class="active"><a data-toggle="tab" href="#panel-sumTable" id="sumTable-li-a">汇总表</a>
+				</li>
+				<li id="detailTable-li"><a data-toggle="tab" href="#panel-detailTable" id="detailTable-li-a">明细表</a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active tab-panel-height" id="panel-sumTable">
+					<div id="right-top-bottom-content">
+						<div class="two-panel-div top-panel-div">
+							<div class="grid-title">
+								<span class="rightTable-title">汇总台账记录：</span>
+								<span class="rightTable-title-status"></span>
+								<span class="rightTable-recodeNum">共<span id="sumGridSumNum" class="gridSumNum"> </span>笔</span>
+							</div>
+							<div id="sumGrid" class="rightTableGrid"></div>
+						</div>
+						<div class="two-panel-div bottom-panel-div">
+							<div class="grid-title">
+								<span class="rightTable-title">明细台账记录：</span>
+								<span class="rightTable-title-status"></span>
+								<span class="rightTable-recodeNum">共<span id="detailGridSumNum" class="gridSumNum"> </span>笔</span>
+							</div>
+							<div id="detailGrid" class="rightTableGrid"></div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="panel-detailTable">
+					<div class="tab-panel tab-panel-height">
+						<div class="grid-title">
+							<span class="rightTable-title">明细台账记录：</span>
+							<span class="rightTable-title-status"></span>
+							<span class="rightTable-recodeNum">共<span id="workGridSumNum" class="gridSumNum"> </span>笔</span>
+						</div>
+						<div id="workGrid" class="rightTableGrid-hasnav"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 汇总台账导出Modal1 -->
+	<div class="modal fide bs-example-modal-lg" id="sumAccExpModal"
+		tabindex="-1" role="dialog" aria-labelledby="sumAccExpModalModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header" style="height = 34px">
+					<span style="position: absolute;left: 110px;" onclick="showBig()"><span
+						class="glyphicon glyphicon-search"></span> </span>
+					<button type="button" style="margin-top: -7px;"
+						onclick="closeRepEaIModal()" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h5 class="modal-title" id="sumAccExpModalLabel">报表导入导出</h5>
+				</div>
+				<div class="modal-body"
+					style="overflow: auto;height: 425px;padding: 0;">
+					<iframe id="sumAccExpPage" style="width:100%;height:100%;border: 0;"></iframe>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-prima"
+						onclick="closesumAccExpModal()" data-dismiss="modal">完成</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 引入js-->
+	<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+	<script src="../../trd/requirejs/require.js"></script>
+	<script src="../../require.config.js"></script>
+	<script type="text/javascript"
+<script type="text/javascript" src="/df/trd/splitter/jqxcore.js"></script>
+<script type="text/javascript" src="/df/trd/splitter/jqxsplitter.js"></script>
+	<script src="js/csofAccReport.js" type="text/javascript"></script>
+</body>
+</html>

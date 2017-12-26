@@ -1,0 +1,698 @@
+package gov.df.fap.service.login;
+
+import gov.df.fap.api.framework.IPreLogin;
+import gov.df.fap.api.user.IUserSet;
+import gov.df.fap.api.util.paramanage.IParaManage;
+import gov.df.fap.bean.sysdb.EleBookSet;
+import gov.df.fap.bean.sysdb.SysRegion;
+import gov.df.fap.service.util.UUIDRandom;
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.datasource.MultiDataSource;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.fap.util.BeanUtils;
+import gov.df.fap.util.Tools;
+import gov.df.fap.util.file.FileUtil;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+@Service
+public class PreLoginBO implements IPreLogin {
+
+  @Autowired
+  @Qualifier("generalDAO")
+  private GeneralDAO dao;
+
+  private static List rgCodeList = null;
+
+  public PreLoginBO() {
+  }
+
+  /**
+   * 返回当前可用的业务年度集合
+   */
+  public List queryBusiYear() throws Exception {
+    return SessionUtil.getAllSetYearbyPubliContextXML();
+  }
+
+  /**
+   * 根据用户编码查询其对应的用户名称
+   * 
+   * @param userCode 用户编码
+   * @return 用户名称 modify by wl 20120420 查询用户时加入区划码
+   */
+  public List getUserNameByCode(String userCode, String rgCode, String setYear) throws Exception {
+    String switch01 = (String) SessionUtil.getParaMap().get("switch01");
+    String hql = "";
+    if (switch01.equals("0")) {
+      hql = "select sysuser.*,org.ele_code org_ele_code,sur.rg_code from sys_usermanage"
+        + Tools.addDbLink()
+        + " sysuser,sys_orgtype"
+        + Tools.addDbLink()
+        + " org,sys_user_region sur where sysuser.user_id=sur.user_id and sysuser.ENABLED = 1 and sysuser.org_type=org.orgtype_code and sysuser.USER_CODE = ? and sur.rg_code=? and sysuser.set_year = ? ";
+    } else {
+      hql = "select sysuser.*,org.ele_code org_ele_code,sur.rg_code from sys_user"
+        + Tools.addDbLink()
+        + " sysuser,sys_orgtype"
+        + Tools.addDbLink()
+        + " org,sys_user_region sur where sysuser.user_id=sur.user_id and sysuser.ENABLED = 1 and sysuser.org_type=org.orgtype_code and sysuser.USER_CODE = ? AND SYSUSER.set_year = ?";
+    }
+    List result = null;
+    result = dao.findBySql(hql, new Object[] { userCode, rgCode, setYear });
+    if (result == null)
+      return new ArrayList();
+    else {
+      return result;
+    }
+  }
+
+  /**
+   * 根据用户编码查询其对应的用户名称
+   * 
+   * @param userCode 用户编码
+   * @return 用户名称
+   */
+  public String getSystemNameById(String sysid) throws Exception {
+    String sql = "select sys_name from sys_app where sys_id=? and enabled=1";
+    List result = null;
+    result = dao.findBySql(sql, new Object[] { sysid });
+    if (result.size() <= 0)
+      return "";
+    else {
+      return (String) ((Map) result.get(0)).get("sys_name");
+    }
+  }
+
+  /**
+   * 先获取总帐的bean注入，如果为空，取全部帐套
+   * 
+   * @param userId 用户id
+   * @param year 选择的年份
+   * @return List（XMLData字段符合表ele_book_set） 返回帐套信息
+   * @throws Exception 抛出sql错误
+   * @author 黄节2007年5月21日新增
+   */
+  public List getBookSetByUserId(String userId, int year) throws Exception {
+    // 如果总帐有实现注入，返回没有数据的list，数据等待用户名输入之后取
+    IUserSet userSet = null;
+    try {
+      userSet = (IUserSet) SessionUtil.getServerBean("sys.userSet");
+    } catch (RuntimeException e) {
+    }
+    if (userSet != null) {
+      return userSet.findSetByUser(userId, year);
+    } else {
+      String sql = "select * from ele_book_set" + Tools.addDbLink()
+        + " where enabled=1 and set_year=? and is_leaf=1 order by chr_code";
+      List result = null;
+      result = dao.findBySql(sql, new Object[] { new Integer(year) });
+      List res = null;
+      if (result.size() > 0) {
+        res = new ArrayList();
+        EleBookSet bookset = null;
+        Iterator it = result.iterator();
+        while (it.hasNext()) {
+          Map map = (Map) it.next();
+          map.put("table_name", "mappingfiles.sysdb.EleBookSet");
+          bookset = (EleBookSet) BeanUtils.populate(map);
+          res.add(bookset);
+        }
+        return res;
+      } else
+        return result;
+    }
+  }
+
+  /**
+   * 先获取总帐的bean注入，如果为空，去全部帐套，否则先返回没有数据的list
+   * 
+   * @param year 传入的年份，取全部帐套用
+   * @return List（XMLData字段符合表ele_book_set） 返回帐套信息
+   * @throws Exception 抛出sql错误
+   * @author 黄节2007年5月21日修改
+   */
+  public List queryBookSet(int year) throws Exception {
+    // 如果总帐有实现注入，返回没有数据的list，数据等待用户名输入之后取
+    IUserSet userSet = null;
+    try {
+      userSet = (IUserSet) SessionUtil.getServerBean("sys.userSet");
+    } catch (RuntimeException e) {
+      // 如果没有抛出错误：没有“sys.userSet”bean，不处理继续执行。
+    }
+    if (userSet != null) {
+      return new ArrayList();
+    }
+    // 否则取全部帐套
+    else {
+      // String hql = "from EleBookSet as bookset where
+      // bookset.ENABLED = 1"
+      // + " and bookset.SET_YEAR = ? and bookset.IS_LEAF = 1 order by
+      // bookset.CHR_CODE";
+      String sql = "select * from ele_book_set" + Tools.addDbLink()
+        + " where enabled=1 and set_year=? and rg_code=? and is_leaf=1 order by chr_code";
+      List result = null;
+      result = dao.findBySql(sql, new Object[] { new Integer(year), SessionUtil.getRgCode() });
+      List res = null;
+      if (result.size() > 0) {
+        res = new ArrayList();
+        EleBookSet bookset = null;
+        Iterator it = result.iterator();
+        while (it.hasNext()) {
+          Map map = (Map) it.next();
+          map.put("table_name", "mappingfiles.sysdb.EleBookSet");
+          bookset = (EleBookSet) BeanUtils.populate(map);
+          res.add(bookset);
+        }
+        return res;
+      } else
+        return result;
+    }
+  }
+
+  /**
+   * 根据用户子系统id查询其对应的用户子系统登录图片
+   * 
+   * @param userSysId 用户子系统id
+   * @return 用户子系统登录图片名称
+   */
+  public String getUserSysLoginImgById(String userSysId) throws Exception {
+    String sql = "select login_img from sys_user_sys where user_sys_id=? and enabled=1";
+    List result = null;
+    result = dao.findBySql(sql, new Object[] { userSysId });
+    if (result.size() <= 0)
+      return "";
+    else {
+      return (String) ((Map) result.get(0)).get("login_img");
+    }
+  }
+
+  /**
+   * 取系统参数
+   */
+  public String getSysPara(String paraCode, String setCode) {
+    IParaManage paraMan = (IParaManage) SessionUtil.getServerBean("sys.paraManService");
+    String result = "";
+    result = paraMan.getPara(paraCode, setCode);
+    return (result == null) ? "" : result;
+  }
+
+  /**
+   * 根据set_year,rg_code获取参数。 取系统参数 
+   */
+  public String getSysPara(String paraCode, String setCode, String rg_code, String set_year) {
+    IParaManage paraMan = (IParaManage) SessionUtil.getServerBean("sys.paraManService");
+    String result = "";
+    result = paraMan.getPara(paraCode, setCode, rg_code, set_year);
+    return (result == null) ? "" : result;
+  }
+
+  /**
+   * 查询登录时所有已启用的区划信息 add by wl 20120410
+   * 
+   * @param 登录年份
+   */
+  public List queryRegion() throws Exception {
+    String sql = " SELECT CHR_CODE1,CHR_CODE,CHR_NAME,IS_TOP FROM ELE_REGION WHERE IS_VALID=1 ORDER BY CHR_CODE";
+    List res = new ArrayList();
+    if (rgCodeList == null || rgCodeList.size() <= 0) {// 区划列表缓存
+      synchronized (this) {
+        if (rgCodeList == null || rgCodeList.size() <= 0) {
+          List result = dao.findBySql(sql);
+          if (result != null && result.size() > 0) {
+            for (int i = 0; i < result.size(); i++) {
+              Map map = (Map) result.get(i);
+              SysRegion sr = new SysRegion();
+              sr.setRg_code(map.get("chr_code").toString());
+              sr.setRg_name(map.get("chr_name").toString());
+              sr.setIs_top(map.get("is_top").toString());
+              sr.setChr_code1(map.get("chr_code1").toString());
+              res.add(sr);
+            }
+          }
+        }
+        rgCodeList = res;
+      }
+    } else {
+      return rgCodeList;
+    }
+    return rgCodeList;
+  }
+
+  public String getUserIdbyCode(String userCode) {
+    String switch01 = (String) SessionUtil.getParaMap().get("switch01");
+    String hql = "";
+    if (switch01.equals("0")) {
+      hql = "select sysuser.USER_ID from sys_usermanage sysuser where sysuser.ENABLED = 1 and sysuser.USER_CODE = ? and set_year=? ";
+    } else {
+      hql = "select sysuser.USER_ID from sys_user sysuser where sysuser.ENABLED = 1 and sysuser.USER_CODE = ? and set_year=? ";
+    }
+    List result = null;
+    result = dao.findBySql(hql, new Object[] { userCode, SessionUtil.getLoginYear() });
+    if (result.size() == 0)
+      return "";
+    else {
+      Map map = (Map) result.get(0);
+      return (String) map.get("user_id");
+    }
+  }
+
+  public String getUserIdbyCodeYearFromMulDataSource(String userCode, Integer setYear) throws SQLException {
+    Connection conn = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    String userId = null;
+    try {
+      MultiDataSource mt = (MultiDataSource) SessionUtil.getServerBean("multiDataSource");
+      DataSource dataSource = mt.getDataSourceWithYear(setYear.intValue());
+      String rgCode = SessionUtil.getRgCode();
+      String switch01 = (String) SessionUtil.getParaMap().get("switch01");
+      if (switch01 == null) {
+        return "";
+      }
+      String hql = "";
+      if (switch01.equals("0")) {
+        hql = "select sysuser.USER_ID from sys_usermanage sysuser ,sys_user_region ur where sysuser.ENABLED = 1 and ur.user_id=sysuser.user_id and sysuser.USER_CODE = ? and set_year=?  and ur.rg_code =?";
+      } else {
+        hql = "select sysuser.USER_ID from sys_user sysuser where sysuser.ENABLED = 1 and sysuser.USER_CODE = ? and set_year=? and rg_code = ?";
+      }
+      conn = dataSource.getConnection();
+      ps = conn.prepareStatement(hql);
+      ps.setString(1, userCode);
+      ps.setInt(2, setYear.intValue());
+      ps.setString(3, rgCode);
+      rs = ps.executeQuery();
+      while (rs.next()) {
+        userId = rs.getString("user_id");
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      try {
+        if (rs != null)
+          rs.close();
+        ps.close();
+        conn.close();
+      } catch (SQLException localSQLException1) {
+      }
+    }
+    return userId;
+  }
+
+  public String getUserIdbyCodeYear(String userCode, Integer setYear) {
+    String switch01 = (String) SessionUtil.getParaMap().get("switch01");
+    if (switch01 == null) {
+      return "";
+    }
+    String hql = "";
+    if (switch01.equals("0")) {
+      hql = "select sysuser.USER_ID from sys_usermanage sysuser ,sys_user_region ur where sysuser.ENABLED = 1 and ur.user_id=sysuser.user_id and sysuser.USER_CODE = ? and set_year=?  and ur.rg_code =?";
+    } else {
+      hql = "select sysuser.USER_ID from sys_user sysuser where sysuser.ENABLED = 1 and sysuser.USER_CODE = ? and set_year=? and rg_code = ?";
+    }
+    String rgCode = SessionUtil.getRgCode();
+    List result = null;
+    result = dao.findBySql(hql, new Object[] { userCode, setYear, rgCode });
+    if (result.size() == 0)
+      return "";
+    else {
+      Map map = (Map) result.get(0);
+      return (String) map.get("user_id");
+    }
+  }
+
+  public byte[] getFileAtServer(String url) throws IOException {
+    byte[] byteFile = FileUtil.file2Bytes(url);
+    return byteFile;
+  }
+
+  public Map getValueFromSysapp(String sysid) {
+    String sql = "select sys_name,is_dstore,is_offline, application_handle from sys_app where sys_id=? and enabled=1";
+    List result = null;
+    result = dao.findBySql(sql, new Object[] { sysid });
+    if (result.size() <= 0)
+      return new HashMap();
+    else {
+      return (Map) result.get(0);
+    }
+  }
+
+  /**
+   * 通过用户id和角色id获取sysid字符串,多个sysid以','分隔
+   * @param userId
+   * @param roleId
+   * @return String
+   */
+  public String getSysidByuserIdAndRoleId(String userId, String roleId) {
+    String sql = "select distinct sm.sys_id from sys_user_role_rule su, sys_role_menu_module sr, sys_module sm, sys_plugs_state sp "
+      + "where sm.sys_id not in ('000', '001') and sm.sys_id = sp.pro_id and sp.state = 'start' and su.role_id = sr.role_id "
+      + "and su.rg_code = sr.rg_code and su.set_year = sr.set_year and sr.module_id = sm.module_id "
+      + "and su.user_id = ? and sr.role_id = ?";
+    List result = dao.findBySql(sql, new Object[] { userId, roleId });
+    if (result.size() > 0) {
+      StringBuffer sb = new StringBuffer();
+      for (int i = 0, end = result.size(); i < end; i++) {
+        Map m = (Map) result.get(i);
+        sb.append((String) m.get("sys_id"));
+        if (i + 1 < end) {
+          sb.append(",");
+        }
+      }
+      return sb.toString();
+    }
+    return null;
+  }
+
+  /**
+   * 获取部分sysid
+   * @return
+   */
+  public String getSysidOfPart() {
+    String sql = "select sys_id from sys_app t where t.sys_id not in ('001','009','004') and t.jar_names is not null";
+    List result = dao.findBySql(sql);
+    if (result.size() > 0) {
+      StringBuffer sb = new StringBuffer();
+      for (int i = 0, end = result.size(); i < end; i++) {
+        Map m = (Map) result.get(i);
+        sb.append((String) m.get("sys_id"));
+        if (i + 1 < end) {
+          sb.append(",");
+        }
+      }
+      return sb.toString();
+    }
+    return null;
+  }
+
+  /**
+   * 获取未启用的子系统Id 返回结果如：111，115
+   */
+  public String getSysIdByNoStartApp() {
+    StringBuffer sb = new StringBuffer();
+    String sysIdArray[];
+    sb.append("select  t.pro_id sys_id from sys_plugs_state t where t.state='stop'");
+    List list = dao.findBySql(sb.toString());
+    if (list != null && list.size() > 0) {
+      sysIdArray = new String[list.size()];
+      for (int k = 0; k < list.size(); k++) {
+        Map tMap = (Map) list.get(k);
+        sysIdArray[k] = (String) tMap.get("sys_id");
+      }
+      return Tools.arrToSqlString(sysIdArray);
+    }
+    return "'null'";
+  }
+
+  public GeneralDAO getDao() {
+    return dao;
+  }
+
+  public void setDao(GeneralDAO dao) {
+    this.dao = dao;
+  }
+
+  /**
+   * add by wl20120417 判断是否需要设置顶级区划
+   * 
+   * @return
+   */
+  public SysRegion getInitAppCurRegion() {
+    SysRegion sr = null;
+    String sql = " select * from ele_region where is_top=1 ";
+    List result = dao.findBySql(sql);
+    if (result.size() > 0) {
+      Map map = (Map) result.get(0);
+      sr = new SysRegion();
+      sr.setRg_code(map.get("chr_code").toString());
+      sr.setRg_name(map.get("chr_name").toString());
+    }
+    return sr;
+  }
+
+  /**
+   * <strong>Description:</strong><br>
+   * 用户输入第三次错误密码之后才进行锁定账号<br>
+   * 之后 输错第四五六七八.....次，直接给前台用户告知他的账号将在X年X月X日X时X分X秒解锁即可<br>
+   * 还有一种情况,用户输入三次或三次以上错误密码之后，用户联系管理员进行了手工解锁，在管理员进行手工解锁后<br>
+   * 用户又输入错误密码，这种情况下， 直接给她锁定<br>
+   * 
+   * @author fengdz
+   * @date Mar 8, 2013 10:11:47 AM
+   * 
+   */
+  public HashMap lockedUserAccount(String user_id, String setYear, String rg_code, int errorNum, String userName) {
+    HashMap lockedStats = new HashMap();
+    String lockedDate = getLockedDate(user_id);
+    // 用户输入第三次错误密码之后才进行锁定，如果锁定日期为空，说明管理员已经进行解锁；在管理员解锁之后，如果再次输入错误密码则直接锁定
+    if (errorNum == 3 || lockedDate.equals("")) {
+      String serverTime = Tools.getCurrDate();
+      String updateSql = " update sys_usermanage um set um.locked_date='" + serverTime + "'"
+        + " where um.user_id=? and um.set_year=" + setYear
+        + " and exists (select 1 from sys_user_region rg where rg.user_id=um.user_id " + " and rg.rg_code='" + rg_code
+        + "')";
+      dao.executeBySql(updateSql, new Object[] { user_id });
+      /**
+       * 保存操作日志 开始
+       */
+      String operSql = "insert into sys_loginfo (log_id,user_name,log_type,oper_time,rg_code,set_year,remark) values(?,?,?,?,?,?,?)";
+      dao.executeBySql(operSql, new Object[] { UUIDRandom.generate(), userName, "1", serverTime, rg_code, setYear,
+        "当前用户" + userName + "于" + serverTime + " 自动锁定" });
+      /**
+       * 保存操作日志 结束
+       */
+      if (errorNum == 3 && lockedDate.equals("")) {
+        // 用户输入第三次错误密码之后才进行锁定
+        lockedStats.put("remark", returnTimes(serverTime));
+      }
+      if (errorNum > 3 && lockedDate.equals("")) {
+        // 如果锁定日期为空，说明管理员已经进行解锁；在管理员解锁之后，如果再次输入错误密码则直接锁定
+        lockedStats.put("remark", returnTimes1(serverTime));
+      }
+      return lockedStats;
+    }
+    /**
+     * 输错第四五六七八.....次返回距离解锁还有多久即可,此处需要考虑lockedDate为空的情况，
+     * 因为在本次登陆的时候可能让管理员进行了手工解锁，故lockedDate为空,所以本次条件为用户输入次数大于三次且锁定日期不为空
+     */
+    if (errorNum > 3 && !lockedDate.equals("")) {
+      lockedStats.put("remark", returnTimes(lockedDate));
+    }
+    return lockedStats;
+  }
+
+  /**
+   * 
+   * <strong>Description:</strong><br>
+   * 计算距离解锁时间<br>
+   * 
+   * @author fengdz
+   * @date Mar 8, 2013 12:44:06 PM
+   * 
+   */
+  private String returnTimes(String times) {
+    String returnTimesStr = null;
+    try {
+      returnTimesStr = "由于您连续三次输入错误密码,您的账号已自动锁定24小时,账号将在:" + "【 " + Tools.timeSpanAfterDays(times, 1) + "】自动解锁;"
+        + "您也可以联系管理员进行手工解锁!";
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return returnTimesStr;
+  }
+
+  /**
+   * 
+   * <strong>Description:</strong><br>
+   * 计算距离解锁时间<br>
+   * 
+   * @author fengdz
+   * @date Mar 8, 2013 12:44:06 PM
+   * 
+   */
+  private String returnTimes1(String times) {
+    String returnTimesStr = null;
+    try {
+      // returnTimesStr = "由于您之前连续三次输入错误密码,管理员已经给您的账号解锁；本次您又输入错误密码，" +
+      // "您的账号将从现在开始继续锁定24小时！账号将在:" + "【 "
+      // + Tools.timeSpanAfterDays(times, 1) + "】自动解锁;" +
+      // "您也可以联系管理员进行手工解锁!如果忘记了密码,解锁之后，也可以让管理员对您的密码进行重置！";
+      returnTimesStr = "由于您连续三次输入错误密码,您的账号已自动锁定24小时,账号将在:" + "【 " + Tools.timeSpanAfterDays(times, 1) + "】自动解锁;"
+        + "您也可以联系管理员进行手工解锁!";
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return returnTimesStr;
+  }
+
+  /**
+   * 
+   * <strong>Description:</strong><br>
+   * 获取账号锁定日期<br>
+   * 
+   * @author fengdz
+   * @date Mar 8, 2013 11:10:45 AM
+   * 
+   */
+  private String getLockedDate(String user_id) {
+    String lockedDate = "";
+    String sql = " select locked_date from sys_usermanage " + " where user_id='" + user_id + "'";
+    List result = dao.findBySql(sql);
+    if (result.size() > 0) {
+      Map map = (Map) result.get(0);
+      lockedDate = map.get("locked_date") == null ? lockedDate : map.get("locked_date").toString().trim();
+    }
+    return lockedDate;
+  }
+
+  /**
+   * 通过年度和区划查找是否存在这个数据源 返回true表示存在数据源 返回false表示不存在这个数据源
+   * 
+   * @time 2013-03-29
+   * @author fengdz
+   * @param year
+   * @param rg
+   * @return
+   */
+  public boolean isExistsSourceByRgAndYear(String year, String rgCode) {
+    boolean isExistsSource = false;
+    MultiDataSource mt = (MultiDataSource) SessionUtil.getServerBean("multiDataSource");
+    isExistsSource = mt.isExistsSourceByRgAndYear(year, rgCode);
+    return isExistsSource;
+  }
+
+  /**
+   * <strong>Description:</strong> <br>
+   * 首先判断是否永久锁定（优先级最高）如果锁定了 就返回到前台<br>
+   * 如果尚未永久锁定 并且locked_date小于24小时 此处需要提示用户到X年X月X日X时X分X秒可以自动解锁<BR>
+   * 如果尚未永久锁定 并且locked_date大于24小时 此处还需要将locked_date设置为空表示系统已经自动解锁<BR>
+   * 本方法得到is_ever_locked和locked_date的值后直接转化为最终结果返回前台给用户提示，减少前台获取值后在做判断的过程<BR>
+   * 需要声明的是:::::: is_ever_locked和locked_date不可能存在同时有值<BR>
+   * 最终结果：要么是永久锁定：要么是暂时锁定，要么通过检查
+   * 
+   * @author fengdz
+   * @date Mar 11, 2013 9:25:55 AM
+   * 
+   */
+  public HashMap checkUserAccount(String user_id, String setYear, String rg_code) {
+    HashMap map = new HashMap();
+    String lockedDate = "";
+    String sql = " select  um.is_ever_locked,um.locked_date from sys_usermanage um " + " inner join sys_user_region "
+      + " rg on um.user_id=rg.user_id  where rg.rg_code='" + rg_code + "'  and um.user_id='" + user_id
+      + "'  and um.set_year=" + setYear;
+    List result = dao.findBySql(sql);
+    if (result.size() > 0) {
+      Map mapResult = (Map) result.get(0);
+      lockedDate = mapResult.get("locked_date") == null ? "" : mapResult.get("locked_date").toString();
+      // 首先判断是否永久锁定（优先级最高）如果锁定了 就没必要往下走
+      if (mapResult.get("is_ever_locked").toString().equals("1")) {
+        // 已经锁定 返回到前台 ，此处得到is_ever_locked的值后直接返回最终结果，减少前台获取值后在做判断的过程
+        map.put("is_ever_locked_str", "您的账号已被手工锁定,暂时不能登录,请联系管理员进行手工解锁！");
+        return map;
+      } else {
+        /**
+         * 如果尚未永久锁定 并且locked_date小于24小时 此处需要提示用户到X年X月X日X时X分X秒可以自动解锁<BR>
+         * 如果尚未永久锁定 并且locked_date大于24小时 此处还需要将locked_date设置为空表示系统已经自动解锁<BR>
+         */
+        if (lockedDate == null || lockedDate == "" || lockedDate.equals("")) {
+          // 尚未锁定 直接返回
+          return map;
+        }
+        // 判断锁定日期距离本次登陆日期是否大于等于24小时（数据库服务器日期，非应用服务器、客户端日期）
+        if (isBigEquals24Hours(lockedDate.trim(), user_id.trim(), setYear.trim(), rg_code.trim())) {
+          // 将locked_date设置为空表示系统已经自动解锁
+          map.put("sucess_open_lock", "sucess");
+          return map;
+        } else {
+          // 如果尚未永久锁定 并且locked_date小于24小时 此处需要提示用户到X年X月X日X时X分X秒可以自动解锁
+          String returnTimesStr = "";
+          try {
+            returnTimesStr = "由于您连续三次输入错误密码,您的账号已自动锁定24小时,账号将在:" + "【 " + Tools.timeSpanAfterDays(lockedDate, 1)
+              + "】自动解锁;" + "您也可以联系管理员进行手工解锁!";
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+          map.put("locked_date_str", returnTimesStr);
+          return map;
+        }
+      }
+    }
+    return map;
+  }
+
+  /**
+   * <strong>Description:</strong><br>
+   * 获取当前数据库服务器日期currentServerTime<br>
+   * 获取自锁定日期lockedDate起往后推24小时之后是X年X月X日X时X分X秒的日期（after24HouusTime）<br>
+   * currentServerTime与after24HouusTime比较 判断锁定日期是否大于等于24小时<br>
+   * 用户账号锁定日期已经大于等于24小时返回true、反之返回false<br>
+   * 
+   * @author fengdz
+   * @date Mar 11, 2013 10:51:28 AM
+   * 
+   */
+  private boolean isBigEquals24Hours(String lockedDate, String user_id, String setYear, String rg_code) {
+    // 锁定日期是否满足24小时的，默认false
+    boolean isBigEquals24Hours = false;
+    // 获取自锁定日期lockedDate起往后推24小时之后是X年X月X日X时X分X秒的日期
+    // String after24HouusTime = "";
+    // 获取当前数据库服务器日期currentServerTime(非客户端、应用服务器时间此处为数据库服务器日期)
+    String currentServerTime = "";
+    try {
+      // 获取当前数据库服务器日期
+      currentServerTime = Tools.getCurrDate();
+      // after24HouusTime记录自锁定日期起24小时之后是X年X月X日X时X分X秒
+      // after24HouusTime = Tools.timeSpanAfterDays(lockedDate, 1);
+      // 当前服务器日期currentServerTime和自锁定日期算起24小时之后的日期after24HouusTime比较
+      if (Tools.spanDaysByDateTime(lockedDate, currentServerTime) > 0) {
+        // 说明已经满足24小时的限制，应该自动解锁
+        String updateSql = " update sys_usermanage um set um.locked_date='" + "'"
+          + " where um.user_id=? and um.set_year=" + setYear
+          + " and exists (select 1 from sys_user_region rg where rg.user_id=um.user_id " + " and rg.rg_code='"
+          + rg_code + "')";
+        dao.executeBySql(updateSql, new Object[] { user_id });
+        isBigEquals24Hours = true;
+        return isBigEquals24Hours;
+      } else {
+        // 说明尚未满足24小时的限制
+        isBigEquals24Hours = false;
+        return isBigEquals24Hours;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return isBigEquals24Hours;
+  }
+  /**
+	 * 清除记录，清除sys_session表所有满足条件{login_date>当前时间-1天}的记录
+	 * 
+	 * @author 黄节2007年9月15日添加
+	 */
+	public void removeInvalidateSession() {
+		Calendar now = Calendar.getInstance();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		now.add(Calendar.DAY_OF_YEAR, -1);
+		String nowDate = formatter.format(now.getTime());
+		// 备份sys_session表中的过期数据到sys_session_bak表
+		String sql = "insert into sys_session_bak (select * from sys_session ss where ss.login_date<?)";
+		dao.executeBySql(sql, new Object[] { nowDate });
+		// 删除sys_session表中的过期数据
+		sql = "delete from sys_session where login_date<?";
+		dao.executeBySql(sql, new Object[] { nowDate });
+	}
+
+}

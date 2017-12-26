@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd 
+      http://code.alibabatech.com/schema/dubbo
+      http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- dubbo 配置 -->
+	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+	<dubbo:application name="fap_dubbo_consumer" />
+	<!-- <dubbo:registry protocol="zookeeper" address="10.10.65.65:2181" timeout="150000" /> -->
+	<!-- <dubbo:registry protocol="zookeeper" address="101.200.211.202:2181" timeout="150000" /> -->
+	<dubbo:registry protocol="zookeeper" address="127.0.0.1:2181" timeout="150000" />
+	<dubbo:consumer check="false" retries="0" timeout="120000" />
+	
+	<!-- 应用服务-url -->
+	<!-- <dubbo:reference id="ipReportDetailServiceI"
+		interface="com.ufgov.ip.api.system.IpReportDetailServiceI"
+		url="dubbo://101.200.211.202:20880/com.ufgov.ip.api.system.IpReportDetailServiceI"
+		check="false" />
+	<dubbo:reference id="ipReportConfigServiceI"
+		interface="com.ufgov.ip.api.system.IpReportConfigServiceI"
+		url="dubbo://101.200.211.202:20880/com.ufgov.ip.api.system.IpReportConfigServiceI"
+		check="false" /> -->
+	<!-- 数据服务 -->
+	<!-- <dubbo:reference id="iBudgetExeDataService"
+		interface="com.ufgov.dss.api.dataservice.IBudgetExeDataService"
+		url="dubbo://101.200.211.202:20880/com.ufgov.dss.api.dataservice.IBudgetExeDataService"
+		check="false" /> -->
+	<!-- 支出情况 -->
+	<!-- <dubbo:reference id="iExpenditureSituationService"
+		interface="com.ufgov.dss.api.dataservice.IExpenditureSituationService"
+		url="dubbo://101.200.211.202:20880/com.ufgov.dss.api.dataservice.IExpenditureSituationService"
+		check="false" /> -->
+		
+	<!--  <dubbo:reference id="iPayProgressService"
+		interface="com.ufgov.dss.api.dataservice.IPayProgressService"
+		url="dubbo://127.0.0.1:20880/com.ufgov.dss.api.dataservice.IPayProgressService"
+		check="false" />-->
+		
+</beans>

@@ -1,0 +1,203 @@
+/**
+ * Created by wenben on 2017/8/30.
+ */
+require(['jquery','knockout', 'bootstrap', 'uui','tree', 'grid', 'ip'], function($,ko) {
+    window.ko = ko;
+    var pageData = {//通过交互获取数据
+        btnDatas : function(url,param){
+            var mapData = [{DISPLAY_TITLE : '分解'},{DISPLAY_TITLE : '修改'},{DISPLAY_TITLE : '撤销分解'}];
+            var html = ''
+            $.each(mapData,function(index,item){
+                html += '<button class="btn btn-default" name="'+item.DISPLAY_TITLE +'" data-bind="click:btnEvents">'+item.DISPLAY_TITLE +'</button>';
+            })
+
+            $('.bnt-list').html(html);
+            /*$.get(url, param ,function(map){{DISPLAY_TITLE : 111},{DISPLAY_TITLE : 33}
+             //console.log(map);
+             //mapData = map.data;
+             });*/
+            return mapData;
+        },
+        initTree1: function () {
+            console.log(data.tree1);
+            viewModel.dataTable1.setSimpleData(data1);
+            viewModel.dataTable2.setSimpleData(data1);
+        }
+    };
+
+    var dealData = {//处理数据
+        showTreeColor: function (treeId, treeNode) {//显示非最终子节点的树节点为蓝色
+            return treeNode.level == 0 ? {color:"blue"} : {};
+        }
+    };
+    var arr = pageData.btnDatas();//不知道为什么删除这句话导致按钮组加载不出来
+    var num = 0;//根据页签的长度定值
+
+    var viewModel = {//ko数据绑定值
+
+        btnEvents: function(data, events){//所有单击事件
+            var $this = $(events.target),
+                name = $this[0].name;
+            console.log(name);
+            if(name == '分解'){
+                $('#addModal').modal('show');
+                if(num == 0){
+                    $('#btn1').hide();
+                    $('#btn3').hide();
+                }else{
+                    if(num == 4){
+                        $('#btn2').hide();
+                        $('#btn3').show();
+                    }else{
+                        $('#btn2').show();
+                        $('#btn3').hide();
+                    }
+                }
+            }
+            if(name == '修改'){
+                $('#updateModal').modal('show');
+                $('#btn1').hide();
+                $('#btn3').hide();
+            }
+            if(name == '高级'){//高级
+                console.log('111');
+            }
+            if(name == 'btn1'){//上一步
+                num--;
+                if(num == 0){
+                    $('#btn1').hide();
+                }
+                if(num < 2){
+                    $('#btn2').show();
+                    $('#btn3').hide();
+                }
+                eventsDeal.reduceStep();
+                eventsDeal.modalTab();
+            }
+            if(name == 'btn2'){//下一步
+                num++;
+                $('#btn1').show();
+                if(num == 2){
+                    $('#btn2').hide();
+                    $('#btn3').show();
+                }
+                eventsDeal.addStep();
+                eventsDeal.modalTab();
+            }
+            if(name == 'btn3'){//完成
+                num = 0;
+                eventsDeal.modalTab();
+                eventsDeal.reduceStep();
+                $('#addModal').modal('toggle');
+                $('#btn2').show();
+                $('#btn4').show();
+            }
+            if(name == 'btn4'){//返回
+
+            }
+
+        },
+
+        treeSetting1:{//左树
+            view:{
+                showLine:false,
+                selectedMulti:false
+            },
+            callback:{
+                onClick:function(e,id,node){
+                    console.log('1');
+                }
+
+            }
+
+        },
+        dataTable1: new u.DataTable({
+            meta: {
+                'id': {},
+                'pid': {},
+                'title':{}
+            }
+        }),
+        treeSetting2:{//左树
+            view: {
+                showLine: false,
+                selectedMulti: false,
+                fontSize: dealData.showTreeColor
+            },
+            callback:{
+                onClick:function(e,id,node){
+                    console.log('2');
+                }
+
+            }
+
+        },
+        dataTable2: new u.DataTable({
+            meta: {
+                'id': {},
+                'pid': {},
+                'title':{}
+            }
+        }),
+        dataTableGrid1 : new u.DataTable({
+            meta: {
+                'STATUS': {},
+                'SUP_NO': {},
+                'SUP_NAME':{},
+                'SUP_CONTENT': {},
+                'OBJ_TYPE_NAME': {},
+                'SUP_NUM': {},
+                'DEP_NAME': {},
+                'CREATE_DATE': {},
+                'REMAKE': {}
+            }
+        }),
+        dataTableGrid2 : new u.DataTable({
+            meta: {
+                'BILLTYPE_CODE': {},
+                'BILLTYPE_NAME': {},
+                'DEP_NAME':{},
+                'SUP_NUM': {},
+                'CONTENT': {},
+                'PLAN_END_DATE': {},
+                'REMAKE': {}
+            }
+        })
+
+    };
+
+    var eventsDeal = {
+        addStep: function () {
+            $('.u-step:eq(' +num+ ')').addClass('current').siblings().removeClass('current');
+            $('.u-step:lt(' +num+ ')').addClass('done');
+            $('.step-doing').text(num+1);
+            $('.step-name').text($('.u-step:eq(' +num+ ') .u-step-title').text());
+        },
+        reduceStep: function () {
+            $('.u-step:gt(' +num+ ')').removeClass('done');
+            $('.u-step:eq(' +num+ ')').removeClass('done');
+            $('.u-step:eq(' +num+ ')').addClass('current').siblings().removeClass('current');
+            $('.step-doing').text(num+1);
+            $('.step-name').text($('.u-step:eq(' +num+ ') .u-step-title').text());
+
+        },
+        modalTab: function () {//点击上一步、下一步切换modal页签
+            var arr = ['infoAdd', 'groupAdd', 'objectAdd'];
+            $('#' + arr[num]).addClass('active').siblings().removeClass('active');
+        }
+    }
+
+
+
+
+
+
+    function init(){
+        app = u.createApp({
+            el: 'body',
+            model: viewModel
+        });
+        pageData.initTree1();
+    }
+    init();
+});

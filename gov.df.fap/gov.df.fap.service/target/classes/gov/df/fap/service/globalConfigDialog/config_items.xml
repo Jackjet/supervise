@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<config_items>
+  <item id="001" name="常规" panel_class="" />
+  <item id="001001" name="要素配置" parent="001"  panel_class="/df/fap/config/eleConfig/eleConfig.html"/>
+  <item id="001002" name="单据配置" parent="001"  panel_class="/df/fap/config/BilltypeConfig/billtypeConfig.html"/>
+  
+  <item id="112" name="计划管理"  panel_class="/df/fap/standardSetting/planmanager/planmain.html"/>
+  
+  <item id="115" name="支付管理"  panel_class="/df/fap/standardSetting/paymanager/paymain.html"/>
+  
+  <item id="004" name="公务卡"  panel_class="/df/fap/standardSetting/paycard/payCard.html"/>
+  
+  <item id="005" name="银行配置"  panel_class="/df/fap/standardSetting/banksetting/bankSetting.html"/>
+
+  <item id="007" name="外部接口"  panel_class=""/>
+  <item id="007001" name="常规接口" parent="007"  panel_class="/df/fap/standardSetting/foreigninterface/conventionalInterface.html"/>
+  <item id="007002" name="工资接口" parent="007"  panel_class="/df/fap/standardSetting/foreigninterface/salaryInterface.html"/>
+  <item id="007003" name="政府采购接口" parent="007"  panel_class="/df/fap/standardSetting/foreigninterface/GovProcurementInterface.html"/>
+  
+  <item id="008" name="用户参数"  panel_class=""/>
+  <item id="008001" name="计划管理" parent="008"  panel_class="/df/fap/standardSetting/userparams/planManagement.html"/>
+  <item id="008002" name="支付管理" parent="008"  panel_class="/df/fap/standardSetting/userparams/payManagement.html"/>
+  <item id="008003" name="客户端查询参数配置" parent="008"  panel_class="/df/fap/standardSetting/userparams/clientQueryParamSetting.html"/>
+</config_items>

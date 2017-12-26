@@ -1,0 +1,316 @@
+package gov.df.fap.service.init;
+
+import gov.df.fap.api.fapcommon.IUserSync;
+import gov.df.fap.api.init.IInitService;
+import gov.df.fap.api.workflow.IBillTypeServices;
+import gov.df.fap.bean.user.UserDTO;
+import gov.df.fap.service.gl.coa.impl.CoaDao;
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.datasource.SQLUtil;
+import gov.df.fap.service.util.datasource.TypeOfDB;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.fap.util.date.DateHandler;
+import gov.df.fap.util.xml.XMLData;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+/**
+ * 页面初始化--供页面初始化使用
+ * @author hp
+ * @version 2017-3
+ */
+@SuppressWarnings({ "unchecked", "rawtypes" })
+@Service
+public class InitService implements IInitService {
+
+  @Autowired
+  private IUserSync iUserSyncManager;
+
+  public InitService() {
+
+  }
+
+  @Autowired
+  TypeOfDB typeOfDB;
+
+  @Autowired
+  @Qualifier("generalDAO")
+  private GeneralDAO generalDAO;
+
+  @Autowired
+  private CoaDao coaDao;
+
+  @Autowired
+  private IBillTypeServices billtypeService;
+
+  /**
+   * 初始化数据获取
+   * @author hp
+   * @version 2017-3
+   */
+  public Map<String, Object> queryResByRole(HttpServletRequest request, HttpServletResponse response) {
+    if (TypeOfDB.isMySQL()) {
+      return queryResByRoleForMysql(request, response);
+    }
+    Map<String, Object> map = new HashMap<String, Object>();
+    String menuid = request.getParameter("svMenuId");
+    String roleid = request.getParameter("svRoleId");
+    String tokenid = request.getParameter("tokenid");
+    String billtype = request.getParameter("billtype");
+    String busbilltype = request.getParameter("busbilltype");
+    long begin = System.currentTimeMillis();
+    try {
+      UserDTO userdto = (UserDTO) iUserSyncManager.getUser(tokenid);
+      String year = userdto.getSet_year();
+      String rg_code = userdto.getRg_code();
+      SessionUtil.setRgcode(rg_code);
+      SessionUtil.setDefaultYear(String.valueOf(year));
+      map.put("curMonth", DateHandler.getCurrentMonth());
+      //加入视图表的备注作为视图显示的URL
+      String viewSql = "select a.ui_id viewid,a.ui_code viewcode, a.ui_name viewname, a.ui_type viewtype, a.remark remark, t.disp_order orders,t.remark keyword , t.MENUVIEW_ID guid  from sys_uimanager a ,SYS_MENU_VIEW t where t.ui_id = a.ui_id and t.menu_guid = ? and t.rg_code = ? and t.set_year = ? order by t.disp_order";
+      List<Map> viewList = generalDAO.findBySql(viewSql, new Object[] { menuid, rg_code, year });
+      map.put("viewlist", viewList);
+      for (Map mp : viewList) {
+        String sql = "select t.ui_detail_id , t.ui_id viewid , t.disp_mode , t.is_nessary , t.is_enabled , t.field_index , t.id , t.title name "
+          + ",lower(t.visible) visible , t.width ,t.parent_id,"
+          + SQLUtil.replaceNvl("nvl(t.HEADER_LEVEL, '1')")
+          + " headerlevel ,"
+          + SQLUtil.replaceNvl("nvl(t.SUM_FLAG,'fasle')")
+          + "sumflag,t.ref_model,t.source,t.query_relation_sign,lower(t.editable) editable,t.value  from sys_uidetail t where t.ui_id =? and t.set_year = ? and  t.rg_code=? and t.is_enabled='1' order by t.field_index ";
+        List list = generalDAO.findBySql(sql, new Object[] { mp.get("viewid"), year, rg_code });
+        mp.put("viewDetail", list);//视图明细
+      }
+      String sql = "";
+      if (typeOfDB.isOracle()) {
+        sql = "select a.btn_code id, decode(a.remark , '0','0','1',nvl(t.role_id,'0'),'0') flag , a.btn_name from sys_role_menu_button t , sys_menu_button a where t.button_id(+) = a.btn_id and  t.menu_id(+) = a.menu_id"
+          + " and t.role_id(+)=? and  a.menu_id = ? and t.rg_code(+) = ? and t.set_year(+) = ? ";
+      } else if (typeOfDB.isMySQL()) {
+        sql = "select a.btn_code id, case a.remark when '0' then '0' when '1' then ifnull(t.role_id,'0') else '0' end flag, a.btn_name "
+          + "from sys_role_menu_button t right join sys_menu_button a "
+          + "on (t.button_id = a.btn_id and t.menu_id= a.menu_id and t.rg_code = ? and t.set_year = ? and t.role_id=? ) where  a.menu_id = ? ";
+      }
+      List reslist = generalDAO.findBySql(sql, new Object[] { roleid, menuid, rg_code, year });
+      map.put("reslist", reslist);
+      //明细COA
+      String coaId = "";
+      List coaDetail = new ArrayList();
+      if (billtype != null && !"".equals(billtype)) {
+        coaId = billtypeService.getCoaIdByByBilltypeCode(billtype);
+        if (coaId != null && !"".equals(coaId)) {
+          XMLData xmlData = coaDao.getCoabyID(coaId);
+          if (xmlData != null) {
+            coaDetail.addAll((List) xmlData.get("row"));
+          }
+        }
+        String sourceCoaIdSql = "select coa_id from gl_sum_type where (sum_type_id,rg_code,set_year) "
+          + "in (select account_id,rg_code,set_year from gl_busvou_acctmdl "
+          + "where (vou_type_id,rg_code,set_year) in (select busvou_type_id,rg_code,set_year  from sys_billtype where BILLTYPE_CODE=? and rg_code =? and set_year=?) )";
+        List sourceCoaIdlist = generalDAO.findBySql(sourceCoaIdSql, new Object[] { billtype, rg_code, year });
+        if (sourceCoaIdlist != null && sourceCoaIdlist.size() > 0) {
+          String sourceCoaId = (String) ((Map) sourceCoaIdlist.get(0)).get("coa_id");
+          if (sourceCoaId != null) {
+            StringBuilder sSql = new StringBuilder();
+            sSql
+              .append(
+                "select ele_code,0 level_type from gl_coa_detail g where coa_id = ? and rg_code= ? and set_year=? ")
+              .append(" and exists(select 1 from gl_coa_detail t where t.coa_id = ? and t.rg_code = g.rg_code and ")
+              .append(" t.set_year=g.set_year and t.ele_code = g.ele_code and t.level_num = g.level_num) ")
+              .append(
+                " union all select ele_code,1 level_type from gl_coa_detail g where coa_id = ? and rg_code= ? and set_year=? ")
+              .append(
+                " and exists(select 1 from gl_coa_detail t where t.coa_id = ? and t.rg_code = g.rg_code and t.set_year=g.set_year ")
+              .append(" and t.ele_code = g.ele_code  and t.level_num < g.level_num)");
+            List levelTypeList = generalDAO.findBySql(sSql.toString(), new Object[] { sourceCoaId, rg_code, year,
+              coaId, sourceCoaId, rg_code, year, coaId });
+            map.put("levelType", levelTypeList);
+          }
+        }
+      }
+      map.put("coaId", coaId);
+      map.put("coaDetail", coaDetail);
+      //单COA
+      String billCoaId = "";
+      List billCoaDetail = new ArrayList();
+      if (busbilltype != null && !"".equals(busbilltype)) {
+        billCoaId = billtypeService.getCoaIdByByBilltypeCode(busbilltype);
+        if (billCoaId != null && !"".equals(billCoaId)) {
+          XMLData xmlData = coaDao.getCoabyID(billCoaId);
+          if (xmlData != null) {
+            billCoaDetail.addAll((List) xmlData.get("row"));
+          }
+        }
+      }
+      map.put("billCoaId", billCoaId);
+      map.put("billCoaDetail", billCoaDetail);
+
+      sql = "select t.relation_id,t.pri_ele_code,t.sec_ele_code from sys_relation_manager t "
+        + " where t.rg_code=?  and t.set_year=? and RELATION_TYPE=0";
+      List relationlist = generalDAO.findBySql(sql, new Object[] { rg_code, year });
+      map.put("relationlist", relationlist);
+      if (map.get("levelType") == null) {
+        map.put("levelType", new ArrayList());
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      System.out.println("页面初始化后台查询时间：" + (System.currentTimeMillis() - begin));
+    }
+    return map;
+  }
+
+  public Map<String, Object> queryResByRoleForMysql(HttpServletRequest request, HttpServletResponse response) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String menuid = request.getParameter("svMenuId");
+    String roleid = request.getParameter("svRoleId");
+    String tokenid = request.getParameter("tokenid");
+    String billtype = request.getParameter("billtype");
+    String busbilltype = request.getParameter("busbilltype");
+    long begin = System.currentTimeMillis();
+    try {
+      UserDTO userdto = (UserDTO) iUserSyncManager.getUser(tokenid);
+      String year = userdto.getSet_year();
+      String rg_code = userdto.getRg_code();
+      SessionUtil.setRgcode(rg_code);
+      SessionUtil.setDefaultYear(String.valueOf(year));
+      map.put("curMonth", DateHandler.getCurrentMonth());
+      String viewSql = "select a.ui_id viewid,a.ui_code viewcode, a.ui_name viewname, a.ui_type viewtype, t.disp_order orders,t.remark keyword , t.MENUVIEW_ID guid  from sys_uimanager a ,SYS_MENU_VIEW t where t.ui_id = a.ui_id and t.menu_guid = ? and t.rg_code = ? and t.set_year = ? order by t.disp_order";
+      List<Map> viewList = generalDAO.findBySql(viewSql, new Object[] { menuid, rg_code, year });
+      map.put("viewlist", viewList);
+      for (Map mp : viewList) {
+        String sql = "select t.ui_detail_id , t.ui_id viewid , t.disp_mode , t.is_nessary , t.is_enabled , t.field_index , t.id , t.title name "
+          + ",lower(t.visible) visible , t.width ,t.parent_id, ifnull(t.HEADER_LEVEL,'1') headerlevel , ifnull(t.SUM_FLAG,'fasle') sumflag,t.ref_model,t.source,t.query_relation_sign,lower(t.editable) editable,t.value  from sys_uidetail t where t.ui_id =? and t.set_year = ? and  t.rg_code=? and t.is_enabled='1' order by t.field_index ";
+        List list = generalDAO.findBySql(sql, new Object[] { mp.get("viewid"), year, rg_code });
+        mp.put("viewDetail", list);//视图明细
+      }
+
+      String sql = "select A.BTN_CODE ID,( case when A.REMARK = '0' then  '0' when A.REMARK = '1' then ifnull(T.ROLE_ID, '0')  else '0' end) FLAG, A.BTN_NAME from  SYS_MENU_BUTTON A left join SYS_ROLE_MENU_BUTTON T on T.BUTTON_ID = A.BTN_ID and T.MENU_ID = A.MENU_ID and T.ROLE_Id = ?  and T.RG_CODE = ? and T.SET_YEAR = ? where  A.MENU_ID = ?";
+      List reslist = generalDAO.findBySql(sql, new Object[] { roleid, rg_code, year, menuid });
+      map.put("reslist", reslist);
+      //明细COA
+      String coaId = "";
+      List coaDetail = new ArrayList();
+      if (billtype != null && !"".equals(billtype)) {
+        coaId = billtypeService.getCoaIdByByBilltypeCode(billtype);
+        if (coaId != null && !"".equals(coaId)) {
+          XMLData xmlData = coaDao.getCoabyID(coaId);
+          if (xmlData != null) {
+            coaDetail.addAll((List) xmlData.get("row"));
+          }
+        }
+        String sourceCoaIdSql = "select coa_id from gl_sum_type where (sum_type_id,rg_code,set_year) "
+          + "in (select account_id,rg_code,set_year from gl_busvou_acctmdl "
+          + "where (vou_type_id,rg_code,set_year) in (select busvou_type_id,rg_code,set_year  from sys_billtype where BILLTYPE_CODE=? and rg_code =? and set_year=?) )";
+        List sourceCoaIdlist = generalDAO.findBySql(sourceCoaIdSql, new Object[] { billtype, rg_code, year });
+        if (sourceCoaIdlist != null && sourceCoaIdlist.size() > 0) {
+          String sourceCoaId = (String) ((Map) sourceCoaIdlist.get(0)).get("coa_id");
+          if (sourceCoaId != null) {
+            StringBuilder sSql = new StringBuilder();
+            sSql
+              .append(
+                "select ele_code,0 level_type from gl_coa_detail g where coa_id = ? and rg_code= ? and set_year=? ")
+              .append(" and exists(select 1 from gl_coa_detail t where t.coa_id = ? and t.rg_code = g.rg_code and ")
+              .append(" t.set_year=g.set_year and t.ele_code = g.ele_code and t.level_num = g.level_num) ")
+              .append(
+                " union all select ele_code,1 level_type from gl_coa_detail g where coa_id = ? and rg_code= ? and set_year=? ")
+              .append(
+                " and exists(select 1 from gl_coa_detail t where t.coa_id = ? and t.rg_code = g.rg_code and t.set_year=g.set_year ")
+              .append(" and t.ele_code = g.ele_code  and t.level_num < g.level_num)");
+            List levelTypeList = generalDAO.findBySql(sSql.toString(), new Object[] { sourceCoaId, rg_code, year,
+              coaId, sourceCoaId, rg_code, year, coaId });
+            map.put("levelType", levelTypeList);
+          }
+        }
+      }
+      map.put("coaId", coaId);
+      map.put("coaDetail", coaDetail);
+      //单COA
+      String billCoaId = "";
+      List billCoaDetail = new ArrayList();
+      if (busbilltype != null && !"".equals(busbilltype)) {
+        billCoaId = billtypeService.getCoaIdByByBilltypeCode(busbilltype);
+        if (billCoaId != null && !"".equals(billCoaId)) {
+          XMLData xmlData = coaDao.getCoabyID(billCoaId);
+          if (xmlData != null) {
+            billCoaDetail.addAll((List) xmlData.get("row"));
+          }
+        }
+      }
+      map.put("billCoaId", billCoaId);
+      map.put("billCoaDetail", billCoaDetail);
+
+      sql = "select t.relation_id,t.pri_ele_code,t.sec_ele_code from sys_relation_manager t "
+        + " where t.rg_code=?  and t.set_year=? and RELATION_TYPE=0";
+      List relationlist = generalDAO.findBySql(sql, new Object[] { rg_code, year });
+      map.put("relationlist", relationlist);
+      if (map.get("levelType") == null) {
+        map.put("levelType", new ArrayList());
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      System.out.println("页面初始化后台查询时间：" + (System.currentTimeMillis() - begin));
+    }
+    return map;
+  }
+
+  public Map<String, Object> ResState(HttpServletRequest request, HttpServletResponse response) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String menuid = request.getParameter("svMenuId");
+    String roleid = request.getParameter("svRoleId");
+    String rg_code = SessionUtil.getRgCode();
+    String year = SessionUtil.getLoginYear();
+    String sql = (TypeOfDB.isOracle() ? "select a.btn_code id, decode(a.remark , '0','0','1',nvl(t.role_id,'0'),'0') flag from sys_role_menu_button t , sys_menu_button a where t.button_id(+) = a.btn_id and  t.menu_id(+) = a.menu_id"
+      + " and t.role_id(+)=? and  a.menu_id = ? and t.rg_code(+) = ? and t.set_year(+) = ? "
+      : "select a.btn_code id, case a.remark when '0' then '0' when '1' then ifnull(t.role_id,'0') else '0' end flag "
+        + " from sys_role_menu_button t right join sys_menu_button a on t.button_id = a.btn_id and  t.menu_id = a.menu_id "
+        + " and t.role_id = ? and t.rg_code = ? and t.set_year = ? where a.menu_id = ? ");
+    List reslist = generalDAO.findBySql(sql, new Object[] { roleid, rg_code, year, menuid });
+    map.put("reslist", reslist);
+    return map;
+  }
+
+  public Map<String, Object> menuStatuebtn(HttpServletRequest request, HttpServletResponse response) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String menuid = request.getParameter("svMenuId");
+    String roleid = request.getParameter("svRoleId");
+    String statusid = request.getParameter("statusid");
+    String rg_code = SessionUtil.getRgCode();
+    String set_year = SessionUtil.getLoginYear();
+    map.put("statusflag", "1");
+    String sql1 = "select t.status_id , a.status_name , a.status_code , c.belong_menu  from sys_status a  ,sys_menu_status c , SYS_ROLE_MENU_STATUS t where "
+      + "t.menu_id = c.menu_id and t.status_id = c.status_id and t.rg_code = c.rg_code and t.set_year = c.set_year and a.status_id = t.status_id  and t.role_id = ? and t.menu_id = ? and t.rg_code = ? and t.set_year = ? ";
+    List list1 = generalDAO.findBySql(sql1, new Object[] { roleid, menuid, rg_code, set_year });
+    if (list1.size() == 0) {
+      Map map1 = new HashMap<String, Object>();
+      map1.put("status_id", "#");
+      map1.put("status_name", "初始默认状态");
+      map1.put("status_code", "#1");
+      list1.add(map1);
+      map.put("statusflag", "0");
+    }
+    map.put("statuslist", list1);
+    Map<String, Object> btnmap = new HashMap<String, Object>();
+    for (int k = 0; k < list1.size(); k++) {
+      Map stidMap = (Map) list1.get(k);
+      String statusid1 = (String) stidMap.get("status_id");
+      String sql2 = "select t.button_id , a.action_code , a.action_name , a.func_name ,a.param , a.icon_name  from sys_action a , sys_role_menu_status_button t "
+        + " where a.action_id = t.button_id  and t.rg_code = a.rg_code and t.set_year = a.set_year  and t.role_id = ? and t.menu_id = ? and t.status_id = ? and t.set_year = ? and t.rg_code = ? order by a.action_code";
+      List list2 = generalDAO.findBySql(sql2, new Object[] { roleid, menuid, statusid1, set_year, rg_code });
+      btnmap.put("statusid1", list2);
+    }
+    map.put("btnlist", btnmap);
+    return map;
+  }
+}

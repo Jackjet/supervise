@@ -1,0 +1,327 @@
+<!-- Created by wenben on 2017/9/4. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>监管事项管理</title>
+    <link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/datetimepicker/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/u.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/tree.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/changeTree/changeTree.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/grid.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/ip.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/bizSys.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/theme/blue.css" />
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/mattersEnter.css">
+</head>
+<body class="container">
+
+<!-- 按钮组 -->
+<div class="btn-group bnt-list" data-bind=""></div>
+
+<!-- 内容部分 -->
+<div class="content">
+    <!-- 左树 -->
+    <div class="tree">
+        <div class="panel panel-default panel-body tree-list" >
+            <div id="tree1" class="ztree" u-meta='{"id":"tree1","data":"dataTable1","type":"tree","idField":"id","pidField":"pid","nameField":"title","setting":"treeSetting2"}'></div>
+        </div>
+
+        <div class="panel panel-default panel-body tree-list">
+            <div id="tree2" class="ztree" u-meta='{"id":"tree2","data":"dataTable2","type":"tree","idField":"id","pidField":"pid","nameField":"title","setting":"treeSetting2"}'></div>
+        </div>
+    </div>
+    <div class="right-content">
+        <!-- 页签部分 -->
+        <div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs nav-show" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">列表</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">详情</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content tab-pad">
+                <!-- 列表页签 -->
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <div class="tab-header">
+                        <div class="col-md-4">
+                            <label class="list-label">状态:</label>
+                            <select name="" id="">
+                                <option value="1">全部</option>
+                                <option value="2">待送审</option>
+                                <option value="3">已送审</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 col-md-offset-4 tab-input-group">
+                            <input type="text" class="tab-input">
+                            <span class="glyphicon glyphicon-search seach-icon"></span>
+                            <button class="btn btn-default upSearch" name="高级" data-bind="click: btnEvents">高级搜索</button>
+                        </div>
+                    </div>
+
+                    <div class="top-list">
+                        <h5>监管事项列表：</h5>
+                        <div id="grid1" u-meta='{"id":"grid1","multiSelect":true,"editType":"default","type":"grid","field":"","autoExpand":false,"data":"dataTableGrid1","showNumCol":true,"showTree":false,"keyField":"id","parentKeyField":"pid","editable":true,"onBeforeRowSelected":"onBeforeRowSelected1","onRowSelected":"onRowSelected1","onBeforeRowUnSelected":"onBeforeRowUnSelected1","onRowUnSelected":"onRowUnSelected1","onBeforeAllRowSelected":"onBeforeAllRowSelected1","columnMenu":true}'>
+                            <div options='{"field":"STATUS","dataType":"String","title":"状态"}'></div>
+                            <div options='{"field":"SUP_NO","dataType":"String","title":"编号"}'></div>
+                            <div options='{"field":"SUP_NAME","dataType":"String","title":"名称"}'></div>
+                            <div options='{"field":"SUP_CONTENT","dataType":"String","title":"监管内容"}'></div>
+                            <div options='{"field":"OBJ_TYPE_NAME","dataType":"String","title":"监管对象"}'></div>
+                            <div options='{"field":"SUP_NUM","dataType":"String","title":"监管数量"}'></div>
+                            <div options='{"field":"DEP_NAME","dataType":"String","title":"牵头处室"}'></div>
+                            <div options='{"field":"CREATE_DATE","dataType":"date","title":"创建时间"}'></div>
+                            <div options='{"field":"REMAKE","dataType":"String","title":"备注"}'></div>
+                        </div>
+                    </div>
+
+                    <div class="bottom-list">
+                        <h5>监管事项明细：</h5>
+                        <div id="grid2" u-meta='{"id":"grid2","multiSelect":true,"editType":"default","type":"grid","field":"","autoExpand":false,"data":"dataTableGrid2","showNumCol":true,"showTree":false,"keyField":"id","parentKeyField":"pid","editable":true,"onBeforeRowSelected":"onBeforeRowSelected1","onRowSelected":"onRowSelected1","onBeforeRowUnSelected":"onBeforeRowUnSelected1","onRowUnSelected":"onRowUnSelected1","onBeforeAllRowSelected":"onBeforeAllRowSelected1","columnMenu":true}'>
+                            <div options='{"field":"BILLTYPE_CODE","dataType":"String","title":"明细编号"}'></div>
+                            <div options='{"field":"BILLTYPE_NAME","dataType":"String","title":"明细名称"}'></div>
+                            <div options='{"field":"DEP_NAME","dataType":"String","title":"执行处室"}'></div>
+                            <div options='{"field":"SUP_NUM","dataType":"String","title":"监管数量"}'></div>
+                            <div options='{"field":"CONTENT","dataType":"String","title":"具体内容"}'></div>
+                            <div options='{"field":"PLAN_END_DATE","dataType":"string","title":"计划完成时间"}'></div>
+                            <div options='{"field":"REMAKE","dataType":"string","title":"备注"}'></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 详情页签 -->
+                <div role="tabpanel" class="tab-pane" id="profile">
+                    <ul class="nav nav-tabs nav-show" role="tablist">
+                        <li role="presentation" class="active"><a href="#info" aria-controls="info" role="tab" data-toggle="tab">基本信息</a></li>
+                        <li role="presentation"><a href="#orga" aria-controls="profile" role="tab" data-toggle="tab">监管机构</a></li>
+                        <li role="presentation"><a href="#object" aria-controls="profile" role="tab" data-toggle="tab">具体对象</a></li>
+                        <li role="presentation"><a href="#content" aria-controls="profile" role="tab" data-toggle="tab">具体内容</a></li>
+                        <li role="presentation"><a href="#part" aria-controls="profile" role="tab" data-toggle="tab">附件</a></li>
+                    </ul>
+                    <div class="tab-content tab-pad">
+                    <!-- 基本信息 -->
+                    <div role="tabpanel" class="tab-pane active" id="info">
+                        基本信息
+                    </div>
+
+                    <!-- 监管机构 -->
+                    <div role="tabpanel" class="tab-pane" id="orga">
+                        监管机构
+                    </div>
+
+                    <!-- 具体对象 -->
+                    <div role="tabpanel" class="tab-pane" id="object">
+                        具体对象
+                    </div>
+
+                    <!-- 具体内容 -->
+                    <div role="tabpanel" class="tab-pane" id="content">
+                        具体内容
+                    </div>
+
+                    <!-- 附件 -->
+                    <div role="tabpanel" class="tab-pane" id="part">
+                        附件
+                    </div>
+                </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal1 -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">新增</h4>
+            </div>
+            <div class="modal-body add-Modal">
+                <nav class="step-box">
+                    <div class="u-pearls  u-row">
+                        <div class="u-step current u-col-xs-2 newWid">
+                            <span class="u-step-number">1</span>
+                            <span class="u-step-title">基本信息</span>
+                        </div>
+                        <div class="u-step  u-col-xs-2 newWid">
+                            <span class="u-step-number">2</span>
+                            <span class="u-step-title">监管机构</span>
+                        </div>
+                        <div class="u-step u-col-xs-2 newWid">
+                            <span class="u-step-number">3</span>
+                            <span class="u-step-title">具体对象</span>
+                        </div>
+                        <div class="u-step  u-col-xs-2 newWid">
+                            <span class="u-step-number">4</span>
+                            <span class="u-step-title">具体内容</span>
+                        </div>
+                        <div class="u-step u-col-xs-2 newWid">
+                            <span class="u-step-number">5</span>
+                            <span class="u-step-title">附件</span>
+                        </div>
+                        <!--<div class="u-step u-col-xs-2">-->
+                            <!--<span class="u-step-number">6</span>-->
+                            <!--<span class="u-step-title">处室分解</span>-->
+                        <!--</div>-->
+                    </div>
+                    <div class="show-step">
+                        <span class="step-doing">1</span>
+                        <span class="step-num">/</span>
+                        <span>5</span>
+                        <span class="step-name">基本信息</span>
+                    </div>
+                </nav>
+                <div class="tab-content tab-pad">
+                    <!-- 基本信息 -->
+                    <div role="tabpanel" class="tab-pane active" id="infoAdd">
+                        基本信息
+                    </div>
+
+                    <!-- 监管机构 -->
+                    <div role="tabpanel" class="tab-pane" id="orgaAdd">
+                        <div class="tab-play-header">
+                            <span class="tab-list-title tab-list-title-margin">可选机构：</span>
+                            <span class="tab-list-title">已选机构：</span>
+                        </div>
+                        <div>
+                            <div class="leftList tab-play-box">
+                                <div class=" panel-default panel-body tree-list" >
+                                    <div id="treeList1" class="ztree" u-meta='{"id":"tree1","data":"dataTable1","type":"tree","idField":"id","pidField":"pid","nameField":"title","setting":"treeSetting2"}'></div>
+                                </div>
+                                <!--<div id="treeList1" class="ztree" u-meta='{"id":"tree3","data":"dataTable1","type":"tree","idField":"id","pidField":"pid","nameField":"title","setting":"treeSetting2"}'></div>-->
+                            </div>
+                            <div class="buttonList tab-play-box">
+                                <button class="btn btn-default" name="allToR"> >> </button>
+                                <button class="btn btn-default" name="selToR"> > </button>
+                                <button class="btn btn-default" name="selToL"> < </button>
+                                <button class="btn btn-default" name="allToR"> << </button>
+                            </div>
+                            <div class="rightList tab-play-box">
+                                <div class=" panel-default panel-body tree-list" >
+                                    <div id="treeList2" class="ztree" u-meta='{"id":"tree1","data":"dataTable1","type":"tree","idField":"id","pidField":"pid","nameField":"title","setting":"treeSetting2"}'></div>
+                                </div>
+                                <!--<div id="treeList2" class="ztree" u-meta='{"id":"tree4","data":"dataTable1","type":"tree","idField":"id","pidField":"pid","nameField":"title","setting":"treeSetting2"}'>-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 具体对象 -->
+                    <div role="tabpanel" class="tab-pane" id="objectAdd">
+                        <div class="tab-play-header">
+                            <span class="tab-list-title tab-list-title-margin2">可选择监管对象：</span>
+                            <span class="tab-list-title">已选择监管对象：</span>
+                            <span class="tab-list-title tab-list-title-num" data-bind="text: data.eventsNum">共3家</span>
+                        </div>
+                        <div>
+                            <div class="leftList tab-play-box">
+                                <div class=" panel-default panel-body tree-list" >
+                                    <div id="treeList3" class="ztree" u-meta='{"id":"tree1","data":"dataTable1","type":"tree","idField":"id","pidField":"pid","nameField":"title","setting":"treeSetting2"}'></div>
+                                </div>
+                                <!--<div id="treeList1" class="ztree" u-meta='{"id":"tree3","data":"dataTable1","type":"tree","idField":"id","pidField":"pid","nameField":"title","setting":"treeSetting2"}'></div>-->
+                            </div>
+                            <div class="buttonList tab-play-box">
+                                <button class="btn btn-default" name="allToR"> >> </button>
+                                <button class="btn btn-default" name="selToR"> > </button>
+                                <button class="btn btn-default" name="selToL"> < </button>
+                                <button class="btn btn-default" name="allToR"> << </button>
+                            </div>
+                            <div class="rightList tab-play-box">
+                                <div class=" panel-default panel-body tree-list" >
+                                    <div id="treeList4" class="ztree" u-meta='{"id":"tree1","data":"dataTable1","type":"tree","idField":"id","pidField":"pid","nameField":"title","setting":"treeSetting2"}'></div>
+                                </div>
+                                <!--<div id="treeList2" class="ztree" u-meta='{"id":"tree4","data":"dataTable1","type":"tree","idField":"id","pidField":"pid","nameField":"title","setting":"treeSetting2"}'>-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 具体内容 -->
+                    <div role="tabpanel" class="tab-pane" id="contentAdd">
+                        <div class="contentAdd-header">
+                            <div class="btns-header">
+                                <button class="btn btn-default">新增</button>
+                                <button class="btn btn-default">保存</button>
+                                <button class="btn btn-default">删除</button>
+                                <button class="btn btn-default">上移</button>
+                                <button class="btn btn-default">下移</button>
+                            </div>
+                            <div>
+                                <span class="tab-list-title">详细监管内容：</span>
+                            </div>
+                        </div>
+                        <div class="contentAdd-content">
+                            <div class="contentAdd-content-tree">
+                                <div class=" panel-default panel-body tree-list" >
+                                    <div id="treeList5" class="ztree" u-meta='{"id":"tree1","data":"dataTable1","type":"tree","idField":"id","pidField":"pid","nameField":"title","setting":"treeSetting2"}'></div>
+                                </div>
+                            </div>
+                            <div class="contentAdd-content-right">
+                                    <div>
+                                        <label>内容标题：</label>
+                                        <input type="text">
+                                    </div>
+                                    <div>
+                                        <label>监管内容：</label>
+                                        <textarea></textarea>
+                                    </div>
+                                    <div class="btns-contentAdd">
+                                        <button class="btn btn-default">添加数据</button>
+                                        <button class="btn btn-default">移除数据</button>
+                                    </div>
+                                    <div>
+                                        <label>涉及数据：</label>
+                                        <textarea></textarea>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 附件 -->
+                    <div role="tabpanel" class="tab-pane" id="partAdd">
+                        <div class="partAdd-header">
+                            <span>附件：</span>
+                            <input type="file" id="uploadFile" style="display: none" multiple="multiple" >
+                            <button class="btn btn-primary">添加</button>
+                            <button class="btn btn-primary">删除</button>
+                        </div>
+                        <div class="partAdd-content">
+                            <div>
+                                <input type="checkbox">
+                                <span class="text-und text-color-normal partAdd-title">文件标题*****</span>
+                                <span class="partAdd-time">2017-09-11</span>
+                                <span class="text-und text-color-normal deal">查看</span>
+                                <span class="text-und text-color-normal deal">下载</span>
+                                <span class="text-und text-color-red deal">删除</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn1" name="btn1" type="button" class="btn btn-default" data-bind="click:btnEvents">上一步</button>
+                <button id="btn2" name="btn2" type="button" class="btn btn-prima" data-bind="click:btnEvents">下一步</button>
+                <button id="btn3" name="btn3" type="button" class="btn btn-prima" data-bind="click:btnEvents">完成</button>
+                <button id="btn4" name="btn4" type="button" class="btn btn-default" data-dismiss="modal" data-bind="click:btnEvents">返回</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+<script src="../../trd/requirejs/require.js"></script>
+<script src="../../require.config.js"></script>
+<script src="./js/data.js"></script>
+<script src="./js/mattersEnter.js"></script>

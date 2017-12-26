@@ -1,0 +1,87 @@
+var rgset_relation;
+var rg_code;
+var set_year;
+$(function(){
+	// 加载年度、区划信息
+	$.get("/df/portal/getYearRgcode.do?tokenid=before", function(data){
+		rgset_relation = data.rgset_relation; //map
+		rg_code = data.rg_code;
+		set_year = data.set_year;
+		
+		var rg_codeHtml = "";
+		for(var i in rg_code){
+			rg_codeHtml += '<option value="'+rg_code[i]+'">'+rg_code[i]+'</option>';
+		}
+		$("#rgCode").html(rg_codeHtml);
+//	$("#rg_code").on("blur", function(){
+//		// TODO 按rgcode加载年度
+//		
+//	});
+//		var set_yearHtml = "";
+//		for(var i in set_year){
+//			set_yearHtml += '<option value="'+set_year[i]+'">'+set_year[i]+'</option>';
+//		}
+//		$("#setYear").html(set_yearHtml);
+//	$("#set_year").on("blur", function(){
+//	// TODO 按年度加载rgcode
+//	
+//  });
+	});
+	
+});
+
+function login() {
+	var userName = $('#username').val();
+    var passWord = $('#password').val();
+    var setYear = $("#setYear").val();
+   	var rgCode = $("#rgCode").val();
+       if (userName == ""){
+   		alert("请输入用户名！");
+   		$("#username").focus();
+   		return false;
+   	}	
+   	if (passWord == ""){
+   		alert("请输入密码！");
+   		$("#password").focus();
+   		return false;
+   	}
+   	if (setYear == "" || setYear == "0"){
+   		alert("请选择年度！");
+   		$("#setYear").focus();
+   		return false;
+   	}
+   	if (rgCode == "" || rgCode == "0"){
+   		alert("请选择区划！");
+   		$("#rgCode").focus();
+   		return false;
+   	}
+	
+	// pwd check
+	//pwdCheck(passWord);
+	//if(pwdCheck(passWord))
+		//location.href = window.location.href="/df/portal/admin/login/register.html?tokenid="+tokenid;
+	
+	// pwd remember
+	pwdremember();
+	
+	var password = hex_md5(passWord);
+	
+	$.ajax({
+		url:"/df/login/userLogin.do",
+		type: 'POST',
+		data:{"ajax":"ajax","userName":userName,"passWord":password,"setYear":setYear,"rgCode":rgCode},
+		dataType: 'json',
+		success: function (data){
+			var flag = data.flag;
+			var tokenId = data.tokenid;
+			if(flag == "1"){
+				//dfp.localStorage.setItem(dfp.key.tokenid, dfp.key.dfValidFlag+tokenId);
+				window.location.href="/df/portal/admin/index/index.html?tokenid="+tokenId;	
+			}else{
+				alert("用户名或密码错误！");
+				return false;
+			}
+		}
+	});
+}
+

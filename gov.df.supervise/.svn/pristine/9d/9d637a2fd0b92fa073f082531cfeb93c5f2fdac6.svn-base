@@ -1,0 +1,108 @@
+package gov.df.supervise.api.csofacc;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+public interface csofAccService {
+  public void saveAccSup(String data, String sup_no, String book_id) throws IOException;
+
+  public Map<String, Object> getAccSup(String sid);
+
+  public void updateAccSup(String data) throws IOException;
+
+  public void deleteAccSup(String sid);
+
+  /**
+   * 工作记录
+   */
+  public void saveAccWork(String data, String work_no, String set_month, String book_id, String set_year);
+
+  public List getAccWork(String sid);
+
+  public void updateAccWork(String data);
+
+  public void deleteAllAccWork(String sid);
+
+  public void deleteAccWork(String sid, String id);
+
+  /**
+   * 
+   * 问题记录
+   */
+  public void saveAccProblem(String data);
+
+  public List getAccProblem(String sid);
+
+  public void updateAccProblem(String data);
+
+  public void deleteAllAccProblem(String sid);
+
+  public void deleteAccProblem(String sid, String id);
+
+  public List getSupData(String ele_code);
+
+  /**
+   * 通过监管类型来过树
+   */
+  public List getSupDataById(String ele_code, String chr_id);
+
+  public List getAccBook();
+
+  /**
+   * 获取树信息
+   */
+  public List getBookSetById(String book_id);
+
+  /**
+   * 通过点击树获取工作记录
+   */
+  public List getAccWorkByMonth(String set_month, String book_id, String parent_id);
+
+  //月结
+  public void updateAccBookSet(String set_id, String sid, String set_month, String parent_id, String book_id);
+
+  //反月结
+  public void modityAccBookSet(String set_id, String sid, String set_month, String parent_id, String book_id);
+
+  /**
+   * 得到台账菜单
+   */
+  public List getAccMenu(String menu_id);
+
+  /**
+   * 插入数据到处汇总表中
+   */
+  public void saveAccSupDep(String sid, String set_id, String sup_type_id, String sup_name, String dep_id,
+    String dep_code, String dep_name, String chr_code, String parent_id, String book_id, String chr_name);
+
+  /**
+   * 得到处汇总左侧树
+   */
+  public List getBookDepById(String book_id);
+
+  /**
+   * 点击树显示详细信息
+   */
+  public List getAccSupEndByBook(String dep_id, String chr_name, String parent_id);
+
+  /**
+   * 撤销汇总，通过sup_name,sup_type_id,set_month,year等条件删除数据
+   * 
+   */
+  public void deleteAccSupDep(String sid, String set_id, String sup_type_id, String sup_name, String chr_code,
+    String parent_id, String chr_name, String book_id);
+
+  //台账办汇总
+  /**
+   * 台账办汇总树
+   * @param book_id
+   */
+  public List getAccSupOfficeById(String book_id);
+
+  /**
+   * 点击树显示详细信息
+   */
+  public List getAccSupDepByBook(String oid, String chr_name, String parent_id);
+
+}

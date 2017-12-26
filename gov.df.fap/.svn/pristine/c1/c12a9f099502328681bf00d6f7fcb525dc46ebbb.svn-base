@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow: hidden;">
+<head >
+    <meta charset="UTF-8">
+    <title>审核意见汇总（办-经办岗）及 汇总意见上报</title>
+    <link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/tree.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/ip/changeTree/changeTree.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/u.css" />
+	<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/grid.css" />
+	<link rel="stylesheet" type="text/css" href="/df/trd/ip/css/ip.css" />
+	<link rel="stylesheet" type="text/css" href="../../trd/ip/css/bizSys.css" />
+	<link rel="stylesheet" href="css/csofSup.css">
+	<link rel="stylesheet" href="/df/trd/splitter/jqx.base.css">
+	<link rel="stylesheet" href="../common/common.css">
+	<script type="text/javascript" src="/df/trd/splitter/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="/df/trd/splitter/jqxcore.js"></script>
+	<script type="text/javascript" src="/df/trd/splitter/jqxsplitter.js"></script>
+	<script type="text/javascript">
+		        $(document).ready(function () {
+	                   $('#main-content').jqxSplitter({ width: '98.3%', height: '87.5%', panels: [{ size: '23.2%', min: 200 }, { min: 800, size: '76.8%' }] });
+		        });
+	</script>
+</head>
+<body class="csof-font" style="overflow:hidden;">
+	<!--按钮组-->
+	<div class="col-md-12 csof-btns-content" id="btn-line">
+		<div class="pull-left" id="btns-group"></div>
+		<div class="pull-right right-search">
+			<form class="form-search form-inline">
+				<div class="input-group">
+					<input type="text" id="gridSearchInput" class="form-control">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button"
+							data-bind="click:gridSearch">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button> </span>
+				</div>
+				<button type="button" class="btn" onclick="hignSearch">高级</button>
+			</form>
+		</div>
+	</div>
+	<!--main-->
+	<div class="col-md-12" id="main-content">
+		<!-- 左树 -->
+		<div class="pull-left" id="left-main-content">
+			<div class="input-group tree-search-div">
+				<input type="text" id="SearchdepTree" class="form-control"
+					data-bind="value: SearchdepTreeKEY" placeholder="模糊查询...">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button"
+						data-bind="click:searchDepTree">
+						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					</button> </span>
+			</div>
+			<div id="depTree" class="ztree treeDiv"
+				u-meta='{
+                                "id":"depTree",
+                                "data":"depTreeDataTable",
+                                "type":"tree",
+                                "idField":"CHR_ID",
+                                "pidField":"PARENT_ID",
+                                "nameField":"CHR_NAME",
+                                "setting":"depTreeSetting"
+                            }'>
+			</div>
+		</div>
+		<!--右表-->
+		<div class="pull-left" id="right-main-content">
+			<div class="tab-panel">
+				<div class="grid-title">
+					<span class="rightTable-title">监管内容列表：</span> <span
+						class="rightTable-title-status"></span> <span
+						class="rightTable-recodeNum">共<span id="gridSumNum"
+						class="gridSumNum"> </span>笔</span>
+				</div>
+				<div id="testGrid" class="rightTableGrid-nonav"></div>
+			</div>
+			<!-- <ul id="rightTable-ul" class="nav nav-tabs righ-tab-ul">
+				<li id="list-li" class="active"><a data-toggle="tab" href="#panel-list" id="list-li-a">列表</a>
+				</li>
+				<li id="details-li"><a data-toggle="tab" href="#panel-details" id="details-li-a">详情</a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="panel-list">
+					<div class="tab-panel tab-panel-height">
+						<div class="grid-title">
+							<span class="rightTable-title">监管内容列表：</span>
+							<span class="rightTable-title-status"></span>
+							<span class="rightTable-recodeNum">共<span id="gridSumNum" class="gridSumNum"> </span>笔</span>
+						</div>
+						<div id="testGrid" class="rightTableGrid-hasnav"></div>
+					</div>
+				</div>
+				<div class="tab-pane" id="panel-details">
+					<div id="ipot-url"></div>
+					<div id="irptShow" class="tab-content detailNavShowStyle">
+						<div class="tab-pane" style="height:100%;" id="panel-fileUpload">
+							<iframe id="fileUploadPage" class="irptShowIframe"></iframe>
+						</div>
+
+					</div>
+					<div id="detailNav" class="detailNavStyle">
+						<ul id="detailIrptNav" class="nav nav-tabs righ-tab-ul">
+							<li id="fileUplode_li"><a data-toggle="tab"
+								href="#panel-fileUpload" id="fileUplode">附件上传</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>-->
+		</div>
+	</div>
+	<!--引入js-->
+	<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+	<script src="../../trd/requirejs/require.js"></script>
+	<script src="../../require.config.js"></script>
+	<script src="data.js"></script>
+	<script src="sum-office.js"></script>
+</body>
+</html>

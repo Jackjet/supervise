@@ -1,0 +1,244 @@
+package gov.df.fap.service.util.gl.core;
+
+import gov.df.fap.bean.gl.GlConstant;
+import gov.df.fap.bean.util.FPaginationDTO;
+import gov.df.fap.service.util.UUIDRandom;
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.fap.util.StringUtil;
+import gov.df.fap.util.Tools;
+import gov.df.fap.util.date.DateHandler;
+import gov.df.fap.util.number.NumberUtil;
+import gov.df.fap.util.xml.XMLData;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang.math.NumberUtils;
+
+/**
+ * 通用的一些操作
+ * @author 
+ *
+ */
+public class CommonUtil {
+
+  public static final int GUID_STRING = 0;
+
+  public static final int GUID_NUMBER = 1;
+
+  //基础数据类型
+  public static final int GUID_CHR_ID = 2;
+
+  /**
+   * 当前登陆用户id
+   * @return
+   */
+  public static String getUserId() {
+    return (String) SessionUtil.getUserInfoContext().getUserID();
+  }
+
+  /**
+   * 当前用户编码
+   * @return
+   */
+  public static String getUserCode() {
+    return (String) SessionUtil.getUserInfoContext().getAttribute("user_code");
+  }
+
+  /**
+   * 当前用户名称
+   * @return
+   */
+  public static String getUserName() {
+    return (String) SessionUtil.getUserInfoContext().getAttribute("user_name");
+  }
+
+  public static String getCurrRegion() {
+    return SessionUtil.getRgCode();
+  }
+
+  /**
+   * 当前登陆用户角色id
+   * @return
+   */
+  public static String getRoleId() {
+    return (String) SessionUtil.getUserInfoContext().getRoleID();
+  }
+
+  public static String getRgCode() {
+    return SessionUtil.getRgCode();
+  }
+
+  /**
+   * 当前年度
+   * @return
+   */
+  public static String getSetYear() {
+    String set_year = (String) SessionUtil.getUserInfoContext().getSetYear();
+    if (set_year == null || set_year.equalsIgnoreCase("")) {
+      set_year = getSetYearWithUnsession();
+    }
+    return set_year;
+  }
+
+  /**
+   * 不登陆用户取业务年度
+   * 在月结时，使用getSetYear方法会取出其他年份，导致月结错误
+   * 新增取业务年度方法
+   * @return
+   */
+  public static String getSetYearWithUnsession() {
+    String setYear = SessionUtil.getDefaultYear();
+    return setYear == null ? String.valueOf(DateHandler.getCurrentYear()) : setYear;
+  }
+
+  /**
+   * CCID 的生成算法规则 0 为老算法，1 为新算法。
+   * @return
+   */
+  public static String getCcidGenRule() {
+    return (String) SessionUtil.getParaMap().get("ccidGenRule");
+  }
+
+  /**
+   * 当前年度
+   * @return
+   */
+  public static int getIntSetYear() {
+    return NumberUtil.toInt(getSetYear());
+  }
+
+  /**
+   * 
+   * @param sql
+   * @param page
+   * @param dao
+   * @return
+   */
+  public static List findByPage(String sql, FPaginationDTO page, GeneralDAO dao) {
+    List data = null;
+    if (page == null)
+      return dao.findBySql(sql);
+    page.setTotalrows(getRowCount(sql, dao));
+    if (page.getCurrpage() >= 1) {
+      String strTest = sql;
+      boolean flag = false;
+      if (strTest.indexOf("from") != -1) {
+        strTest = strTest.substring(strTest.indexOf("from") + 4);
+        if (strTest.indexOf("from") != -1)
+          flag = true;
+      }
+      if (flag == true) {
+        if (sql.indexOf("from") != -1)
+          sql = sql.substring(0, sql.indexOf("from")) + "into #temp " + sql.substring(sql.indexOf("from"));
+        sql = sql + " select data.* from #temp data";
+        List res = dao.findBySql(sql);
+        if (null == data) {
+          data = new ArrayList();
+        }
+        for (int i = (page.getCurrpage() - 1) * page.getPagecount(); i <= (page.getCurrpage()) * page.getPagecount(); i++) {
+          data.add(res.get(i));
+        }
+      } else
+        data = dao.findBySql(sql);
+    } else
+      data = dao.findBySql(sql);
+
+    //将page_index,page_count还原,方便下一次调用
+    return data;
+  }
+
+  /**
+  * 插入、修改时检查数据正确性
+  * @param tableName 表名
+  * @param field 需要检查的字段名
+  * @param value 需要检查的字段值
+  * @param whereStr 过滤条件字符
+  * @throws Exception 违反数据唯一性异常
+  */
+  public static void checkRepeat(String tableName, String field, String value, String whereStr, GeneralDAO dao)
+    throws Exception {
+    StringBuffer strSQL = new StringBuffer();
+    strSQL.append("select 1 from ").append(tableName).append(" where ").append(field).append("='").append(value)
+      .append("' ").append(whereStr);
+    List list = dao.findBySql(strSQL.toString());
+    if (list.size() > 0) {
+      List list_field_name = null;
+      list_field_name = dao.findBySql("select isnull(field_name,'" + field + "') from sys_metadata" + Tools.addDbLink()
+        + " where field_code=upper('" + field + "')");
+      if (list_field_name.size() > 0) {
+        String field_name = ((XMLData) list_field_name.get(0)).get("field_name").toString();
+        throw new Exception("违反数据唯一性约束，请修改" + field_name + "字段值");
+      }
+      throw new Exception("违反数据唯一性约束，请修改" + field + "字段值" + value);
+    }
+  }
+
+  /**
+     * 查询结果总记录数
+     * @param sql 查询SQL语句
+     * @return 记录总数
+     */
+  public static int getRowCount(String sql, GeneralDAO dao) {
+    sql = " select count(1) as total from ( " + sql + " ) a ";
+    List list = dao.findBySql(sql);
+    if (list.size() > 0) {
+      XMLData data = (XMLData) list.get(0);
+      return (String) data.get("total") == null ? 0 : NumberUtils.toInt((String) data.get("total"));
+    } else
+      return 0;
+  }
+
+  public static String generateUuid(int uuidType) {
+    if (uuidType == CommonUtil.GUID_NUMBER)
+      return UUIDRandom.generateNumberBySeqServer(GlConstant.SEQ_CCID_KEY);
+    else if (uuidType == CommonUtil.GUID_CHR_ID)
+      return UUIDRandom.generateNumberBySeqServer(GlConstant.SEQ_ELE_CHR_ID);
+    else if (uuidType == CommonUtil.GUID_STRING)
+      return UUIDRandom.generateServer();
+    else
+      throw new IllegalArgumentException("uuid type illeagal:" + uuidType);
+  }
+
+  public static long generateSequence(String seqName) {
+    return NumberUtil.toLong(UUIDRandom.generateNumberBySeqServer(seqName));
+  }
+
+  /**
+   * 
+   * @param args
+   * @return
+   */
+  public static long generateObjectArrayHash(Object[] args) {
+    if (args == null)
+      throw new NullPointerException("Object array hash args can not null!");
+
+    long hash = 0;
+    for (int i = 0; i < args.length; i++) {
+      hash ^= StringUtil.stringHash(args[i].toString());
+    }
+    return hash + 17;
+  }
+
+  /**
+   * 生成字符串hash值的id
+   * @param string
+   * @return
+   */
+  public static long generateStringHashId(String string) {
+    return StringUtil.stringHash(string);
+  }
+  
+  /**
+   * 获得当前时间
+   */
+  public static String getDate(String format) {
+    SimpleDateFormat sdf = new SimpleDateFormat(format);
+    return sdf.format(new Date());
+  }
+  
+  
+}

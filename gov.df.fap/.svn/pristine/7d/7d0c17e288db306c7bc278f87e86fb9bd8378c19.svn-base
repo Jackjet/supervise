@@ -1,0 +1,196 @@
+require(['jquery', 'knockout','bootstrap', 'uui', 'tree', 'grid', 'ip'], function ($, ko) {
+	window.ko = ko;
+	console.log(parent);
+	var options = ip.getCommonOptions({});
+	var viewModel={
+			todolistDataTable:new u.DataTable({
+                meta: {
+
+                }
+            }),	
+	};
+	var GET_TODO_LIST_URL ='/HomePage/getDpByDpId.do';
+	var GET_GONGAO_LIST_URL ='/HomePage/selectGongaoTitle.do'
+	var loginUser;//定义用户,按照用户权限获取相应
+	//待办事项
+	viewModel.getAllTodolist = function(){
+		$.ajax({
+			url: GET_TODO_LIST_URL + "?tokenid=" + ip.getTokenId() + "&ajax=noCache",
+			type: 'GET',
+			data:{"userId":options["svUserId"]},//参数为用户
+			dataType: 'json',
+			success: function (result){
+				console.log(result);
+				if(result.errorCode == "0"){
+					var todolistData = result.data;
+					viewModel.todolistDataTable.setSimpleData(todolistData);
+					for(var i=0;i<todolistData.length;i++){
+						if(i<24){
+							$("#hp-my-todolist").append( '<li style="margin-bottom: 5px;"><a href="javascript:void(0)"><span id="'+todolistData[i].MENU_ID+'" style="width:100px;margin-right:20px;" onclick="showEvent(this)">' + todolistData[i].TYPE_NAME + '</span><span id="'+todolistData[i].MENU_ID+'" style="width:200px;margin-right:20px;" onclick="showEvent(this)">'+todolistData[i].MENU_NAME + '</span><span style="width:100px;">'+"共"+todolistData[i].NUM+"条"+'</span></a></li>');
+						}else if(i == 24){
+							$("#hp-my-todolist").append( '<li style="margin-bottom: 5px;">......</li>');
+						}
+						$("#moreEvent-ul").append( '<li style="margin-bottom: 5px;"><a href="javascript:void(0)"><span id="'+todolistData[i].MENU_ID+'_E" style="width:100px;margin-right:20px;" onclick="showModelEvent(this)">' + todolistData[i].TYPE_NAME + '</span><span id="'+todolistData[i].MENU_ID+'_E" style="width:200px;margin-right:20px;" onclick="showEvent(this)">'+todolistData[i].MENU_NAME + '</span><span style="width:100px;">'+"共"+todolistData[i].NUM+"条"+'</span></a></li>');
+					}
+				}
+				else{
+					
+				}
+			}
+		});
+	};
+	//最新公告
+	viewModel.getAllLatestAnnounce = function(){
+		$.ajax({
+			url:GET_GONGAO_LIST_URL + "?tokenid=" + ip.getTokenId() + "&ajax=noCache",
+			type: 'GET',
+			data:{"userId":options["svUserId"]},//参数为用户
+			dataType: 'json',
+			success: function (result){
+				var latestData = result.data;
+				for(var i=0;i<latestData.length;i++){
+					if(i<11){
+						$("#hp-latest-announce").append( '<li style="margin-bottom: 5px;"><a href="javascript:void(0)"><span id="'+latestData[i].ID_ +'" style="width:200px;margin-right:20px;" onclick="showAnnounce(this)">'+latestData[i].TITLE_ + '</span></a></li>');
+					}else if(i == 11){
+						$("#hp-latest-announce").append( '<li style="margin-bottom: 5px;">......</li>');
+					}
+					$("#moreNotice-ul").append( '<li style="margin-bottom: 5px;"><a href="javascript:void(0)"><span id="'+latestData[i].ID_ +'_M" style="width:200px;margin-right:20px;" onclick="showModelAnnounce(this)">'+latestData[i].TITLE_ + '</span></a></li>');
+				}
+			}
+		});
+	};
+	//政策法规10
+	viewModel.getAllPoliciesRegula = function(){
+		$.ajax({
+			url:"getPoliciesRegula.do",
+			type: 'GET',
+			data:{"userId":options["svUserId"]},//参数为用户
+			dataType: 'json',
+			success: function (result){
+				var policiesData = result.data;
+				for(var i in policiesData){
+					if(!policiesData.hasOwnProperty(i)){
+						continue;
+					}
+					policiesHtml += '<li style="margin-bottom: 5px;"><a href="javascript:void(0)">' + policiesData[i] + '</a></li>';//将要显示的字段加上
+				}
+				$("#hp-policies-regula").html(policiesHtml);
+			}
+		});
+	};
+	//消息通知10
+	viewModel.getAllMesNotice = function(){
+		$.ajax({
+			url:"getMesNotice.do",
+			type: 'GET',
+			data:{"userId":options["svUserId"]},//参数为用户
+			dataType: 'json',
+			success: function (result){
+				var mesnoticeData = result.data;
+				for(var i in mesnoticeData){
+					if(!mesnoticeData.hasOwnProperty(i)){
+						continue;
+					}
+					mesNoticeHtml += '<li style="margin-bottom: 5px;"><a href="javascript:void(0)">' + mesnoticeData[i] + '</a></li>';//将要显示的字段加上
+				}
+				$("#hp-my-mes-notice").html(mesNoticeHtml);
+			}
+		});
+	};
+	
+	//更多待办事项
+	viewModel.moreEvent = function(){
+		$('#moreEventModal').modal('show');
+	}
+	//更多最新公告
+	viewModel.moreNotice = function(){
+		$('#moreNoticeModal').modal('show');
+	}
+	//更多待办事项
+	viewModel.moreNews = function(){
+		$('#moreNewsModal').modal('show');
+	}
+	//更多待办事项
+	viewModel.morePolicy = function(){
+		$('#morePolicyModal').modal('show');
+	}
+
+	//事项URL跳转
+	showEvent = function(obj){
+		var id = obj.id;
+//		$("#hp-content").addClass("display","none");
+//		$("#show-iframe").removeClass("display","none");
+		var todolistData = viewModel.todolistDataTable.getSimpleData();
+		for(var i=0;i<todolistData.length;i++){
+			if(id == todolistData[i].MENU_ID){
+				var MENU_PARAM_ADD = todolistData[i].MENU_PARAM_ADD;
+				var a = MENU_PARAM_ADD.split("@");
+				MENU_PARAM_ADD = a.join("&");
+				parent.addTabToParent(todolistData[i].MENU_NAME,todolistData[i].URL+"tokenid=" 
+		    			+ ip.getTokenId() +"&menuid=" 
+		    			+ todolistData[i].MENU_ID +"&menuname=" 
+		    			+ todolistData[i].MENU_NAME+"&pageId="
+		    			+todolistData[i].MENU_ID+MENU_PARAM_ADD);
+//				parent.addTabToParent(todolistData[i].MENU_NAME,todolistData[i].URL+"tokenid=" 
+//		    			+ ip.getTokenId() +"&menuid=" 
+//		    			+ todolistData[i].MENU_ID +"&menuname=" 
+//		    			+ todolistData[i].MENU_NAME+"&pageId="
+//		    			+todolistData[i].MENU_ID+"&sid="+sid+"&bbq_date="
+//		    			+todolistData[i].SUP_DATE+"&task_id="+todolistData[i].TASK_ID +"&task_name=" +todolistData[i].TASK_NAME);
+			}
+		}
+	}
+	
+	//事项模态框URL跳转
+	showModelEvent = function(obj){
+		$("#moreEventModal").modal('hide');
+		var id = obj.id.split("_")[0];
+		var todolistData = viewModel.todolistDataTable.getSimpleData();
+		for(var i=0;i<todolistData.length;i++){
+			if(id == todolistData[i].MENU_ID){
+				var MENU_PARAM_ADD = todolistData[i].MENU_PARAM_ADD;
+				var a = MENU_PARAM_ADD.split("@");
+				MENU_PARAM_ADD = a.join("&");
+				parent.addTabToParent(todolistData[i].MENU_NAME,todolistData[i].URL+"tokenid=" 
+		    			+ ip.getTokenId() +"&menuid=" 
+		    			+ todolistData[i].MENU_ID +"&menuname=" 
+		    			+ todolistData[i].MENU_NAME+"&pageId="
+		    			+todolistData[i].MENU_ID+MENU_PARAM_ADD);
+//				parent.addTabToParent(todolistData[i].MENU_NAME,todolistData[i].URL+"tokenid=" 
+//		    			+ ip.getTokenId() +"&menuid=" 
+//		    			+ todolistData[i].MENU_ID +"&menuname=" 
+//		    			+ todolistData[i].MENU_NAME+"&pageId="
+//		    			+todolistData[i].MENU_ID+"&sid="+sid+"&bbq_date="
+//		    			+todolistData[i].SUP_DATE+"&task_id="+todolistData[i].TASK_ID +"&task_name=" +todolistData[i].TASK_NAME);
+			}
+		}
+	}
+	
+	//公告URL跳转
+	showAnnounce = function(obj){
+		var URL = "http://10.15.0.191:8001/irpt/esmain/bulletin.do?cmd=viewBulletin&id="+obj.id;
+		parent.addTabToParent(obj.innerText,URL);
+	}
+	
+	//模态框公告URL跳转
+	showModelAnnounce = function(obj){
+		$("#moreNoticeModal").modal('hide');
+		var id = obj.id.split("_")[0];
+		var URL = "http://10.15.0.191:8001/irpt/esmain/bulletin.do?cmd=viewBulletin&id="+id;
+		parent.addTabToParent(obj.innerText,URL);
+	}
+	
+	 function init(){
+			var app = u.createApp(
+					{
+						el: document.body,
+						model: viewModel
+					}
+			);
+			viewModel.getAllTodolist();
+			viewModel.getAllLatestAnnounce();
+	    };
+
+	    init();
+
+});

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="gov.df.supervise.web"
+  id="myeclipse.1501814183335"
+  context-root="/gov.df.supervise.web"
+  j2ee-spec="6.0"
+  archive="gov.df.supervise.web.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp" />
+  </attributes>
+</project-module>
+

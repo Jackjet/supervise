@@ -1,0 +1,76 @@
+package gov.df.supervise.service.bill;
+
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.gl.core.CommonUtil;
+import gov.df.supervise.api.bill.BillService;
+import gov.df.supervise.api.common.CommonService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import com.ufgov.ip.apiUtils.UUIDTools;
+
+@Service
+public class BillBo implements BillService {
+
+	@Autowired
+	@Qualifier("generalDAO")
+	GeneralDAO dao;
+	
+	@Autowired
+	private CommonService commonService; // 监管事项服务
+
+	public int deleteMofBill(String ids, String key) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/**
+	 * 总任务单保存方法
+	 */
+	public int saveMofBill(Map mofBillData, String billtype_code) {
+		
+		// TO DO   SID OID  集合  生成  批量单据
+		
+		String rg_code = CommonUtil.getRgCode();
+	    String set_year = CommonUtil.getSetYear();
+	    String create_user = CommonUtil.getUserCode();
+	    String date =  CommonUtil.getDate("yyyy-MM-dd");
+		Map<String,String> mofData = new HashMap <String,String> ();
+	    List sqlList = new ArrayList<String>();
+		
+		Map billInfo = commonService.getBillInfo(billtype_code, mofBillData);
+		
+		if(!billInfo.isEmpty()){
+			mofData.put("bill_no", billInfo.get("bill_no").toString());
+			mofData.put("billtype_code", billInfo.get("billtype_code").toString());
+			mofData.put("billtype_name", billInfo.get("billtype_name").toString());
+		}
+		
+		mofData.put("id", UUIDTools.uuidRandom());
+	    mofData.put("rg_code", rg_code);
+	    mofData.put("set_year", set_year);
+	    mofData.put("create_date", date);
+	    mofData.put("latest_op_date", date);
+	    mofData.put("create_user", create_user);
+	    mofData.put("latest_op_user", create_user);
+	    
+	    String sql = commonService.getInsertSql(mofData, "csof_mof_bill");
+	    sqlList.add(sql);
+	    
+	    int [] result = dao.executeBatchBySql(sqlList);
+		return result.length;
+	}
+
+	public int updateMofBill(Map mofBillData, String billtype_code) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

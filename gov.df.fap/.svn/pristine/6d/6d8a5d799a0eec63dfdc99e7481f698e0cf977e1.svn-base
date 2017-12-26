@@ -1,0 +1,61 @@
+require(['jquery', 'knockout', 'bootstrap', 'uui',
+    'tree', 'grid', 'ip'], function($, ko) {
+    window.ko = ko;
+    var app,tokenid;
+    var URL = '/df/cs/test.do';//获取当前所有启用要素信息
+    var viewModel = {
+
+    };
+
+    viewModel.save = function() {
+        var TYPENAME = $("#TEPENAME").val();
+        var ITEMXH = $("#ITEMXH").val();
+        $.ajax({
+            type: 'get',
+            url: URL + "?tokenid=" + tokenid,
+            data: {"typename":TYPENAME,"itemxh":ITEMXH},
+            dataType: 'JSON',
+            async: false,
+            success: function (result) {
+                if (result.errorCode == "0") {
+                    alert(result);
+                } else {
+                    ip.ipInfoJump("错误", 'error');
+                }
+            }, error: function () {
+                ip.ipInfoJump("错误", 'error');
+            }
+        });
+    },
+    viewModel.select = function() {
+//        var TYPENAME = $("#TEPENAME").val();
+//        var ITEMXH = $("#ITEMXH").val();
+        $.ajax({
+            type: 'get',
+            url: URL + "?tokenid=" + tokenid,
+            data: {"rid":"EI$120${861D0A21-3D6A-404A-8740-4162482004B1}.bf64a8cd4fae3fae113d6833f7d07ba5"},
+            dataType: 'JSON',
+            async: false,
+            success: function (result) {
+                if (result.data != null) {
+                    alert(result);
+                    window.open(result.data);
+                    
+                } else {
+                    ip.ipInfoJump("错误", 'error');
+                }
+            }, error: function () {
+                ip.ipInfoJump("错误", 'error');
+            }
+        });
+    }
+
+    function init(){
+        tokenid = ip.getTokenId() + '&ajax=noCache';
+        app = u.createApp({
+            el: 'body',
+            model: viewModel
+        });
+    }
+    init();
+});

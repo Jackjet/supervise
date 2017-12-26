@@ -1,0 +1,1427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gov.df.supervise.service.examine.ExamineDao">	
+<!-- 新的点击树展示数据 --> 
+<!-- 进入工作流的全部数据 -->
+<select id="getwfAllBill" parameterType="java.util.Map" resultType="java.util.Map">
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{from_node_id}||'.'||1)
+)  and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||0)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+<!-- 进入工作流的未提交数据 -->
+<select id="getwfBill" parameterType="java.util.Map" resultType="java.util.Map">
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* from ${table_name} a where  a.IS_VALID = 1 and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{from_node_id}||'.'||1,#{cur_node_id}||'.'||0)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+<!-- 进入工作流的提交数据 -->
+<select id="getwfBillEnd" parameterType="java.util.Map" resultType="java.util.Map">
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* from ${table_name} a where  a.IS_VALID = 1 and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1))
+       and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+<!-- 点击单位进入工作流的全部数据 -->
+<select id="selectAgencyAll" parameterType="java.util.Map" resultType="java.util.Map">
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.AGENCY_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{from_node_id}||'.'||1)
+) 
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.AGENCY_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||0)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.AGENCY_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+<!-- 点击单位进入工作流的未提交数据 -->
+<select id="selectwfAgency" parameterType="java.util.Map" resultType="java.util.Map">
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+from ${table_name} a where  a.IS_VALID = 1 and a.AGENCY_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{from_node_id}||'.'||1,#{cur_node_id}||'.'||0)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+
+<!-- 点击单位进入工作流的提交数据 -->
+<select id="selectAgencyEnd" parameterType="java.util.Map" resultType="java.util.Map">
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+from ${table_name} a where  a.IS_VALID = 1 and a.AGENCY_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1))
+       and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+
+<!-- 点击司局进入工作流的全部数据 -->
+<select id="selectMofdepAll" parameterType="java.util.Map" resultType="java.util.Map">
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.MOFDEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{from_node_id}||'.'||1)
+) 
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.MOFDEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||0)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.MOFDEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+<!-- 点击司局进入工作流的未提交数据 -->
+<select id="selectwfMofdep" parameterType="java.util.Map" resultType="java.util.Map">
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+from ${table_name} a where  a.IS_VALID = 1 and a.MOFDEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{from_node_id}||'.'||1,#{cur_node_id}||'.'||0)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+<!-- 点击司局进入工作流的提交数据 -->
+<select id="selectMofdepEnd" parameterType="java.util.Map" resultType="java.util.Map">
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+from ${table_name} a where  a.IS_VALID = 1 and a.MOFDEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1))
+       and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+
+<!-- 点击处室进入工作流的全部数据 -->
+<select id="selectDepAll" parameterType="java.util.Map" resultType="java.util.Map">
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.DEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{from_node_id}||'.'||1)
+) 
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.DEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||0)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.DEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+<!-- 点击处室进入工作流的未提交数据 -->
+<select id="selectwfDep" parameterType="java.util.Map" resultType="java.util.Map">
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+from ${table_name} a where  a.IS_VALID = 1 and a.DEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{from_node_id}||'.'||1,#{cur_node_id}||'.'||0)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+<!-- 点击处室进入工作流的提交数据 -->
+<select id="selectDepEnd" parameterType="java.util.Map" resultType="java.util.Map">
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+from ${table_name} a where  a.IS_VALID = 1 and a.DEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1))
+       and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+
+<!-- 点击专员办进入工作流的全部数据 -->
+<select id="selectOfficeAll" parameterType="java.util.Map" resultType="java.util.Map">
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.OID = #{chr_id} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{from_node_id}||'.'||1)
+) 
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.OID = #{chr_id} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||0)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1  and  a.OID = #{chr_id} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+<!-- 点击专员办进入工作流的未提交数据 -->
+<select id="selectwfOffice" parameterType="java.util.Map" resultType="java.util.Map">
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+from ${table_name} a where  a.IS_VALID = 1 and  a.OID = #{chr_id}  and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{from_node_id}||'.'||1,#{cur_node_id}||'.'||0)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+<!-- 点击专员办进入工作流的提交数据 -->
+<select id="selectOfficeEnd" parameterType="java.util.Map" resultType="java.util.Map">
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+from ${table_name} a where  a.IS_VALID = 1 and  a.OID = #{chr_id} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1))
+       and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+
+
+<!-- 结束节点 全部数据 -->
+<select id="getwfendAllBill" parameterType="java.util.Map" resultType="java.util.Map">
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{from_node_id}||'.'||1)
+) 
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||0)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and exists (
+    select 1 from csof_wf_item_end c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+<!--  结束节点 进入工作流的提交数据 -->
+<select id="getwfendBillEnd" parameterType="java.util.Map" resultType="java.util.Map">
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* from ${table_name} a where  a.IS_VALID = 1 and exists (
+    select 1 from csof_wf_item_end c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1))
+       and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+<!-- 结束节点点击单位进入工作流的全部数据 -->
+<select id="selectendAgencyAll" parameterType="java.util.Map" resultType="java.util.Map">
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.AGENCY_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{from_node_id}||'.'||1)
+) 
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.AGENCY_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||0)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.AGENCY_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_end c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+
+</select>
+
+<!-- 结束节点点击单位进入工作流的提交数据 -->
+<select id="selectendAgencyEnd" parameterType="java.util.Map" resultType="java.util.Map">
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+from ${table_name} a where  a.IS_VALID = 1 and a.AGENCY_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_end c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1))
+       and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+
+<!-- 结束节点点击司局进入工作流的全部数据 -->
+<select id="selectendMofdepAll" parameterType="java.util.Map" resultType="java.util.Map">
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.MOFDEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{from_node_id}||'.'||1)
+) 
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.MOFDEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||0)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.MOFDEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_end c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+<!-- 结束节点点击司局进入工作流的提交数据 -->
+<select id="selectendMofdepEnd" parameterType="java.util.Map" resultType="java.util.Map">
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+from ${table_name} a where  a.IS_VALID = 1 and a.MOFDEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_end c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1))
+       and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+
+<!-- 结束节点点击处室进入工作流的全部数据 -->
+<select id="selectendDepAll" parameterType="java.util.Map" resultType="java.util.Map">
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.DEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{from_node_id}||'.'||1)
+) 
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.DEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||0)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.DEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_end c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+
+<!-- 结束节点点击处室进入工作流的提交数据 -->
+<select id="selectendDepEnd" parameterType="java.util.Map" resultType="java.util.Map">
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+from ${table_name} a where  a.IS_VALID = 1 and a.DEP_CODE like concat(#{chr_code},'%') and a.OID = #{oid} and exists (
+    select 1 from csof_wf_item_end c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1))
+       and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+
+<!-- 结束节点点击专员办进入工作流的全部数据 -->
+<select id="selectendOfficeAll" parameterType="java.util.Map" resultType="java.util.Map">
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.OID = #{chr_id} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{from_node_id}||'.'||1)
+) 
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '0' as status_code,(select '待'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1 and a.OID = #{chr_id} and exists (
+    select 1 from csof_wf_item_cur c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||0)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+union all
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+  from ${table_name} a where  a.IS_VALID = 1  and  a.OID = #{chr_id} and exists (
+    select 1 from csof_wf_item_end c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1)
+)
+and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+
+<!-- 结束节点点击专员办进入工作流的提交数据 -->
+<select id="selectendOfficeEnd" parameterType="java.util.Map" resultType="java.util.Map">
+select '1' as status_code,(select '已'||n.node_name from csof_wf_nodes n where n.node_id=#{cur_node_id}) as status_name,a.* 
+from ${table_name} a where  a.IS_VALID = 1 and  a.OID = #{chr_id} and exists (
+    select 1 from csof_wf_item_end c 
+     where 1=1 
+       and c.entity_id=a.id 
+       and c.billtype_code=a.billtype_code 
+       and c.node_id||'.'||c.status_code in (#{cur_node_id}||'.'||1))
+       and oid = #{oid}
+and exists (
+  select 1 
+    from sys_user_org o 
+   where 1=1 
+     and o.org_id= a.dep_id 
+     and o.user_id= #{user_id}
+)
+and exists (
+  select ele_value 
+    from sys_right_group_detail d,sys_right_group g,sys_user_rule r 
+   where 1=1 
+     and d.right_group_id=g.right_group_id 
+     and g.rule_id=r.rule_id 
+     and ((d.ele_code='CSOF_AGENCY' and (d.ele_value='#' or d.ele_value=a.agency_id))   
+       or (d.ele_code='CSOF_PROJECT' and (d.ele_value='#' or d.ele_value=a.project_id)) 
+       or (d.ele_code='CSOF_FINANCE' and (d.ele_value='#' or d.ele_value=a.finance_id)) 
+       or (d.ele_code='CSOF_BUDGET' and (d.ele_value='#' or d.ele_value=a.budget_id)))   
+     and r.user_id= #{user_id}
+)
+</select>
+<update id="update" parameterType="java.lang.String">
+ update CSOF_SUP_BILL set IS_VALID = #{is_valid} where id = #{id}
+</update>
+<delete id="deleteBill" parameterType="java.util.Map"> 
+delete CSOF_SUP_BILL  where id = #{id} 
+</delete>
+<!-- 处汇总操作 -->
+<select id="selectBillName" parameterType="java.lang.String" resultType="java.lang.String">
+select BILLTYPE_NAME from sys_billtype where BILLTYPE_CODE = #{billtype_code}
+</select>
+<select id="countSupMoney" parameterType="java.lang.String" resultType="java.lang.Integer">
+select count(SUP_MONEY) from CSOF_SUP_BILL where MOFDEP_ID = #{mofdep_id}
+</select>
+<select id="getId" parameterType="java.lang.String" resultType="java.lang.String">
+select id from CSOF_SUP_BILL_MOFDEP where MOFDEP_CODE = #{chr_code}
+</select>
+<update id="updateSupBill" parameterType="java.util.Map">
+update CSOF_SUP_BILL set SUM_TYPE = #{sum_type},MOFDEP_BILL_ID = #{mofdep_bill_id} where id = #{entity_id}
+</update>
+<insert id="insertBillMofDep" parameterType="java.util.Map">
+insert into CSOF_SUP_BILL_MOFDEP (ID,BILL_NO,DEP_ID,DEP_CODE,DEP_NAME,MOFDEP_ID,MOFDEP_CODE,MOFDEP_NAME,SUM_TYPE,OID,SID,SUP_NO,SUP_NAME,BILLTYPE_CODE,BILLTYPE_NAME,STATUS,IS_VALID,IS_END,SET_YEAR,RG_CODE,SUP_NUM,SUP_MONEY,REMARK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE)
+ values (#{id}, #{bill_no},  #{dep_id}, #{dep_code}, #{dep_name}, #{mofdep_id},#{mofdep_code}, #{mofdep_name},#{sum_type},#{oid},#{sid},#{sup_no},#{sup_name},#{billtype_code},#{billtype_name},#{status},#{is_valid},#{is_end},#{set_year},#{rg_code},#{sup_num},#{sup_money},#{remark},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date})
+</insert>
+<!-- 处撤销汇总 -->
+<delete id="deleteBillMofDep" parameterType="java.lang.String">
+delete from CSOF_SUP_BILL_MOFDEP where ID = #{id}
+</delete>
+<!-- 办汇总操作 -->
+<select id="countOfficeSupMoney" parameterType="java.lang.String" resultType="java.lang.Integer">
+select count(SUP_MONEY) from CSOF_SUP_BILL_MOFDEP  where OID = #{oid}
+</select>
+<select id="getOfficeId" parameterType="java.lang.String" resultType="java.lang.String">
+select id from csof_sup_bill_office where OID = #{chr_id}
+</select>
+
+<insert id="insertBillOffice" parameterType="java.util.Map">
+insert into csof_sup_bill_office (ID,BILL_NO,SUM_TYPE,OID,SID,SUP_NO,SUP_NAME,BILLTYPE_CODE,BILLTYPE_NAME,STATUS,IS_VALID,IS_END,SET_YEAR,RG_CODE,SUP_NUM,SUP_MONEY,REMARK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE)
+ values (#{id}, #{bill_no},#{sum_type},#{oid},#{sid},#{sup_no},#{sup_name},#{billtype_code},#{billtype_name},#{status},#{is_valid},#{is_end},#{set_year},#{rg_code},#{sup_num},#{sup_money},#{remark},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date})
+</insert>
+<!-- 办撤销汇总 -->
+<delete id="deleteBillOffice" parameterType="java.lang.String">
+delete from csof_sup_bill_office where ID = #{id}
+</delete>
+
+<select id="getActionButton" parameterType="java.lang.String" resultType="java.util.Map">
+select * from csof_t_sys_button b left join sys_action a on b.action_id = a.action_id where b.menu_id = #{menu_id}  order by b.display_order
+</select>
+
+<select id="SelectMenuNode" parameterType="java.lang.String" resultType="java.util.Map">
+select * from csof_wf_menu_node where MENU_ID = #{menu_id}
+</select>
+
+<select id="selectMofdepBill" parameterType="java.util.Map" resultType="java.util.Map">
+select * from ${table_name}  where MOFDEP_CODE = #{chr_code} 
+</select>
+<select id="selectOfficeBill" parameterType="java.util.Map" resultType="java.util.Map">
+select * from ${table_name}  where OID = #{chr_id} 
+</select>
+
+<select id="getTaskSup" parameterType="java.util.Map" resultType="java.util.Map">
+select *  from csof_task_sup s,csof_task_user u where u.SID = s.SID and u.SID = #{sid} and u.ID = #{task_id}
+</select>
+<insert id="saveSupBill" parameterType="java.util.Map">
+insert into CSOF_SUP_BILL(ID,BILL_NO,DEP_ID,DEP_CODE,DEP_NAME,MOFDEP_ID,MOFDEP_CODE,MOFDEP_NAME,OID,SID,SUP_NO,SUP_NAME,SUP_TYPE_ID,SUP_TYPE_CODE,SUP_TYPE_NAME,OBJ_TYPE_ID,OBJ_TYPE_CODE,OBJ_TYPE_NAME,IS_VALID,IS_END,SUP_CYCLE,SUM_TYPE,BILLTYPE_CODE,BILLTYPE_NAME,SUP_NUM,STATUS,TASK_ID,AGENCY_ID,AGENCY_CODE,AGENCY_NAME,RECORD_USER,RECORD_DATE,LATEST_OP_USER,LATEST_OP_DATE,
+CREATE_USER,CREATE_DATE,SUP_DATE,SET_YEAR,TASK_NO,TASK_NAME)
+ values (#{id}, #{bill_no},#{dep_id},#{dep_code},#{dep_name},#{mofdep_id},#{mofdep_code}, #{mofdep_name},#{oid},#{sid},#{sup_no},#{sup_name},#{sup_type_id},#{sup_type_code},#{sup_type_name},#{obj_type_id},#{obj_type_code},#{obj_type_name},#{is_valid},#{is_end},#{sup_cycle},#{sum_type},#{billtype_code},#{billtype_name},#{sup_num},#{status},#{task_id},#{chr_id},#{chr_code},#{chr_name},#{record_user},#{record_date},#{latest_op_user},#{latest_op_date},#{create_user},#{create_date},#{sup_date},#{set_year},#{task_no},#{task_name})
+</insert>
+</mapper>

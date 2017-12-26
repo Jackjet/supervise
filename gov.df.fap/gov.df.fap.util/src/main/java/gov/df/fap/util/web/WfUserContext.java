@@ -1,0 +1,104 @@
+package gov.df.fap.util.web;
+
+import gov.df.fap.util.StringUtil;
+import gov.df.fap.util.date.DateHandler;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletRequest;
+
+/**
+ * 工作流参数
+ * @author dingyy
+ *
+ */
+@SuppressWarnings({ "rawtypes", "unchecked" })
+public class WfUserContext {
+
+  private static ThreadLocal _context = new ThreadLocal() {
+    @Override
+    protected Object initialValue() {
+      return new HashMap();
+    }
+  };
+
+  public static void setProp(Object key, Object value) {
+    Map context = (Map) _context.get();
+    context.put(key, value);
+  }
+
+  public static Object getProp(Object key) {
+    Map context = (Map) _context.get();
+    return context.get(key);
+  }
+
+  public static CurrentUser getCurrentUser() {
+    return (CurrentUser) WfUserContext.getProp(CurrentUser.class.getName());
+  }
+
+  public static void setRequest(ServletRequest request) {
+    CurrentUser curUser = new CurrentUser();
+    //工作流相关参数
+    curUser.setActionType(request.getParameter("actionType"));
+    curUser.setOperationId(request.getParameter("operationId"));
+    curUser.setOperationName(request.getParameter("operationName"));
+    curUser.setBilltype_code(request.getParameter("billtype"));
+    curUser.setBusbilltype_code(request.getParameter("busbilltype"));
+    curUser.setCurrentState(request.getParameter("status"));
+
+    String wfMenuId = request.getParameter("wfMenuId");
+    if (wfMenuId != null && wfMenuId != "" && !"".equals(wfMenuId.trim())) {
+      curUser.setWfMenuId(wfMenuId);
+      curUser.setMenuId(wfMenuId);//我的单据多页签切换时走工作流用
+      curUser.setObject(request.getParameter("svMenuId"));
+    } else {
+      curUser.setWfMenuId("");
+      curUser.setMenuId(request.getParameter("svMenuId"));
+    }
+    curUser.setMenuName(request.getParameter("svMenuName"));
+    curUser.setRoleId(request.getParameter("svRoleId"));
+    curUser.setUserId(request.getParameter("svUserId"));
+    curUser.setUserCode(request.getParameter("svUserCode"));
+    curUser.setUserName(request.getParameter("svUserName"));
+    curUser.setRg_code(request.getParameter("svRgCode"));
+    curUser.setTransDate(request.getParameter("svTransDate"));
+    curUser.setSmallType(request.getParameter("smallType"));
+    curUser.setIsBank(request.getParameter("isBank"));
+    curUser.setPayCardType(request.getParameter("payCardType"));
+    curUser.setBill("true".equalsIgnoreCase(request.getParameter("isBill")));
+    curUser.setExist(!StringUtil.isNull(request.getParameter("isexist"))
+      && (request.getParameter("isexist").equals("1") || "true".equalsIgnoreCase(request.getParameter("isexist"))));//默认不存在
+    curUser.setSign(StringUtil.isNull(request.getParameter("issign")) || request.getParameter("issign").equals("1")
+      || "true".equalsIgnoreCase(request.getParameter("issign"))); //默认允许
+    String setyear = request.getParameter("svSetYear");
+    if (setyear == null || "".equals(setyear)) {
+      String transDate = curUser.getTransDate();
+      if (transDate == null || "".equals(transDate)) {
+        curUser.setSetYear(DateHandler.getCurrentYear());
+      } else {
+        curUser.setSetYear(Integer.parseInt(transDate.substring(0, 4)));
+      }
+    } else {
+      curUser.setSetYear(Integer.parseInt(setyear));
+    }
+
+    if (request.getParameter("dotype") != null) {//合单标识
+      try {
+        curUser.setDoType(Integer.parseInt(request.getParameter("dotype")));
+      } catch (Exception e) {
+        curUser.setDoType(1);
+      }
+    } else {
+      curUser.setDoType(1);
+    }
+    WfUserContext.setProp(CurrentUser.class.getName(), curUser);
+  }
+
+  public static void clear() {
+    Map context = (Map) _context.get();
+    if (context != null) {
+      context.clear();
+    }
+  }
+}

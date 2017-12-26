@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gov.df.supervise.service.Tree.elementTreeDao">
+
+ <select id="findTree" parameterType="java.util.Map" resultType="java.util.Map" >
+select * from ${ele_source} a  where a.oid = #{oid}
+</select>
+<insert id="saveDocument" parameterType="java.util.Map" >
+insert into csof_info_document (ID,DOCTYPE_ID,OID,DEP_ID,FILE_ID,TITLE,SUMMARY,CREATE_DATE,CREATE_USER,PUBLISH_DATE,PUBLISH_USER,IS_VALID,IS_PRIVATE)
+ values (#{id}, #{doctype_id},#{oid}, #{dep_id}, #{file_id}, #{title},#{summary}, #{create_date}, #{create_user},#{publish_date},#{publish_user},#{is_valid},#{is_private})
+</insert>
+<select id="getDocument" parameterType="java.lang.String" resultType="java.util.Map">
+select * from csof_info_document where ID = #{id}
+</select>
+<update id="updateDocument" parameterType="java.util.Map" >
+update csof_info_document set DOCTYPE_ID = #{doctype_id},OID = #{oid},DEP_ID = #{dep_id},FILE_ID = #{file_id},TITLE = #{title},SUMMARY = #{summary},CREATE_DATE = #{create_date},
+CREATE_USER = #{create_user},PUBLISH_DATE = #{publish_date},PUBLISH_USER = #{publish_user},IS_VALID = #{is_valid},IS_PRIVATE = #{is_private} where ID = #{id}
+</update>
+<delete id="deleteDocument" parameterType="java.lang.String">
+delete from csof_info_document where ID = #{id}
+</delete>
+</mapper>

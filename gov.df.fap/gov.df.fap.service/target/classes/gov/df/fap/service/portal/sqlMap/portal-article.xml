@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="portal-article">  
+	<resultMap id="ArticleResult" type="gov.df.fap.bean.portal.ArticleRecordBean">
+		<result property="id" column="ID" />
+		<result property="title" column="TITLE" />
+		<result property="author" column="AUTHOR" />
+		<result property="creater" column="CREATOR" />
+		<result property="expiredTime" column="EXPIRE_DATE" />
+		<result property="validateTime" column="VALID_DATE" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="review" column="REVIEW" />
+		<result property="articleType" column="TYPE" />
+		<result property="imgUrl" column="IMG_URL" />
+		<result property="articleNo" column="SNO" />
+		<result property="mendor" column="MENDOR" />
+		<result property="mendTime" column="MEND_TIME" />
+		<result property="href" column="HREF" />
+		<result property="content" column="CONTENT" jdbcType="CLOB"
+			javaType="java.lang.String" />
+	</resultMap>
+	<sql id="Base_Column_List">
+	  ID, TITLE, CREATOR, CREATE_TIME, TYPE, ATTATCH_BLOBID, IMG_URL, VALID_DATE, EXPIRE_DATE, 
+	  SNO, AUTHOR, WROTE_TIME, MENDOR, MEND_TIME, HREF, REVIEW
+	</sql>
+	<sql id="Blob_Column_List">
+	  CONTENT
+	</sql>
+	<resultMap extends="ArticleResult" id="ResultMapWithBLOBs" type="gov.df.fap.bean.portal.ArticleRecordBean">
+	  <result column="CONTENT" jdbcType="CLOB" property="content" />
+	</resultMap>
+	<select id="getArticleCount" resultType="java.lang.Integer">
+		select count(ID) from AP_ARTICLE
+	</select>
+	<select id="getArticleId" resultType="java.lang.String">
+		select MAX(ID) from AP_ARTICLE
+	</select>
+	<select id="getArticleById" resultType="java.lang.String">
+		select MAX(ID) from AP_ARTICLE
+	</select>
+<!--     <insert id="insertArticle" parameterType="gov.df.fap.bean.portal.ArticleRecordBean">
+		insert into AP_ARTICLE(ID, TITLE, AUTHOR, CREATOR, EXPIRE_DATE, VALID_DATE,
+		WROTE_TIME, MEND_TIME, REVIEW, SNO, MENDOR, HREF, TYPE, CONTENT, IMG_URL)
+		VALUES(#id#, #title#, #author#, #creater#, #expiredTime#, #validateTime#, 
+		#createTime#, #mendTime#, #review#, #articleNo#, #mendor#, #href#, #articleType#, 
+		#content#, #imgUrl#) 
+		 ATTATCH_BLOBID, 
+		, #{attatchBlobid,jdbcType=VARCHAR}
+		-->
+	<insert id="insertArticlePortlet" parameterType="java.util.Map">
+		insert into AP_ARTICLE_PORTLET(PG_PLET_ID, PORTLET_ID, ARTICLE_ID,CHECK_STATUS) values(#{pgPletId,jdbcType=DECIMAL}, #{portletId,jdbcType=VARCHAR},#{articleId,jdbcType=VARCHAR},#{checkStatus,jdbcType=CHAR})
+	</insert>
+	 <insert id="insertArticle" parameterType="gov.df.fap.bean.portal.ArticleRecordBean">
+	    insert into AP_ARTICLE (ID, TITLE, CREATOR, 
+	      CREATE_TIME, TYPE,
+	      IMG_URL, VALID_DATE, EXPIRE_DATE, 
+	      SNO, AUTHOR, WROTE_TIME, 
+	      MENDOR, MEND_TIME, HREF, 
+	      REVIEW, CONTENT)
+	    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, 
+	      #{createTime,jdbcType=TIMESTAMP}, #{articleType,jdbcType=VARCHAR}, 
+	      #{imgUrl,jdbcType=VARCHAR}, #{validateTime,jdbcType=TIMESTAMP}, #{expiredTime,jdbcType=TIMESTAMP}, 
+	      #{articleNo,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{wroteTime,jdbcType=TIMESTAMP}, 
+	      #{mendor,jdbcType=VARCHAR}, #{mendTime,jdbcType=TIMESTAMP}, #{href,jdbcType=VARCHAR}, 
+	      #{review,jdbcType=VARCHAR}, #{content,jdbcType=CLOB})
+	  </insert>  
+	  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+	    select 
+	    <include refid="Base_Column_List" />
+	    ,
+	    <include refid="Blob_Column_List" />
+	    from AP_ARTICLE
+	    where ID = #{id,jdbcType=VARCHAR}
+	  </select>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="gov.df.fap.bean.portal.ArticleRecordBean">
+	  update AP_ARTICLE
+	  set TITLE = #{title,jdbcType=VARCHAR},
+	    CREATOR = #{creater,jdbcType=VARCHAR},
+	    CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+	    TYPE = #{articleType,jdbcType=VARCHAR},
+	    IMG_URL = #{imgUrl,jdbcType=VARCHAR},
+	    VALID_DATE = #{validateTime,jdbcType=TIMESTAMP},
+	    EXPIRE_DATE = #{expiredTime,jdbcType=TIMESTAMP},
+	    SNO = #{articleNo,jdbcType=VARCHAR},
+	    AUTHOR = #{author,jdbcType=VARCHAR},
+	    WROTE_TIME = #{wroteTime,jdbcType=TIMESTAMP},
+	    MENDOR = #{mendor,jdbcType=VARCHAR},
+	    MEND_TIME = #{mendTime,jdbcType=TIMESTAMP},
+	    HREF = #{href,jdbcType=VARCHAR},
+	    REVIEW = #{review,jdbcType=VARCHAR},
+	    CONTENT = #{content,jdbcType=CLOB}
+	  where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateArticlePubStatus" parameterType="java.util.Map">
+	  update AP_ARTICLE
+	  set VALID_DATE = #{validateTime,jdbcType=TIMESTAMP}
+	  where ID = #{articleId,jdbcType=VARCHAR}
+	</update>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+	    delete from AP_ARTICLE
+	    where ID = #{id,jdbcType=VARCHAR}
+    </delete>
+<!-- 	 <select id="getArticleByUserId" resultType="java.lang.String">
+		select t.*, av.VAL as ARTICLE_TYPE_NAME, (SELECT COUNT(1) FROM V_AP_ARTICLE_PUB 
+		WHERE t.ID = ARTICLE_ID) AS PUBCOUNT from AP_ARTICLE t left join AS_VAL av
+		on t.TYPE = av.VAL_ID and av.VALSET_ID = 'VS_AP_ARTICLE_TYPE'
+		<dynamic prepend="where">
+			<isNotNull prepend="AND" property="userId">
+				CREATOR = #userId#
+    	</isNotNull>
+    	<isNotEmpty prepend="AND" property="title">
+    		TITLE like '%' || #title# || '%' 
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="author">
+    		AUTHOR like '%' || #author# || '%'
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="startTime">
+    		<![CDATA[VALID_DATE >= to_date(#startTime#, 'yyyy-mm-dd HH24:mi:ss')]]>
+    	</isNotEmpty>
+    	<isNotEmpty prepend="AND" property="endTime">
+    		<![CDATA[VALID_DATE <= to_date(#endTime#, 'yyyy-mm-dd HH24:mi:ss')]]>
+    	</isNotEmpty>
+		</dynamic>
+	</select> -->
+</mapper>  

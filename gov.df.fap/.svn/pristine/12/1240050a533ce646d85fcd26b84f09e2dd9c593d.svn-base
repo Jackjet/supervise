@@ -1,0 +1,261 @@
+package gov.df.fap.util.web;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServlet;
+
+import com.alibaba.fastjson.JSONObject;
+
+/**
+ * 参数过滤器
+ */
+public class CsofContextFilter extends HttpServlet implements Filter {
+	
+	protected FilterConfig filterConfig = null;
+
+	/**
+	 * 对请求中的参数进行危险字符过滤。
+	 */
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
+			throws IOException, ServletException {
+			//获得所有请求参数名    
+		Enumeration params = req.getParameterNames();    
+		String  param_str = "";    
+		while (params.hasMoreElements()) {        
+			String name = params.nextElement().toString();    
+			String[] value = req.getParameterValues(name);    
+			for (int i = 0; i < value.length; i++) {    
+				//判断参数是不是json格式数组字符串，如果是进一步进行校验
+				String value_str =value[i];
+				if(name.equals("IDS")||name.equals("ids")){
+					value_str = value_str.replace(",", "");
+				}
+				
+				if(value[i].indexOf("[{\"")>=0 ||value[i].indexOf("{\"")>=0){
+					value_str = jsonReplace(value[i]);
+				}
+			    param_str = param_str +value_str; 
+				 
+				
+			}    
+		}     
+		if (sqlValidate(param_str)) {  
+			res.setCharacterEncoding("UTF-8");//一般我们将字符编码设置成UTF-8.国际标准.
+			res.setContentType("text/html;charset=UTF-8");
+			PrintWriter out= res.getWriter();
+			out.write("您发送请求中的参数中含有非法字符,拒绝访问本系统");
+			out.flush();
+			out.close();
+			throw new IOException("您发送请求中的参数中含有非法字符,拒绝访问本系统");    
+		} else {    
+			//过滤其它非法字符集转空存储
+			replaceStr(req);
+			filterChain.doFilter(req, res);  
+		} 
+	}
+	
+	public static String jsonReplace(String value){
+		String value_str = "";
+		
+		//  ":"      \":\"
+		//"},{"      \"},{\"
+		//  ":{"     \":{\"
+		//  [{"      [{\"
+		 //   "},"    \"},\"
+		//  "}]      \"}]
+		// ":[       \":[
+		//","        \",\"
+		//  {"       {\"
+       // "}         \"}
+		// ":       \":
+		// ,"       ,\"               "},{"
+		value_str = value.replace("\":\"", "")
+						 .replace("\"},{\"", "")
+					     .replace("\":{\"", "")
+			             .replace(":\"", "")
+			             .replace("[{\"", "")
+			             .replace("\"},\"", "")
+			             .replace("\":[", "")
+			             .replace("\",\"", "")
+			             .replace("{\"", "")
+			             .replace("\"}", "")
+			             .replace("\":", "")
+			             .replace(",\"", "")
+			             .replace("},", "}");
+		return value_str;
+	}
+	
+	
+	public static void main(String [] args){
+		String str= "{\"73\":{\"Check\":\"0\"},\"9000\":{\"Check\":\"0\"}}";
+		//{"73":{"Check":"0"},"9000":{"Check":"0"}}   {"73":{"Check":"0","Check":{"[{"0":{"12":"0"}}},"9000":{"Check":"0"}}
+		System.out.print(jsonReplace(str));
+	}
+	
+	public static boolean  jsonCheck(ServletRequest req,String name,String value) {
+		boolean flag = false;   // false 不存在危险字符  true 存在危险字符
+		//判断参数是不是json格式数组字符串，如果是进一步进行校验
+		if(value.indexOf("[{\"")>=0){
+			try{
+				List  list =JSONObject.parseArray(value,Map.class);
+				for(int i=0;i<list.size();i++){
+					Map m =(Map)list.get(i);
+					
+					for(Object k:m.keySet()){
+						//获取每一个json的key  value进行危险字符校验. 
+						String v ="";
+						if(null !=m.get(k)){
+							v =String.valueOf(m.get(k));
+						}
+						
+						if(sqlValidate(v)){
+							flag = true;     //存在危险字符
+						}else{
+							for(String key:illegalMap.keySet()){
+								if(v.indexOf(key)>=0){
+									if(v.indexOf("[{")<0 &&v.indexOf("{")<0){
+										String newValue = v.replaceAll(key, illegalMap.get(key));
+										req.getParameterMap().put(name, newValue);
+									}
+								}
+							}
+						}
+					}
+				}
+				//如果是标准的json格式，则允许双引号过
+			}catch(Exception e){
+				e.printStackTrace();
+				//不是标准json数组,则也不允许有危险字符例如单引号，双
+				flag = true;
+			}
+		}else if (value.indexOf("{\"")>=0){
+			try{
+				Map map = JSONObject.parseObject(value);
+				//是标准的 则要对所有的value进行校验
+				for(Object k:map.keySet()){
+					String v ="";
+					if(null !=map.get(k)){
+						v =String.valueOf(map.get(k));
+					}
+					//获取每一个json的key  value进行危险字符校验.    
+					if(sqlValidate(v)){
+						flag = true;
+					}else{
+						for(String key:illegalMap.keySet()){
+							if(v.indexOf(key)>=0){
+								if(v.indexOf("[{")<0 &&v.indexOf("{")<0){
+									String newValue = v.replaceAll(key, illegalMap.get(key));
+									req.getParameterMap().put(name, newValue);
+								}
+							}
+						}
+					}
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+				//不是标准的json字符
+				flag = true;
+			}
+		}
+		return flag;
+	}
+
+
+	/**
+	 * 对请求中的危险字符进行过滤，拒绝危险请求。
+	 * @param str 请求参数串
+	 * @return true 存在危险字符  false 不存在
+	 */
+	protected static boolean sqlValidate(String str) {   
+		str = str.toLowerCase();//统一转为小写    
+		String badStr = "'|select |update | and | or |delete |insert |truncate | char| into "  
+						+ " | substr|declare |exec |execute |master|drop |"  
+						+ "union |;|--|+|,| like |//|/|*|$|\"|http|<|>|(|)|";
+		String[] badStrs = badStr.split("\\|");    
+		for (int i = 0; i < badStrs.length; i++) {    
+			if (str.indexOf(badStrs[i]) >= 0) {    
+				System.out.println(badStrs[i]);
+				return true;       //存在危险字符
+			}    
+		}    
+		return false;    
+	}
+	
+	//请求参数中有以下字符的要进行转义
+	private static Map<String, String> illegalMap = new HashMap<String, String>() {
+		{
+			put("<", "&lt;");
+			put(">", "&gt;");
+			put("'", "&#39;");
+			put("\"", "&quot;");
+			put("\\+", "&#43;");
+			put("\\—", "&#151;");
+			put("/", "&#47;");
+			put("\\\\", "&#92;");
+			put("\\)", "&#41");
+			put("\\(", "&#40");
+			put(";", "&#59");
+			put("\\[", "&#91");
+			put("\\]", "&#92");
+		}
+	};
+	
+	//请求中有以下字符集的，全部替换成空
+	private static String[] illegalArr = { "script", "alert","meta", "expression", "iframe", "prompt", "\\\\u", "onerror",
+		   								   "onmousemove", "onafterprint", "onbeforeprint", "onbeforeunload", "onerror", "onhaschange", "onload",
+									       "onmessage", "onoffline", "ononline", "onpagehide", "onpageshow", "onpopstate", "onredo", "onresize",
+									       "onstorage", "onundo", "onunload", "onblur", "onchange", "oncontextmenu", "onfocus", "onformchange",
+									       "onforminput", "oninput", "oninvalid", "onreset", "onselect", "onsubmit", "onkeydown", "onkeypress",
+									       "onkeyup", "onclick", "ondblclick", "ondrag", "ondragend", "ondragenter", "ondragleave", "ondragover",
+									       "ondragstart", "ondrop", "onmousedown", "onmousemove", "onmouseout", "onmouseover", "onmouseup",
+									       "onmousewheel", "onscroll", "onabort", "oncanplay", "oncanplaythrough", "ondurationchange", "onemptied",
+									       "onended", "onerror", "onloadeddata", "onloadedmetadata", "onloadstart", "onpause", "onplay", "onplaying",
+									       "onprogress", "onratechange", "onreadystatechange", "onseeked", "onseeking", "onstalled", "onsuspend",
+									       "ontimeupdate", "onvolumechange", "onwaiting" };
+	
+	public static void replaceStr(ServletRequest req){
+		Enumeration params = req.getParameterNames();    
+		String  param_str = "";    
+		while (params.hasMoreElements()) {        
+			String name = params.nextElement().toString();    
+			String[] value = req.getParameterValues(name);    
+			for (int i = 0; i < value.length; i++) {    
+				for(String key:illegalMap.keySet()){
+					if(value[i].indexOf(key)>=0){
+						if(value[i].indexOf("[{")<0 &&value[i].indexOf("{")<0){
+							String newValue = value[i].replaceAll(key, illegalMap.get(key));
+							req.getParameterMap().put(name, newValue);
+						}
+					}
+				}
+				for(int j=0; j<illegalArr.length;j++){
+					if(value[i].indexOf(illegalArr[j])>=0){
+						String newValue = value[i].replaceAll(illegalArr[j], "");
+						req.getParameterMap().put(name, newValue);
+					}
+				}
+			}    
+		}     
+	}
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void init(FilterConfig arg0) throws ServletException {
+		// TODO Auto-generated method stub		
+	}    
+}

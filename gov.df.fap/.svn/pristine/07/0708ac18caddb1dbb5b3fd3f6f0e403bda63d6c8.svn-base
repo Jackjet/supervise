@@ -1,0 +1,33 @@
+/*按钮样式*/
+.csof-btn {
+	background: #EDF5FF;
+    border: 1px solid #99BCEB;
+    border-radius: 5px;
+    font-size: 12px;
+    color: #4383DD;
+    margin: 0 5px;
+}
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn{
+	background: #F9F9F9;
+    border: 1px solid #D9D9D9;
+    border-radius: 5px;
+    color: #B3B3B3;
+}
+.btn:hover, .btn:focus, .btn.focus {
+    background-color: rgba(0,0,1.8,0);
+    color: #4383DD;
+    text-decoration: none;
+}
+/*字体样式*/
+.csof-font{
+	font-family:"Microsoft YaHei",Arial,Helvetica,sans-serif,"宋体";
+	font-size:12px;
+}
+select {
+    height: 25px;
+    border: 1px solid #ccc;
+}
+textarea {
+	border: 1px solid #ccc;
+    border-radius: 4px;
+}

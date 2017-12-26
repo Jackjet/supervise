@@ -1,0 +1,34 @@
+package gov.df.supervise.service.view;
+
+import java.util.List;
+import java.util.Map;
+
+import gov.df.supervise.bean.view.CsofSupDataEntity;
+import gov.df.supervise.service.common.persistence.annotation.MyBatisDao;
+@MyBatisDao
+public interface CsofSupDataDao {
+    int deleteByPrimaryKey(String dataId);
+
+    int insert(CsofSupDataEntity record);
+
+    int insertSelective(CsofSupDataEntity record);
+
+    CsofSupDataEntity selectByPrimaryKey(String dataId);
+
+    int updateByPrimaryKeySelective(CsofSupDataEntity record);
+
+    int updateByPrimaryKey(CsofSupDataEntity record);
+
+	List<CsofSupDataEntity> selectByViewId(String viewId);
+
+	@SuppressWarnings("rawtypes")
+	List<Map> getExcelData(String sql);
+
+	CsofSupDataEntity selectCsofSupDataBySheetId(String sheetId);
+
+	List<String> getZDNamestr(String dataTable);
+
+	void insertSql(String sql);
+	
+	void updateSql(String sql);
+}

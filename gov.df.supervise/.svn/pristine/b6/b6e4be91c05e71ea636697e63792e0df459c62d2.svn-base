@@ -1,0 +1,24 @@
+package gov.df.supervise.service.Tree;
+
+import gov.df.supervise.api.Tree.elementTreeService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class elementTreeServiceimp implements elementTreeService {
+  @Autowired
+  private elementTreeDao elementTreedao;
+
+  public List initTree(String ele_code) {
+    Map<String, String> param = new HashMap<String, String>();
+    String ele_source = elementTreedao.findEleSource(ele_code);
+    param.put("ele_source", ele_source);
+    //String ele_source = "'" + ele_source1 + "'";
+    return elementTreedao.findTree(param);
+  }
+}

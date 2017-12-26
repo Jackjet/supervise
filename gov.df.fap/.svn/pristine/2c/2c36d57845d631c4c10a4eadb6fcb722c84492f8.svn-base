@@ -1,0 +1,38 @@
+require([ 'jquery', 'knockout','bootstrap', 'uui', 'tree', 'grid', 'ip'],
+    function ( $, ko) {
+        var listApp;
+        var tokenid;
+    	var options;
+        window.ko = ko;
+        var viewModel = {
+
+
+        };
+
+        $("#logon-again").click(function(){
+
+        });
+        
+        initIframe = function(obj) {
+        	var value = obj.innerText;
+        	if(value == "审") {
+            	$("#csof-right-iframe")[0].src = "/df/supervise/sup/csofSup.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId +"&menuname=" + options.svMenuName+"&elecode=CSOF_AGENCY&pageId=m1";
+        	}else if(value == "账") {
+            	$("#csof-right-iframe")[0].src = "/df/supervise/acc/csofAcc.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId +"&menuname=" + options.svMenuName;
+        	}else {
+        		$("#csof-right-iframe")[0].src = "";
+        	}
+        }
+        
+        function init(){
+        	tokenid = ip.getTokenId();
+        	options = ip.getCommonOptions({});
+            var app = u.createApp(
+                {
+                    el: document.body,
+                    model: viewModel
+                }
+            );
+        }
+        init();
+    });

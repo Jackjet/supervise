@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gov.df.supervise.service.csofacc.csofAccDao">
+<!-- 监管事项 -->
+<insert id="saveAccSup" parameterType="java.util.Map">
+insert into CSOF_ACC_SUP(SID,SUP_NO,SUP_NAME,STATUS,IS_VALID,IS_END,MOFDEP_ID,MOFDEP_CODE,MOFDEP_NAME,OID,DEP_ID,DEP_CODE,DEP_NAME,SUP_TYPE_ID,SUP_TYPE_CODE,SUP_TYPE_NAME,OBJ_TYPE_ID,OBJ_TYPE_CODE,OBJ_TYPE_NAME,IS_ALLOBJ,SUP_NUM,WORK_TYPE,SUP_MODE,SUP_CYCLE,START_DATE,END_DATE,SUP_CONTENT,REMARK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE,SET_YEAR,RG_CODE)
+ values (#{sid},#{sup_no},#{sup_name},#{status},#{is_valid},#{is_end},#{mofdep_id},#{mofdep_code},#{mofdep_name},#{oid},#{dep_id},#{dep_code},#{dep_name},#{sup_type_id},#{sup_type_code},#{sup_type_name},#{obj_type_id},#{obj_type_code},#{obj_type_name},#{is_allobj},#{sup_num},#{work_type},#{sup_mode},#{sup_cycle},#{start_date},#{end_date},#{sup_content},#{remark},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date},#{set_year},#{rg_code})
+</insert>
+<select id="getAccSup" parameterType="java.lang.String" resultType="java.util.Map">
+select * from CSOF_ACC_SUP where SID = #{sid}
+</select>
+<update id="updateAccSup" parameterType="java.util.Map">
+ update CSOF_ACC_SUP set SUP_NO = #{sup_no},SUP_NAME = #{sup_name},STATUS = #{status},IS_VALID = #{is_valid},
+      IS_END = #{is_end},
+      <if test="mofdep_id != null and mofdep_id !=''">
+      MOFDEP_ID = #{mofdep_id},
+     </if>
+     <if test="mofdep_name != null and mofdep_name !=''">
+      MOFDEP_NAME = #{mofdep_name},
+     </if>
+     <if test="mofdep_code != null and mofdep_code !=''">
+    MOFDEP_CODE =  #{mofdep_code},
+     </if>
+      OID = #{oid},
+        <if test="dep_id != null and dep_id !=''">
+   DEP_ID = #{dep_id},
+     </if>
+           <if test="dep_code != null and dep_code !=''">
+   DEP_CODE = #{dep_code},
+     </if>
+           <if test="dep_name != null and dep_name !=''">
+  DEP_NAME = #{dep_name},
+     </if>
+              <if test="sup_type_id != null and sup_type_id !=''">
+ SUP_TYPE_ID = #{sup_type_id},
+     </if>
+               <if test="sup_type_code != null and sup_type_code !=''">
+  SUP_TYPE_CODE = #{sup_type_code},
+     </if>
+               <if test="sup_type_name != null and sup_type_name !=''">
+  SUP_TYPE_NAME = #{sup_type_name},
+     </if> 
+                  <if test="obj_type_id != null and obj_type_id !=''">
+ OBJ_TYPE_ID = #{obj_type_id},
+     </if> 
+                  <if test="obj_type_code != null and obj_type_code !=''">
+ OBJ_TYPE_CODE = #{obj_type_code},
+     </if> 
+                  <if test="obj_type_name != null and obj_type_name !=''">
+  OBJ_TYPE_NAME = #{obj_type_name},
+     </if> 
+       IS_ALLOBJ = #{is_allobj},SUP_NUM = #{sup_num},WORK_TYPE = #{work_type},SUP_MODE = #{sup_mode},SUP_CYCLE = #{sup_cycle},
+      START_DATE = #{start_date},END_DATE = #{end_date},SUP_CONTENT = #{sup_content}, REMARK = #{remark},CREATE_USER = #{create_user},CREATE_DATE = #{create_date},LATEST_OP_USER = #{latest_op_user},LATEST_OP_DATE = #{latest_op_date},SET_YEAR = #{set_year},RG_CODE = #{rg_code}
+    where SID = #{sid}
+</update>
+<delete id="deleteAccSup" parameterType="java.lang.String">
+delete from CSOF_ACC_SUP where SID = #{sid}
+</delete>
+<!-- 工作记录 -->
+<insert id="saveAccWork" parameterType="java.util.Map">
+insert into CSOF_ACC_WORK(ID,WORK_NO,SID,SUP_NO,SUP_NAME,IS_VALID,IS_END,MOFDEP_ID,MOFDEP_CODE,MOFDEP_NAME,OID,OBJ_TYPE_ID,OBJ_TYPE_CODE,OBJ_TYPE_NAME,WORK_TYPE,WORK_PROGRESS,WORKLOAD,FUND_SCALE,REGISTRATION_TIME,REMARK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE,EXECUTOR,SET_YEAR,RG_CODE)
+ values (#{id},#{work_no},#{sid},#{sup_no},#{sup_name},#{is_valid},#{is_end},#{mofdep_id},#{mofdep_code},#{mofdep_name},#{oid},#{obj_type_id},#{obj_type_code},#{obj_type_name},#{work_type},#{work_progress},#{workload},#{fund_scale},#{registration_time},#{remark},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date},#{executor},#{set_year},#{rg_code})
+</insert>
+<select id="getAccWork" parameterType="java.lang.String" resultType="java.util.Map">
+select * from CSOF_ACC_WORK where SID = #{sid}
+</select>
+<update id="updateAccWork" parameterType="java.util.Map">
+ update CSOF_ACC_WORK set SUP_NO = #{sup_no},SUP_NAME = #{sup_name},IS_VALID = #{is_valid},
+      IS_END = #{is_end},MOFDEP_ID = #{mofdep_id}, MOFDEP_CODE = #{mofdep_code},MOFDEP_NAME = #{mofdep_name},OID = #{oid}, OBJ_TYPE_ID = #{obj_type_id},
+      OBJ_TYPE_CODE = #{obj_type_code},OBJ_TYPE_NAME = #{obj_type_name}, WORK_TYPE = #{work_type},WORK_PROGRESS = #{work_progress},WORKLOAD = #{workload},
+      FUND_SCALE = #{fund_scale},REGISTRATION_TIME = #{registration_time},REMARK = #{remark},CREATE_USER = #{create_user},CREATE_DATE = #{create_date},LATEST_OP_USER = #{latest_op_user},LATEST_OP_DATE = #{latest_op_date},EXECUTOR = #{executor},SET_YEAR = #{set_year},RG_CODE = #{rg_code}
+    where SID = #{sid} and ID = #{id}
+</update>
+<delete id="deleteAllAccWork" parameterType="java.lang.String">
+delete from CSOF_ACC_WORK where SID = #{sid}
+</delete>
+<delete id="deleteAccWork" parameterType="java.util.Map">
+delete from CSOF_ACC_WORK where SID = #{sid} and ID = #{id}
+</delete>
+<!-- 问题记录 -->
+<insert id="saveAccProblem" parameterType="java.util.Map">
+insert into CSOF_ACC_PROBLEM (ID,SID,SUP_NO,SUP_NAME,IS_VALID,IS_END,OID,OBJ_TYPE_ID,OBJ_TYPE_CODE,OBJ_TYPE_NAME,DISCOVER_PROBLEMS,AUDIT_BASIS,AUDIT_OPINION,HANDLE,GROUPING_NAME,RECORDING_USER,RECORDING_TIME,REMARK,CREATE_USER,CREATE_DATE,LATEST_OP_USER,LATEST_OP_DATE,SET_YEAR,RG_CODE)
+ values (#{id},#{sid},#{sup_no},#{sup_name},#{is_valid},#{is_end},#{oid},#{obj_type_id},#{obj_type_code},#{obj_type_name},#{discover_problems},#{audit_basis},#{audit_opinion},#{handle},#{grouping_name},#{recording_user},#{recording_time},#{remark},#{create_user},#{create_date},#{latest_op_user},#{latest_op_date},#{set_year},#{rg_code})
+</insert>
+<select id="getAccProblem" parameterType="java.lang.String" resultType="java.util.Map">
+select * from CSOF_ACC_PROBLEM where SID = #{sid}
+</select>
+<update id="updateAccProblem" parameterType="java.util.Map">
+ update CSOF_ACC_PROBLEM set SUP_NO = #{sup_no},SUP_NAME = #{sup_name},IS_VALID = #{is_valid},
+      IS_END = #{is_end},OID = #{oid}, OBJ_TYPE_ID = #{obj_type_id},
+      OBJ_TYPE_CODE = #{obj_type_code},OBJ_TYPE_NAME = #{obj_type_name}, DISCOVER_PROBLEMS = #{discover_problems},AUDIT_BASIS = #{audit_basis},AUDIT_OPINION = #{audit_opinion},
+      HANDLE = #{handle},GROUPING_NAME = #{grouping_name},RECORDING_USER = #{recording_user},RECORDING_TIME = #{recording_time},REMARK = #{remark},CREATE_USER = #{create_user},CREATE_DATE = #{create_date},LATEST_OP_USER = #{latest_op_user},LATEST_OP_DATE = #{latest_op_date},SET_YEAR = #{set_year},RG_CODE = #{rg_code}
+    where SID = #{sid} and ID = #{id}
+</update>
+<delete id="deleteAllAccProblem" parameterType="java.lang.String">
+delete from CSOF_ACC_PROBLEM where SID = #{sid}
+</delete>
+<delete id="deleteAccProblem" parameterType="java.util.Map">
+delete from CSOF_ACC_PROBLEM where SID = #{sid} and ID = #{id}
+</delete>
+<select id="getSupData"  parameterType="java.util.Map" resultType="java.util.Map">
+select t.chr_id,
+       t.chr_code,
+       t.chr_name,
+       '' as parent_id,
+       '1' as level_num,
+       '0' as is_leaf,
+       'TYPE' as type_code
+  from ${ele_source} t
+ where t.enabled = 1
+union all
+select s.sid as chr_id,
+       s.sup_no as chr_code,
+       s.sup_name as chr_name,
+       s.sup_type_id as parent_id,
+       '2' as level_num,
+       '1' as is_leaf,
+       'SUP' as type_code
+  from csof_acc_sup s
+ where s.is_valid = 1
+</select>
+<update id="updateSupStatus" parameterType="java.util.Map">
+update  csof_acc_sup set STATUS = #{status} where SID = #{sid}
+</update>
+<select id="getAccBook"  resultType="java.util.Map">
+select * from csof_acc_book
+</select>
+<select id="getAccBookById" parameterType="java.lang.String" resultType="java.util.Map">
+select * from csof_acc_book where BOOK_ID = #{book_id}
+</select>
+<select id="getBookSetById" parameterType="java.lang.String" resultType="java.util.Map">
+select * from vw_csof_acc_book_set book_id = #{book_id}
+</select>
+
+
+</mapper>

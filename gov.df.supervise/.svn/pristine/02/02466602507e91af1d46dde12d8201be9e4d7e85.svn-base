@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gov.df.supervise.service.itemsupervision.CsofTaskDepDao">
+  <resultMap id="BaseResultMap" type="gov.df.supervise.bean.task.CsofTaskDep">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="SUP_ID" jdbcType="VARCHAR" property="supId" />
+    <result column="SUP_NO" jdbcType="VARCHAR" property="supNo" />
+    <result column="SUP_NAME" jdbcType="VARCHAR" property="supName" />
+    <result column="DEP_ID" jdbcType="VARCHAR" property="depId" />
+    <result column="DEP_CODE" jdbcType="VARCHAR" property="depCode" />
+    <result column="DEP_NAME" jdbcType="VARCHAR" property="depName" />
+    <result column="OID" jdbcType="VARCHAR" property="oid" />
+    <result column="SUP_NUM" jdbcType="DECIMAL" property="supNum" />
+    <result column="SUP_MONEY" jdbcType="DECIMAL" property="supMoney" />
+    <result column="PLAN_COST" jdbcType="DECIMAL" property="planCost" />
+    <result column="SUP_COST" jdbcType="DECIMAL" property="supCost" />
+    <result column="PLAN_BEGIN_DATE" jdbcType="VARCHAR" property="planBeginDate" />
+    <result column="PLAN_END_DATE" jdbcType="VARCHAR" property="planEndDate" />
+    <result column="BEGIN_DATE" jdbcType="VARCHAR" property="beginDate" />
+    <result column="END_DATE" jdbcType="VARCHAR" property="endDate" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="IS_PUB" jdbcType="DECIMAL" property="isPub" />
+    <result column="IS_VALID" jdbcType="DECIMAL" property="isValid" />
+    <result column="IS_END" jdbcType="DECIMAL" property="isEnd" />
+    <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser" />
+    <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+    <result column="APPROVE_USER" jdbcType="VARCHAR" property="approveUser" />
+    <result column="APPROVE_DATE" jdbcType="VARCHAR" property="approveDate" />
+    <result column="PUBLISH_USER" jdbcType="VARCHAR" property="publishUser" />
+    <result column="PUBLISH_DATE" jdbcType="VARCHAR" property="publishDate" />
+    <result column="FINISH_USER" jdbcType="VARCHAR" property="finishUser" />
+    <result column="FINISH_DATE" jdbcType="VARCHAR" property="finishDate" />
+    <result column="LATEST_OP_USER" jdbcType="VARCHAR" property="latestOpUser" />
+    <result column="LATEST_OP_DATE" jdbcType="VARCHAR" property="latestOpDate" />
+    <result column="BILLTYPE_CODE" jdbcType="VARCHAR" property="billtypeCode" />
+    <result column="BILLTYPE_NAME" jdbcType="VARCHAR" property="billtypeName" />
+    <result column="RG_CODE" jdbcType="VARCHAR" property="rgCode" />
+    <result column="SET_YEAR" jdbcType="VARCHAR" property="setYear" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, SUP_ID, SUP_NO, SUP_NAME, DEP_ID, DEP_CODE, DEP_NAME, OID, SUP_NUM, SUP_MONEY, 
+    PLAN_COST, SUP_COST, PLAN_BEGIN_DATE, PLAN_END_DATE, BEGIN_DATE, END_DATE, REMARK, 
+    STATUS, IS_PUB, IS_VALID, IS_END, CREATE_USER, CREATE_DATE, APPROVE_USER, APPROVE_DATE, 
+    PUBLISH_USER, PUBLISH_DATE, FINISH_USER, FINISH_DATE, LATEST_OP_USER, LATEST_OP_DATE, 
+    BILLTYPE_CODE, BILLTYPE_NAME, RG_CODE, SET_YEAR
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from  CSOF_TASK_DEP
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from  CSOF_TASK_DEP
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="gov.df.supervise.bean.task.CsofTaskDep">
+    insert into  CSOF_TASK_DEP (ID, SUP_ID, SUP_NO, 
+      SUP_NAME, DEP_ID, DEP_CODE, 
+      DEP_NAME, OID, SUP_NUM, 
+      SUP_MONEY, PLAN_COST, SUP_COST, 
+      PLAN_BEGIN_DATE, PLAN_END_DATE, BEGIN_DATE, 
+      END_DATE, REMARK, STATUS, 
+      IS_PUB, IS_VALID, IS_END, 
+      CREATE_USER, CREATE_DATE, APPROVE_USER, 
+      APPROVE_DATE, PUBLISH_USER, PUBLISH_DATE, 
+      FINISH_USER, FINISH_DATE, LATEST_OP_USER, 
+      LATEST_OP_DATE, BILLTYPE_CODE, BILLTYPE_NAME, 
+      RG_CODE, SET_YEAR)
+    values (#{id,jdbcType=VARCHAR}, #{supId,jdbcType=VARCHAR}, #{supNo,jdbcType=VARCHAR}, 
+      #{supName,jdbcType=VARCHAR}, #{depId,jdbcType=VARCHAR}, #{depCode,jdbcType=VARCHAR}, 
+      #{depName,jdbcType=VARCHAR}, #{oid,jdbcType=VARCHAR}, #{supNum,jdbcType=DECIMAL}, 
+      #{supMoney,jdbcType=DECIMAL}, #{planCost,jdbcType=DECIMAL}, #{supCost,jdbcType=DECIMAL}, 
+      #{planBeginDate,jdbcType=VARCHAR}, #{planEndDate,jdbcType=VARCHAR}, #{beginDate,jdbcType=VARCHAR}, 
+      #{endDate,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{isPub,jdbcType=DECIMAL}, #{isValid,jdbcType=DECIMAL}, #{isEnd,jdbcType=DECIMAL}, 
+      #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{approveUser,jdbcType=VARCHAR}, 
+      #{approveDate,jdbcType=VARCHAR}, #{publishUser,jdbcType=VARCHAR}, #{publishDate,jdbcType=VARCHAR}, 
+      #{finishUser,jdbcType=VARCHAR}, #{finishDate,jdbcType=VARCHAR}, #{latestOpUser,jdbcType=VARCHAR}, 
+      #{latestOpDate,jdbcType=VARCHAR}, #{billtypeCode,jdbcType=VARCHAR}, #{billtypeName,jdbcType=VARCHAR}, 
+      #{rgCode,jdbcType=VARCHAR}, #{setYear,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="gov.df.supervise.bean.task.CsofTaskDep">
+    insert into  CSOF_TASK_DEP
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="supId != null">
+        SUP_ID,
+      </if>
+      <if test="supNo != null">
+        SUP_NO,
+      </if>
+      <if test="supName != null">
+        SUP_NAME,
+      </if>
+      <if test="depId != null">
+        DEP_ID,
+      </if>
+      <if test="depCode != null">
+        DEP_CODE,
+      </if>
+      <if test="depName != null">
+        DEP_NAME,
+      </if>
+      <if test="oid != null">
+        OID,
+      </if>
+      <if test="supNum != null">
+        SUP_NUM,
+      </if>
+      <if test="supMoney != null">
+        SUP_MONEY,
+      </if>
+      <if test="planCost != null">
+        PLAN_COST,
+      </if>
+      <if test="supCost != null">
+        SUP_COST,
+      </if>
+      <if test="planBeginDate != null">
+        PLAN_BEGIN_DATE,
+      </if>
+      <if test="planEndDate != null">
+        PLAN_END_DATE,
+      </if>
+      <if test="beginDate != null">
+        BEGIN_DATE,
+      </if>
+      <if test="endDate != null">
+        END_DATE,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="isPub != null">
+        IS_PUB,
+      </if>
+      <if test="isValid != null">
+        IS_VALID,
+      </if>
+      <if test="isEnd != null">
+        IS_END,
+      </if>
+      <if test="createUser != null">
+        CREATE_USER,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="approveUser != null">
+        APPROVE_USER,
+      </if>
+      <if test="approveDate != null">
+        APPROVE_DATE,
+      </if>
+      <if test="publishUser != null">
+        PUBLISH_USER,
+      </if>
+      <if test="publishDate != null">
+        PUBLISH_DATE,
+      </if>
+      <if test="finishUser != null">
+        FINISH_USER,
+      </if>
+      <if test="finishDate != null">
+        FINISH_DATE,
+      </if>
+      <if test="latestOpUser != null">
+        LATEST_OP_USER,
+      </if>
+      <if test="latestOpDate != null">
+        LATEST_OP_DATE,
+      </if>
+      <if test="billtypeCode != null">
+        BILLTYPE_CODE,
+      </if>
+      <if test="billtypeName != null">
+        BILLTYPE_NAME,
+      </if>
+      <if test="rgCode != null">
+        RG_CODE,
+      </if>
+      <if test="setYear != null">
+        SET_YEAR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="supId != null">
+        #{supId,jdbcType=VARCHAR},
+      </if>
+      <if test="supNo != null">
+        #{supNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supName != null">
+        #{supName,jdbcType=VARCHAR},
+      </if>
+      <if test="depId != null">
+        #{depId,jdbcType=VARCHAR},
+      </if>
+      <if test="depCode != null">
+        #{depCode,jdbcType=VARCHAR},
+      </if>
+      <if test="depName != null">
+        #{depName,jdbcType=VARCHAR},
+      </if>
+      <if test="oid != null">
+        #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="supNum != null">
+        #{supNum,jdbcType=DECIMAL},
+      </if>
+      <if test="supMoney != null">
+        #{supMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="planCost != null">
+        #{planCost,jdbcType=DECIMAL},
+      </if>
+      <if test="supCost != null">
+        #{supCost,jdbcType=DECIMAL},
+      </if>
+      <if test="planBeginDate != null">
+        #{planBeginDate,jdbcType=VARCHAR},
+      </if>
+      <if test="planEndDate != null">
+        #{planEndDate,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null">
+        #{beginDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="isPub != null">
+        #{isPub,jdbcType=DECIMAL},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=DECIMAL},
+      </if>
+      <if test="isEnd != null">
+        #{isEnd,jdbcType=DECIMAL},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="approveUser != null">
+        #{approveUser,jdbcType=VARCHAR},
+      </if>
+      <if test="approveDate != null">
+        #{approveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="publishUser != null">
+        #{publishUser,jdbcType=VARCHAR},
+      </if>
+      <if test="publishDate != null">
+        #{publishDate,jdbcType=VARCHAR},
+      </if>
+      <if test="finishUser != null">
+        #{finishUser,jdbcType=VARCHAR},
+      </if>
+      <if test="finishDate != null">
+        #{finishDate,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpUser != null">
+        #{latestOpUser,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpDate != null">
+        #{latestOpDate,jdbcType=VARCHAR},
+      </if>
+      <if test="billtypeCode != null">
+        #{billtypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="billtypeName != null">
+        #{billtypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="rgCode != null">
+        #{rgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="setYear != null">
+        #{setYear,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="gov.df.supervise.bean.task.CsofTaskDep">
+    update  CSOF_TASK_DEP
+    <set>
+      <if test="supId != null">
+        SUP_ID = #{supId,jdbcType=VARCHAR},
+      </if>
+      <if test="supNo != null">
+        SUP_NO = #{supNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supName != null">
+        SUP_NAME = #{supName,jdbcType=VARCHAR},
+      </if>
+      <if test="depId != null">
+        DEP_ID = #{depId,jdbcType=VARCHAR},
+      </if>
+      <if test="depCode != null">
+        DEP_CODE = #{depCode,jdbcType=VARCHAR},
+      </if>
+      <if test="depName != null">
+        DEP_NAME = #{depName,jdbcType=VARCHAR},
+      </if>
+      <if test="oid != null">
+        OID = #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="supNum != null">
+        SUP_NUM = #{supNum,jdbcType=DECIMAL},
+      </if>
+      <if test="supMoney != null">
+        SUP_MONEY = #{supMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="planCost != null">
+        PLAN_COST = #{planCost,jdbcType=DECIMAL},
+      </if>
+      <if test="supCost != null">
+        SUP_COST = #{supCost,jdbcType=DECIMAL},
+      </if>
+      <if test="planBeginDate != null">
+        PLAN_BEGIN_DATE = #{planBeginDate,jdbcType=VARCHAR},
+      </if>
+      <if test="planEndDate != null">
+        PLAN_END_DATE = #{planEndDate,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null">
+        BEGIN_DATE = #{beginDate,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null">
+        END_DATE = #{endDate,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="isPub != null">
+        IS_PUB = #{isPub,jdbcType=DECIMAL},
+      </if>
+      <if test="isValid != null">
+        IS_VALID = #{isValid,jdbcType=DECIMAL},
+      </if>
+      <if test="isEnd != null">
+        IS_END = #{isEnd,jdbcType=DECIMAL},
+      </if>
+      <if test="createUser != null">
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="approveUser != null">
+        APPROVE_USER = #{approveUser,jdbcType=VARCHAR},
+      </if>
+      <if test="approveDate != null">
+        APPROVE_DATE = #{approveDate,jdbcType=VARCHAR},
+      </if>
+      <if test="publishUser != null">
+        PUBLISH_USER = #{publishUser,jdbcType=VARCHAR},
+      </if>
+      <if test="publishDate != null">
+        PUBLISH_DATE = #{publishDate,jdbcType=VARCHAR},
+      </if>
+      <if test="finishUser != null">
+        FINISH_USER = #{finishUser,jdbcType=VARCHAR},
+      </if>
+      <if test="finishDate != null">
+        FINISH_DATE = #{finishDate,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpUser != null">
+        LATEST_OP_USER = #{latestOpUser,jdbcType=VARCHAR},
+      </if>
+      <if test="latestOpDate != null">
+        LATEST_OP_DATE = #{latestOpDate,jdbcType=VARCHAR},
+      </if>
+      <if test="billtypeCode != null">
+        BILLTYPE_CODE = #{billtypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="billtypeName != null">
+        BILLTYPE_NAME = #{billtypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="rgCode != null">
+        RG_CODE = #{rgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="setYear != null">
+        SET_YEAR = #{setYear,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="gov.df.supervise.bean.task.CsofTaskDep">
+    update  CSOF_TASK_DEP
+    set SUP_ID = #{supId,jdbcType=VARCHAR},
+      SUP_NO = #{supNo,jdbcType=VARCHAR},
+      SUP_NAME = #{supName,jdbcType=VARCHAR},
+      DEP_ID = #{depId,jdbcType=VARCHAR},
+      DEP_CODE = #{depCode,jdbcType=VARCHAR},
+      DEP_NAME = #{depName,jdbcType=VARCHAR},
+      OID = #{oid,jdbcType=VARCHAR},
+      SUP_NUM = #{supNum,jdbcType=DECIMAL},
+      SUP_MONEY = #{supMoney,jdbcType=DECIMAL},
+      PLAN_COST = #{planCost,jdbcType=DECIMAL},
+      SUP_COST = #{supCost,jdbcType=DECIMAL},
+      PLAN_BEGIN_DATE = #{planBeginDate,jdbcType=VARCHAR},
+      PLAN_END_DATE = #{planEndDate,jdbcType=VARCHAR},
+      BEGIN_DATE = #{beginDate,jdbcType=VARCHAR},
+      END_DATE = #{endDate,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      IS_PUB = #{isPub,jdbcType=DECIMAL},
+      IS_VALID = #{isValid,jdbcType=DECIMAL},
+      IS_END = #{isEnd,jdbcType=DECIMAL},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      APPROVE_USER = #{approveUser,jdbcType=VARCHAR},
+      APPROVE_DATE = #{approveDate,jdbcType=VARCHAR},
+      PUBLISH_USER = #{publishUser,jdbcType=VARCHAR},
+      PUBLISH_DATE = #{publishDate,jdbcType=VARCHAR},
+      FINISH_USER = #{finishUser,jdbcType=VARCHAR},
+      FINISH_DATE = #{finishDate,jdbcType=VARCHAR},
+      LATEST_OP_USER = #{latestOpUser,jdbcType=VARCHAR},
+      LATEST_OP_DATE = #{latestOpDate,jdbcType=VARCHAR},
+      BILLTYPE_CODE = #{billtypeCode,jdbcType=VARCHAR},
+      BILLTYPE_NAME = #{billtypeName,jdbcType=VARCHAR},
+      RG_CODE = #{rgCode,jdbcType=VARCHAR},
+      SET_YEAR = #{setYear,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

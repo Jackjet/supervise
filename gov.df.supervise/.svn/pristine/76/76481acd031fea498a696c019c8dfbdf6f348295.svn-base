@@ -1,0 +1,568 @@
+package gov.df.supervise.controller.attachment;
+
+import gov.df.fap.service.util.gl.core.CommonUtil;
+import gov.df.fap.util.Tools;
+import gov.df.fap.util.xml.XMLData;
+import gov.df.supervise.api.attachment.AttachmentService;
+import gov.df.supervise.api.common.CommonActionService;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
+import com.alibaba.fastjson.JSONObject;
+import com.ufgov.ip.apiUtils.UUIDTools;
+
+@Controller
+@RequestMapping(value = "/df/cs")
+public class AttachmentController {
+
+  /**
+   * 文件后缀—类型映射表
+   */
+  static java.util.Hashtable sufmap = new java.util.Hashtable();
+
+  public static final String[] IMG_FILE_TYPE = new String[] { "gif", "jpg", "jpeg", "png", "doc", "docx", "xls",
+    "xlsx", "ppt", "pptx", "pdf", "txt", "sql" };
+  /**
+   * 设置所有后缀—类型映射
+   */
+  static {
+    fillMap();
+  }
+
+  /**
+   * 设置后缀_类型映射
+   * 
+   * @param k
+   *            后缀
+   * @param v
+   *            类型
+   */
+  static void setSuffix(String k, String v) {
+    sufmap.put(k, v);
+  }
+
+  /**
+   * 设置所有后缀—类型映射 预留备用
+   * 
+   */
+  static void fillMap() {
+    setSuffix("", "content/unknown");
+    setSuffix(".zip", "application/zip");
+    setSuffix(".gif", "image/gif");
+    setSuffix(".png", "image/png");
+    setSuffix(".jpg", "image/jpeg");
+    setSuffix(".jpeg", "image/jpeg");
+    setSuffix(".htm", "text/html");
+    setSuffix(".html", "text/html");
+    setSuffix(".text", "text/plain");
+    setSuffix(".txt", "text/plain");
+    setSuffix(".java", "text/plain");
+    setSuffix(".doc", "application/msword");
+    setSuffix(".docx", "application/msword");
+    setSuffix(".xls", "application/vnd.ms-excel");
+    setSuffix(".xlsx", "application/vnd.ms-excel");
+    setSuffix(".ppt", "application/mspowerpoint");
+    setSuffix(".pptx", "application/mspowerpoint");
+    setSuffix(".pdf", "application/pdf");
+  }
+
+  final String FILE_SYSTEM_MODE = "0";
+
+  final String FTP_MODE = "1";
+
+  @Autowired
+  private AttachmentService attachmentService; // 附件共用Service
+  
+  @Autowired
+  private CommonActionService actionService; // 附件共用Service
+
+  /**
+   * 附件查询
+   */
+  @RequestMapping(value = "/getAttachList.do", method = { RequestMethod.GET })
+  @ResponseBody
+  public Map<String, Object> getAttachList(HttpServletRequest request) {
+
+    Map<String, Object> map = new HashMap<String, Object>();
+    try {
+      List attachList = null;
+      String pageInfo = null != request.getParameter("pageInfo") ? request.getParameter("pageInfo") : "";
+      String condition = ""; // 查询过滤条件
+      Map conditionMap = new HashMap();
+      Map conditionRela = new HashMap();
+      if( null != request.getParameter("condition_data")&&null!=request.getParameter("condition_rela")){
+			conditionMap = JSONObject.parseObject(request.getParameter("condition_data").toString());
+			conditionRela = JSONObject.parseObject(request.getParameter("condition_rela").toString());
+			condition = actionService.getCondition(conditionMap,conditionRela);
+	  }
+      attachList = attachmentService.getAttachList(condition, pageInfo);
+      long maxUploadSize = 52428800L;
+      map.put("errorCode", "0");
+      map.put("totalElements", attachList.size());
+      map.put("flag", true);
+      map.put("dataDetail", attachList);
+      map.put("maxUploadSize", maxUploadSize);
+    } catch (Exception e) {
+      e.printStackTrace();
+      map.put("errorCode", "1");
+      map.put("errorMsg", "获取附件出现异常");
+    }
+    return map;
+  }
+
+  /**
+   * 附件删除
+   */
+  @RequestMapping(value = "/delAttach.do", method = { RequestMethod.GET })
+  @ResponseBody
+  public Map<String, Object> delAttachById(HttpServletRequest request) {
+
+    Map<String, Object> map = new HashMap<String, Object>();
+    try {
+      if (null != request.getParameter("ids") && !("".equals(request.getParameter("ids")))) {
+        String ids = request.getParameter("ids");
+        List list = attachmentService.getAttachByIds(ids);
+        for (int i = 0; i < list.size(); i++) {
+          XMLData attach = (XMLData) list.get(i);
+          String filePath = attach.get("file_url").toString();
+          File file = new File(filePath);
+          if (file.exists() && file.isFile()) {
+            file.delete();
+          }
+
+        }
+        int num = attachmentService.deleteAttachments(ids);
+        map.put("errorCode", "0");
+        map.put("data", "成功删除【" + num + "】条记录");
+
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      map.put("errorCode", "1");
+      map.put("errorMsg", "删除出现异常");
+    }
+    return map;
+  }
+
+  /**
+   * 采用spring提供的上传文件的方法 附件上传
+   */
+  @SuppressWarnings("rawtypes")
+  @RequestMapping(value = "/uploadAttach.do", method = { RequestMethod.POST })
+  @ResponseBody
+  public Map springUpload(HttpServletRequest request) throws IllegalStateException, IOException {
+    long startTime = System.currentTimeMillis();
+    Map map = new HashMap();
+    String modular = null != request.getParameter("modular") ? request.getParameter("modular") : "CSOF";
+    String entityId = request.getParameter("entityId");
+    String entityName = request.getParameter("entityName");
+    // String local = request.getParameter("local");
+    String uploadMode = attachmentService.getUploadMode();
+    String uploadRootPath = attachmentService.getUploadRootPath();
+    String UPLOAD_FTP_IP = attachmentService.getUploadFtpIp();
+    String UPLOAD_FTP_PORT = attachmentService.getUploadFtpPort();
+    String UPLOAD_FTP_USER = attachmentService.getUploadFtpUser();
+    String UPLOAD_FTP_PASSWORD = attachmentService.getUploadFtpPassword();
+    List<String> typeList = new ArrayList<String>(Arrays.asList(IMG_FILE_TYPE));
+    if (uploadMode == null || "".equals(uploadMode) || uploadMode.trim().isEmpty()
+      || !(FILE_SYSTEM_MODE.equals(uploadMode) || FTP_MODE.equals(uploadMode))) {
+      map.put("errorCode", "-1");
+      map.put("errorMsg", "上传模式类型无法获知！");
+      return map;
+    }
+
+    if (uploadRootPath == null || "".equals(uploadRootPath) || uploadRootPath.trim().isEmpty()) {
+      map.put("errorCode", "-1");
+      map.put("errorMsg", "上传根目录不存在！");
+      return map;
+    }
+
+    String latest_op_user = CommonUtil.getUserCode();
+    String create_user = CommonUtil.getUserCode();
+    String set_year = CommonUtil.getSetYear();
+    String rg_code = CommonUtil.getRgCode();
+    String dep_id = request.getParameter("dep_id") != null ? request.getParameter("dep_id") : "";
+    String remark = request.getParameter("remark");
+
+    if (uploadMode.equals("0")) {
+      // 将当前上下文初始化给 CommonsMutipartResolver （多部分解析器）
+      CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession()
+        .getServletContext());
+      // 检查form中是否有enctype="multipart/form-data"
+      if (multipartResolver.isMultipart(request)) {
+        // 将request变成多部分request
+        MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+        // 获取multiRequest 中所有的文件名
+        Iterator iter = multiRequest.getFileNames();
+        Map<String, MultipartFile> multMap = multiRequest.getFileMap();
+        while (iter.hasNext()) {
+          // 一次遍历所有文件
+          MultipartFile file = multiRequest.getFile(iter.next().toString());
+          if (file != null) {
+            String fileName = file.getOriginalFilename();
+            String file_type = fileName.substring(fileName.lastIndexOf(".") + 1);
+            if (typeList.contains(file_type)) { //判断文件格式是否正确
+              String id = UUIDTools.uuidRandom(); // 自动生成id
+              //              String oid = request.getParameter("oid") != null ? request.getParameter("oid") : "";
+              //              String dep_id = request.getParameter("dep_id") != null ? request.getParameter("dep_id") : "";
+              //              String dep_code = request.getParameter("dep_code") != null ? request.getParameter("dep_code") : "";
+              //              String user_code = CommonUtil.getUserCode();
+              //              String set_year = CommonUtil.getSetYear();
+              //              String remark = request.getParameter("remark");
+              String date = Tools.getCurrDate();
+              String date1 = date.split("-")[1];
+              String path = uploadRootPath + File.separator + modular + File.separator + set_year + File.separator
+                + date1 + File.separator + file_type + File.separator;
+              if (!(new File(path).isDirectory())) {
+                makeDir(path, false);
+              }
+              String pathFile = path + id + "." + file_type;
+              File fileUpload = new File(pathFile);
+              // 上传
+              file.transferTo(fileUpload);
+              Map<String, String> attachMap = new HashMap<String, String>();
+              attachMap.put("id", id);
+              attachMap.put("entity_name", entityName);
+              attachMap.put("entity_id", entityId);
+              attachMap.put("file_no", "");
+              attachMap.put("file_name", fileName);
+              attachMap.put("file_size", file.getSize() + "");
+              attachMap.put("file_type", file_type);
+              attachMap.put("file_url", pathFile);
+              attachMap.put("remark", remark);
+              attachMap.put("latest_op_user", latest_op_user);
+              attachMap.put("latest_op_date", date);
+              attachMap.put("create_user", create_user);
+              attachMap.put("create_date", date);
+              attachMap.put("set_year", set_year);
+              attachMap.put("status", "0");
+              attachMap.put("org_code", dep_id);
+              attachMap.put("rg_code", rg_code);
+              attachmentService.saveAttachment(attachMap);
+            } else {
+              map.put("result", "上传文件的格式不支持");
+            }
+          }
+        }
+      }
+
+    } else if (uploadMode.equals("1")) {
+      // ftp上传模式 todo
+      // 将当前上下文初始化给 CommonsMutipartResolver （多部分解析器）
+      CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession()
+        .getServletContext());
+      // 检查form中是否有enctype="multipart/form-data"
+      if (multipartResolver.isMultipart(request)) {
+        // 将request变成多部分request
+        MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+        // 获取multiRequest 中所有的文件名
+        Iterator iter = multiRequest.getFileNames();
+        Map<String, MultipartFile> multMap = multiRequest.getFileMap();
+        while (iter.hasNext()) {
+          // 一次遍历所有文件
+          MultipartFile file = multiRequest.getFile(iter.next().toString());
+          // File file = new File(local);
+          if (file != null) {
+            String fileName = file.getOriginalFilename();
+            String file_type = fileName.substring(fileName.lastIndexOf(".") + 1);
+            if (typeList.contains(file_type)) { //判断文件格式是否正确
+              String id = UUIDTools.uuidRandom(); // 自动生成id
+              //              String oid = request.getParameter("oid") != null ? request.getParameter("oid") : "";
+              //              String dep_id = request.getParameter("dep_id") != null ? request.getParameter("dep_id") : "";
+              //              String dep_code = request.getParameter("dep_code") != null ? request.getParameter("dep_code") : "";
+              //              String user_code = CommonUtil.getUserCode();
+              //              String set_year = CommonUtil.getSetYear();
+              //              String remark = request.getParameter("remark");
+              String date = Tools.getCurrDate();
+              String date1 = date.split("-")[1];
+              String path = uploadRootPath + "/" + modular + "/" + set_year + "/" + date1 + "/" + file_type + "/" + id
+                + "." + file_type;
+              String pathFile = uploadRootPath + File.separator + modular + File.separator + set_year + File.separator
+                + date1 + File.separator + file_type + File.separator + id + "." + file_type;
+              Map result = attachmentService.upload(file, path, UPLOAD_FTP_IP, UPLOAD_FTP_PORT, UPLOAD_FTP_USER,
+                UPLOAD_FTP_PASSWORD);
+              map.put("result", result);
+              if (result.get("error").equals("0")) {
+                Map<String, String> attachMap = new HashMap<String, String>();
+                attachMap.put("id", id);
+                attachMap.put("entity_name", entityName);
+                attachMap.put("entity_id", entityId);
+                attachMap.put("file_no", "");
+                attachMap.put("file_name", fileName);
+                attachMap.put("file_size", file.getSize() + "");
+                attachMap.put("file_type", file_type);
+                attachMap.put("file_url", pathFile);
+                attachMap.put("remark", remark);
+                attachMap.put("latest_op_user", latest_op_user);
+                attachMap.put("latest_op_date", date);
+                attachMap.put("create_user", create_user);
+                attachMap.put("create_date", date);
+                attachMap.put("set_year", set_year);
+                attachMap.put("status", "0");
+                attachMap.put("org_code", dep_id);
+                attachMap.put("rg_code", rg_code);
+                attachmentService.saveAttachment(attachMap);
+              }
+            } else {
+              map.put("result", "上传文件的格式不支持");
+            }
+          }
+        }
+
+      }
+
+    }
+    return map;
+  }
+
+  /**
+   * 附件下载
+   */
+  @RequestMapping(value = "/downloadAttach.do", method = { RequestMethod.POST })
+  @ResponseBody
+  public Map<String, Object> download(HttpServletRequest request, HttpServletResponse response) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String attachId = request.getParameter("attach_id");
+    Map fileData = attachmentService.getFileById(attachId);
+    if (fileData.get("errorCode").equals("0")) {
+      String isTempFile = fileData.get("isTempFile").toString();
+      String filePath = fileData.get("localPath").toString();
+      String fileName = fileData.get("fileName").toString();
+      File file = new File(filePath);
+      OutputStream out = null;
+      InputStream in = null;
+      try {
+        out = response.getOutputStream();
+        fileName = URLEncoder.encode(fileName, "UTF-8");// 转码，很重要
+        response.addHeader("Content-Disposition", "attachment;filename=" + fileName);// 设置文件名，
+        response.setContentType("application/octet-stream");
+        response.setCharacterEncoding("UTF-8");
+        in = new FileInputStream(file);
+        byte[] b = new byte[2048];
+        int size = in.read(b);
+        while (size != -1) {
+          out.write(b, 0, size);
+          size = in.read(b);
+        }
+      } catch (Exception e) {
+        map.put("errorCode", "-1");
+        map.put("errorMsg", "文件输出到客户端异常");
+      } finally {
+        try {
+          if (null != in) {
+            in.close();
+          }
+          if (null != out) {
+            out.close();
+          }
+          if (isTempFile.equals("1")) {
+            file.delete();//删除临时文件
+          }
+        } catch (IOException e) {
+          map.put("errorCode", "-1");
+          map.put("errorMsg", "文件流关闭异常");
+        }
+      }
+
+    } else {
+      map = fileData;
+    }
+    return map;
+  }
+
+  /**
+   * 附件预览
+   */
+  @RequestMapping(value = "/openAttach.do", method = { RequestMethod.GET })
+  @ResponseBody
+  public Map<String, Object> openFile(HttpServletRequest request) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String filePath = request.getParameter("filePath");
+    File file = new File(filePath);
+    if (!file.exists()) {
+      map.put("errorCode", "-1");
+      map.put("errorMsg", "预览的文件不存在，可能已经被移除！");
+      return map;
+    }
+    try {
+      Runtime.getRuntime().exec("rundll32 url.dll FileProtocolHandler " + filePath);
+    } catch (Exception e) {
+      map.put("errorCode", "-1");
+      map.put("errorMsg", "预览文件出现异常");
+    }
+    return map;
+  }
+
+  /**
+   * 文件夹创建
+   */
+  public static void makeDir(String fpath, boolean includef) {
+    String fb = "";
+    String[] fp = fpath.split(":");
+    if (fp.length > 1) {
+      fb = fp[0] + ":";
+    }
+    makeDir(fp[fp.length - 1], fb, includef);
+  }
+
+  /**
+   * 根据目录参数,创建无限层的目录结构 如果路径包含文件名,不要将文件名作为目录创建
+   */
+  public static void makeDir(String fileDir, String context, boolean includef) {
+
+    if (includef) {
+      int pos = fileDir.lastIndexOf(File.separatorChar);
+      fileDir = fileDir.substring(0, pos);
+    }
+    String fpath = context + fileDir;
+    File tf = new File(fpath);
+    if (tf.isDirectory() && tf.exists()) {
+      return;
+    }
+    StringTokenizer stringTokenizer = new StringTokenizer(fileDir, "/");
+    String strTemp = "";
+    while (stringTokenizer.hasMoreTokens()) {
+      String str = stringTokenizer.nextToken();
+      if ("".equals(strTemp)) {
+        strTemp = str;
+      } else {
+        strTemp = strTemp + "/" + str;
+      }
+      File dir = new File(context + strTemp);
+      if (!dir.isDirectory()) {
+        dir.mkdirs();
+      }
+    }
+  }
+
+  /**
+   * 获得当前时间
+   */
+  public static String getDate() {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    return sdf.format(new Date());
+  }
+
+  /**
+   * 预览
+   */
+  @RequestMapping(value = "/previewFile.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> previewFile(HttpServletRequest request, HttpServletResponse response, String attach_id) {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String attachId = request.getParameter("attach_id");
+    ServletContext sc = request.getSession().getServletContext();
+    Map fileData = attachmentService.getFileById(attachId);
+    try {
+      if (fileData.get("errorCode").equals("0")) {
+        String isTempFile = fileData.get("isTempFile").toString();
+        String filePath = fileData.get("localPath").toString();
+        String fileType = fileData.get("fileType").toString();
+        String fileName = fileData.get("fileName").toString();
+        File file = new File(filePath);
+
+        String rootPath = sc.getResource("/").getPath() + "html" + File.separator;
+        Map<?, ?> htmlMap = attachmentService.previewFile(fileName, filePath, fileType, rootPath, response);
+        map.put("errorCode", "0");
+        map.put("data", htmlMap);
+        if (isTempFile.equals("1")) {
+          file.delete(); // 删除完里面所有内容
+        }
+
+      } else {
+        map = fileData;
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      map.put("errorCode", "-1");
+      map.put("message", " 预览失败");
+    }
+
+    return map;
+  }
+
+  /**
+   * 取消预览，删除临时文件
+   * @param request
+   * @return
+   * @throws Exception
+   */
+  @RequestMapping(value = "/deletepreviewFile.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> deletepreviewFile(HttpServletRequest request, HttpServletResponse response,
+    String attach_id) throws Exception {
+    Map<String, Object> map = new HashMap<String, Object>();
+    String filename = request.getParameter("fileName");
+    ServletContext sc = request.getSession().getServletContext();
+    String rootPath;
+    String srcPath = null;
+    try {
+      rootPath = sc.getResource("/").getPath() + "html" + File.separator;
+      int index = filename.lastIndexOf(".");
+      String fileName = filename.substring(index + 1, filename.length());
+      if (fileName.equals("pdf")) {
+        srcPath = rootPath + filename;
+      } else {
+        srcPath = rootPath + filename + File.separator;
+      }
+
+      Boolean flag = attachmentService.deletePreviewFile(srcPath);
+      map.put("errorCode", "0");
+      map.put("data", flag);
+    } catch (MalformedURLException e) {
+      e.printStackTrace();
+      map.put("errorCode", "-1");
+      map.put("message", " 取消预览失败");
+    }
+
+    return map;
+  }
+
+  // 查询文件名列表
+  @RequestMapping(value = "/getfileName.do", method = RequestMethod.GET)
+  @ResponseBody
+  public Map<String, Object> getfileName(HttpServletRequest request) throws Exception {
+    Map<String, Object> result = new HashMap<String, Object>();
+    String id = request.getParameter("id");
+    try {
+      List data = attachmentService.getNameById(id);
+      result.put("errorCode", 0);
+      result.put("data", data);
+    } catch (Exception e) {
+      result.put("errorCode", -1);
+      result.put("errorMsg", "查询数据失败");
+      result.put("message", "异常"); // zfn 未来改成标准消息异常
+    }
+    return result;
+  }
+}

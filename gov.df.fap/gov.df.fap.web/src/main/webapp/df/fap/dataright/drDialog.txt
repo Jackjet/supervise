@@ -1,0 +1,115 @@
+	<!--
+   	时间：2017-03-27
+   	描述：选择权限弹窗
+  		 -->
+	<div class="modal fade" tabindex="-1" role="dialog" id="rightModal" data-backdrop="static">
+		<div class="modal-dialog" role="document" style="width: 35%;">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<span class="modal-title">增加权限组</span>
+				</div>
+				<div class="modal-body">
+					<span class="modal-tree-root"><img src="/df/trd/ip/changeTree/images/base.gif">权限组</span>
+					<div id="ruleTree1" class="ztree" u-meta='{"id":"ruleTree1","data":"dataTableRuleGroup","type":"tree","idField":"rule_id","pidField":"pid","nameField":"name"}'></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bind="click: addGroup">新增</button>
+					<button type="button" class="btn btn-primary" data-bind="click: showRightDetail">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+				<div id="rightModal" style="display:none">
+					<div id='add-config-modal' class='bs-modal-sm'>
+						<div class='modal-dialog' style="width:600px; margin-left: -75px;">
+							<div class='modal-content modal-content-bc'>
+								<div class='modal-header'>
+									<button type="button" class="close" data-bind="click:rightModelCloseButton">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<h4 class='modal-title'>设定规则</h4>
+								</div>
+								<div class="modal-body">
+									<form class="form-inline">
+										<div class="form-group">
+											<label for="rule_code">编号：</label> <input type="text" class="form-control" id="rule_code">
+										</div>
+										<div class="form-group">
+											<label for="rule_name">名称：</label> <input type="text" class="form-control" style="width:276px" id="rule_name">
+										</div>
+										<div class="form-group m-top">
+											<label for="remark">说明：</label> <input type="text" class="form-control spe-input" id="remark">
+										</div>
+									</form>
+									<div class="m-top">
+
+										<!-- Nav tabs -->
+										<ul id="addNewRule" class="nav nav-tabs" role="tablist">
+										</ul>
+
+										<!-- Tab panes -->
+										<div id="myTabContent" class="tab-content" style="height: 200px; overflow-y:auto; overflow-x:hidden;border:solid 1px #FFE5E5;border-top:none;"></div>
+									</div>
+								</div>
+								<div class="modal-footer" style=" border-top: 0px;">
+									<button type="button" class="btn btn-primary" data-bind="click: showYLModelDialog">预览</button>
+									<button type="button" class="btn btn-primary" data-bind="click: rightSure">确定</button>
+									<button type="button" class="btn btn-default" data-bind="click:rightModelCloseButton">取消</button>
+								</div>
+								<!-- 预览Modal start-->
+							    <div id="ylModal" style="display:none">
+									<div id='ylModal-modal' class='bs-modal-sm'>
+										<div class='modal-dialog' style="width: 400px;">
+										<div class='modal-content modal-content-bc'>
+											<div class='modal-header'>
+												<button type="button" class="close" data-bind="click:drCloseButton">
+													<span aria-hidden="true">&times;</span>
+												</button>
+												<h4 class='modal-title'>预览权限组信息</h4>
+											</div>
+											<div class="modal-body display-container">
+												<ul id="detail_list"></ul>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-primary" data-bind="click:drCloseButton" >关闭</button>
+											</div>
+										</div>
+											
+										</div>
+									</div>
+								</div>
+								<!-- 预览Modal end-->
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<!-- 查看Modal begin-->
+			   <div id="drDisplayModal" style="display:none">
+						<div id='ylModal-modal' class='bs-modal-sm'>
+							<div class='modal-dialog' style="width: 400px;">
+							<div class='modal-content modal-content-bc'>
+								<div class='modal-header'>
+									<button type="button" class="close" data-bind="click:drCloseButton">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<h4 class='modal-title'>权限预览</h4>
+								</div>
+								<div class="modal-body display-container">
+									<ul id="detail_list"></ul>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-bind="click:drCloseButton" >关闭</button>
+								</div>
+							</div>
+								
+							</div>
+						</div>
+			 </div>
+			<!-- 查看Modal end-->
+			</div>
+		</div>
+	</div>
+	

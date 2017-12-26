@@ -1,0 +1,124 @@
+package gov.df.supervise.service.task;
+
+import gov.df.fap.service.util.dao.GeneralDAO;
+import gov.df.fap.service.util.gl.core.CommonUtil;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.supervise.api.task.TaskService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import com.ufgov.ip.apiUtils.UUIDTools;
+
+@Service
+public class TaskBO implements TaskService {
+
+	@Autowired
+	@Qualifier("generalDAO")
+	GeneralDAO dao;
+
+	/**
+	 * 获取处室任务列表
+	 */
+	public List getTaskDepList(String condition) {
+		String sql = "select ID, SID, SUP_NO, SUP_NAME, DEP_ID, DEP_CODE, DEP_NAME, OID, SUP_NUM, SUP_MONEY, PLAN_COST, SUP_COST, PLAN_BEGIN_DATE, PLAN_END_DATE, BEGIN_DATE, END_DATE, REMARK, STATUS, IS_PUB, IS_VALID, IS_END, CREATE_USER, CREATE_DATE, APPROVE_USER, APPROVE_DATE, PUBLISH_USER, PUBLISH_DATE, FINISH_USER, FINISH_DATE, LATEST_OP_USER, LATEST_OP_DATE, BILLTYPE_CODE, BILLTYPE_NAME, RG_CODE, SET_YEAR  from CSOF_TASK_DEP where 1=1 " + condition;
+		return dao.findBySql(sql);
+	}
+	
+	public int saveTask(Map<String,String> supMap,List objList,List agencyList){
+		String oid=SessionUtil.getUserInfoContext().getOrgCode();
+        String sid=UUIDTools.uuidRandom();
+        String rg_code=CommonUtil.getRgCode();
+        String set_year=CommonUtil.getSetYear();
+        String create_user=CommonUtil.getUserCode();
+        String create_date=CommonUtil.getDate("yyyy-MM-dd");
+        
+        supMap.put("OID", oid);
+	    supMap.put("SID", sid);
+	    supMap.put("CREATE_USER",create_user);
+	    supMap.put("CREATE_DATE",create_date);
+	    supMap.put("LATEST_OP_USER",create_user);
+	    supMap.put("LATEST_OP_DATE",create_date);
+	    supMap.put("RG_CODE",rg_code);
+        supMap.put("SET_YEAR",set_year);
+        
+        int snum=dao.executeBySql(getInsertSql(supMap, "csof_task_sup"));
+        
+	    Map  depMap=new HashMap();
+	    List depSqlList=new ArrayList();
+        for(int i=0;i<objList.size();i++){
+        	Map obj=(Map) objList.get(i);
+        	depMap.put("ID",UUIDTools.uuidRandom());
+        	depMap.put("SID",sid);
+    		depMap.put("SUP_NO",supMap.get("SUP_NO"));
+    		depMap.put("SUP_NAME",supMap.get("SUP_NAME"));
+    		depMap.put("DEP_ID",obj.get("CHR_ID"));
+    		depMap.put("DEP_CODE",obj.get("CHR_CODE"));
+    		depMap.put("DEP_NAME",obj.get("CHR_NAME"));
+            depMap.put("OID", oid);
+            depMap.put("SUP_NUM","");     //  全部是查视图 单位数量，  部分看勾选了几家单位
+            depMap.put("PLAN_BEGIN_DATE",supMap.get("START_DATE"));
+            depMap.put("PLAN_END_DATE",supMap.get("END_DATE"));
+            depMap.put("CREATE_USER",create_user);
+            depMap.put("CREATE_DATE",create_date);
+            depMap.put("LATEST_OP_USER",create_user);
+            depMap.put("LATEST_OP_DATE",create_date);
+        	depMap.put("RG_CODE",rg_code);
+        	depMap.put("SET_YEAR",set_year);
+        	
+        	depSqlList.add(getInsertSql(depMap, "csof_task_dep"));
+        }
+        
+        if(null!=supMap.get("IS_ALLOBJ")&&supMap.get("IS_ALLOBJ").equals("0")&&agencyList.size()>0){
+    		//部分监管要保存关联关系表
+    		saveTaskDepAge(agencyList, sid);
+    	}
+        
+        dao.executeBatchBySql(depSqlList);
+		return snum;
+	}
+	
+	public String getInsertSql(Map<String, String> map, String tableName) {
+		String keyStr = "";
+		String valueStr = "";
+		for (String key : map.keySet()) {
+			keyStr += key + ",";
+			valueStr += "'" + map.get(key).toString() + "',";
+		}
+		if (!("".equals(keyStr))) {
+			keyStr = keyStr.substring(0, keyStr.length() - 1);
+		}
+		if (!("".equals(valueStr))) {
+			valueStr = valueStr.substring(0, valueStr.length() - 1);
+		}
+		return "insert into " + tableName + "(" + keyStr + ") values ("
+				+ valueStr + ")";
+	}
+
+	/**
+	 * 
+	 */
+	public int saveTaskDepAge(List agencyList ,String sid) {
+		List agencySqlList = new ArrayList();
+		for(int i=0;i<agencyList.size();i++){
+			Map agency= new HashMap();
+            Map obj = (Map) agencyList.get(i);
+			agency.put("SID", sid);
+			agency.put("DEP_ID",obj.get("DEP_ID") );
+			agency.put("AGENCY_ID",obj.get("CHR_ID"));
+			agency.put("TYPE",obj.get("TYPE"));
+			agency.put("IS_LEAF",obj.get("CHR_ID"));
+			agency.put("OID", obj.get("OID"));
+			
+			agencySqlList.add(getInsertSql(agency,"CSOF_TASK_DEP_AGENCY"));
+		}
+		return  dao.executeBatchBySql(agencySqlList).length;
+
+	}
+}

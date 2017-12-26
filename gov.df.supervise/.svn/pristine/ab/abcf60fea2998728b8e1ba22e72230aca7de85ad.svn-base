@@ -1,0 +1,254 @@
+package gov.df.supervise.service.examine;
+
+import gov.df.supervise.api.examine.ExamineService;
+import gov.df.supervise.bean.examine.CsofSupBillEntity;
+import gov.df.supervise.bean.examine.CsofSupBillMofdepEntity;
+import gov.df.supervise.service.common.SessionUtilEx;
+import gov.df.supervise.service.workflow.workFlowDao;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSONObject;
+import com.ufgov.ip.apiUtils.UUIDTools;
+
+@Service
+public class ExamineServiceimp implements ExamineService {
+  @Autowired
+  private ExamineDao csDao;
+
+  @Autowired
+  private workFlowDao workFlowdao;
+
+  public String getYear() {
+    return SessionUtilEx.getLoginYear();
+
+  }
+
+  public String getRgCode() {
+    return SessionUtilEx.getRgCode();
+  }
+
+  // 列表数据的展示
+  public List selectAll(String chr_code, String chr_id, String type, String oid, String status, String s,
+    String billtype_code) throws Exception {
+    String table_name = workFlowdao.selectTableName(billtype_code);
+    List data = null;
+    Map<String, String> param = new HashMap<String, String>();
+    if (s != null && s.equals("all")) {
+      if (type == null || type.equals("")) {
+        param.put("table_name", table_name);
+        param.put("status", status);
+        data = csDao.selectAll(param);
+      } else if (type != null && type.equals("AGENCY")) {
+        param.put("table_name", table_name);
+        param.put("chr_code", chr_code);
+        param.put("oid", oid);
+        param.put("status", status);
+        data = csDao.selectAgencyAll(param);
+      } else if (type != null && type.equals("MOFDEP")) {
+        param.put("table_name", table_name);
+        param.put("chr_code", chr_code);
+        param.put("oid", oid);
+        param.put("status", status);
+        data = csDao.selectMofdepAll(param);
+      } else if (type != null && type.equals("DEP")) {
+        param.put("table_name", table_name);
+        param.put("chr_code", chr_code);
+        param.put("oid", oid);
+        param.put("status", status);
+        data = csDao.selectDepAll(param);
+      } else if (type != null && type.equals("OFFICE")) {
+        param.put("table_name", table_name);
+        param.put("chr_id", chr_id);
+        param.put("status", status);
+        data = csDao.selectOfficeAll(param);
+      }
+    } else {
+      if (type != null && type.equals("AGENCY")) {
+        param.put("table_name", table_name);
+        param.put("chr_code", chr_code);
+        param.put("oid", oid);
+        param.put("status", status);
+        data = csDao.selectAgency(param);
+      } else if (type != null && type.equals("MOFDEP")) {
+        param.put("table_name", table_name);
+        param.put("chr_code", chr_code);
+        param.put("oid", oid);
+        param.put("status", status);
+        data = csDao.selectMofdep(param);
+      } else if (type != null && type.equals("DEP")) {
+        param.put("table_name", table_name);
+        param.put("chr_code", chr_code);
+        param.put("oid", oid);
+        param.put("status", status);
+        data = csDao.selectDep(param);
+
+      } else if (type != null && type.equals("OFFICE")) {
+        param.put("table_name", table_name);
+        param.put("chr_id", chr_id);
+        param.put("status", status);
+        data = csDao.selectOffice(param);
+      } else if (type == null || type.equals("")) {
+        param.put("table_name", table_name);
+        param.put("status", status);
+        data = csDao.select(param);
+      }
+
+    }
+    return data;
+
+  }
+
+  //监管内容录入界面的删除操作
+  public void update(String id, String is_valid) {
+    Map<String, String> param = new HashMap<String, String>();
+    param.put("id", id);
+    param.put("is_valid", is_valid);
+    csDao.update(param);
+  }
+
+  //处汇总操作
+  public void doCollect(String billtype_code, String data, int total) throws Exception {
+    Map<String, Object> param = new HashMap<String, Object>();
+    CsofSupBillEntity Data = JSONObject.parseObject(data, CsofSupBillEntity.class);
+    String billtype_name = csDao.selectBillName(billtype_code);
+    System.out.println(getYear());
+    System.out.println(getRgCode());
+    int sum = 0;
+    sum = sum + 1;
+    if (sum == 1) {
+      int sup_money = csDao.countSupMoney(Data.getMofdep_id());
+      Date create_date = new Date();
+      String id = UUIDTools.uuidRandom(); // 自动生成id
+      param.put("id", id);
+      param.put("bill_no", 001);
+      param.put("dep_id", Data.getDep_id());
+      param.put("dep_code", Data.getDep_code());
+      param.put("dep_name", Data.getDep_name());
+      param.put("mofdep_id", Data.getMofdep_id());
+      param.put("mofdep_code", Data.getMofdep_code());
+      param.put("mofdep_name", Data.getMofdep_name());
+      param.put("sum_type", 1);
+      param.put("oid", Data.getOid());
+      param.put("sid", "");
+      param.put("sup_no", Data.getSup_no());
+      param.put("sup_name", Data.getSup_name());
+      param.put("billtype_code", billtype_code);
+      param.put("billtype_name", billtype_name);
+      param.put("status", 0);
+      param.put("is_valid", Data.getIs_valid());
+      param.put("is_end", 0);
+      param.put("set_year", getYear());
+      param.put("rg_code", getRgCode());
+      param.put("sup_num", Data.getSup_num());
+      param.put("sup_money", sup_money);
+      param.put("remark", "");
+      param.put("create_user", "");
+      param.put("create_date", create_date);
+      param.put("latest_op_user", "");
+      param.put("latest_op_date", "");
+      csDao.insertBillMofDep(param);
+      param.put("entity_id", Data.getId());
+      param.put("sum_type", 1);
+      param.put("mofdep_bill_id", id);
+      csDao.updateSupBill(param);
+    } else if (sum != 1 && sum <= total) {
+      String id = csDao.getId(Data.getMofdep_id());
+      param.put("entity_id", Data.getId());
+      param.put("sum_type", 1);
+      param.put("mofdep_bill_id", id);
+      csDao.updateSupBill(param);
+    }
+
+  }
+
+  //处撤销汇总
+  public void undoSummary(String chr_code, String id, int total) throws Exception {
+    Map<String, Object> param = new HashMap<String, Object>();
+    String mofdep_bill_id = csDao.getId(chr_code);
+    int sum = 0;
+    sum = sum + 1;
+    if (sum < total) {
+      param.put("entity_id", id);
+      param.put("sum_type", 0);
+      param.put("mofdep_bill_id", "");
+      csDao.updateSupBill(param);
+    } else if (sum == total) {
+      param.put("entity_id", id);
+      param.put("sum_type", 0);
+      param.put("mofdep_bill_id", "");
+      csDao.updateSupBill(param);
+      csDao.deleteBillMofDep(mofdep_bill_id);
+    }
+  }
+
+  //办汇总操作
+  public void doOfficeCollect(String billtype_code, String data, int total) throws Exception {
+    Map<String, Object> param = new HashMap<String, Object>();
+    CsofSupBillMofdepEntity Data = JSONObject.parseObject(data, CsofSupBillMofdepEntity.class);
+    String billtype_name = csDao.selectBillName(billtype_code);
+    int sum = 0;
+    sum = sum + 1;
+    if (sum == 1) {
+      int sup_money = csDao.countSupMoney(Data.getOid());
+      Date create_date = new Date();
+      String id = UUIDTools.uuidRandom(); // 自动生成id
+      param.put("id", id);
+      param.put("bill_no", 001);
+      param.put("sum_type", 2);
+      param.put("oid", Data.getOid());
+      param.put("sid", "");
+      param.put("sup_no", Data.getSup_no());
+      param.put("sup_name", Data.getSup_name());
+      param.put("billtype_code", billtype_code);
+      param.put("billtype_name", billtype_name);
+      param.put("status", 0);
+      param.put("is_valid", Data.getIs_valid());
+      param.put("is_end", 0);
+      param.put("set_year", getYear());
+      param.put("rg_code", getRgCode());
+      param.put("sup_num", Data.getSup_num());
+      param.put("sup_money", sup_money);
+      param.put("remark", "");
+      param.put("create_user", "");
+      param.put("create_date", create_date);
+      param.put("latest_op_user", "");
+      param.put("latest_op_date", "");
+      csDao.insertBillOffice(param);
+      param.put("entity_id", Data.getId());
+      param.put("sum_type", 2);
+      csDao.updateOfficeSupBill(param);
+    } else if (sum != 1 && sum <= total) {
+      // String id = csDao.getId(Data.getMofdep_id());
+      param.put("entity_id", Data.getId());
+      param.put("sum_type", 2);
+
+      csDao.updateOfficeSupBill(param);
+    }
+
+  }
+
+  //办撤销汇总
+  public void undoOfficeSummary(String chr_id, String id, int total) throws Exception {
+    Map<String, Object> param = new HashMap<String, Object>();
+    String office_bill_id = csDao.getOfficeId(chr_id);
+    int sum = 0;
+    sum = sum + 1;
+    if (sum < total) {
+      param.put("entity_id", id);
+      param.put("sum_type", 1);
+      csDao.updateOfficeSupBill(param);
+    } else if (sum == total) {
+      param.put("entity_id", id);
+      param.put("sum_type", 1);
+      csDao.updateOfficeSupBill(param);
+      csDao.deleteBillOffice(office_bill_id);
+    }
+  }
+}

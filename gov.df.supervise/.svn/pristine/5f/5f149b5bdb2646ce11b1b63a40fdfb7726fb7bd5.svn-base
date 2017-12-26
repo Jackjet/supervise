@@ -1,0 +1,61 @@
+package gov.df.supervise.api.attachment;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 附件服务接口
+ * @author w
+ * 2017-08-22 
+ *
+ */
+public interface AttachmentService {
+
+	/**
+	 * 批量查询附件
+	 * @param attachIds	附件id集合
+	 * @return 
+	 * @throws Exception
+	 */
+	public List getAttachList(String condition) throws Exception;
+	
+	/**
+	 * 通过Id查询附件
+	 */
+	public List getAttachById(String id);
+	
+	/**
+	 * 查询全部附件
+	 * @return  附件集合 List
+	 */
+	public List getAllAttachments();
+	
+	/**
+	 * 删除附件
+	 * @param ids 附件id集合字符串
+	 * @return 执行条目数
+	 */
+	public int deleteAttachments(String ids); 
+
+	/**
+	 * 附件上传后保存附件基本信息
+	 * @param attachMap 附件参数集
+	 */
+    public void saveAttachment(Map<String,String> attachMap);
+    
+    /**
+     * 获取上传类型
+     * @return
+     */
+    public String getUploadMode();
+
+    /**
+     * 获取上传路径
+     * @return
+     */
+    public String getUploadRootPath();
+    
+    public List getAttachByIds(String ids);
+
+
+}

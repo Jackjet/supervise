@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>综合财政监管信息系统</title>
+		<link rel="stylesheet" href="/df/portal/login/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/df/portal/login/css/index.css" />
+		<script src="/df/trd/md5/js/md5.js"></script>
+		<script src="/df/trd/jquery/jquery-1.12.3.min.js"></script>
+	    <script src="/df/portal/login/js/cookie.js"></script>
+		<script src="/df/portal/admin/index/js/dfp.js"></script>
+		<script src="/df/portal/login/js/login.js"></script>
+		<script src="/df/portal/login/js/imgChange.js"></script>
+	</head>
+	<body onkeydown='if(event.keyCode==13){login();}'><!--  onkeydown='if(event.keyCode==13){login();}' -->
+		<div id="head"><!--  <div class="logo"><img src="/df/portal/login/img/login_01.jpg"/></div>-->
+		<div class="logo" style="font-size:26px;padding-top:30px;">中央基层预算单位综合财政监管信息系统</div></div>
+		<div class="lubo">
+			<ul class="lubo_box">
+				<li style="opacity: 1;filter:alpha(opacity=100)">
+					<a href="#" style="background: url(/df/portal/login/img/list1.jpg) no-repeat center center"></a>
+				</li>
+				<li style="opacity: 0;filter:alpha(opacity=0)">
+					<a href="#" style="background:url(/df/portal/login/img/list2.jpg) no-repeat center center"></a>
+				</li>
+				<li style="opacity: 0;filter:alpha(opacity=0)">
+					<a href="#" style="background:url(/df/portal/login/img/list3.jpg) no-repeat center center"></a>
+				</li>
+			</ul>
+			<ul class="cir_box" style="left: 50%; margin-left: -200px; bottom: 10%;">
+				<li value="0"></li>
+				<li value="1"></li>
+				<li value="2"></li>
+			</ul>
+			<div class="login_wrap">
+				<div class="login" style="height:350px;">
+					<h3 style="text-align: center;color: #666666;height: 40px;line-height: 30px;">用户登录</h3>
+					<form name ="login_form" class="form-horizontal" method="post">
+						<div class="col-md-12" style="margin-bottom: 10px;">
+						    <span style="float:left;line-height: 29px; margin-right: 20px;font-size: 16px;">用户名&nbsp;&nbsp;：</span>
+						    <input type="text" class="form-control user" id="username" name="username" style="height:30px;line-height:10px;backgroud-color:rgb(250, 255, 189);position: relative;font-size: 16px;text-indent: 0px;width:150px;margin-left: 95px;" placeholder="账号/手机/邮箱">
+		                	<p class="hint hint-user" style="color: red;display: none;height:6px;">用户名错误</p>  
+						</div>
+						<div class="col-md-12" style="margin-bottom: 10px;">
+						    <span style="float:left;line-height: 29px; margin-right: 20px;font-size: 16px;">密&nbsp;&nbsp;码&nbsp;&nbsp;&nbsp;&nbsp;：</span>
+						    <input type="password" class="form-control pwd" id="password" name="password" style="height:30px;line-height:10px;backgroud-color:rgb(250, 255, 189);font-size: 16px;text-indent: 0px;width:150px" placeholder="密码">
+		                	<p class="hint hint-pwd" style="color: red;display: none;height: 6px;">密码错误</p> 
+						</div>
+						<div class="col-md-12" style="margin-bottom: 10px;">  
+						    <span style="float:left;line-height: 29px; margin-right: 20px;font-size: 16px;">区&nbsp;&nbsp;划&nbsp;&nbsp;&nbsp;&nbsp;：</span>
+						    <select id="rgCode" style="width:150px;height:30px;background-color: rgb(250, 255, 189);border: 1px solid #ccc;border-radius: 4px;">
+                            </select>
+						</div>
+						<div class="col-md-12" style="margin-bottom: 10px;">
+						     <span style="float:left;line-height: 29px; margin-right: 20px;font-size: 16px;">年&nbsp;&nbsp;度&nbsp;&nbsp;&nbsp;&nbsp;：</span>
+						     <select id="setYear" style="width:150px;height:30px;background-color: rgb(250, 255, 189);border: 1px solid #ccc;border-radius: 4px;">
+                             	<option value="2017" selected="selected">2017</option>
+                             </select>
+						</div>
+						
+						<div class="col-md-12" style="margin-bottom: 10px;">
+						    <input id="login-btn" type="button" onclick="javascript:login();" value="登录"class="btn btn-primary btn-block btn-lg" style="font-size: 18px;outline: none;"/>
+						    <!-- <input id="login-btn" type="button" data-bind="click:valiSubmit" value="登录"class="btn btn-primary btn-block btn-lg" style="font-size: 18px;outline: none;"/> -->
+						    <!-- <button id="login-btn" class="btn btn-primary btn-block btn-lg" onclick="javascript:login();" style="font-size: 18px;outline: none;">登录</button> -->
+						</div>
+						<div class="col-md-12">
+							<label class="checkbox" style="font-weight: normal;display: inline;cursor: pointer;">
+					    	 	<input type="checkbox" style="margin-left: 10px;" id="pwd_checkbox"/>
+					    	 	<input type="hidden" id="remFlag"/>
+					    	</label>
+				    	 	<span style="margin-left:25px;">记住用户名 </span>
+				    	 	<!-- <a href="" id="check">忘记密码？</a> -->
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="footer">
+			<div class="foo_one">
+				<div class="one_list">
+				</div>
+			</div>
+			<div class="foo_two">
+				<div class="fo_text">
+					<ul class="fo_text_ul" style="margin-left: 100px;">
+						<!-- <li>版权所有：北京用友政务软件有限公司</li> -->
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".lubo").lubo({
+			 }); 
+			//提示
+		    $('.hint').on('click',function(){
+				$(this).hide();
+			})
+			$('.user').on('blur',function(){
+				if($('.user').val() == ''){
+					$('.hint-user').show();
+				}
+			}).on('focus',function(){
+				$('.hint-user').hide();
+			});
+			$('.pwd').on('blur',function(){
+				if($('.pwd').val() == ""){
+					$('.hint-pwd').show();
+				}
+			}).on('focus',function(){
+				$('.hint-pwd').hide();
+			});
+		});
+	</script> 
+    <!-- <script src="/df/portal/login/js/register.js"></script> -->
+</html>

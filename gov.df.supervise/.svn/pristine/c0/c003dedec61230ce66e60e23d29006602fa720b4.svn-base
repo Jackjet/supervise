@@ -1,0 +1,45 @@
+package gov.df.supervise.controller.common;
+
+import gov.df.supervise.api.bill.BillService;
+import gov.df.supervise.api.common.CommonService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSONObject;
+import com.ufgov.ip.apiUtils.UUIDTools;
+
+@Controller
+@RequestMapping(value = "/df/common")
+public class CommonActionController {
+
+	@Autowired
+	private CommonService commonService;
+
+	@Autowired
+	private BillService billService;
+
+	/**
+	 * 获取UUID
+	 * 
+	 * @param request
+	 * @param response
+	 * @return UUID
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/getUUID.do")
+	public @ResponseBody
+	String getUUID(HttpServletRequest request, HttpServletResponse response) {
+		return UUIDTools.uuidRandom();
+	}
+}

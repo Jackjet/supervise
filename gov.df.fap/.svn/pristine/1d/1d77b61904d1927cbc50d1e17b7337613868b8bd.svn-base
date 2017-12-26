@@ -1,0 +1,232 @@
+<!-- Created by wenben on 2017/9/4. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>监管意见总结</title>
+    <link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/datetimepicker/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/u.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/tree.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/changeTree/changeTree.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/grid.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/ip.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/bizSys.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/theme/blue.css" />
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/mattersEnter.css">
+    <link rel="stylesheet" href="./css/matterCol.css">
+</head>
+<body class="container">
+
+<!-- 按钮组 -->
+<div class="btn-group bnt-list" data-bind=""></div>
+
+<!-- 内容部分 -->
+<div class="content">
+    <!-- 左树 -->
+    <div class="tree">
+    <select id="supSelect" class="form-control"></select>
+        <div class="panel panel-default panel-body tree-list" >
+            <div id="tree1" class="ztree" u-meta='{"id":"tree1","data":"dataTable1","type":"tree","idField":"DEP_ID","pidField":"PARENT_ID","nameField":"SUP_NAME","setting":"treeSetting1"}'></div>
+        </div>
+
+        <div class="panel panel-default panel-body tree-list">
+            <div id="tree2" class="ztree" u-meta='{"id":"tree2","data":"dataTable2","type":"tree","idField":"id","pidField":"pid","nameField":"title","setting":"treeSetting2"}'></div>
+        </div>
+    </div>
+    <div class="right-content">
+        <!-- 页签部分 -->
+        <div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs nav-show" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">任务列表</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">事项详情</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content tab-pad">
+                <!-- 列表页签 -->
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <div class="tab-header">
+                        <div class="col-md-4">
+                            <label class="list-label">状态:</label>
+                            <select name="" id="">
+                                <option value="1">全部</option>
+                                <option value="2">待总结</option>
+                                <option value="3">已总结</option>
+                            </select>
+                        </div>
+                        <div class="col-md-5 col-md-offset-3 tab-input-group">
+                            <input type="text" class="tab-input">
+                            <span class="glyphicon glyphicon-search seach-icon"></span>
+                            <button class="btn btn-default upSearch" name="高级" data-bind="click: btnEvents">高级搜索</button>
+                        </div>
+                    </div>
+
+                    <div class="top-list">
+                        <h5>处室任务列表：</h5>
+                        <div id="grid1" u-meta='{"id":"grid1","multiSelect":true,"editType":"default","type":"grid","field":"","autoExpand":false,"data":"dataTableGrid1","showNumCol":true,"showTree":false,"keyField":"id","parentKeyField":"pid","editable":true,"onBeforeRowSelected":"onBeforeRowSelected1","onRowSelected":"onRowSelected1","onBeforeRowUnSelected":"onBeforeRowUnSelected1","onRowUnSelected":"onRowUnSelected1","onBeforeAllRowSelected":"onBeforeAllRowSelected1","columnMenu":true}'>
+                            <div options='{"field":"STATUS","dataType":"String","title":"状态"}'></div>
+                            <div options='{"field":"SUP_NO","dataType":"String","title":"编号"}'></div>
+                            <div options='{"field":"SUP_NAME","dataType":"String","title":"名称"}'></div>
+                            <div options='{"field":"SUP_CONTENT","dataType":"String","title":"监管内容"}'></div>
+                            <div options='{"field":"OBJ_TYPE_NAME","dataType":"String","title":"监管对象"}'></div>
+                            <div options='{"field":"SUP_NUM","dataType":"String","title":"监管数量"}'></div>
+                            <div options='{"field":"DEP_NAME","dataType":"String","title":"牵头处室"}'></div>
+                            <div options='{"field":"CREATE_DATE","dataType":"date","title":"创建时间"}'></div>
+                            <div options='{"field":"REMAKE","dataType":"String","title":"备注"}'></div>
+                        </div>
+                    </div>
+
+                    <div class="bottom-list">
+                        <!-- 详情页签 -->
+                <div role="tabpanel" class="tab-pane" id="profile">
+                    <ul class="nav nav-tabs nav-show" role="tablist">
+                        <li role="presentation" class="active"><a href="#eventDetail" aria-controls="info" role="tab" data-toggle="tab">事项明细</a></li>
+                        <li role="presentation"><a href="#taskResove" aria-controls="profile" role="tab" data-toggle="tab">分解任务</a></li>
+                        <li role="presentation"><a href="#workRecord" aria-controls="profile" role="tab" data-toggle="tab">工作记录</a></li>
+                        <li role="presentation"><a href="#asureRecord" aria-controls="profile" role="tab" data-toggle="tab">问题记录</a></li>
+                        <li role="presentation"><a href="#comCol" aria-controls="profile" role="tab" data-toggle="tab">意见汇总</a></li>
+                        <li role="presentation"><a href="#doCol" aria-controls="profile" role="tab" data-toggle="tab">办总结</a></li>
+                    </ul>
+                    <div class="tab-content tab-pad">
+                    <!-- 事项明细 -->
+                    <div role="tabpanel" class="tab-pane active" id="eventDetail">
+                        <div id="grid2" u-meta='{"id":"grid2","multiSelect":true,"editType":"default","type":"grid","field":"","autoExpand":false,"data":"dataTableGrid2","showNumCol":true,"showTree":false,"keyField":"id","parentKeyField":"pid","editable":true,"onBeforeRowSelected":"onBeforeRowSelected1","onRowSelected":"onRowSelected1","onBeforeRowUnSelected":"onBeforeRowUnSelected1","onRowUnSelected":"onRowUnSelected1","onBeforeAllRowSelected":"onBeforeAllRowSelected1","columnMenu":true}'>
+                            <div options='{"field":"BILLTYPE_CODE","dataType":"String","title":"明细编号"}'></div>
+                            <div options='{"field":"BILLTYPE_NAME","dataType":"String","title":"明细名称"}'></div>
+                            <div options='{"field":"DEP_NAME","dataType":"String","title":"执行处室"}'></div>
+                            <div options='{"field":"SUP_NUM","dataType":"String","title":"监管数量"}'></div>
+                            <div options='{"field":"CONTENT","dataType":"String","title":"具体内容"}'></div>
+                            <div options='{"field":"PLAN_END_DATE","dataType":"string","title":"计划完成时间"}'></div>
+                            <div options='{"field":"REMAKE","dataType":"string","title":"备注"}'></div>
+                        </div>
+                    </div>
+
+                    <!-- 分解任务 -->
+                    <div role="tabpanel" class="tab-pane" id="taskResove">
+                        监管机构
+                    </div>
+
+                    <!-- 工作记录-->
+                    <div role="tabpanel" class="tab-pane" id="workRecord">
+                        具体对象
+                    </div>
+
+                    <!-- 问题记录-->
+                    <div role="tabpanel" class="tab-pane" id="asureRecord">
+                        具体内容
+                    </div>
+
+                    <!-- 意见汇总-->
+                    <div role="tabpanel" class="tab-pane" id="comCol">
+                        附件
+                    </div>
+                    
+                     <!-- 办总结-->
+                    <div role="tabpanel" class="tab-pane" id="doCol">
+                        <div class="col-sm-6">
+                            <h5 class="text-color-normal">意见总结：</h5>
+                            <textarea id="" class="form-control" rows="6" readonly></textarea>
+                        </div>
+                         <div class="col-sm-6">
+                            <h5 class="text-color-normal">监管成果：</h5>
+                            <textarea id="" class="form-control" rows="6" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                    </div>
+                </div>
+
+                <!-- 详情页签 -->
+                <div role="tabpanel" class="tab-pane" id="profile"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal1 -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">监管意见总结</h4>
+            </div>
+            <div class="modal-body add-Modal">
+                <div class="form-group groupAdd-content-group">
+                    <label class="col-sm-2 control-label no-padding">监管事项：</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="matterName" class="form-control" readonly>
+                    </div>
+                </div>
+                <div class="col-sm-6 no-padding">
+                    <div class="form-group groupAdd-content-group">
+                        <label class="col-sm-5 control-label no-padding">监管数量：</label>
+                        <div class="col-sm-7 no-left-padding">
+                            <input type="number" id="matterAmount" class="form-control" >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 no-padding">
+                    <div class="form-group groupAdd-content-group">
+                        <label class="col-sm-6 control-label no-padding">工作量（人天）：</label>
+                        <div class="col-sm-6 no-left-padding">
+                            <input type="number" id="workDay" class="form-control" >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 no-padding">
+                    <div class="form-group groupAdd-content-group">
+                        <label class="col-sm-5 control-label no-padding">资金规模：</label>
+                        <div class="col-sm-7 no-left-padding">
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                <input type="number" class="form-control" id="moneyData" placeholder="Amount">
+                                <div class="input-group-addon">.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 no-padding">
+                    <div class="form-group groupAdd-content-group">
+                        <label class="col-sm-5 control-label no-padding">实际完成时间：</label>
+                        <div class="col-sm-7 no-left-padding">
+                            <input type="datetime-local" id="endTime" class="form-control" >
+                        </div>
+                    </div>
+                </div>
+            <label class="col-sm-2 control-label no-padding">总结意见：</label>
+            <div class="col-sm-9">
+                <textarea id="commentCol" class="form-control" rows="6"></textarea>
+            </div>
+
+            <label class="col-sm-2 control-label no-padding">监管成果：</label>
+            <div class="col-sm-9">
+                <textarea id="endGet" class="form-control" rows="3"></textarea>
+            </div>
+
+            </div>
+            <div class="modal-footer">
+                <button id="btn1" name="btn1" type="button" class="btn btn-default" data-bind="click:btnEvents">获取明细意见</button>
+                <button id="btn2" name="btn2" type="button" class="btn btn-prima" data-bind="click:btnEvents">保存</button>
+                <button id="btn3" name="btn3" type="button" class="btn btn-default" data-dismiss="modal" data-bind="click:btnEvents">返回</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+<script src="../../trd/requirejs/require.js"></script>
+<script src="../../require.config.js"></script>
+<script src="./js/data.js"></script>
+<script src="./js/matterCol.js"></script>

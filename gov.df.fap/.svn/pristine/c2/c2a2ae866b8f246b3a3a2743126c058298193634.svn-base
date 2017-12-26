@@ -1,0 +1,124 @@
+require(['jquery', 'knockout','bootstrap', 'uui', 'tree', 'grid', 'ip'], function ($, ko) {
+	window.ko = ko;
+	var viewModel={
+			
+	};
+	var GET_TODO_LIST_URL ='/HomePage/getDpByDpId';
+	var loginUser;//定义用户,按照用户权限获取相应
+	//待办事项
+	viewModel.getAllTodolist = function(){
+		$.ajax({
+			url: GET_TODO_LIST_URL + "?tokenid=" + ip.getTokenId() + "&ajax=noCache",
+			type: 'GET',
+			data:{"userId":"9096"},//参数为用户
+			dataType: 'json',
+			success: function (result){
+				console.log(result);
+				if(result.errorCode == "0"){
+					alert("请求成功！");
+				}
+				else{
+					
+				}
+				var todolistData = result.data;
+				for(var i=0;i<todolistData.length;i++){
+					$("#hp-my-todolist").append( '<li><a href="javascript:void(0)"><span style="width:100px;margin-right:20px;" onclick="showEvent("'+todolistData[i]+')">' + todolistData[i].TYPE_NAME + '</span><span style="width:200px;margin-right:20px;" onclick="showEvent('+todolistData[i]+')">'+todolistData[i].MENU_NAME + '</span><span style="width:100px;">'+"共"+todolistData[i].NUM+"条"+'</span></a></li>');
+				}
+				//$("#hp-my-todolist").html(todolistHtml);
+			}
+		});
+	};
+	//最新公告
+	viewModel.getAllLatestAnnounce = function(){
+		$.ajax({
+			url:"getLatestAnnounce.do",
+			type: 'GET',
+			data:{},//参数为用户
+			dataType: 'json',
+			success: function (result){
+				var latestData = result.data;
+				for(var i in latestData){
+					if(!latestData.hasOwnProperty(i)){
+						continue;
+					}
+					latestHtml += '<li><a href="javascript:void(0)">' + latestData[i] + '</a></li>';//将要显示的字段加上
+				}
+				$("#hp-latest-announce").html(latestHtml);
+			}
+		});
+	};
+	//政策法规
+	viewModel.getAllPoliciesRegula = function(){
+		$.ajax({
+			url:"getPoliciesRegula.do",
+			type: 'GET',
+			data:{},//参数为用户
+			dataType: 'json',
+			success: function (result){
+				var policiesData = result.data;
+				for(var i in policiesData){
+					if(!policiesData.hasOwnProperty(i)){
+						continue;
+					}
+					policiesHtml += '<li><a href="javascript:void(0)">' + policiesData[i] + '</a></li>';//将要显示的字段加上
+				}
+				$("#hp-policies-regula").html(policiesHtml);
+			}
+		});
+	};
+	//消息通知
+	viewModel.getAllMesNotice = function(){
+		$.ajax({
+			url:"getMesNotice.do",
+			type: 'GET',
+			data:{},//参数为用户
+			dataType: 'json',
+			success: function (result){
+				var mesnoticeData = result.data;
+				for(var i in mesnoticeData){
+					if(!mesnoticeData.hasOwnProperty(i)){
+						continue;
+					}
+					mesNoticeHtml += '<li><a href="javascript:void(0)">' + mesnoticeData[i] + '</a></li>';//将要显示的字段加上
+				}
+				$("#hp-my-mes-notice").html(mesNoticeHtml);
+			}
+		});
+	};
+	
+	//更多待办事项
+	viewModel.moreEvent = function(){
+		$('#moreEventModal').modal('show');
+	}
+	//更多待办事项
+	viewModel.moreNotice = function(){
+		$('#moreNoticeModal').modal('show');
+	}
+	//更多待办事项
+	viewModel.moreNews = function(){
+		$('#moreNewsModal').modal('show');
+	}
+	//更多待办事项
+	viewModel.morePolicy = function(){
+		$('#morePolicyModal').modal('show');
+	}
+
+	showEvent = function(list){
+		console.log("进入页面");
+		$("#hp-content").addClass("display","none");
+		$("#show-iframe").removeClass("display","none");
+		$("#iframe-content")[0].src = "/df/supervise/sup/csofSup.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId +"&menuname=" + options.svMenuName+"&elecode=CSOF_AGENCY&pageId="+list.MENU_ID+"&"+list.MENU_PARAM_ADD;
+	}
+	 function init(){
+			var app = u.createApp(
+					{
+						el: document.body,
+						model: viewModel
+					}
+			);
+			viewModel.getAllTodolist();
+	    };
+
+	    init();
+
+});

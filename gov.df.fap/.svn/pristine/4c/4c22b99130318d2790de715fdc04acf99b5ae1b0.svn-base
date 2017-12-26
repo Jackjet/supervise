@@ -1,0 +1,53 @@
+require([ 'jquery', 'knockout','bootstrap', 'uui', 'tree', 'grid', 'ip'],
+    function ( $, ko,_) {
+        window.ko = ko;
+        var tokenid;
+    	var options;
+    	var sid;
+    	var task_id;
+        var viewModel = {
+
+
+        };
+        
+        skipFlow = function(id) {
+        	var id=id;
+        	if(id == "input") {
+        		location.href="csofSup.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId 
+        		+"&menuname=" + options.svMenuName+"&billTypeCode=101&elecode=CSOF_AGENCY&pageId=m1&sid="+sid+"&bbq_date=''&task_id="+task_id;
+        	}else if(id == "first-trial") {
+        		location.href="csofSup.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId 
+        		+"&menuname=" + options.svMenuName+"&billTypeCode=101&elecode=CSOF_AGENCY&pageId=m2&sid="+sid+"&bbq_date=''&task_id="+task_id;
+        	}else if(id == "review") {
+        		location.href="csofSup.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId 
+        		+"&menuname=" + options.svMenuName+"&billTypeCode=101&elecode=CSOF_AGENCY&pageId=m3&sid="+sid+"&bbq_date=''&task_id="+task_id;
+        	}else if(id == "summary") {
+        		location.href="summary.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId 
+        		+"&menuname=" + options.svMenuName+"&sumBillTypeCode=102&billTypeCode=101&sumType=0&showTreeLevel=3&elecode=CSOF_AGENCY&pageId=m4&sid="
+        		+sid+"&bbq_date=''&task_id="+task_id;
+        	}else if(id == "office-summary") {
+        		location.href="summary.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId 
+        		+"&menuname=" + options.svMenuName+"&sumBillTypeCode=103+102&billTypeCode=101&sumType=1&showTreeLevel=1+3&elecode=CSOF_AGENCY&pageId=m5&sid="
+        		+sid+"&bbq_date=''&task_id="+task_id;
+        	}else if(id == "office-sum") {
+        		location.href="sum-office.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId 
+        		+"&menuname=" + options.svMenuName+"&sumBillTypeCode=103+102&billTypeCode=101&sumType=1&showTreeLevel=1+3&elecode=CSOF_AGENCY&pageId=m6&sid="
+        		+sid+"&bbq_date=''&task_id="+task_id;
+        	}
+        }
+
+        function init(){
+        	tokenid = ip.getTokenId();
+        	options = ip.getCommonOptions({});
+        	var url=window.location.href;
+            sid = url.split("sid=")[1].split("&")[0];
+            task_id = url.split("task_id=")[1].split("&")[0];
+            var app = u.createApp(
+                {
+                    el: document.body,
+                    model: viewModel
+                }
+            );
+        }
+        init();
+    });

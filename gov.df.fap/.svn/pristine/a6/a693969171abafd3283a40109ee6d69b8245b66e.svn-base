@@ -1,0 +1,215 @@
+<!-- Created by yanqiong on 2017/11/6. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>事项流程</title>
+    <link rel="stylesheet" type="text/css" href="../../trd/datetimepicker/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/uui/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../../trd/ip/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../../trd/bootstrap/css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="/df/trd/uui/css/tree.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/ip/changeTree/changeTree.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/u.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/uui/css/grid.css" />
+    <link rel="stylesheet" type="text/css" href="/df/trd/ip/css/ip.css" />     
+    <link rel="stylesheet" type="text/css" href="../../trd/ip/css/bizSys.css" />
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/mattersEnter.css">
+    <link rel="stylesheet" href="/df/trd/splitter/jqx.base.css">
+	<link rel="stylesheet" href="../common/common.css">
+	<script type="text/javascript" src="/df/trd/splitter/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="/df/trd/splitter/jqxcore.js"></script>
+	<script type="text/javascript" src="/df/trd/splitter/jqxsplitter.js"></script>
+	<script type="text/javascript">
+	    $(document).ready(function () {
+               $('#main-content').jqxSplitter({ width: '98.3%', height: '87.5%', panels: [{ size: '23.2%', min: 200 }, { min: 800, size: '76.8%' }] });
+	    	   $('#right-top-bottom-content').jqxSplitter({ width: '100%', height: '100%', orientation: 'horizontal', panels: [{ size: '60%',  min: 60 , collapsible: false },{ size: '40%',  min: 27 }] });
+	    });
+	</script>
+</head>
+<body class="csof-font" style="overflow: hidden;">
+	<!--按钮组-->
+	<div class="col-md-12 csof-btns-content" id="btn-line">
+		<div class="pull-left" id="btns-group"></div>
+		<div class="pull-right right-search">
+		    <form class="form-search form-inline">
+				<div class="input-group">
+					<input type="text" id="gridSearchInput" class="form-control">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button"
+							data-bind="click:gridSearch">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button> </span>
+				</div>
+				<button type="button" class="btn" onclick="hignSearch()">高级</button>
+			</form>
+		</div>
+	</div>
+
+	<!--main-->
+	<div class="col-md-12" id="main-content">
+		<!-- 左树 -->
+		<div class="pull-left" id="left-main-content">
+			<div class="input-group tree-search-div">
+				<input type="text" id="SearchTree" class="form-control"
+					data-bind="value: SearchTreeKEY" placeholder="模糊查询..."> <span
+					class="input-group-btn">
+					<button class="btn btn-default" type="button"
+						data-bind="click:searchTree">
+						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					</button> </span>
+			</div>
+			<div id="tree1" class="ztree treeDiv"
+				u-meta='{
+				       "id":"tree1",
+				       "data":"treeDataTable",
+				       "type":"tree",
+				       "idField":"CHR_ID",
+				       "pidField":"PARENT_ID",
+				       "nameField":"CHR_NAME",
+				       "setting":"treeSetting"
+				}'>
+			</div>
+		</div>
+		<!--右表-->
+		<div class="pull-left" id="right-main-content">
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs nav-show righ-tab-ul" role="tablist">
+				<li role="presentation" class="active"><a href="#home"
+					aria-controls="home" role="tab" data-toggle="tab">列表</a>
+				</li>
+				<li role="presentation"><a href="#profile"
+					aria-controls="profile" role="tab" data-toggle="tab">详情</a>
+				</li>
+			</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content tab-pad">
+				<!-- 列表页签 -->
+				<div role="tabpanel" class="tab-pane active tab-panel-height"
+					id="home">
+					<div id="right-top-bottom-content">
+						<div class="two-panel-div">
+							<div class="grid-title">
+								<span class="rightTable-title">下达单列表：</span> <span
+									class="rightTable-title-status" id="mainGridStatus"></span> <span
+									class="rightTable-recodeNum">共<span id="mainGridSumNum"
+									class="gridSumNum"> </span>笔</span>
+							</div>
+							<div id="mainGrid" class="rightTableGrid"></div>
+						</div>
+						<!-- --> <div class="two-panel-div">
+								<div class="grid-title">
+									<span class="rightTable-title">监管事项列表：</span> <span
+										class="rightTable-title-status" id="detailGridStatus"></span> <span
+										class="rightTable-recodeNum">共<span
+										id="detailGridSumNum" class="gridSumNum"> </span>笔</span>
+								</div>
+								<div id="detailGrid" class="rightTableGrid"></div>
+						     </div>
+					</div>
+				</div>
+
+				<!-- 详情页签 -->
+				<div role="tabpanel" class="tab-pane" id="profile">
+					<div id="detailNav" class="detailNavStyle">
+						<ul class="nav nav-tabs nav-show righ-tab-ul" role="tablist">
+							<li role="presentation" class="active"><a href="#info"
+								aria-controls="info" role="tab" data-toggle="tab">基本信息</a></li>
+							<li role="presentation"><a href="#orga"
+								aria-controls="profile" role="tab" data-toggle="tab">监管机构</a></li>
+							<li role="presentation"><a href="#object"
+								aria-controls="profile" role="tab" data-toggle="tab">具体对象</a></li>
+							<li role="presentation"><a href="#content"
+								aria-controls="profile" role="tab" data-toggle="tab">具体内容</a></li>
+							<li role="presentation"><a href="#part"
+								aria-controls="profile" role="tab" data-toggle="tab">附件</a></li>
+						</ul>
+					</div>
+					<div id="irptShow" class="tab-content detailNavShowStyle">
+						<!-- 基本信息 -->
+						<div role="tabpanel" class="tab-pane active" style="height:100%;"
+							id="info">基本信息</div>
+
+						<!-- 监管机构 -->
+						<div role="tabpanel" class="tab-pane" style="height:100%;"
+							id="orga">监管机构</div>
+
+						<!-- 具体对象 -->
+						<div role="tabpanel" class="tab-pane" style="height:100%;"
+							id="object">具体对象</div>
+
+						<!-- 具体内容 -->
+						<div role="tabpanel" class="tab-pane" style="height:100%;"
+							id="content">具体内容</div>
+
+						<!-- 附件 -->
+						<div role="tabpanel" class="tab-pane" style="height:100%;"
+							id="part">附件</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<!-- 下达单录入Modal1 -->
+	<div class="modal fade" id=addModal tabindex="-1" role="dialog"
+		aria-labelledby="addModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="addModalLabel">下达单录入</h4>
+				</div>
+				<div class="modal-body"  style="height:500px;">
+				            请选择需要下达的专员办 
+				            <label>
+                                <input type="radio" name="office" id="defaultOffice" value="0" onchange ="setOfficeChange()" checked>
+                                                                                                                                默认全部下达
+                            </label>
+                            <label>
+                                <input type="radio" name="office" id="setOffice" onchange ="setOfficeChange()" value="1">
+                                                                                                                           自定义下达
+                            </label>
+					<div id="issuedTree" style="display:none;" class="tab-content tab-pad">
+						<div class="input-group tree-search-div">
+							<input type="text" id="SearchOfficeTree" class="form-control"
+								data-bind="value: SearchOfficeTreeKEY" placeholder="模糊查询...">
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button"
+									data-bind="click:searchOfficeTree">
+									<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+								</button> </span>
+						</div>
+						<div id="officeTree" class="ztree" style="overflow: auto; height:410px"
+							u-meta='{
+					       "id":"officeTree",
+					       "data":"officeTreeDataTable",
+					       "type":"tree",
+					       "idField":"CHR_ID",
+					       "pidField":"PARENT_ID",
+					       "nameField":"CHR_NAME",
+					       "setting":"officeTreeSetting"
+					        }'>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="savebtn" name="btn3" type="button"
+						class="btn btn-prima">完成</button>
+					<button name="btn4" type="button" class="btn btn-default"
+						data-dismiss="modal">返回</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="../../trd/knockout/knockout-3.2.0.debug.js"></script>
+	<script src="../../trd/requirejs/require.js"></script>
+	<script src="../../require.config.js"></script>
+	<script src="js/taskAdd.js"></script>
+</body>
+</html>

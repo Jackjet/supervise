@@ -1,0 +1,37 @@
+package gov.df.supervise.service.user;
+
+import gov.df.supervise.api.user.user;
+import gov.df.supervise.bean.user.depDTO;
+import gov.df.supervise.bean.user.officeDTO;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class userBO implements user {
+  @Autowired
+  private userDao userdao;
+
+  public officeDTO queryOfficeByOrgCode(String oid) {
+    //String oid = (String) SessionUtil.getUserInfoContext().getOrgCode();//获取org_code作为专员办id(oid)
+
+    return userdao.queryOfficeByOrgCode(oid);
+  }
+
+  public depDTO queryDepByBelongOrg(String dep_id) {
+    // String dep_id = (String) SessionUtil.getUserInfoContext().getBelongOrg();//获取org_code作为专员办id(oid)
+    return userdao.queryDepByBelongOrg(dep_id);
+  }
+
+  public List getMenu(String user_id, String oid, String menu_id) {
+    Map<String, Object> param = new HashMap<String, Object>();
+    param.put("user_id", user_id);
+    param.put("oid", oid);
+    param.put("menu_id", menu_id);
+    return userdao.getMenu(param);
+  }
+}

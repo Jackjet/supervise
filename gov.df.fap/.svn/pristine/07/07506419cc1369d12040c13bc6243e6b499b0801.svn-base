@@ -1,0 +1,32 @@
+require([ 'jquery', 'knockout','bootstrap', 'uui', 'tree', 'grid', 'ip'],
+    function ( $, ko) {
+        var listApp;
+        var tokenid;
+    	var options;
+        window.ko = ko;
+        var viewModel = {
+
+
+        };
+
+        $("#logon-again").click(function(){
+
+        });
+        
+        function initIframe() {
+        	$("#csof-right-iframe")[0].src = "/df/supervise/sup/csofSup.html?tokenid=" + tokenid +"&menuid=" + options.svMenuId +"&menuname=" + options.svMenuName+"&elecode=CSOF_AGENCY&pageId=m1";
+        }
+        
+        function init(){
+        	tokenid = ip.getTokenId();
+        	options = ip.getCommonOptions({});
+        	initIframe();
+            var app = u.createApp(
+                {
+                    el: document.body,
+                    model: viewModel
+                }
+            );
+        }
+        init();
+    });

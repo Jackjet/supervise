@@ -1,0 +1,9 @@
+.no-padding{
+	padding: 0;
+}
+.no-left-padding{
+	padding-left: 0;
+}
+.add-Modal > div{
+	margin: 10px 0;
+}

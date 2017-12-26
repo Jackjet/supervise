@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="install.init.dfsupervise" class="gov.df.supervise.install.DfInstallConfig"></bean>
+    <bean id="version.dfsupervise" class="gov.df.supervise.install.DfVersion"></bean>
+</beans>

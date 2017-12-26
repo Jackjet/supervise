@@ -1,0 +1,19 @@
+package gov.df.supervise.api.bill;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 监管单据接口
+ * @author Administrator
+ *
+ */
+public interface BillService {
+
+	public int deleteMofBill(String ids, String key);
+
+	public int saveMofBill(List officeList,List supList,String billtype_code,Map workMap);
+	
+	public int updateMofBill(Map mofBillData,String billtype_code);
+	
+}

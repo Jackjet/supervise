@@ -1,0 +1,108 @@
+package gov.df.fap.service.login.filter;
+
+import gov.df.fap.api.fapcommon.IUserSync;
+import gov.df.fap.bean.user.UserDTO;
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+import gov.df.fap.util.factory.ServiceFactory;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class DfCommonFilter extends HttpServlet implements Filter {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
+  private IUserSync iUserSyncManager;
+
+  @Override
+  public void init(FilterConfig paramFilterConfig) throws ServletException {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void doFilter(ServletRequest paramServletRequest, ServletResponse paramServletResponse,
+    FilterChain paramFilterChain) throws IOException, ServletException {
+    // TODO Auto-generated method stub
+    HttpServletRequest httpRequest = (HttpServletRequest) paramServletRequest;
+    String referer=httpRequest.getHeader("Referer")!=null?httpRequest.getHeader("Referer"):"";
+    String host=httpRequest.getHeader("Host")!=null?httpRequest.getHeader("Host"):"";
+    if(!referer.equals("")&&(!referer.contains(host))){
+    	return;
+    }
+    
+    String url = httpRequest.getServletPath();
+    String tokenid = httpRequest.getParameter("tokenid");
+    if (httpRequest.getParameter("ajax") != null && !"".equals(httpRequest.getParameter("ajax"))) {
+      ((HttpServletResponse) paramServletResponse).setHeader("Cache-Control", "no-cache");
+      if (url.equals("/df/login/userLogin.do")) {
+        RequestDispatcher requestDispatcher = paramServletRequest.getRequestDispatcher("/df/login/userLogin.do");
+        requestDispatcher.forward(paramServletRequest, paramServletResponse);
+        return;
+      }
+     
+      if (iUserSyncManager == null) {
+        iUserSyncManager = (IUserSync) ServiceFactory.getBean("userCommonService");
+      }
+      UserDTO userdto = null;
+      try {
+        userdto = (UserDTO) iUserSyncManager.getUser(tokenid);
+        if(null==userdto){
+        	return;
+        }
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+        return;
+      }
+      HashMap user_context = new HashMap();
+      user_context.put("user_id", userdto.getUser_id());
+      user_context.put("user_name", userdto.getUser_name());
+      user_context.put("user_code", userdto.getUser_code());
+      user_context.put("rg_code", userdto.getRg_code());
+      user_context.put("sys_id", "df");
+      user_context.put("set_year", String.valueOf(userdto.getSet_year()));
+      user_context.put("menu_id", httpRequest.getParameter("svMenuId"));
+      user_context.put("role_id", httpRequest.getParameter("svRoleId"));
+      user_context.put("role_code", httpRequest.getParameter("svRoleCode"));
+      user_context.put("trans_date", httpRequest.getParameter("svTransDate"));
+      user_context.put("fiscal_period", httpRequest.getParameter("svTransDate"));
+      user_context.put("rg_name", httpRequest.getParameter("svRgName"));
+      user_context.put("org_type", userdto.getOrg_type());
+      user_context.put("org_code", userdto.getOrg_code());//监管系统专员办id(oid用org_code代替)
+      user_context.put("belong_org", userdto.getBelong_org());//csof监管项目处室id(dep_id用belong_org代替)
+      SessionUtil.getUserInfoContext().setContext(user_context);
+    }
+ 
+    paramFilterChain.doFilter(paramServletRequest, paramServletResponse);
+  }
+  
+  protected static boolean sqlValidate(String str) {    
+      str = str.toLowerCase();//统一转为小写    
+      String badStr = "'|select|update|and|or|delete|insert|truncate|char|into"  
+              + "|substr|declare|exec|master|drop|execute|"  
+              + "union|;|--|+|,|like|//|/|%|#|*|$|@|\"|http|cr|lf|<|>|(|)";//过滤掉的sql关键字，可以手动添加    
+      String[] badStrs = badStr.split("\\|");    
+      for (int i = 0; i < badStrs.length; i++) {    
+          if (str.indexOf(badStrs[i]) >= 0) {    
+              return true;    
+          }    
+      }    
+      return false;    
+  }
+
+}

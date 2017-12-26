@@ -1,0 +1,23 @@
+package gov.df.supervise.api.sup;
+
+import java.util.List;
+
+/**
+ * 监管事项基础数据接口
+ * 
+ * @author w 2017-08-22
+ * 
+ */
+public interface SupService {
+
+	public List getSup(List dataList, String pageInfo);
+
+	public int deleteSup(String ids, String key);
+
+	public int saveSup(List supList,List reportList,String billtype_code);
+	
+	public int updateSup(List supList,List reportList,String billtype_code);
+	
+	public List getSupTree() ;
+
+}

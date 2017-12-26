@@ -1,0 +1,323 @@
+package gov.df.supervise.bean.csofacc;
+
+import java.io.Serializable;
+
+public class csofAccProblemEntity implements Serializable {
+  /**
+  * 
+  */
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * 问题记录唯一id（主键）
+   */
+  private String id;
+
+  /**
+   * 监管事项唯一id
+   */
+  private String sid;
+
+  /**
+   * 事项编号
+   */
+  private String sup_no;
+
+  /**
+   * 事项名称
+   */
+  private String sup_name;
+
+  /**
+   * 是否有效
+   */
+  private Short is_valid;
+
+  /**
+   * 是否流程结束 0：在途 1：结束  
+   */
+  private Short is_end;
+
+  /**
+   * 专员办机构id
+   */
+  private String oid;
+
+  /**
+   * 监管对象id
+   */
+  private String obj_type_id;
+
+  /**
+   * 监管对象编码
+   */
+  private String obj_type_code;
+
+  /**
+   * 监管对象名称
+   */
+  private String obj_type_name;
+
+  /**
+   * 发现问题
+   */
+  private String discover_problems;
+
+  /**
+   * 审核依据
+   */
+  private String audit_basis;
+
+  /**
+   * 审核意见
+   */
+  private String audit_opinion;
+
+  /**
+   * 是否已处理（0是未处理，1是已处理）
+   */
+  private String handle;
+
+  /**
+   * 分组名
+   */
+  private String grouping_name;
+
+  /**
+   * 记录人
+   */
+  private String recording_user;
+
+  /**
+   * 记录时间
+   */
+  private String recording_time;
+
+  /**
+   * 备注说明
+   */
+  private String remark;
+
+  /**
+   * 创建人
+   */
+  private String create_user;
+
+  /**
+   * 创建时间
+   */
+  private String create_date;
+
+  /**
+   * 最后操作人
+   */
+  private String latest_op_user;
+
+  /**
+   * 最后操作时间
+   */
+  private String latest_op_date;
+
+  /**
+   * 年度
+   */
+  private String set_year;
+
+  /**
+   * 区划
+   */
+  private String rg_code;
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public String getSid() {
+    return sid;
+  }
+
+  public void setSid(String sid) {
+    this.sid = sid;
+  }
+
+  public String getSup_no() {
+    return sup_no;
+  }
+
+  public void setSup_no(String sup_no) {
+    this.sup_no = sup_no;
+  }
+
+  public String getSup_name() {
+    return sup_name;
+  }
+
+  public void setSup_name(String sup_name) {
+    this.sup_name = sup_name;
+  }
+
+  public Short getIs_valid() {
+    return is_valid;
+  }
+
+  public void setIs_valid(Short is_valid) {
+    this.is_valid = is_valid;
+  }
+
+  public Short getIs_end() {
+    return is_end;
+  }
+
+  public void setIs_end(Short is_end) {
+    this.is_end = is_end;
+  }
+
+  public String getOid() {
+    return oid;
+  }
+
+  public void setOid(String oid) {
+    this.oid = oid;
+  }
+
+  public String getObj_type_id() {
+    return obj_type_id;
+  }
+
+  public void setObj_type_id(String obj_type_id) {
+    this.obj_type_id = obj_type_id;
+  }
+
+  public String getObj_type_code() {
+    return obj_type_code;
+  }
+
+  public void setObj_type_code(String obj_type_code) {
+    this.obj_type_code = obj_type_code;
+  }
+
+  public String getObj_type_name() {
+    return obj_type_name;
+  }
+
+  public void setObj_type_name(String obj_type_name) {
+    this.obj_type_name = obj_type_name;
+  }
+
+  public String getDiscover_problems() {
+    return discover_problems;
+  }
+
+  public void setDiscover_problems(String discover_problems) {
+    this.discover_problems = discover_problems;
+  }
+
+  public String getAudit_basis() {
+    return audit_basis;
+  }
+
+  public void setAudit_basis(String audit_basis) {
+    this.audit_basis = audit_basis;
+  }
+
+  public String getAudit_opinion() {
+    return audit_opinion;
+  }
+
+  public void setAudit_opinion(String audit_opinion) {
+    this.audit_opinion = audit_opinion;
+  }
+
+  public String getHandle() {
+    return handle;
+  }
+
+  public void setHandle(String handle) {
+    this.handle = handle;
+  }
+
+  public String getGrouping_name() {
+    return grouping_name;
+  }
+
+  public void setGrouping_name(String grouping_name) {
+    this.grouping_name = grouping_name;
+  }
+
+  public String getRecording_user() {
+    return recording_user;
+  }
+
+  public void setRecording_user(String recording_user) {
+    this.recording_user = recording_user;
+  }
+
+  public String getRecording_time() {
+    return recording_time;
+  }
+
+  public void setRecording_time(String recording_time) {
+    this.recording_time = recording_time;
+  }
+
+  public String getRemark() {
+    return remark;
+  }
+
+  public void setRemark(String remark) {
+    this.remark = remark;
+  }
+
+  public String getCreate_user() {
+    return create_user;
+  }
+
+  public void setCreate_user(String create_user) {
+    this.create_user = create_user;
+  }
+
+  public String getCreate_date() {
+    return create_date;
+  }
+
+  public void setCreate_date(String create_date) {
+    this.create_date = create_date;
+  }
+
+  public String getLatest_op_user() {
+    return latest_op_user;
+  }
+
+  public void setLatest_op_user(String latest_op_user) {
+    this.latest_op_user = latest_op_user;
+  }
+
+  public String getLatest_op_date() {
+    return latest_op_date;
+  }
+
+  public void setLatest_op_date(String latest_op_date) {
+    this.latest_op_date = latest_op_date;
+  }
+
+  public String getSet_year() {
+    return set_year;
+  }
+
+  public void setSet_year(String set_year) {
+    this.set_year = set_year;
+  }
+
+  public String getRg_code() {
+    return rg_code;
+  }
+
+  public void setRg_code(String rg_code) {
+    this.rg_code = rg_code;
+  }
+
+}

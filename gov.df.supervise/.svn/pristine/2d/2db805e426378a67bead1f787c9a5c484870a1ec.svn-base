@@ -1,0 +1,157 @@
+package gov.df.supervise.service.upgrade;
+
+import gov.df.fap.service.util.sessionmanager.SessionUtil;
+
+import gov.df.fap.util.Tools;
+import gov.df.supervise.api.upgrade.csofUpgradeService;
+import gov.df.supervise.service.document.csofDocumentDao;
+
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.jdbc.ScriptRunner;
+import org.gov.df.supervice.util.ContinueFTP;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ * 补丁升级
+ * @author tongya
+ *
+ */
+@Service
+public class csofUpgradeBO implements csofUpgradeService {
+  @Autowired
+  private csofUpgradeDao csofUpgradeDao;
+
+  @Autowired
+  private csofDocumentDao csofDocumentDao;
+
+  private final Logger logger = LoggerFactory.getLogger(getClass());
+
+  /**
+   * 查询补丁列表
+   */
+  public List getUpgrade() {
+    return csofUpgradeDao.getUpgrade();
+  }
+
+  /**
+   * 通过条件查询补丁列表
+   */
+  public List getUpgradeByIscommit(int iscommit) {
+    return csofUpgradeDao.getUpgradeByIscommit(iscommit);
+  }
+
+  /**
+   * 删除待升级的补丁
+   */
+  public void deleteUpgrade(String id) {
+    csofUpgradeDao.deleteUpgrade(id);
+  }
+
+  /**
+   * 执行升级补丁
+   * @throws Exception 
+   * 
+   */
+  public void doUpgrade(String id, String filePath, String UPLOAD_FTP_IP, String UPLOAD_FTP_PORT,
+    String UPLOAD_FTP_USER, String UPLOAD_FTP_PASSWORD) {
+    Map resultMap = new HashMap<Object, Object>();
+    Map param = new HashMap<Object, Object>();
+    String url = "jdbc:oracle:thin://10.10.5.81:1521:orcl";
+    String userName = "SUP";
+    String pwd = "1";
+    try {
+      int port = Integer.parseInt(UPLOAD_FTP_PORT);
+      String FTP_BASEPATH = filePath.split("FTP上传")[1];
+      // String local = "D:" + File.separator + "FTP下载" + File.separator + filename;
+      //连接ftp服务器
+      boolean result = ContinueFTP.connect(UPLOAD_FTP_IP, port, UPLOAD_FTP_USER, UPLOAD_FTP_PASSWORD);
+      execSqlFileByMysql(url, userName, pwd, FTP_BASEPATH);
+      param.put("id", id);
+      param.put("iscommit", 1);
+      csofUpgradeDao.doUpgrade(param);
+    } catch (Exception e) {
+      e.printStackTrace();
+      resultMap.put("message", e.getMessage());
+      resultMap.put("error", 1);
+      resultMap.put("message", "执行发生异常");
+    }
+  }
+
+  /**
+   * 上传
+   */
+  public void saveUpgrade(String id, String remark) {
+    Map<String, Object> param = new HashMap<String, Object>();
+    String user_id = (String) SessionUtil.getUserInfoContext().getUserID();
+    String date = Tools.getCurrDate();
+    String sql_id = csofDocumentDao.getFileId(id);
+    String app_version = csofUpgradeDao.getNameById(id);
+    param.put("id", id);
+    param.put("app_version", app_version);
+    param.put("sql_id", sql_id);
+    param.put("iscommit", 0);
+    param.put("remark", remark);
+    param.put("modular", "SYS");
+    param.put("create_user", user_id);
+    param.put("create_date", date);
+    param.put("latest_op_user", user_id);
+    param.put("latest_op_date", date);
+    param.put("is_now", 0);
+    param.put("sys_id", 105);
+    csofUpgradeDao.saveUpgrade(param);
+  }
+
+  public void execSqlFileByMysql(String url, String userName, String pwd, String sqlFilePath) throws Exception {
+
+    String driver = "oracle.jdbc.driver.OracleDriver";
+    //String url = "jdbc:mysql://"+ip+":"+port;  
+
+    Exception error = null;
+    Connection conn = null;
+    try {
+      Class.forName(driver);
+      conn = DriverManager.getConnection(url, userName, pwd);
+      ScriptRunner runner = new ScriptRunner(conn);
+      //下面配置不要随意更改，否则会出现各种问题  
+      runner.setAutoCommit(true);//自动提交  
+      runner.setFullLineDelimiter(false);
+      runner.setDelimiter(";");////每条命令间的分隔符  
+      runner.setSendFullScript(false);
+      runner.setStopOnError(false);
+      //  runner.setLogWriter(null);//设置是否输出日志  
+      //如果又多个sql文件，可以写多个runner.runScript(xxx),  
+      runner.runScript(new InputStreamReader(new FileInputStream(sqlFilePath), "utf-8"));
+      close(conn);
+    } catch (Exception e) {
+      logger.error("执行sql文件进行数据库创建失败....", e);
+      error = e;
+    } finally {
+      close(conn);
+    }
+    if (error != null) {
+      throw error;
+    }
+  }
+
+  private static void close(Connection conn) {
+    try {
+      if (conn != null) {
+        conn.close();
+      }
+    } catch (Exception e) {
+      if (conn != null) {
+        conn = null;
+      }
+    }
+  }
+}

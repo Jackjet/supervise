@@ -1,0 +1,36 @@
+package gov.df.supervise.api.upgrade;
+
+import java.util.List;
+
+/**
+ * 补丁升级实现类接口
+ * @author tongya
+ *
+ */
+public interface csofUpgradeService {
+  /**
+   * 查询补丁列表
+   */
+  public List getUpgrade();
+
+  /**
+   * 通过条件查询补丁列表
+   */
+  public List getUpgradeByIscommit(int iscommit);
+
+  /**
+   * 删除待升级的补丁
+   */
+  public void deleteUpgrade(String id);
+
+  /**
+   * 上传
+   */
+  public void saveUpgrade(String id, String app_version, String remark, String modular);
+
+  /**
+   * 执行升级补丁
+   */
+  public void doUpgrade(String id, String filePath, String UPLOAD_FTP_IP, String UPLOAD_FTP_PORT,
+    String UPLOAD_FTP_USER, String UPLOAD_FTP_PASSWORD);
+}

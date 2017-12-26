@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gov.df.supervise.service.user.userDao">
+<select id="queryDepByBelongOrg" parameterType="java.lang.String" resultType="gov.df.supervise.bean.user.depDTO">
+select * from csof_e_dep where CHR_ID = #{dep_id}
+</select>
+ <select id="queryOfficeByOrgCode" parameterType="java.lang.String" resultType="gov.df.supervise.bean.user.officeDTO" >
+ select * from csof_e_office where CHR_ID = #{oid}
+</select>
+
+<select id="getMenu" parameterType="java.util.Map" resultType="java.util.Map" >
+select 
+    u.id as task_id,u.task_name,u.sid,u.sup_no,u.sup_name,u.sup_mode,n.menu_id,u.sup_date
+    (select m.menu_name from sys_menu m where m.menu_id=n.menu_id) as menu_name,
+     (select m.menu_code from sys_menu m where m.menu_id=n.menu_id) as menu_code,
+    (select m.disp_order from sys_menu m where m.menu_id=n.menu_id) as disp_order,
+    (select m.step_shortcut from sys_menu m where m.menu_id=n.menu_id) as short_name,
+    (select m.tips from sys_menu m where m.menu_id=n.menu_id) as tips,
+    (select m.icon from sys_menu m where m.menu_id=n.menu_id) as icon,
+    (select m.url from sys_menu m where m.menu_id=n.menu_id) as url,
+    (select m.menu_parameter from sys_menu m where m.menu_id=n.menu_id) as menu_parameter,
+    (select m.enabled from sys_menu m where m.menu_id=n.menu_id) as enabled    
+  from csof_task_user u,csof_wf_menu_node n
+ where 1=1 
+   and u.is_pub=1
+   and u.is_valid=1
+   and exists (select 1 from CSOF_S_SUPMODE_FLOW s where s.oid=u.oid and s.sup_mode=u.sup_mode and s.wf_id=n.wf_id)
+   and exists (select 1 from sys_role_menu rm,sys_user_role_rule ur where rm.role_id=ur.role_id and ur.user_id=u.user_id and rm.menu_id=n.menu_id)
+   and exists (select 1 from sys_menu m where m.menu_id=n.menu_id and m.parent_id= #{menu_id}) 
+   and u.oid = #{oid}
+   and u.user_id = #{user_id} order by u.task_no,disp_order,menu_code
+</select>
+</mapper>

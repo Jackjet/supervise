@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="target/classes" path="src/main/java"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="src" path="/gov.df.fap.util"/>
+	<classpathentry kind="src" path="/gov.df.supervise.bean"/>
+	<classpathentry kind="src" path="/gov.df.fap.bean"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/gov.df.fap.api"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/gov.df.fap.controller"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/gov.df.fap.script"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/gov.df.fap.service"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/gov.df.fap.service.util"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/gov.df.supervise.controller"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/gov.df.supervise.service"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/gov.df.supervise.service.util"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/gov.df.supervise.util"/>
+	<classpathentry kind="lib" path="F:/yonyou/df2.0/maven3.2.5/local/repo/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar" sourcepath="F:/yonyou/df2.0/maven3.2.5/local/repo/javax/servlet/servlet-api/2.5/servlet-api-2.5-sources.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="javax.servlet"/>
+			<attribute name="maven.artifactId" value="servlet-api"/>
+			<attribute name="maven.version" value="2.5"/>
+			<attribute name="maven.scope" value="provided"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="F:/yonyou/df2.0/maven3.2.5/local/repo/org/springframework/spring-web/3.2.6.RELEASE/spring-web-3.2.6.RELEASE.jar" sourcepath="F:/yonyou/df2.0/maven3.2.5/local/repo/org/springframework/spring-web/3.2.6.RELEASE/spring-web-3.2.6.RELEASE-sources.jar">
+		<attributes>
+			<attribute name="maven.groupId" value="org.springframework"/>
+			<attribute name="maven.artifactId" value="spring-web"/>
+			<attribute name="maven.version" value="3.2.6.RELEASE"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

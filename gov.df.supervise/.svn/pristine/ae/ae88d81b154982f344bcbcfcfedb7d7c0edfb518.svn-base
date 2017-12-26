@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gov.df.supervise.service.view.CsofCViewCellDao">
+  <resultMap id="BaseResultMap" type="gov.df.supervise.bean.view.CsofCViewCellEntity">
+    <id column="CELL_ID" jdbcType="VARCHAR" property="cellId" />
+    <result column="VIEW_ID" jdbcType="VARCHAR" property="viewId" />
+    <result column="SHEET_ID" jdbcType="VARCHAR" property="sheetId" />
+    <result column="CELL_CODE" jdbcType="VARCHAR" property="cellCode" />
+    <result column="CSOF_CODE" jdbcType="VARCHAR" property="csofCode" />
+    <result column="CELL_TXT" jdbcType="VARCHAR" property="cellTxt" />
+    <result column="INPUT_TYPE" jdbcType="VARCHAR" property="inputType" />
+    <result column="IS_EDIT" jdbcType="DECIMAL" property="isEdit" />
+    <result column="COL_INDEX" jdbcType="DECIMAL" property="colIndex" />
+    <result column="ROW_INDEX" jdbcType="DECIMAL" property="rowIndex" />
+    <result column="COLSPAN" jdbcType="DECIMAL" property="colspan" />
+    <result column="ROWSPAN" jdbcType="DECIMAL" property="rowspan" />
+    <result column="CELL_HEIGHT" jdbcType="VARCHAR" property="cellHeight" />
+    <result column="CELL_WIDTH" jdbcType="VARCHAR" property="cellWidth" />
+    <result column="CELL_STYLE" jdbcType="VARCHAR" property="cellStyle" />
+    <result column="CELL_FORMULA" jdbcType="VARCHAR" property="cellFormula" />
+    <result column="IS_SHOW" jdbcType="DECIMAL" property="isShow" />
+    <result column="IS_LIST_ROW" jdbcType="DECIMAL" property="isListRow" />
+    <result column="IS_SPAN" jdbcType="DECIMAL" property="isSpan" />
+    <result column="ROW_TYPE" jdbcType="VARCHAR" property="rowType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    CELL_ID, VIEW_ID, SHEET_ID, CELL_CODE, CSOF_CODE, CELL_TXT, INPUT_TYPE, IS_EDIT, 
+    COL_INDEX, ROW_INDEX, COLSPAN, ROWSPAN, CELL_HEIGHT, CELL_WIDTH, CELL_STYLE, CELL_FORMULA, 
+    IS_SHOW, IS_LIST_ROW, IS_SPAN, ROW_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CSOF_C_VIEW_CELL
+    where CELL_ID = #{cellId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from CSOF_C_VIEW_CELL
+    where CELL_ID = #{cellId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="gov.df.supervise.bean.view.CsofCViewCellEntity">
+    insert into CSOF_C_VIEW_CELL (CELL_ID, VIEW_ID, SHEET_ID, 
+      CELL_CODE, CSOF_CODE, CELL_TXT, 
+      INPUT_TYPE, IS_EDIT, COL_INDEX, 
+      ROW_INDEX, COLSPAN, ROWSPAN, 
+      CELL_HEIGHT, CELL_WIDTH, CELL_STYLE, 
+      CELL_FORMULA, IS_SHOW, IS_LIST_ROW, IS_SPAN, ROW_TYPE
+      )
+    values (#{cellId,jdbcType=VARCHAR}, #{viewId,jdbcType=VARCHAR}, #{sheetId,jdbcType=VARCHAR}, 
+      #{cellCode,jdbcType=VARCHAR}, #{csofCode,jdbcType=VARCHAR}, #{cellTxt,jdbcType=VARCHAR}, 
+      #{inputType,jdbcType=VARCHAR}, #{isEdit,jdbcType=DECIMAL}, #{colIndex,jdbcType=DECIMAL}, 
+      #{rowIndex,jdbcType=DECIMAL}, #{colspan,jdbcType=DECIMAL}, #{rowspan,jdbcType=DECIMAL}, 
+      #{cellHeight,jdbcType=VARCHAR}, #{cellWidth,jdbcType=VARCHAR}, #{cellStyle,jdbcType=VARCHAR}, 
+      #{cellFormula,jdbcType=VARCHAR}, #{isShow,jdbcType=DECIMAL}, #{isListRow,jdbcType=DECIMAL},
+      #{isSpan,jdbcType=DECIMAL}, #{rowType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="gov.df.supervise.bean.view.CsofCViewCellEntity">
+    insert into CSOF_C_VIEW_CELL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cellId != null">
+        CELL_ID,
+      </if>
+      <if test="viewId != null">
+        VIEW_ID,
+      </if>
+      <if test="sheetId != null">
+        SHEET_ID,
+      </if>
+      <if test="cellCode != null">
+        CELL_CODE,
+      </if>
+      <if test="csofCode != null">
+        CSOF_CODE,
+      </if>
+      <if test="cellTxt != null">
+        CELL_TXT,
+      </if>
+      <if test="inputType != null">
+        INPUT_TYPE,
+      </if>
+      <if test="isEdit != null">
+        IS_EDIT,
+      </if>
+      <if test="colIndex != null">
+        COL_INDEX,
+      </if>
+      <if test="rowIndex != null">
+        ROW_INDEX,
+      </if>
+      <if test="colspan != null">
+        COLSPAN,
+      </if>
+      <if test="rowspan != null">
+        ROWSPAN,
+      </if>
+      <if test="cellHeight != null">
+        CELL_HEIGHT,
+      </if>
+      <if test="cellWidth != null">
+        CELL_WIDTH,
+      </if>
+      <if test="cellStyle != null">
+        CELL_STYLE,
+      </if>
+      <if test="cellFormula != null">
+        CELL_FORMULA,
+      </if>
+      <if test="isShow != null">
+        IS_SHOW,
+      </if>
+      <if test="isListRow != null">
+        IS_LIST_ROW,
+      </if>
+      <if test="isEdit != null">
+        IS_SPAN,
+      </if>
+      <if test="rowType != null">
+        ROW_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cellId != null">
+        #{cellId,jdbcType=VARCHAR},
+      </if>
+      <if test="viewId != null">
+        #{viewId,jdbcType=VARCHAR},
+      </if>
+      <if test="sheetId != null">
+        #{sheetId,jdbcType=VARCHAR},
+      </if>
+      <if test="cellCode != null">
+        #{cellCode,jdbcType=VARCHAR},
+      </if>
+      <if test="csofCode != null">
+        #{csofCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cellTxt != null">
+        #{cellTxt,jdbcType=VARCHAR},
+      </if>
+      <if test="inputType != null">
+        #{inputType,jdbcType=VARCHAR},
+      </if>
+      <if test="isEdit != null">
+        #{isEdit,jdbcType=DECIMAL},
+      </if>
+      <if test="colIndex != null">
+        #{colIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="rowIndex != null">
+        #{rowIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="colspan != null">
+        #{colspan,jdbcType=DECIMAL},
+      </if>
+      <if test="rowspan != null">
+        #{rowspan,jdbcType=DECIMAL},
+      </if>
+      <if test="cellHeight != null">
+        #{cellHeight,jdbcType=VARCHAR},
+      </if>
+      <if test="cellWidth != null">
+        #{cellWidth,jdbcType=VARCHAR},
+      </if>
+      <if test="cellStyle != null">
+        #{cellStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="cellFormula != null">
+        #{cellFormula,jdbcType=VARCHAR},
+      </if>
+      <if test="isShow != null">
+        #{isShow,jdbcType=DECIMAL},
+      </if>
+      <if test="isListRow != null">
+        #{isListRow,jdbcType=DECIMAL},
+      </if>
+      <if test="isSpan != null">
+        #{isSpan,jdbcType=DECIMAL},
+      </if>
+      <if test="rowType != null">
+        #{rowType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="gov.df.supervise.bean.view.CsofCViewCellEntity">
+    update CSOF_C_VIEW_CELL
+    <set>
+      <if test="viewId != null">
+        VIEW_ID = #{viewId,jdbcType=VARCHAR},
+      </if>
+      <if test="sheetId != null">
+        SHEET_ID = #{sheetId,jdbcType=VARCHAR},
+      </if>
+      <if test="cellCode != null">
+        CELL_CODE = #{cellCode,jdbcType=VARCHAR},
+      </if>
+      <if test="csofCode != null">
+        CSOF_CODE = #{csofCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cellTxt != null">
+        CELL_TXT = #{cellTxt,jdbcType=VARCHAR},
+      </if>
+      <if test="inputType != null">
+        INPUT_TYPE = #{inputType,jdbcType=VARCHAR},
+      </if>
+      <if test="isEdit != null">
+        IS_EDIT = #{isEdit,jdbcType=DECIMAL},
+      </if>
+      <if test="colIndex != null">
+        COL_INDEX = #{colIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="rowIndex != null">
+        ROW_INDEX = #{rowIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="colspan != null">
+        COLSPAN = #{colspan,jdbcType=DECIMAL},
+      </if>
+      <if test="rowspan != null">
+        ROWSPAN = #{rowspan,jdbcType=DECIMAL},
+      </if>
+      <if test="cellHeight != null">
+        CELL_HEIGHT = #{cellHeight,jdbcType=VARCHAR},
+      </if>
+      <if test="cellWidth != null">
+        CELL_WIDTH = #{cellWidth,jdbcType=VARCHAR},
+      </if>
+      <if test="cellStyle != null">
+        CELL_STYLE = #{cellStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="cellFormula != null">
+        CELL_FORMULA = #{cellFormula,jdbcType=VARCHAR},
+      </if>
+      <if test="isShow != null">
+        IS_SHOW = #{isShow,jdbcType=DECIMAL},
+      </if>
+      <if test="isListRow != null">
+        IS_LIST_ROW = #{isListRow,jdbcType=DECIMAL},
+      </if>
+      <if test="isSpan != null">
+        IS_EDIT = #{isSpan,jdbcType=DECIMAL},
+      </if>
+      <if test="rowType != null">
+        ROW_TYPE = #{rowType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CELL_ID = #{cellId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="gov.df.supervise.bean.view.CsofCViewCellEntity">
+    update CSOF_C_VIEW_CELL
+    set VIEW_ID = #{viewId,jdbcType=VARCHAR},
+      SHEET_ID = #{sheetId,jdbcType=VARCHAR},
+      CELL_CODE = #{cellCode,jdbcType=VARCHAR},
+      CSOF_CODE = #{csofCode,jdbcType=VARCHAR},
+      CELL_TXT = #{cellTxt,jdbcType=VARCHAR},
+      INPUT_TYPE = #{inputType,jdbcType=VARCHAR},
+      IS_EDIT = #{isEdit,jdbcType=DECIMAL},
+      COL_INDEX = #{colIndex,jdbcType=DECIMAL},
+      ROW_INDEX = #{rowIndex,jdbcType=DECIMAL},
+      COLSPAN = #{colspan,jdbcType=DECIMAL},
+      ROWSPAN = #{rowspan,jdbcType=DECIMAL},
+      CELL_HEIGHT = #{cellHeight,jdbcType=VARCHAR},
+      CELL_WIDTH = #{cellWidth,jdbcType=VARCHAR},
+      CELL_STYLE = #{cellStyle,jdbcType=VARCHAR},
+      CELL_FORMULA = #{cellFormula,jdbcType=VARCHAR},
+      IS_SHOW = #{isShow,jdbcType=DECIMAL},
+      IS_LIST_ROW = #{isListRow,jdbcType=DECIMAL},
+      IS_SPAN = #{isSpan,jdbcType=DECIMAL},
+      ROW_TYPE = #{rowType,jdbcType=VARCHAR}
+    where CELL_ID = #{cellId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectIsEditBySheetId" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CSOF_C_VIEW_CELL l
+    where l.sheet_id = #{sheetId,jdbcType=VARCHAR} and l.is_edit = '1'
+  </select>
+  
+  <update id="createTable" parameterType="java.util.Map">
+    create table ${dataTable} ${sql}        
+  </update>
+  
+  <select id="getExcel" parameterType="java.lang.String" resultType="java.util.Map">
+    select c.*, s.sheet_name
+  	from csof_c_view_cell c, csof_c_view_sheet s
+ 	where c.sheet_id = s.sheet_id
+    and c.view_id = #{viewId,jdbcType=VARCHAR}
+    and s.view_id = #{viewId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteCellByViewId" parameterType="java.lang.String">
+    delete from CSOF_C_VIEW_CELL
+    where VIEW_ID = #{viewId,jdbcType=VARCHAR}
+  </delete>
+  
+  <update id="alterTable" parameterType="java.util.Map">
+    alter table ${dataTable} add ${sql}        
+  </update>
+  
+  <select id="getCsofCViewCell" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CSOF_C_VIEW_CELL
+    where SHEET_ID = #{sheetId,jdbcType=VARCHAR} and IS_EDIT = 1
+  </select>
+  
+    <select id="getExcelBySheetId" parameterType="java.lang.String" resultType="java.util.Map">
+    select c.*, s.sheet_name
+  	from csof_c_view_cell c, csof_c_view_sheet s
+ 	where c.sheet_id = s.sheet_id
+    and c.view_id = s.view_id    
+    and s.sheet_id = #{sheetId,jdbcType=VARCHAR}
+  </select>
+</mapper>
